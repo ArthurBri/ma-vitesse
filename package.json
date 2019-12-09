@@ -1,7 +1,9 @@
 {
-  "name": "untitled",
-  "version": "0.1.0",
+  "name": "ma-vitesse",
+  "version": "0.0.1",
   "private": true,
+  "postinstall": "npm run build",
+  "start": "node server.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,7 +11,9 @@
   },
   "dependencies": {
     "core-js": "^3.4.3",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "express": "latest",
+    "serve-static": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
