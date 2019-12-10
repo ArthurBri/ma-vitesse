@@ -1,25 +1,26 @@
 <template>
-    <div id="app">
-        <h1>Ma vitesse</h1>
-
-        <h2>Calculateur de vitesse, d'estimations de course...</h2>
-        <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
+    <div id="app" class="container">
+        <div class="header">
+            <h1>Ma vitesse</h1>
+            <h2>Calculateur de vitesse, d'estimations de course</h2>
+            <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
+        </div>
         <div class="wrapper">
             <div class="box duration" :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''">
-                <label><input v-model="duration" id="duration" placeholder="Durée"
-                              @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Durée'"
-                              :disabled="calculatedField === 'duration'"/>
-                </label>
-                <img title="Durée" src="./assets/icons/clock.svg" width="40px"/>
+                <input v-model="duration" id="duration" placeholder="Durée"
+                       @keyup="checkFields" onfocus="this.placeholder = ''"
+                       onblur="this.placeholder = 'Durée'"
+                       :disabled="calculatedField === 'duration'"/>
+                <img title="Durée" src="./assets/icons/clock.svg"/>
             </div>
             <div class="box distance" :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                  @click="showDistanceType = true">
-                <label>
-                    <input v-model="distance" name="distance" placeholder="Distance"
-                           @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Distance'"
-                           :disabled="calculatedField === 'distance'"/>
-                </label>
-                <img title="Distance" class="noselect-nodrag" src="./assets/icons/ruler.svg" width="40px"/>
+                <input v-model="distance" name="distance" placeholder="Distance"
+                       @keyup="checkFields" onfocus="this.placeholder = ''"
+                       onblur="this.placeholder = 'Distance'"
+                       :disabled="calculatedField === 'distance'"/>
+                <img title="Distance" class="noselect-nodrag" src="./assets/icons/ruler.svg"
+                     alt="distance"/>
                 <div class="preset">
                     <span v-if="showDistanceType === true && calculatedField !== 'speed'">Distances officielles :</span>
                     <label>
@@ -33,34 +34,38 @@
                 </div>
             </div>
             <div v-if="speedFormat === 'speed'" class="box speed"
-                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" v-on:dblclick="changeSpeedFormat">
-                <label>
-                    <input v-model="speed" name="speed" placeholder="Vitesse"
-                           @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Vitesse'"
-                           :disabled="calculatedField === 'speed'"/>
-                </label>
-                <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg" width="40px"/>
+                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
+                 v-on:dblclick="changeSpeedFormat">
+                <input v-model="speed" name="speed" placeholder="Vitesse"
+                       @keyup="checkFields" onfocus="this.placeholder = ''"
+                       onblur="this.placeholder = 'Vitesse'"
+                       :disabled="calculatedField === 'speed'"/>
+                <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg"/>
             </div>
             <div v-if="speedFormat === 'pace'" class="box speed"
-                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" v-on:dblclick="changeSpeedFormat">
-                <label>
-                    <input v-model="pace" name="speed" placeholder="Rythme"
-                           @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Rythme'"
-                           :disabled="calculatedField === 'pace'"/>
-                </label>
+                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
+                 v-on:dblclick="changeSpeedFormat">
+                <input v-model="pace" name="speed" placeholder="Rythme"
+                       @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Rythme'"
+                       :disabled="calculatedField === 'pace'"/>
                 <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg" width="40px"/>
             </div>
         </div>
+        <Footer/>
     </div>
 </template>
 
 <script>
+    import Footer from '@/components/Footer'
     // TODO : durée : possibilité d'écriture des formats en (XXhXXmXXs --> OK) ou XX:XX:XX
     // TODO : autoriser seulement deux ":" dans la durée, OU un "m", un "h", un "s"
+    // TODO : fixer affichage des distance officielles
+    // TODO : placer l'affichage des distances officielles en dessous
     // TODO : afficher un icone pour les 3 champs, ou le nom du change en haut / au dessus de la box
 
     export default {
         name: 'app',
+        components: {Footer},
         data() {
             return {
                 duration: '',
@@ -175,7 +180,7 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
-                        this.speed = this.speed.match(/\d+([.|,]\d{0,4})?/g)[0];
+                    this.speed = this.speed.match(/\d+([.|,]\d{0,4})?/g)[0];
                 } else if (this.calculatedField === 'speed') {
                     let speedToPace = this.speed.replace('km/h', '');
                     let minutes = ((1 / speedToPace) * 60) | 0;
@@ -208,36 +213,58 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: darkslategrey;
-        margin: 60px 80px 60px 60px;
+        height: 100vh;
     }
 
+    .container {
+        display: flex;
+        width: 100vw;
+        flex-direction: column;
+    }
+
+    .header {
+        padding: 0 5vw 0 5vw;
+    }
     .wrapper {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 20px;
-        grid-auto-rows: minmax(100px, auto);
-        margin: 0 auto;
-        text-align: center;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+
     }
 
     .box {
-        display: flex;
-        border-radius: 10px;
+        border-radius: 7px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
         border: 3px solid #ECBE7A;
+        margin: 2vh 5vw 2vh 5vw;
+        padding: 1vh 1vw 1vh 1vw;
         color: #ECBE7A;
     }
 
+    .footer {
+        height: 5vh;
+        margin-top: auto;
+        text-align: center;
+    }
+
+    img {
+        width: 30px;
+        align-self: flex-start;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
     .duration {
-        grid-column: 1 / 1;
+        order: 1;
     }
 
     .distance {
-        grid-column: 2 / 3;
+        order: 2;
     }
 
     .speed {
-        grid-column: 3 / 3;
+        order: 3;
     }
 
     .calculated {
@@ -251,8 +278,7 @@
 
     input {
         background-color: rgba(0, 0, 0, 0.0);
-        height: 100px;
-        font-size: 30px;
+        font-size: 20px;
         text-align: center;
         border: none;
     }
@@ -275,8 +301,9 @@
         -khtml-user-select: none; /* Konqueror HTML */
         -moz-user-select: none; /* Old versions of Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome, Opera and Firefox */
+        user-select: none;
+        /* Non-prefixed version, currently
+                                       supported by Chrome, Opera and Firefox */
         // NO DRAG
         -webkit-user-drag: none;
         -khtml-user-drag: none;
