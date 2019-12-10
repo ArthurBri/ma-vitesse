@@ -5,23 +5,23 @@
         <h2>Calculateur de vitesse, d'estimations de course...</h2>
         <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
         <div class="wrapper">
-            <div class="box duration" :class="calculatedField === 'duration' ? 'calculated' : ''">
+            <div class="box duration" :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''">
                 <label><input v-model="duration" id="duration" placeholder="Durée"
                               @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Durée'"
                               :disabled="calculatedField === 'duration'"/>
                 </label>
                 <img title="Durée" src="./assets/icons/clock.svg" width="40px"/>
             </div>
-            <div class="box distance" :class="calculatedField === 'distance' ? 'calculated' : ''"
+            <div class="box distance" :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                  @click="showDistanceType = true">
                 <label>
                     <input v-model="distance" name="distance" placeholder="Distance"
                            @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Distance'"
                            :disabled="calculatedField === 'distance'"/>
                 </label>
-                <img title="Distance" src="./assets/icons/ruler.svg" width="40px"/>
+                <img title="Distance" class="noselect-nodrag" src="./assets/icons/ruler.svg" width="40px"/>
                 <div class="preset">
-                    <span v-show="showDistanceType">Distances officielles :</span>
+                    <span v-if="showDistanceType === true && calculatedField !== 'speed'">Distances officielles :</span>
                     <label>
                         <select v-model="presetDistances" v-show="showDistanceType">
                             <option disabled value="">Choisissez</option>
@@ -33,21 +33,22 @@
                 </div>
             </div>
             <div v-if="speedFormat === 'speed'" class="box speed"
-                 :class="calculatedField === 'speed' ? 'calculated' : ''" v-on:dblclick="changeSpeedFormat">
+                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" v-on:dblclick="changeSpeedFormat">
                 <label>
                     <input v-model="speed" name="speed" placeholder="Vitesse"
                            @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Vitesse'"
                            :disabled="calculatedField === 'speed'"/>
                 </label>
-                <img title="Vitesse" src="./assets/icons/flash_on.svg" width="40px"/>
+                <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg" width="40px"/>
             </div>
             <div v-if="speedFormat === 'pace'" class="box speed"
-                 :class="calculatedField === 'speed' ? 'calculated' : ''" v-on:dblclick="changeSpeedFormat">
+                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" v-on:dblclick="changeSpeedFormat">
                 <label>
                     <input v-model="pace" name="speed" placeholder="Rythme"
                            @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Rythme'"
                            :disabled="calculatedField === 'pace'"/>
                 </label>
+                <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg" width="40px"/>
             </div>
         </div>
     </div>
@@ -107,10 +108,10 @@
                     return duration
                 } else {
                     let hours = duration.match(/(\d+h)*/g).join('').replace('h', '') || 0;
-                    let minutes = duration.match(/(\d+m)*/g).join('').replace('m', '') || duration.match(/(h\d*)*/g).join('').replace('h', '') || 0;
+                    let minutes = duration.match(/(\d+m)*/g).join('').replace('m', '') || duration.match(/(h\d{2})*(?!s)/g).join('').replace('h', '') || 0;
                     let seconds = duration.match(/(\d+s)*/g).join('').replace('s', '') || duration.match(/(m\d*)*/g).join('').replace('m', '') || 0;
-                    let formattedDuration = parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600);
-                    return formattedDuration
+                    return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
+
                 }
             },
             prettyDuration: function (duration) {
@@ -145,6 +146,7 @@
                 if (this.duration === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = ''
+                        this.pace = ''
                     } else if (this.calculatedField === 'distance') {
                         this.distance = ''
                     }
@@ -156,11 +158,12 @@
                 if (this.distance === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = ''
+                        this.pace = ''
                     } else if (this.calculatedField === 'duration') {
                         this.duration = ''
                     }
                 } else if (this.calculatedField !== 'distance') {
-                    this.distance = this.distance.replace(/[^0-9.,]+/g, '')
+                    this.distance = this.distance.replace(/[^0-9.,]+/g, '');
                     this.checkFields()
                 }
             },
@@ -172,7 +175,7 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
-                    this.speed = this.speed.replace(/[^0-9:,.]+/g, '')
+                        this.speed = this.speed.match(/\d+([.|,]\d{0,4})?/g)[0];
                 } else if (this.calculatedField === 'speed') {
                     let speedToPace = this.speed.replace('km/h', '');
                     let minutes = ((1 / speedToPace) * 60) | 0;
@@ -240,6 +243,10 @@
     .calculated {
         border: 5px solid #70AE98;
         color: #70AE98;
+
+        + input {
+            @extend .noselect-nodrag;
+        }
     }
 
     input {
@@ -260,5 +267,21 @@
 
     .preset {
         flex-direction: column;
+    }
+
+    .noselect-nodrag {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Opera and Firefox */
+        // NO DRAG
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
     }
 </style>
