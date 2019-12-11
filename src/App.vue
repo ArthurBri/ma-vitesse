@@ -62,6 +62,7 @@
     // TODO : fixer affichage des distance officielles
     // TODO : placer l'affichage des distances officielles en dessous
     // TODO : afficher un icone pour les 3 champs, ou le nom du change en haut / au dessus de la box
+    // TODO : remove autocomplete des champs
 
     export default {
         name: 'app',
