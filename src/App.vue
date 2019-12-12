@@ -8,11 +8,11 @@
             <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
             <div class="wrapper">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     @click="this.$refs.duration.focus()" class="box duration">
+                     class="box duration">
                     <input :disabled="calculatedField === 'duration'" @keyup="checkFields" id="duration"
                            onblur="this.placeholder = 'Durée'" onfocus="this.placeholder = ''"
-                           placeholder="Durée"
-                           v-model="duration"/>
+                           autocomplete="off" placeholder="Durée" v-model="duration"/>
+                    <span>h</span>
                 </div>
                 <div class="subbox-distance">
                     <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
@@ -20,35 +20,27 @@
                          class="box distance">
                         <input :disabled="calculatedField === 'distance'" @keyup="checkFields" name="distance"
                                onblur="this.placeholder = 'Distance'" onfocus="this.placeholder = ''"
-                               placeholder="Distance"
-                               v-model="distance"/>
+                               autocomplete="off" placeholder="Distance" v-model="distance"/>
+                        <span>km</span>
                     </div>
-                    <div class="preset">
-                        <span v-if="showDistanceType === true && calculatedField !== 'speed'">Distances officielles :</span>
                         <label>
                             <select v-model="presetDistances" v-show="showDistanceType">
-                                <option disabled value="">Choisissez</option>
+                                <option disabled value="">Distances officielles</option>
                                 <option>Marathon</option>
                                 <option>Semi-Marathon</option>
                                 <option>10km</option>
                             </select>
                         </label>
-                    </div>
                 </div>
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" class="box speed"
-                     v-if="speedFormat === 'speed'"
                      v-on:dblclick="changeSpeedFormat">
-                    <input :disabled="calculatedField === 'speed'" @keyup="checkFields" name="speed"
+                    <input v-if="speedFormat === 'speed'" :disabled="calculatedField === 'speed'" @keyup="checkFields" name="speed"
                            onblur="this.placeholder = 'Vitesse'" onfocus="this.placeholder = ''"
-                           placeholder="Vitesse"
-                           v-model="speed"/>
-                </div>
-                <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" class="box speed"
-                     v-if="speedFormat === 'pace'"
-                     v-on:dblclick="changeSpeedFormat">
-                    <input :disabled="calculatedField === 'pace'" @keyup="checkFields" name="speed"
-                           onblur="this.placeholder = 'Rythme'" onfocus="this.placeholder = ''" placeholder="Rythme"
-                           v-model="pace"/>
+                           autocomplete="off" placeholder="Vitesse" v-model="speed"/>
+                    <input v-if="speedFormat === 'pace'" :disabled="calculatedField === 'pace'" @keyup="checkFields" name="speed"
+                           onblur="this.placeholder = 'Rythme'" onfocus="this.placeholder = ''"
+                           autocomplete="off" placeholder="Rythme" v-model="pace"/>
+                    <span>{{ speedDisplayedFormat }}</span>
                 </div>
             </div>
         </div>
@@ -60,10 +52,8 @@
     import Footer from '@/components/Footer'
     // TODO : durée : possibilité d'écriture des formats en (XXhXXmXXs --> OK) ou XX:XX:XX
     // TODO : autoriser seulement deux ":" dans la durée, OU un "m", un "h", un "s"
-    // TODO : fixer affichage des distance officielles
-    // TODO : placer l'affichage des distances officielles en dessous
     // TODO : afficher un icone pour les 3 champs, ou le nom du change en haut / au dessus de la box
-    // TODO : remove autocomplete des champs
+    // TODO : calculer par "pace"
 
     export default {
         name: 'app',
@@ -77,6 +67,7 @@
                 speed: '',
                 pace: '',
                 speedFormat: 'speed',
+                speedDisplayedFormat: 'km/h',
                 calculatedField: ''
             };
         },
@@ -86,7 +77,7 @@
                     this.calculatedField = 'speed';
                     this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.duration))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '') + " km/h"
+                        .replace(/\.?0+$/, '')
                 } else if (this.distance !== '' && this.speed !== '' && (this.duration === '' || this.calculatedField === 'duration')) {
                     this.calculatedField = 'duration';
                     this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
@@ -96,7 +87,7 @@
                     this.calculatedField = 'distance';
                     this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.duration))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '') + " km"
+                        .replace(/\.?0+$/, '')
                 } else {
                     this.calculatedField = ''
                 }
@@ -142,8 +133,10 @@
                 if (this.calculatedField === 'speed') {
                     if (this.speedFormat === 'speed') {
                         this.speedFormat = 'pace';
+                        this.speedDisplayedFormat = 'min/km';
                     } else {
                         this.speedFormat = 'speed';
+                        this.speedDisplayedFormat = 'km/h';
                     }
                 }
             }
@@ -187,7 +180,7 @@
                     let speedToPace = this.speed.replace('km/h', '');
                     let minutes = ((1 / speedToPace) * 60) | 0;
                     let seconds = (((1 / speedToPace) * 60) % 1) * 60 | 0;
-                    this.pace = minutes + ':' + seconds + ' min/km'
+                    this.pace = minutes + ':' + seconds
                 }
             },
             presetDistances: function () {
@@ -238,7 +231,7 @@
         .wrapper {
             display: flex;
             flex-flow: column wrap;
-            justify-content: center;
+            justify-content: space-between;
 
         }
     }
@@ -256,19 +249,20 @@
 
     .box {
         border-radius: 7px;
-        min-width: 18vw;
         height: 10vh;
         box-shadow: 0 0 10px rgba(33, 33, 33, .2);
         background-color: white;
         margin: 2vh 1vw 2vh 1vw;
         padding: 1vh 1vw 1vh 1vw;
-        color: #ECBE7A;
+        color: #2C629D;
+        font-size: 1.3em;
         transition: box-shadow .1s;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
-    .box:hover {
+    .box:hover(:not(calculated)) {
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     }
 
@@ -301,12 +295,17 @@
 
     .calculated {
         box-shadow: 0 8px 15px darkolivegreen, 0 6px 6px rgba(0, 0, 0, 0.23);
+        background-color: lightgreen;
+        animation: scale-up 0.2s forwards, scale-out 0.5s;
+        font-size:1.4em;
+        color:white;
     }
 
     input {
         background-color: rgba(0, 0, 0, 0.0);
-        font-size: 2em;
-        text-align: center;
+        font-size: 1em;
+        text-align: right;
+        padding-right: 2vw;
         border: none;
     }
 
@@ -314,8 +313,25 @@
         outline: none;
     }
 
-    .preset {
-        flex-direction: column;
+    select {
+        background-color: rgba(0, 0, 0, 0.0);
+        border: none;
+
+        font-size: 1em;
+        color: white;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+
+        > option {
+            color: #2C629D;
+            text-align: center;
+        }
+    }
+
+    select:focus {
+        outline: none;
     }
 
     .noselect-nodrag {
@@ -338,5 +354,15 @@
     h1 {
         font-size: 2.5em;
         text-align: center;
+    }
+
+    @keyframes scale-up {
+        from { transform: scale(1.0); }
+        to { transform: scale(1.1);}
+    }
+
+    @keyframes scale-down {
+        from { transform: scale(1.1); }
+        to { transform: scale(1.0);}
     }
 </style>
