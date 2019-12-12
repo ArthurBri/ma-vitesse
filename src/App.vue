@@ -2,53 +2,54 @@
     <div id="app" class="container">
         <div class="header">
             <h1>Ma vitesse</h1>
-            <h2>Calculateur de vitesse, d'estimations de course</h2>
-            <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
         </div>
-        <div class="wrapper">
-            <div class="box duration" :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''">
-                <input v-model="duration" id="duration" placeholder="Durée"
-                       @keyup="checkFields" onfocus="this.placeholder = ''"
-                       onblur="this.placeholder = 'Durée'"
-                       :disabled="calculatedField === 'duration'"/>
-                <img title="Durée" src="./assets/icons/clock.svg"/>
-            </div>
-            <div class="box distance" :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
-                 @click="showDistanceType = true">
-                <input v-model="distance" name="distance" placeholder="Distance"
-                       @keyup="checkFields" onfocus="this.placeholder = ''"
-                       onblur="this.placeholder = 'Distance'"
-                       :disabled="calculatedField === 'distance'"/>
-                <img title="Distance" class="noselect-nodrag" src="./assets/icons/ruler.svg"
-                     alt="distance"/>
-                <div class="preset">
-                    <span v-if="showDistanceType === true && calculatedField !== 'speed'">Distances officielles :</span>
-                    <label>
-                        <select v-model="presetDistances" v-show="showDistanceType">
-                            <option disabled value="">Choisissez</option>
-                            <option>Marathon</option>
-                            <option>Semi-Marathon</option>
-                            <option>10km</option>
-                        </select>
-                    </label>
+        <div class="main-box">
+            <h2>Calculateur de vitesse, de durée, ou de distance</h2>
+            <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
+            <div class="wrapper">
+                <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
+                     @click="this.$refs.duration.focus()" class="box duration">
+                    <input :disabled="calculatedField === 'duration'" @keyup="checkFields" id="duration"
+                           onblur="this.placeholder = 'Durée'" onfocus="this.placeholder = ''"
+                           placeholder="Durée"
+                           v-model="duration"/>
                 </div>
-            </div>
-            <div v-if="speedFormat === 'speed'" class="box speed"
-                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
-                 v-on:dblclick="changeSpeedFormat">
-                <input v-model="speed" name="speed" placeholder="Vitesse"
-                       @keyup="checkFields" onfocus="this.placeholder = ''"
-                       onblur="this.placeholder = 'Vitesse'"
-                       :disabled="calculatedField === 'speed'"/>
-                <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg"/>
-            </div>
-            <div v-if="speedFormat === 'pace'" class="box speed"
-                 :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
-                 v-on:dblclick="changeSpeedFormat">
-                <input v-model="pace" name="speed" placeholder="Rythme"
-                       @keyup="checkFields" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Rythme'"
-                       :disabled="calculatedField === 'pace'"/>
-                <img title="Vitesse" class="noselect-nodrag" src="./assets/icons/flash_on.svg" width="40px"/>
+                <div class="subbox-distance">
+                    <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
+                         @click="showDistanceType = true"
+                         class="box distance">
+                        <input :disabled="calculatedField === 'distance'" @keyup="checkFields" name="distance"
+                               onblur="this.placeholder = 'Distance'" onfocus="this.placeholder = ''"
+                               placeholder="Distance"
+                               v-model="distance"/>
+                    </div>
+                    <div class="preset">
+                        <span v-if="showDistanceType === true && calculatedField !== 'speed'">Distances officielles :</span>
+                        <label>
+                            <select v-model="presetDistances" v-show="showDistanceType">
+                                <option disabled value="">Choisissez</option>
+                                <option>Marathon</option>
+                                <option>Semi-Marathon</option>
+                                <option>10km</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" class="box speed"
+                     v-if="speedFormat === 'speed'"
+                     v-on:dblclick="changeSpeedFormat">
+                    <input :disabled="calculatedField === 'speed'" @keyup="checkFields" name="speed"
+                           onblur="this.placeholder = 'Vitesse'" onfocus="this.placeholder = ''"
+                           placeholder="Vitesse"
+                           v-model="speed"/>
+                </div>
+                <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" class="box speed"
+                     v-if="speedFormat === 'pace'"
+                     v-on:dblclick="changeSpeedFormat">
+                    <input :disabled="calculatedField === 'pace'" @keyup="checkFields" name="speed"
+                           onblur="this.placeholder = 'Rythme'" onfocus="this.placeholder = ''" placeholder="Rythme"
+                           v-model="pace"/>
+                </div>
             </div>
         </div>
         <Footer/>
@@ -212,33 +213,60 @@
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        color: darkslategrey;
-        height: 100vh;
+        color: #2C629D;
+        min-width: 100%;
+        overflow-x: hidden;
     }
 
     .container {
         display: flex;
-        width: 100vw;
         flex-direction: column;
     }
 
-    .header {
-        padding: 0 5vw 0 5vw;
+    .main-box {
+        background: #2C629D;
+        color: white;
+        margin: 0 auto 0 auto;
+        width: 80vw;
+        min-height: 50vh;
+        border-radius: 15px;
+        padding: 3vh 3vw 3vh 3vw;
     }
-    .wrapper {
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: space-around;
 
+    @media screen and (max-width: 950px) {
+        .wrapper {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+
+        }
+    }
+
+    @media screen and (min-width: 951px) {
+        .wrapper {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: stretch;
+            align-content: center;
+            justify-content: center;
+
+        }
     }
 
     .box {
         border-radius: 7px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-        border: 3px solid #ECBE7A;
-        margin: 2vh 5vw 2vh 5vw;
+        min-width: 20vw;
+        height: 10vh;
+        box-shadow: 0 0 10px rgba(33, 33, 33, .2);
+        background-color: white;
+        margin: 2vh 2vw 2vh 2vw;
         padding: 1vh 1vw 1vh 1vw;
         color: #ECBE7A;
+        transition: box-shadow .1s;
+    }
+
+    .box:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     }
 
     .footer {
@@ -259,8 +287,9 @@
         order: 1;
     }
 
-    .distance {
+    .subbox-distance {
         order: 2;
+        text-align: center;
     }
 
     .speed {
@@ -268,23 +297,15 @@
     }
 
     .calculated {
-        border: 5px solid #70AE98;
-        color: #70AE98;
-
-        + input {
-            @extend .noselect-nodrag;
-        }
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        transform: scale(1.2, 1.2);
     }
 
     input {
         background-color: rgba(0, 0, 0, 0.0);
-        font-size: 20px;
+        font-size: 2em;
         text-align: center;
         border: none;
-    }
-
-    input::placeholder {
-        color: gray;
     }
 
     input:focus {
@@ -310,5 +331,10 @@
         -moz-user-drag: none;
         -o-user-drag: none;
         user-drag: none;
+    }
+
+    h1 {
+        font-size: 2.5em;
+        text-align: center;
     }
 </style>
