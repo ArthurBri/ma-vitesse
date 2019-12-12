@@ -256,14 +256,16 @@
 
     .box {
         border-radius: 7px;
-        min-width: 20vw;
+        min-width: 18vw;
         height: 10vh;
         box-shadow: 0 0 10px rgba(33, 33, 33, .2);
         background-color: white;
-        margin: 2vh 2vw 2vh 2vw;
+        margin: 2vh 1vw 2vh 1vw;
         padding: 1vh 1vw 1vh 1vw;
         color: #ECBE7A;
         transition: box-shadow .1s;
+        display: flex;
+        align-items: center;
     }
 
     .box:hover {
@@ -298,8 +300,7 @@
     }
 
     .calculated {
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-        transform: scale(1.2, 1.2);
+        box-shadow: 0 8px 15px darkolivegreen, 0 6px 6px rgba(0, 0, 0, 0.23);
     }
 
     input {
