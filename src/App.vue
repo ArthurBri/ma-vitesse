@@ -54,6 +54,7 @@
     // TODO : autoriser seulement deux ":" dans la durée, OU un "m", un "h", un "s"
     // TODO : afficher un icone pour les 3 champs, ou le nom du change en haut / au dessus de la box
     // TODO : calculer par "pace"
+    // TODO : settings
 
     export default {
         name: 'app',
