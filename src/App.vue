@@ -61,6 +61,7 @@
 <script>
     import Footer from '@/components/Footer'
     // TODO : calculer par "pace"
+    // TODO : settings
 
     // TODO : gérer les distances / vitesses < 1km / 1kmh (aujourd'hui buggé par le leading zero supprimé)
     // TODO : limiter les minutes à 59, secondes à 59 si non précédés
