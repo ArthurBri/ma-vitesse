@@ -1,46 +1,56 @@
 <template>
     <div id="app" class="container">
-        <div class="header">
+        <div class="header noselect-nodrag">
             <h1>Ma vitesse</h1>
         </div>
         <div class="main-box">
-            <h2>Calculateur de vitesse, de durée, ou de distance</h2>
-            <p>Remplir deux champs pour effectuer le calcul sur le 3ème champ</p>
+            <h2 class="noselect-nodrag" v-if="calculatedField===''">Calculateur de vitesse, de durée, de distance</h2>
+            <h2 class="noselect-nodrag" v-else>Calcul de la {{ prettyCalculatedField }}</h2>
             <div class="wrapper">
+
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     class="box duration">
-                    <input :disabled="calculatedField === 'duration'" @keyup="checkFields" id="duration"
-                           onblur="this.placeholder = 'Durée'" onfocus="this.placeholder = ''"
-                           autocomplete="off" placeholder="Durée" v-model="duration"/>
-                    <span>h</span>
+                     @click="focusMe('duration')" class="box duration">
+                    <label for="duration">Durée</label>
+                    <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
+                           @keyup="checkFields"
+                           autocomplete="off" id="duration" placeholder="1h30" ref="duration"
+                           tabindex="1" v-model="duration"/>
+                    <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                 </div>
-                <div class="subbox-distance">
+
+                <div @click="focusMe('distance')" class="subbox-distance noselect-nodrag">
                     <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
-                         @click="showDistanceType = true"
                          class="box distance">
-                        <input :disabled="calculatedField === 'distance'" @keyup="checkFields" name="distance"
-                               onblur="this.placeholder = 'Distance'" onfocus="this.placeholder = ''"
-                               autocomplete="off" placeholder="Distance" v-model="distance"/>
-                        <span>km</span>
+                        <label for="distance">Distance</label>
+                        <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
+                               @keyup="checkFields" autocomplete="off"
+                               id="distance" name="distance" onblur=""
+                               placeholder="10,5" ref="distance" tabindex="2"
+                               v-model="distance"/>
+                        <span class="noselect-nodrag">km</span>
                     </div>
-                        <label>
-                            <select v-model="presetDistances" v-show="showDistanceType">
-                                <option disabled value="">Distances officielles</option>
-                                <option>Marathon</option>
-                                <option>Semi-Marathon</option>
-                                <option>10km</option>
-                            </select>
-                        </label>
+                    <label>
+                        <select v-model="presetDistances" v-show="showPresetDistances">
+                            <option disabled value="">Distances officielles</option>
+                            <option>Marathon</option>
+                            <option>Semi-Marathon</option>
+                            <option>10km</option>
+                        </select>
+                    </label>
                 </div>
-                <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''" class="box speed"
-                     v-on:dblclick="changeSpeedFormat">
-                    <input v-if="speedFormat === 'speed'" :disabled="calculatedField === 'speed'" @keyup="checkFields" name="speed"
-                           onblur="this.placeholder = 'Vitesse'" onfocus="this.placeholder = ''"
-                           autocomplete="off" placeholder="Vitesse" v-model="speed"/>
-                    <input v-if="speedFormat === 'pace'" :disabled="calculatedField === 'pace'" @keyup="checkFields" name="speed"
-                           onblur="this.placeholder = 'Rythme'" onfocus="this.placeholder = ''"
-                           autocomplete="off" placeholder="Rythme" v-model="pace"/>
-                    <span>{{ speedDisplayedFormat }}</span>
+
+                <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
+                     @click="focusMe('speed')" class="box speed">
+                    <label for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
+                    <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                           @keyup="checkFields" autocomplete="off"
+                           id="speed" name="speed" placeholder="20,00" ref="speed" tabindex="3"
+                           v-if="speedFormat === 'speed'" v-model="speed"/>
+                    <label for="pace" v-if="speedFormat === 'pace'">Allure</label>
+                    <input :disabled="calculatedField === 'pace'" @focus="showPresetDistances = false"
+                           @keyup="checkFields" autocomplete="off" id="pace" name="speed"
+                           placeholder="Rythme" v-if="speedFormat === 'pace'" v-model="pace"/>
+                    <span class="noselect-nodrag" v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                 </div>
             </div>
         </div>
@@ -50,25 +60,32 @@
 
 <script>
     import Footer from '@/components/Footer'
-    // TODO : durée : possibilité d'écriture des formats en (XXhXXmXXs --> OK) ou XX:XX:XX
-    // TODO : autoriser seulement deux ":" dans la durée, OU un "m", un "h", un "s"
-    // TODO : afficher un icone pour les 3 champs, ou le nom du change en haut / au dessus de la box
     // TODO : calculer par "pace"
 
+    // TODO : gérer les distances / vitesses < 1km / 1kmh (aujourd'hui buggé par le leading zero supprimé)
+    // TODO : limiter les minutes à 59, secondes à 59 si non précédés
+    // TODO : réglages : format de la vitesse, "." ou ",", langue dark-mode
+    // TODO : suggestion distance proche (marathon, semi-marathon...) à +- 5% de la distance entrée
     export default {
         name: 'app',
         components: {Footer},
         data() {
             return {
+                /* duration */
                 duration: '',
+                durationDisplayed: '',
+                durationDisplayedFormat: 'h',
+                /* distance */
                 distance: '',
                 presetDistances: '',
-                showDistanceType: false,
+                showPresetDistances: false,
+                /* speed */
                 speed: '',
                 pace: '',
                 speedFormat: 'speed',
                 speedDisplayedFormat: 'km/h',
-                calculatedField: ''
+                calculatedField: '',
+                prettyCalculatedField: ''
             };
         },
         methods: {
@@ -77,17 +94,21 @@
                     this.calculatedField = 'speed';
                     this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.duration))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '')
+                        .replace(/\.?0+$/, '');
+                    this.speed = this.speed === '' ? '< 0.001km/h' : this.speed;
                 } else if (this.distance !== '' && this.speed !== '' && (this.duration === '' || this.calculatedField === 'duration')) {
                     this.calculatedField = 'duration';
                     this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
                         .toFixed(3)
                         .replace(/\.?0+$/, ''));
+                    // eslint-disable-next-line no-console
+                    this.duration = this.duration === '' ? '< 1sec' : this.duration;
                 } else if (this.speed !== '' && this.duration !== '' && (this.distance === '' || this.calculatedField === 'distance')) {
                     this.calculatedField = 'distance';
                     this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.duration))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '')
+                        .replace(/\.?0+$/, '');
+                    this.distance = this.distance === '' ? '< 0.001m' : this.distance;
                 } else {
                     this.calculatedField = ''
                 }
@@ -102,12 +123,47 @@
                 return distance
             },
             formatDuration: function (duration) {
+                // hours only
                 if (/^\d+$/.test(duration)) {
-                    return duration
+                    return duration;
+                    // hours / minutes / seconds
                 } else {
-                    let hours = duration.match(/(\d+h)*/g).join('').replace('h', '') || 0;
-                    let minutes = duration.match(/(\d+m)*/g).join('').replace('m', '') || duration.match(/(h\d{2})*(?!s)/g).join('').replace('h', '') || 0;
-                    let seconds = duration.match(/(\d+s)*/g).join('').replace('s', '') || duration.match(/(m\d*)*/g).join('').replace('m', '') || 0;
+                    let hours = 0;
+                    let minutes = 0;
+                    let seconds = 0;
+
+                    let nbFields = (this.duration.match(/[:mhs]/g) || []).length + 1;
+                    // dans ce cas, on a des h, des m, des s
+                    // eslint-disable-next-line no-console
+                    console.log("nombre de champs : " + nbFields);
+                    if (nbFields === 3) {
+                        hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
+                        minutes = this.duration.match(/[:h](\d*)[m:]/g)[0].replace(/[hm:]*/g, '') || 0;
+                        seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[ms:]*/g, '') || 0;
+                        // eslint-disable-next-line no-console
+                        console.log("heures : " + hours)
+                    } else if (nbFields === 2) {
+                        // si un h ou un : > calcul h / m
+                        if ((this.duration.match(/[:h]/g) || []).length === 1) {
+                            hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
+                            minutes = this.duration.match(/[:h](\d*)[m:]?/g)[0].replace(/[h:]*/g, '') || 0;
+                            // sinon > calcul m / s
+                        } else if ((this.duration.match(/[m]/g) || []).length === 1) {
+                            minutes = this.duration.match(/(^\d*)[m:]/g)[0].replace(/[hm:]*/g, '');
+                            seconds = this.duration.match(/[:m](\d*)[s:]?/g)[0].replace(/[ms:]*/g, '') || 0;
+                        } else {
+                            seconds = this.duration.match(/(\d*)[s:]?/g)[0].replace(/s*/g, '') || 0;
+                        }
+
+                    } else if (nbFields === 1) {
+                        hours = this.duration.replace('h', '');
+                    }
+                    // eslint-disable-next-line no-console
+                    //console.log('h : ' + hours);
+                    // eslint-disable-next-line no-console
+                    //console.log('m : ' + minutes;
+                    // eslint-disable-next-line no-console
+                    //console.log('s : ' + seconds);
                     return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
 
                 }
@@ -139,31 +195,61 @@
                         this.speedDisplayedFormat = 'km/h';
                     }
                 }
+            },
+            focusMe: function (field) {
+                this.showPresetDistances = field === 'distance';
+                this.$refs[field].focus();
             }
         },
         watch: {
             duration: function () {
                 if (this.duration === '') {
                     if (this.calculatedField === 'speed') {
-                        this.speed = ''
-                        this.pace = ''
+                        this.speed = '';
+                        this.pace = '';
                     } else if (this.calculatedField === 'distance') {
-                        this.distance = ''
+                        this.distance = '';
                     }
                 } else if (this.calculatedField !== 'duration') {
-                    this.duration = this.duration.replace(/[^0-9:,.hms]+/g, '')
+                    // removing faulty characters
+                    this.duration = this.duration.replace(/[^0-9,.:hms]/g, '');
+                    // removing leading zero(s)
+                    this.duration = this.duration.replace(/^0*([1-9]*)/g, '$1');
+
+                    if (this.duration.match(/(\d{1,4}([h:]|[h:]?$))?(\d{1,2}([m:]|[m:]?$))?(\d{1,2}([s]|[s]?$))?/g)) {
+                        this.duration = this.duration.match(/(\d{1,4}([h:]|[h:]?$))?(\d{1,2}([m:]|[m:]?$))?(\d{1,2}([s]|[s]?$))?/g)[0];
+
+                        // formatting character for display
+                        if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
+                            this.durationDisplayedFormat = 'm'
+                        } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
+                            this.durationDisplayedFormat = 's'
+                        } else if ((this.duration.match(/[s]/g) || []).length === 1) {
+                            this.durationDisplayedFormat = ''
+                        } else {
+                            this.durationDisplayedFormat = 'h'
+                        }
+
+                    } else {
+                        this.duration = ''
+                    }
                 }
             },
             distance: function () {
                 if (this.distance === '') {
                     if (this.calculatedField === 'speed') {
-                        this.speed = ''
+                        this.speed = '';
                         this.pace = ''
                     } else if (this.calculatedField === 'duration') {
                         this.duration = ''
                     }
                 } else if (this.calculatedField !== 'distance') {
-                    this.distance = this.distance.replace(/[^0-9.,]+/g, '');
+                    // removing leading zero(s)
+                    // TODO : améliorer pour garder le 0 quand distance < 0
+                    this.distance = this.distance.replace(/^0+([1-9,.]*)/g, '$1');
+                    if (this.distance.match(/\d+([.,]\d{0,4})?/g)) {
+                        this.distance = this.distance.match(/\d+([.,]\d{0,4})?/g)[0];
+                    }
                     this.checkFields()
                 }
             },
@@ -175,11 +261,15 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
-                    this.speed = this.speed.match(/\d+([.|,]\d{0,4})?/g)[0];
+                    // removing leading zero(s)
+                    // TODO : améliorer pour garder le 0 quand distance < 0
+                    this.speed = this.speed.replace(/^0+([1-9,.]*)/g, '$1');
+                    if (this.speed.match(/\d+([.,]\d{0,4})?/g)) {
+                        this.speed = this.speed.match(/\d+([.,]\d{0,4})?/g)[0];
+                    }
                 } else if (this.calculatedField === 'speed') {
-                    let speedToPace = this.speed.replace('km/h', '');
-                    let minutes = ((1 / speedToPace) * 60) | 0;
-                    let seconds = (((1 / speedToPace) * 60) % 1) * 60 | 0;
+                    let minutes = ((1 / this.speed) * 60) | 0;
+                    let seconds = (((1 / this.speed) * 60) % 1) * 60 | 0;
                     this.pace = minutes + ':' + seconds
                 }
             },
@@ -190,12 +280,21 @@
                             this.distance = "42,195";
                             break;
                         case 'Semi-Marathon' :
-                            this.distance = "21.0975";
+                            this.distance = "21,0975";
                             break;
                         case '10km' :
                             this.distance = "10";
                             break;
                     }
+                }
+            },
+            calculatedField: function () {
+                if (this.calculatedField === 'distance') {
+                    this.prettyCalculatedField = "distance"
+                } else if (this.calculatedField === 'speed') {
+                    this.prettyCalculatedField = "vitesse"
+                } else if (this.calculatedField === 'duration') {
+                    this.prettyCalculatedField = "durée"
                 }
             }
         }
@@ -219,12 +318,14 @@
 
     .main-box {
         background: #2C629D;
+        background: linear-gradient(#2C629D, #70a9d2);
         color: white;
         margin: 0 auto 0 auto;
-        width: 80vw;
-        min-height: 50vh;
-        border-radius: 15px;
+        width: 75vw;
+        min-height: 20vh;
+        border-radius: 13px;
         padding: 3vh 3vw 3vh 3vw;
+        box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
     }
 
     @media screen and (max-width: 950px) {
@@ -249,7 +350,7 @@
 
     .box {
         border-radius: 7px;
-        height: 10vh;
+        height: 5vh;
         box-shadow: 0 0 10px rgba(33, 33, 33, .2);
         background-color: white;
         margin: 2vh 1vw 2vh 1vw;
@@ -337,18 +438,10 @@
     .noselect-nodrag {
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
         -moz-user-select: none; /* Old versions of Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none;
-        /* Non-prefixed version, currently
-                                       supported by Chrome, Opera and Firefox */
-        // NO DRAG
-        -webkit-user-drag: none;
-        -khtml-user-drag: none;
-        -moz-user-drag: none;
-        -o-user-drag: none;
-        user-drag: none;
+        cursor: default;
     }
 
     h1 {
