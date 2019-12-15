@@ -245,9 +245,12 @@
                         this.duration = ''
                     }
                 } else if (this.calculatedField !== 'distance') {
-                    // removing leading zero(s)
-                    // TODO : améliorer pour garder le 0 quand distance < 0
-                    this.distance = this.distance.replace(/^0+([1-9,.]*)/g, '$1');
+                    // removing leading zero(s) and filtering for digits only
+                    if (this.distance.match(/^0*((0[,.]?.*)|([1-9].*))/g)) {
+                        this.distance = this.distance.replace(/^0*((0[,.]?.*)|([1-9].*))/g, '$1');
+                    } else {
+                        this.distance = ''
+                    }
                     if (this.distance.match(/\d+([.,]\d{0,4})?/g)) {
                         this.distance = this.distance.match(/\d+([.,]\d{0,4})?/g)[0];
                     }
@@ -262,9 +265,13 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
-                    // removing leading zero(s)
-                    // TODO : améliorer pour garder le 0 quand distance < 0
-                    this.speed = this.speed.replace(/^0+([1-9,.]*)/g, '$1');
+                    // removing leading zero(s) and filtering for digits only
+                    if (this.speed.match(/^0*((0[,.]?.*)|([1-9].*))/g)) {
+                        this.speed = this.speed.replace(/^0*((0[,.]?.*)|([1-9].*))/g, '$1');
+                    } else {
+                        this.speed = ''
+                    }
+
                     if (this.speed.match(/\d+([.,]\d{0,4})?/g)) {
                         this.speed = this.speed.match(/\d+([.,]\d{0,4})?/g)[0];
                     }
@@ -357,7 +364,7 @@
         margin: 2vh 1vw 2vh 1vw;
         padding: 1vh 1vw 1vh 1vw;
         color: #2C629D;
-        font-size: 1.3em;
+        font-size: 1.1em;
         transition: box-shadow .1s;
         display: flex;
         align-items: center;
@@ -409,6 +416,8 @@
         text-align: right;
         padding-right: 2vw;
         border: none;
+        width: 100px;
+        min-width: 50px;
     }
 
     input:focus {
@@ -417,8 +426,10 @@
 
     select {
         background-color: rgba(0, 0, 0, 0.0);
-        border: none;
-
+        border: 1px white solid;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px 5px 5px 5px;
         font-size: 1em;
         color: white;
         -webkit-appearance: none;
