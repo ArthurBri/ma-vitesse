@@ -18,8 +18,8 @@
                     <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                 </div>
 
-                <div @click="focusMe('distance')" class="subbox-distance noselect-nodrag">
-                    <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
+                <div class="subbox-distance noselect-nodrag">
+                    <div @click="focusMe('distance')" :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                          class="box distance">
                         <label for="distance">Distance</label>
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
@@ -53,6 +53,10 @@
                     <span class="noselect-nodrag" v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                 </div>
             </div>
+        </div>
+        <div class="settings-box" style="animation: flip-over 0.7s forwards;" >
+            <span>Réglages</span>
+            <img src="./assets/icons/settings.svg" width="16"/>
         </div>
         <Footer/>
     </div>
@@ -317,6 +321,7 @@
         color: #2C629D;
         min-width: 100%;
         overflow-x: hidden;
+        height: 95vh;
     }
 
     .container {
@@ -325,6 +330,7 @@
     }
 
     .main-box {
+        position: relative;
         background: #2C629D;
         background: linear-gradient(#2C629D, #70a9d2);
         color: white;
@@ -334,6 +340,7 @@
         border-radius: 13px;
         padding: 3vh 3vw 3vh 3vw;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
+        z-index: 2;
     }
 
     @media screen and (max-width: 950px) {
@@ -382,7 +389,7 @@
     }
 
     img {
-        width: 30px;
+        width: 20px;
         align-self: flex-start;
         padding-right: 10px;
         padding-top: 5px;
@@ -469,5 +476,45 @@
     @keyframes scale-down {
         from { transform: scale(1.1); }
         to { transform: scale(1.0);}
+    }
+
+    .settings-box {
+        $left-pos: 88.5%;
+        position: absolute;
+        display: flex;
+        justify-content: flex-end;
+        top: 20%;
+        left: $left-pos;
+        background: #2C629D;
+        background: linear-gradient(to left, #9d3077, #70a9d2);
+        color: white;
+        text-align: center;
+        border-radius: 13px;
+        padding: 1vh 0vw 1vh 3vw;
+        box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
+        transition: left 0.5s;
+        z-index: 1;
+
+        &:hover {
+            left: $left-pos + 1%;
+        }
+
+        &:active {
+            animation: flip-over 0.7s forwards;
+        }
+
+    }
+
+    @keyframes flip-over {
+        from {
+            z-index: -1;
+        }
+
+        50% {
+            left:92%;
+        }
+        to {
+            z-index: 2;
+        }
     }
 </style>

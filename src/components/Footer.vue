@@ -1,6 +1,6 @@
 <template>
     <div class="footer noselect-nodrag">
-        <p>MA-Vitesse, une appli MA | A propos</p>
+        <p><img title="A propos" src="../assets/icons/question.svg" width="1em"></p>
     </div>
 </template>
 
