@@ -15,7 +15,7 @@ self.addEventListener("install", function (event) {
             // eslint-disable-next-line no-console
             console.log("[PWA Builder] Cached offline page during install");
 
-            if (offlineFallbackPage === "ToDo-replace-this-name.html") {
+            if (offlineFallbackPage === "offline.html") {
                 return cache.add(new Response("TODO: Update the value of the offlineFallbackPage constant in the serviceworker."));
             }
 
