@@ -31,6 +31,7 @@ self.addEventListener("fetch", function (event) {
                 return;
             }
 
+            // eslint-disable-next-line no-console
             console.error("[PWA Builder] Network request Failed. Serving offline page " + error);
             return caches.open(CACHE).then(function (cache) {
                 return cache.match(offlineFallbackPage);
@@ -45,6 +46,7 @@ self.addEventListener("refreshOffline", function () {
 
     return fetch(offlineFallbackPage).then(function (response) {
         return caches.open(CACHE).then(function (cache) {
+            // eslint-disable-next-line no-console
             console.log("[PWA Builder] Offline page updated from refreshOffline event: " + response.url);
             return cache.put(offlinePageRequest, response);
         });
