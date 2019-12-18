@@ -1,8 +1,8 @@
 <template>
     <div id="app" class="container">
         <div class="header noselect-nodrag">
-            <img src="./assets/icon.png" width="100"/>
-            <h1>Ma vitesse</h1>
+            <img alt="logo" src="./assets/icon.png" style="border-radius:15%;"/>
+            <h1 style="margin-left:20px;">Vitesse</h1>
         </div>
         <div class="main-box">
             <h2 class="noselect-nodrag" v-if="calculatedField===''">Calculateur de vitesse, de durée, de distance</h2>
@@ -57,7 +57,7 @@
         </div>
         <div class="settings-box" style="animation: flip-over 0.7s forwards;" >
             <span>Réglages</span>
-            <img class="icon" src="./assets/icons/settings.svg" width="16"/>
+            <img alt="" class="icon" src="./assets/icons/settings.svg" width="16"/>
         </div>
         <Footer/>
     </div>
@@ -66,12 +66,12 @@
 <script>
     import Footer from '@/components/Footer'
     // TODO : calculer par "pace"
-    // TODO : settings
-
-    // TODO : gérer les distances / vitesses < 1km / 1kmh (aujourd'hui buggé par le leading zero supprimé)
-    // TODO : limiter les minutes à 59, secondes à 59 si non précédés
+    // TODO : limiter les minutes à 59, secondes à 59 si précédés
     // TODO : réglages : format de la vitesse, "." ou ",", langue dark-mode
     // TODO : suggestion distance proche (marathon, semi-marathon...) à +- 5% de la distance entrée
+    // TODO : estimation temps de course par ajustement pas rapport à une base
+    // TODO : effacer rapidement les champs
+
     export default {
         name: 'app',
         components: {Footer},
@@ -140,19 +140,20 @@
 
                     let nbFields = (this.duration.match(/[:mhs]/g) || []).length + 1;
                     // dans ce cas, on a des h, des m, des s
-                    // eslint-disable-next-line no-console
-                    console.log("nombre de champs : " + nbFields);
-                    if (nbFields === 3) {
+                    if (nbFields >= 3) {
                         hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
                         minutes = this.duration.match(/[:h](\d*)[m:]/g)[0].replace(/[hm:]*/g, '') || 0;
                         seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[ms:]*/g, '') || 0;
-                        // eslint-disable-next-line no-console
-                        console.log("heures : " + hours)
                     } else if (nbFields === 2) {
-                        // si un h ou un : > calcul h / m
-                        if ((this.duration.match(/[:h]/g) || []).length === 1) {
+                        // si un h ou un : && !s > calcul h / m
+                        if ((this.duration.match(/[:h]/g) || []).length === 1 && (this.duration.match(/[s]/g) || []).length === 0) {
                             hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
-                            minutes = this.duration.match(/[:h](\d*)[m:]?/g)[0].replace(/[h:]*/g, '') || 0;
+                            minutes = this.duration.match(/[:h](\d*)[m:]?/g)[0].replace(/[hm:]*/g, '') || 0;
+                            // si un h ou un : && s > calcul h / s
+                        } else if ((this.duration.match(/[:h]/g) || []).length === 1 && (this.duration.match(/[s]/g) || []).length === 1) {
+
+                            hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
+                            seconds = this.duration.match(/[:h](\d*)[s:]/g)[0].replace(/[hs:]*/g, '') || 0;
                             // sinon > calcul m / s
                         } else if ((this.duration.match(/[m]/g) || []).length === 1) {
                             minutes = this.duration.match(/(^\d*)[m:]/g)[0].replace(/[hm:]*/g, '');
@@ -167,7 +168,7 @@
                     // eslint-disable-next-line no-console
                     //console.log('h : ' + hours);
                     // eslint-disable-next-line no-console
-                    //console.log('m : ' + minutes;
+                    //console.log('m : ' + minutes);
                     // eslint-disable-next-line no-console
                     //console.log('s : ' + seconds);
                     return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
@@ -228,10 +229,10 @@
                         // formatting character for display
                         if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
                             this.durationDisplayedFormat = 'm'
-                        } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
-                            this.durationDisplayedFormat = 's'
                         } else if ((this.duration.match(/[s]/g) || []).length === 1) {
                             this.durationDisplayedFormat = ''
+                        } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
+                            this.durationDisplayedFormat = 's'
                         } else {
                             this.durationDisplayedFormat = 'h'
                         }
@@ -328,6 +329,15 @@
     .container {
         display: flex;
         flex-direction: column;
+    }
+
+    .header {
+        padding: 3vh 3vw 3vh 3vw;
+        margin: 0 auto 0 auto;
+        width: 75vw;
+        display: flex;
+        height: 80px;
+        align-items: center;
     }
 
     .main-box {
