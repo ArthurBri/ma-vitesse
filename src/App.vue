@@ -1,6 +1,7 @@
 <template>
     <div id="app" class="container">
         <div class="header noselect-nodrag">
+            <img src="./assets/icon.png" width="100"/>
             <h1>Ma vitesse</h1>
         </div>
         <div class="main-box">
@@ -56,7 +57,7 @@
         </div>
         <div class="settings-box" style="animation: flip-over 0.7s forwards;" >
             <span>Réglages</span>
-            <img src="./assets/icons/settings.svg" width="16"/>
+            <img class="icon" src="./assets/icons/settings.svg" width="16"/>
         </div>
         <Footer/>
     </div>
@@ -388,7 +389,7 @@
         text-align: center;
     }
 
-    img {
+    .icon {
         width: 20px;
         align-self: flex-start;
         padding-right: 10px;
@@ -490,7 +491,7 @@
         color: white;
         text-align: center;
         border-radius: 13px;
-        padding: 1vh 0vw 1vh 3vw;
+        padding: 1vh 0 1vh 3vw;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
         transition: left 0.5s;
         z-index: 1;
