@@ -3,7 +3,7 @@ const serveStatic = require("serve-static");
 var compression = require('compression');
 
 
-var app = express()
+var app = express();
 
 // compress all responses
 app.use(compression());
