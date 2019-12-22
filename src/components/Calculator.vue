@@ -407,7 +407,7 @@
     }
 
     input {
-        color: white;
+        color: #2C629D;
     }
 
     input {
