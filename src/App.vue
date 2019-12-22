@@ -1,12 +1,17 @@
 <template>
     <div id="app" class="container">
         <div class="header noselect-nodrag">
-            <img alt="logo" src="./assets/icon.png" style="border-radius:15%;"/>
-            <h1 style="margin-left:20px;">Vitesse</h1>
+            <img alt="" src="./assets/logo.svg" width="100"/>
+            <h1 style="margin-left:10px;">Vitesse</h1>
         </div>
         <div class="main-box">
             <h2 class="noselect-nodrag" v-if="calculatedField===''">Calculateur de vitesse, de durée, de distance</h2>
-            <h2 class="noselect-nodrag" v-else>Calcul de la {{ prettyCalculatedField }}</h2>
+            <div class="noselect-nodrag" style="display:flex" v-else>
+                <h2>Calcul de la <span style=" text-decoration: underline;
+  text-decoration-color: #FF9900;">{{ prettyCalculatedField }}</span></h2>
+                <span><img @click="clearFields()" alt="clear field button" class="clear-fields-button"
+                           src="./assets/icons/cancel.svg"/></span>
+            </div>
             <div class="wrapper">
 
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
@@ -14,7 +19,7 @@
                     <label for="duration">Durée</label>
                     <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
                            @keyup="checkFields"
-                           autocomplete="off" id="duration" placeholder="1h30" ref="duration"
+                           autocomplete="off" id="duration" ref="duration"
                            tabindex="1" v-model="duration"/>
                     <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                 </div>
@@ -26,7 +31,7 @@
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @keyup="checkFields" autocomplete="off"
                                id="distance" name="distance" onblur=""
-                               placeholder="10,5" ref="distance" tabindex="2"
+                               ref="distance" tabindex="2"
                                v-model="distance"/>
                         <span class="noselect-nodrag">km</span>
                     </div>
@@ -45,7 +50,7 @@
                     <label for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
                     <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                            @keyup="checkFields" autocomplete="off"
-                           id="speed" name="speed" placeholder="20,00" ref="speed" tabindex="3"
+                           id="speed" name="speed" ref="speed" tabindex="3"
                            v-if="speedFormat === 'speed'" v-model="speed"/>
                     <label for="pace" v-if="speedFormat === 'pace'">Allure</label>
                     <input :disabled="calculatedField === 'pace'" @focus="showPresetDistances = false"
@@ -55,10 +60,11 @@
                 </div>
             </div>
         </div>
+        <!--
         <div class="settings-box" style="animation: flip-over 0.7s forwards;" >
             <span>Réglages</span>
             <img alt="" class="icon" src="./assets/icons/settings.svg" width="16"/>
-        </div>
+        </div>-->
         <Footer/>
     </div>
 </template>
@@ -70,7 +76,6 @@
     // TODO : réglages : format de la vitesse, "." ou ",", langue dark-mode
     // TODO : suggestion distance proche (marathon, semi-marathon...) à +- 5% de la distance entrée
     // TODO : estimation temps de course par ajustement pas rapport à une base
-    // TODO : effacer rapidement les champs
 
     export default {
         name: 'app',
@@ -118,6 +123,13 @@
                 } else {
                     this.calculatedField = ''
                 }
+            },
+            clearFields() {
+                this.duration = '';
+                this.speed = '';
+                this.distance = '';
+                this.calculatedField = '';
+                this.durationDisplayedFormat = 'h';
             },
             formatSpeed(speed) {
                 speed = speed.replace(',', '.');
@@ -222,10 +234,8 @@
                     this.duration = this.duration.replace(/[^0-9,.:hms]/g, '');
                     // removing leading zero(s)
                     this.duration = this.duration.replace(/^0*([1-9]*)/g, '$1');
-
                     if (this.duration.match(/(\d{1,4}([h:]|[h:]?$))?(\d{1,2}([m:]|[m:]?$))?(\d{1,2}([s]|[s]?$))?/g)) {
                         this.duration = this.duration.match(/(\d{1,4}([h:]|[h:]?$))?(\d{1,2}([m:]|[m:]?$))?(\d{1,2}([s]|[s]?$))?/g)[0];
-
                         // formatting character for display
                         if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
                             this.durationDisplayedFormat = 'm'
@@ -236,10 +246,12 @@
                         } else {
                             this.durationDisplayedFormat = 'h'
                         }
-
                     } else {
                         this.duration = ''
                     }
+                } else if (this.calculatedField === 'duration') {
+                    // formatting character for display
+                    this.durationDisplayedFormat = ''
                 }
             },
             distance: function () {
@@ -332,7 +344,7 @@
     }
 
     .header {
-        padding: 3vh 3vw 3vh 3vw;
+        padding: 3vh 3vw 3vh 1vw;
         margin: 0 auto 0 auto;
         width: 75vw;
         display: flex;
@@ -421,11 +433,16 @@
     }
 
     .calculated {
-        box-shadow: 0 8px 15px darkolivegreen, 0 6px 6px rgba(0, 0, 0, 0.23);
-        background-color: lightgreen;
+        box-shadow: 0 8px 15px #FF9900, 0 6px 6px rgba(0, 0, 0, 0.23);
+        background-color: #FF9900;
         animation: scale-up 0.2s forwards, scale-out 0.5s;
-        font-size:1.4em;
-        color:white;
+        font-size: 1.4em;
+        color: white;
+        margin: 2vh 1vh 2vh 1vh;
+
+        input {
+            color: white;
+        }
     }
 
     input {
@@ -480,13 +497,21 @@
     }
 
     @keyframes scale-up {
-        from { transform: scale(1.0); }
-        to { transform: scale(1.1);}
+        from {
+            transform: scale(1.0);
+        }
+        to {
+            transform: scale(1.05);
+        }
     }
 
     @keyframes scale-down {
-        from { transform: scale(1.1); }
-        to { transform: scale(1.0);}
+        from {
+            transform: scale(1.05);
+        }
+        to {
+            transform: scale(1.0);
+        }
     }
 
     .settings-box {
@@ -522,10 +547,20 @@
         }
 
         50% {
-            left:92%;
+            left: 92%;
         }
         to {
             z-index: 2;
+        }
+    }
+
+    .clear-fields-button {
+        margin-top: 0.70em;
+        width: 1.1em;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            transform: scale(1.20);
         }
     }
 </style>

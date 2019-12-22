@@ -1,6 +1,8 @@
 <template>
     <div class="footer noselect-nodrag">
-        <p><img title="A propos" src="../assets/icons/question.svg" width="1em"></p>
+        <p style="margin:0">A propos</p>
+        <p style="margin:0"><img alt="about menu" src="../assets/icons/question.svg" title="A propos" width="1em">
+        </p>
     </div>
 </template>
 
