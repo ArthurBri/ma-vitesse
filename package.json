@@ -13,7 +13,8 @@
     "core-js": "^3.4.3",
     "vue": "^2.6.10",
     "express": "latest",
-    "serve-static": "latest"
+    "serve-static": "latest",
+    "compression": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
