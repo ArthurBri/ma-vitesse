@@ -1,20 +1,29 @@
 <template>
     <div class="footer noselect-nodrag">
-        <p style="margin:0">A propos</p>
-        <p style="margin:0"><img alt="about menu" src="../assets/icons/question.svg" title="A propos" width="1em">
-        </p>
+        <span @click="showModalAbout = true" class="about-button">A propos</span>
+        <span class="suggest-button">Proposer une fonctionnalité</span>
+        <about v-show="showModalAbout"/>
     </div>
 </template>
 
 <script>
+    import About from '@/components/About'
+
     export default {
-        name: "Footer"
+        name: "Footer",
+        components: {About},
+        data() {
+            return {
+                showModalAbout: false
+            }
+        }
     }
 </script>
 
 <style scoped>
     .footer {
         text-align: center;
+        padding-top: 3vh;
     }
 
     .noselect-nodrag {
@@ -25,5 +34,20 @@
         user-select: none;
         -webkit-user-drag: none;
         cursor: default;
+    }
+
+    .about-button {
+        background-color: #2C629D;
+        color: white;
+        border-radius: 3px 12px 3px 3px;
+        padding: 0.5vh 0.5vh 0.5vh 0.5vh;
+    }
+
+    .suggest-button {
+        background-color: #FF9900;
+        color: white;
+        margin-left: 20px;
+        border-radius: 3px 12px 3px 3px;
+        padding: 0.5vh 0.5vh 0.5vh 0.5vh;
     }
 </style>

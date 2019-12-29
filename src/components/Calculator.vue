@@ -2,20 +2,56 @@
     <div class="main-box">
         <h2 class="noselect-nodrag" v-if="calculatedField===''">Calculateur de vitesse, de durée, de distance</h2>
         <div class="noselect-nodrag" style="display:flex" v-else>
-            <h2>Calcul de la <span style=" text-decoration: underline;
-  text-decoration-color: #FF9900;">{{ prettyCalculatedField }}</span></h2>
+            <h2>Calcul de la <span class="calculated-label">{{ prettyCalculatedField }}</span></h2>
             <span><img @click="clearFields()" alt="clear field button" class="clear-fields-button"
                        src="../assets/icons/cancel.svg"/></span>
         </div>
         <div class="wrapper">
-            <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                 @click="focusMe('duration')" class="box duration">
-                <label for="duration">Durée</label>
-                <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
-                       @keyup="checkFields"
-                       autocomplete="off" id="duration" ref="duration"
-                       tabindex="1" v-model="duration"/>
-                <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
+            <div class="subbox-distance noselect-nodrag">
+                <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
+                     @click="focusMe('duration')" class="box duration">
+                    <label for="duration">Durée</label>
+
+                    <div class="one-field-mode" v-if="oneFieldMode === true">
+                        <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
+                               @keyup="checkFields"
+                               autocomplete="off" id="duration" ref="duration"
+                               tabindex="1" v-model="duration"/>
+                        <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
+                    </div>
+                    <div class="three-fields-mode" v-if="oneFieldMode === false">
+                        <label>
+                            <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
+                                   @keyup="checkFields" autocomplete="off" placeholder="hh"
+                                   style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
+                                   v-model="durationHours"/>
+                            <span class="noselect-nodrag">:</span>
+                            <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
+                                   @keyup="checkFields" autocomplete="off" placeholder="mm"
+                                   style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
+                                   v-model="durationMinutes"/>
+                            <span class="noselect-nodrag">:</span>
+                            <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
+                                   @keyup="checkFields" autocomplete="off" placeholder="ss"
+                                   style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
+                                   v-model="durationSeconds"/>
+                        </label>
+                    </div>
+                </div>
+                <div @click="oneFieldMode = !oneFieldMode" class="duration-display-switch">
+                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']">
+                        <rect height="5" rx="2" ry="2" style="fill:none;stroke:white;stroke-width:1;" width="5" x="1"
+                              y="1"/>
+                    </svg>
+                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot']">
+                        <rect height="5" rx="2" ry="2" style="fill:none;stroke:white;stroke-width:1;" width="5" x="1"
+                              y="1"/>
+                    </svg>
+                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']">
+                        <rect height="5" rx="2" ry="2" style="fill:none;stroke:white;stroke-width:1;" width="5" x="1"
+                              y="1"/>
+                    </svg>
+                </div>
             </div>
 
             <div class="subbox-distance noselect-nodrag">
@@ -67,6 +103,10 @@
                 duration: '',
                 durationDisplayed: '',
                 durationDisplayedFormat: 'h',
+                oneFieldMode: true,
+                durationHours: '',
+                durationMinutes: '',
+                durationSeconds: '',
                 /* distance */
                 distance: '',
                 presetDistances: '',
@@ -121,7 +161,8 @@
                 distance = distance.replace(',', '.');
                 return distance
             },
-            formatDuration: function (duration) {
+            // nbFields == 1 : hour format, nbFields == 3 : hours, minutes, seconds
+            formatDuration: function (duration, nbReturnedFields = 1) {
                 // hours only
                 if (/^\d+$/.test(duration)) {
                     return duration;
@@ -158,13 +199,16 @@
                     } else if (nbFields === 1) {
                         hours = this.duration.replace('h', '');
                     }
-                    // eslint-disable-next-line no-console
-                    //console.log('h : ' + hours);
-                    // eslint-disable-next-line no-console
-                    //console.log('m : ' + minutes);
-                    // eslint-disable-next-line no-console
-                    //console.log('s : ' + seconds);
-                    return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
+
+                    if (nbReturnedFields === 1) {
+                        return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
+                    } else if (nbReturnedFields === 3) {
+                        return {
+                            'hours': parseFloat(hours),
+                            'minutes': parseFloat(minutes),
+                            'seconds': parseFloat(seconds)
+                        }
+                    }
 
                 }
             },
@@ -197,8 +241,12 @@
                 }
             },
             focusMe: function (field) {
+                // if field clicked eq "distance", shows the preset distances
                 this.showPresetDistances = field === 'distance';
-                this.$refs[field].focus();
+                // exception for threeFieldsMode
+                if (this.oneFieldMode || field !== 'duration') {
+                    this.$refs[field].focus();
+                }
             }
         },
         watch: {
@@ -234,8 +282,11 @@
                     // formatting character for display
                     this.durationDisplayedFormat = ''
                 }
+                let durationInHours = this.formatDuration(this.duration);
+                this.$store.commit('setDuration', durationInHours);
             },
-            distance: function () {
+            distance: function (newVal, oldVal) {
+                console.log("New value: " + newVal + ", Old value: " + oldVal);
                 if (this.distance === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
@@ -245,16 +296,17 @@
                     }
                 } else if (this.calculatedField !== 'distance') {
                     // removing leading zero(s) and filtering for digits only
-                    if (this.distance.match(/^0*((0[,.]?.*)|([1-9].*))/g)) {
+                    if (!this.distance.match(/^0*((0[,.]?.*)|([1-9].*))/g)) {
                         this.distance = this.distance.replace(/^0*((0[,.]?.*)|([1-9].*))/g, '$1');
                     } else {
                         this.distance = ''
                     }
-                    if (this.distance.match(/\d+([.,]\d{0,4})?/g)) {
+                    if (!this.distance.match(/\d+([.,]\d{0,4})?/g)) {
                         this.distance = this.distance.match(/\d+([.,]\d{0,4})?/g)[0];
                     }
                     this.checkFields()
                 }
+                this.$store.commit('setDistance', this.distance);
             },
             speed: function () {
                 if (this.speed === '') {
@@ -279,6 +331,7 @@
                     let seconds = (((1 / this.speed) * 60) % 1) * 60 | 0;
                     this.pace = minutes + ':' + seconds
                 }
+                this.$store.commit('setSpeed', this.speed);
             },
             presetDistances: function () {
                 if (this.calculatedField !== 'distance') {
@@ -303,6 +356,27 @@
                 } else if (this.calculatedField === 'duration') {
                     this.prettyCalculatedField = "durée"
                 }
+            },
+            durationHours: function () {
+                this.durationHours = this.durationHours.replace(/^[0-9]{2}/g, '$1');
+            },
+            durationMinutes: function () {
+                this.duration = this.durationHours + 'h' + this.durationMinutes + 'm' + this.durationSeconds + 's'
+
+            },
+            durationSeconds: function () {
+                this.duration = this.durationHours + 'h' + this.durationMinutes + 'm' + this.durationSeconds + 's'
+
+            },
+            oneFieldMode: function () {
+                if (this.oneFieldMode) {
+                    this.duration = this.durationHours + 'h' + this.durationMinutes + 'm' + this.durationSeconds + 's'
+                } else {
+                    this.durationHours = this.formatDuration(this.duration, 3).hours;
+                    this.durationMinutes = this.formatDuration(this.duration, 3).minutes;
+                    this.durationSeconds = this.formatDuration(this.duration, 3).seconds;
+
+                }
             }
         }
     }
@@ -315,20 +389,10 @@
         background: #2C629D;
         background: linear-gradient(#2C629D, #70a9d2);
         color: white;
-        margin: 0 auto 0 auto;
-        width: 75vw;
-        min-height: 20vh;
         border-radius: 13px;
-        padding: 3vh 3vw 3vh 3vw;
+        padding: 3vh 3vh 3vh 3vh;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
         z-index: 2;
-    }
-
-    .predictions {
-        margin-top: 2vh;
-        background: linear-gradient(#76179d, #cb7cd2);
-        width: 40vw;
-
     }
 
     @media screen and (max-width: 950px) {
@@ -357,13 +421,13 @@
         box-shadow: 0 0 10px rgba(33, 33, 33, .2);
         background-color: white;
         margin: 2vh 1vw 2vh 1vw;
-        padding: 1vh 1vw 1vh 1vw;
+        padding: 1vh 2vw 1vh 2vw;
         color: #2C629D;
         font-size: 1.1em;
-        transition: box-shadow .1s;
+        transition: width .5s;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
     }
 
     .box:hover(:not(calculated)) {
@@ -519,12 +583,39 @@
     }
 
     .clear-fields-button {
-        margin-top: 0.70em;
-        width: 1.1em;
+        margin-left: 0.10em;
+        width: 1em;
         transition: all .2s ease-in-out;
 
         &:hover {
             transform: scale(1.20);
         }
+    }
+
+    .calculated-label {
+        text-decoration: underline;
+        text-decoration-color: #FF9900;
+    }
+
+    .duration-display-switch {
+        position: relative;
+    }
+
+    .dot {
+        position: absolute;
+        left: 50%;
+        transition: 500ms;
+    }
+
+    .dot1threeFieldsMode {
+        position: absolute;
+        left: 45%;
+        transition: 500ms;
+    }
+
+    .dot3threeFieldsMode {
+        position: absolute;
+        left: 55%;
+        transition: 500ms;
     }
 </style>

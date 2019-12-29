@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "no-console": "off"
+  },
+  "extends": "eslint:recommended",
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "codeFrame": false
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

@@ -1,58 +1,41 @@
 <template>
-    <div id="app" class="container">
-        <div class="header noselect-nodrag">
-            <img alt="" src="./assets/logo.svg" width="100"/>
-            <h1 style="margin-left:10px;">Vitesse</h1>
+    <div id="app">
+        <Header/>
+        <div class="container">
+            <Calculator class="calculator"/>
+            <Prediction class="prediction"/>
+            <Settings class="settings" v-if="1 === 2 "/>
         </div>
-        <Calculator/>
-        <!--<div class="main-box">
-            <div class="main-box predictions">
-                <h2 class="noselect-nodrag" v-if="calculatedField===''">Prédictions de course</h2>
-                <span>Estimation de performance à partir des données du calculateur</span>
-            </div>
-            <div class="main-box settings">
-                <spans>Paramètres</spans>
-            </div>
-        </div>
-            <Settings/>-->
         <Footer/>
     </div>
 </template>
 
 <script>
+    import Header from '@/components/Header'
     import Footer from '@/components/Footer'
     import Calculator from '@/components/Calculator'
+    import Prediction from '@/components/Prediction'
+    import Settings from '@/components/Settings'
+
     // TODO : calculer par "pace"
     // TODO : limiter les minutes à 59, secondes à 59 si précédés
+    // TODO : en cas de caractère non souhaité :
+    // > au lieu d'effacer une partie de l'input, "annuler" le change (jouer avec OldVal / NewVal)
+    // > faire "vibrer" l'input, en cas de 3 erreurs successives : pop up de suggestion
     // TODO : réglages : format de la vitesse, "." ou ",", langue dark-mode
 
     /* Fonctionnalités */
     // TODO : suggestion distance proche (marathon, semi-marathon...) à +- 5% de la distance entrée
+
+    /* Prédictions */
     // TODO : estimation temps de course par ajustement pas rapport à une base
 
     export default {
         name: 'app',
-        components: {Calculator, Footer},
+        components: {Prediction, Calculator, Settings, Footer, Header},
         data() {
-            return {
-                /* duration */
-                duration: '',
-                durationDisplayed: '',
-                durationDisplayedFormat: 'h',
-                /* distance */
-                distance: '',
-                presetDistances: '',
-                showPresetDistances: false,
-                /* speed */
-                speed: '',
-                pace: '',
-                speedFormat: 'speed',
-                speedDisplayedFormat: 'km/h',
-                calculatedField: '',
-                prettyCalculatedField: ''
-            };
-        },
-        methods: {}
+            return {}
+        }
     }
 </script>
 
@@ -63,21 +46,62 @@
         -moz-osx-font-smoothing: grayscale;
         color: #2C629D;
         min-width: 100%;
-        overflow-x: hidden;
-        height: 95vh;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .container {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        align-content: start;
+        grid-template-columns: repeat(2, 40vw);
+        grid-template-rows: repeat(3, auto);
+        justify-content: center;
+        grid-column-gap: 2vh;
+        row-gap: 2vh;
+        overflow: auto;
+        height: 80vh;
     }
 
     .header {
-        padding: 3vh 3vw 3vh 1vw;
-        margin: 0 auto 0 auto;
-        width: 75vw;
         display: flex;
-        height: 80px;
         align-items: center;
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+        height: 10vh;
+    }
+
+    .footer {
+        grid-row: 4 / 5;
+        grid-column: 1 / 3;
+        align-self: end;
+        height: 10vh;
+    }
+
+    .calculator {
+        grid-column: 1 / 3;
+        grid-row: 2 / 3;
+    }
+
+    .prediction {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+    }
+
+    .settings {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+
+    }
+
+    h2 {
+        margin: 0;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
     }
 </style>

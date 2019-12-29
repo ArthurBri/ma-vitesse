@@ -14,7 +14,8 @@
     "vue": "^2.6.10",
     "express": "latest",
     "serve-static": "latest",
-    "compression": "latest"
+    "compression": "latest",
+    "tailwindcss": "^1.1.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
@@ -23,24 +24,11 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10",
+    "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
-    "node-sass": "^4.13.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint",
-      "no-console": "off"
-    }
+    "babel-loader": "^8.0.6",
+    "vue-template-compiler": "^2.6.10",
+    "vuex": "^3.1.2"
   },
   "browserslist": [
     "> 1%",
