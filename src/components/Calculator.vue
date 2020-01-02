@@ -176,8 +176,11 @@
                     // dans ce cas, on a des h, des m, des s
                     if (nbFields >= 3) {
                         hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
-                        minutes = this.duration.match(/[:h](\d*)[m:]/g)[0].replace(/[hm:]*/g, '') || 0;
-                        seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[ms:]*/g, '') || 0;
+                        if (this.duration.match(/[:h](\d*)[m:]/g)) {
+                            minutes = this.duration.match(/[:h](\d*)[m:]/g)[0].replace(/[hm:]*/g, '');
+                        }
+                        seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[hms:]*/g, '');
+                        console.log(`seconds ${seconds}`)
                     } else if (nbFields === 2) {
                         // si un h ou un : && !s > calcul h / m
                         if ((this.duration.match(/[:h]/g) || []).length === 1 && (this.duration.match(/[s]/g) || []).length === 0) {
@@ -286,7 +289,6 @@
                 this.$store.commit('setDuration', durationInHours);
             },
             distance: function (newVal, oldVal) {
-                console.log("New value: " + newVal + ", Old value: " + oldVal);
                 if (this.distance === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
@@ -294,21 +296,32 @@
                     } else if (this.calculatedField === 'duration') {
                         this.duration = ''
                     }
+
                 } else if (this.calculatedField !== 'distance') {
-                    // removing leading zero(s) and filtering for digits only
-                    if (!this.distance.match(/^0*((0[,.]?.*)|([1-9].*))/g)) {
-                        this.distance = this.distance.replace(/^0*((0[,.]?.*)|([1-9].*))/g, '$1');
+                    // check leading zero is followed by zero or , / .
+                    if (this.distance.match(/^0{2,}(?![.,])/g)) {
+                        // if yes : cancelling the input
+                        this.distance = oldVal
+                    }
+                    // removing all others leading zeros by
+                    this.distance = this.distance.replace(/^0([0-9]+)/g, '$1');
+
+                    // if distances matches at least partially with the pattern ?
+                    if (this.distance.match(/\d+([.,]\d{0,4})?/g)) {
+                        // if not exactly match
+                        if (this.distance.match(/\d+([.,]\d{0,4})?/g)[0] !== this.distance) {
+                            // cancelling the input
+                            this.distance = oldVal
+                        }
+                        // else : cancelling the input
                     } else {
-                        this.distance = ''
+                        this.distance = oldVal
                     }
-                    if (!this.distance.match(/\d+([.,]\d{0,4})?/g)) {
-                        this.distance = this.distance.match(/\d+([.,]\d{0,4})?/g)[0];
-                    }
-                    this.checkFields()
                 }
+                this.checkFields();
                 this.$store.commit('setDistance', this.distance);
             },
-            speed: function () {
+            speed: function (newVal, oldVal) {
                 if (this.speed === '') {
                     if (this.calculatedField === 'duration') {
                         this.duration = ''
@@ -316,20 +329,25 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
-                    // removing leading zero(s) and filtering for digits only
-                    if (this.speed.match(/^0*((0[,.]?.*)|([1-9].*))/g)) {
-                        this.speed = this.speed.replace(/^0*((0[,.]?.*)|([1-9].*))/g, '$1');
-                    } else {
-                        this.speed = ''
+                    // check leading zero is followed by zero or , / .
+                    if (this.speed.match(/^0{2,}(?![.,])/g)) {
+                        // if yes : cancelling the input
+                        this.speed = oldVal
                     }
+                    // removing all others leading zeros by
+                    this.speed = this.speed.replace(/^0([0-9]+)/g, '$1');
 
+                    // if distances matches at least partially with the pattern ?
                     if (this.speed.match(/\d+([.,]\d{0,4})?/g)) {
-                        this.speed = this.speed.match(/\d+([.,]\d{0,4})?/g)[0];
+                        // if not exactly match
+                        if (this.speed.match(/\d+([.,]\d{0,4})?/g)[0] !== this.speed) {
+                            // cancelling the input
+                            this.speed = oldVal
+                        }
+                        // else : cancelling the input
+                    } else {
+                        this.speed = oldVal
                     }
-                } else if (this.calculatedField === 'speed') {
-                    let minutes = ((1 / this.speed) * 60) | 0;
-                    let seconds = (((1 / this.speed) * 60) % 1) * 60 | 0;
-                    this.pace = minutes + ':' + seconds
                 }
                 this.$store.commit('setSpeed', this.speed);
             },
@@ -358,23 +376,23 @@
                 }
             },
             durationHours: function () {
-                this.durationHours = this.durationHours.replace(/^[0-9]{2}/g, '$1');
             },
             durationMinutes: function () {
-                this.duration = this.durationHours + 'h' + this.durationMinutes + 'm' + this.durationSeconds + 's'
 
             },
             durationSeconds: function () {
-                this.duration = this.durationHours + 'h' + this.durationMinutes + 'm' + this.durationSeconds + 's'
+                console.log(this.durationSeconds)
 
             },
             oneFieldMode: function () {
                 if (this.oneFieldMode) {
-                    this.duration = this.durationHours + 'h' + this.durationMinutes + 'm' + this.durationSeconds + 's'
+                    this.duration = this.durationtHours !== '' ? this.durationHours + 'h' : '';
+                    this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
+                    this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
                 } else {
-                    this.durationHours = this.formatDuration(this.duration, 3).hours;
-                    this.durationMinutes = this.formatDuration(this.duration, 3).minutes;
-                    this.durationSeconds = this.formatDuration(this.duration, 3).seconds;
+                    this.durationHours = this.formatDuration(this.duration, 3).hours || "";
+                    this.durationMinutes = this.formatDuration(this.duration, 3).minutes || "";
+                    this.durationSeconds = this.formatDuration(this.duration, 3).seconds || "";
 
                 }
             }
@@ -386,13 +404,16 @@
 
     .main-box {
         position: relative;
-        background: #2C629D;
-        background: linear-gradient(#2C629D, #70a9d2);
+        background: $ma-primary;
+        background: linear-gradient($ma-primary, #70a9d2);
         color: white;
-        border-radius: 13px;
+        transition: all 0.5s;
+
+        @media (min-device-width: 600px) {
+            border-radius: 13px;
+        }
         padding: 3vh 3vh 3vh 3vh;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
-        z-index: 2;
     }
 
     @media screen and (max-width: 950px) {
@@ -422,7 +443,7 @@
         background-color: white;
         margin: 2vh 1vw 2vh 1vw;
         padding: 1vh 2vw 1vh 2vw;
-        color: #2C629D;
+        color: $ma-primary;
         font-size: 1.1em;
         transition: width .5s;
         display: flex;
@@ -471,17 +492,18 @@
     }
 
     input {
-        color: #2C629D;
+        color: $ma-primary;
     }
 
     input {
         background-color: rgba(0, 0, 0, 0.0);
         font-size: 1em;
         text-align: right;
-        padding-right: 2vw;
+        padding-right: 0.2em;
         border: none;
         width: 100px;
         min-width: 50px;
+        transition: all 0.5s;
     }
 
     input:focus {
@@ -502,7 +524,7 @@
         text-overflow: '';
 
         > option {
-            color: #2C629D;
+            color: $ma-primary;
             text-align: center;
         }
     }
@@ -550,7 +572,7 @@
         justify-content: flex-end;
         top: 20%;
         left: $left-pos;
-        background: #2C629D;
+        background: $ma-primary;
         background: linear-gradient(to left, #9d3077, #70a9d2);
         color: white;
         text-align: center;
@@ -558,7 +580,6 @@
         padding: 1vh 0 1vh 3vw;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
         transition: left 0.5s;
-        z-index: 1;
 
         &:hover {
             left: $left-pos + 1%;
@@ -569,26 +590,14 @@
         }
     }
 
-    @keyframes flip-over {
-        from {
-            z-index: -1;
-        }
-
-        50% {
-            left: 92%;
-        }
-        to {
-            z-index: 2;
-        }
-    }
-
     .clear-fields-button {
         margin-left: 0.10em;
-        width: 1em;
-        transition: all .2s ease-in-out;
+        width: 0.8rem;
+        transition: all .1s ease-in-out;
+        cursor: pointer;
 
         &:hover {
-            transform: scale(1.20);
+            transform: scale(1.05);
         }
     }
 
@@ -602,18 +611,24 @@
     }
 
     .dot {
+        width: 10px;
+        height: 10px;
         position: absolute;
         left: 50%;
         transition: 500ms;
     }
 
     .dot1threeFieldsMode {
+        width: 10px;
+        height: 10px;
         position: absolute;
         left: 45%;
         transition: 500ms;
     }
 
     .dot3threeFieldsMode {
+        width: 10px;
+        height: 10px;
         position: absolute;
         left: 55%;
         transition: 500ms;

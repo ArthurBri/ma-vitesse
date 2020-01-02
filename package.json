@@ -1,6 +1,6 @@
 {
   "name": "ma-vitesse",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "postinstall": "npm run build",
   "start": "node server.js",
@@ -14,8 +14,7 @@
     "vue": "^2.6.10",
     "express": "latest",
     "serve-static": "latest",
-    "compression": "latest",
-    "tailwindcss": "^1.1.4"
+    "compression": "latest"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
@@ -28,7 +27,8 @@
     "sass-loader": "^8.0.0",
     "babel-loader": "^8.0.6",
     "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "tailwindcss": "^1.1.4"
   },
   "browserslist": [
     "> 1%",

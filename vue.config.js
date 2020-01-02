@@ -6,5 +6,12 @@ module.exports = {
                 .filename('[name].[hash].js')
                 .end()
         }
+    },
+    css: {
+        loaderOptions: {
+            sass: {
+                prependData: `@import "@/assets/scss/_variables.scss";`
+            }
+        }
     }
-}
+};

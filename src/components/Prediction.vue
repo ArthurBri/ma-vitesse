@@ -1,8 +1,10 @@
 <template>
-    <div class="box ">
-        <h2 class="noselect-nodrag">Prédictions de course (coeff 1.06)</h2>
-        <span>Estimation de performance à partir des données du calculateur</span>
-        <table class="estimations-table">
+    <div class="box">
+        <div style="display:flex;">
+            <img alt-="prediciton icon" src="../assets/icons/prediction.svg" style="color:white;" width="30px"/>
+            <h2 class="noselect-nodrag">Prédictions de course</h2>
+        </div>
+        <table class="estimations-table" v-if="$store.state.distance !== '' && $store.state.duration !== ''">
             <tr>
                 <th>Distance</th>
                 <th>Temps estimé</th>
@@ -12,6 +14,9 @@
                 <td>{{item.duration}}</td>
             </tr>
         </table>
+        <p style="margin-top:2em;text-align:center" v-else>
+            Effectuer un calcul pour voir les prédictions sur d'autres distances.
+        </p>
     </div>
 </template>
 
@@ -56,17 +61,16 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .box {
         position: relative;
-        background: #2C629D;
+        background: $ma-primary;
         background: linear-gradient(#5b039d, #d273a5);
         color: white;
         min-height: 20vh;
         border-radius: 13px;
         padding: 3vh 3vh 3vh 4vh;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
-        z-index: 2;
     }
 
     .estimations-table {

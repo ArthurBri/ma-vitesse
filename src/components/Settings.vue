@@ -11,10 +11,10 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .box {
         position: relative;
-        background: #2C629D;
+        background: $ma-primary;
         background: linear-gradient(#8a8f9d, rgba(138, 143, 157, 0.12));
         color: white;
         min-height: 20vh;

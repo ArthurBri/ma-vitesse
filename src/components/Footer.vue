@@ -1,8 +1,9 @@
 <template>
-    <div class="footer noselect-nodrag">
-        <span @click="showModalAbout = true" class="about-button">A propos</span>
-        <span class="suggest-button">Proposer une fonctionnalité</span>
-        <about v-show="showModalAbout"/>
+    <div class="footer select-none nodrag bg-grey">
+        <span @click="showModalAbout" class="button">A propos</span>
+        <span class="text-white">|</span>
+        <span class="button">Proposer une fonctionnalité</span>
+        <about @close="closeModal" v-show="isModalAbout"/>
     </div>
 </template>
 
@@ -14,40 +15,43 @@
         components: {About},
         data() {
             return {
-                showModalAbout: false
+                isModalAbout: false
             }
-        }
+        },
+        methods: {
+            showModalAbout() {
+                this.isModalAbout = true;
+            },
+            closeModal() {
+                this.isModalAbout = false;
+            },
+        },
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .footer {
         text-align: center;
         padding-top: 3vh;
+        background-color: $ma-primary;
+
     }
 
-    .noselect-nodrag {
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none;
+    .nodrag {
         -webkit-user-drag: none;
         cursor: default;
     }
 
-    .about-button {
-        background-color: #2C629D;
+    .button {
         color: white;
-        border-radius: 3px 12px 3px 3px;
+        border-radius: 3px 3px 3px 3px;
+        text-decoration: underline $ma-secondary;
         padding: 0.5vh 0.5vh 0.5vh 0.5vh;
+        transition: all 0.5s;
+
+        &:hover {
+            text-decoration: underline white;
+        }
     }
 
-    .suggest-button {
-        background-color: #FF9900;
-        color: white;
-        margin-left: 20px;
-        border-radius: 3px 12px 3px 3px;
-        padding: 0.5vh 0.5vh 0.5vh 0.5vh;
-    }
 </style>
