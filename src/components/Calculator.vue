@@ -1,6 +1,6 @@
 <template>
     <div class="main-box">
-        <h2 class="noselect-nodrag" v-if="calculatedField===''">Calculateur de vitesse, de durée, de distance</h2>
+        <h2 class="noselect-nodrag" v-if="calculatedField === ''">Calculateur de vitesse, de durée, de distance</h2>
         <div class="noselect-nodrag" style="display:flex" v-else>
             <h2>Calcul de la <span class="calculated-label">{{ prettyCalculatedField }}</span></h2>
             <span><img @click="clearFields()" alt="clear field button" class="clear-fields-button"
@@ -12,27 +12,29 @@
                      @click="focusMe('duration')" class="box duration">
                     <label for="duration">Durée</label>
 
-                    <div class="one-field-mode" v-if="oneFieldMode === true">
-                        <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
+                    <div class="one-field-mode" v-if="oneFieldMode">
+                        <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                @keyup="checkFields"
                                autocomplete="off" id="duration" ref="duration"
                                tabindex="1" v-model="duration"/>
                         <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                     </div>
-                    <div class="three-fields-mode" v-if="oneFieldMode === false">
+                    <div class="three-fields-mode" v-show="!oneFieldMode">
                         <label>
-                            <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
-                                   @keyup="checkFields" autocomplete="off" placeholder="hh"
+                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
+                                   @keyup="checkFields" autocomplete="off" placeholder="hh" ref="hours"
                                    style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
                                    v-model="durationHours"/>
                             <span class="noselect-nodrag">:</span>
-                            <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
-                                   @keyup="checkFields" autocomplete="off" placeholder="mm"
+                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
+                                   @keyup="checkFields" @keyup.delete.left="updateCursor('minutes')" autocomplete="off"
+                                   placeholder="mm" ref="minutes"
                                    style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
                                    v-model="durationMinutes"/>
                             <span class="noselect-nodrag">:</span>
-                            <input :disabled="calculatedField === 'duration'" @focus="showPresetDistances = false"
-                                   @keyup="checkFields" autocomplete="off" placeholder="ss"
+                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
+                                   @keyup="checkFields" @keyup.delete.left="updateCursor('seconds')" autocomplete="off"
+                                   placeholder="ss" ref="seconds"
                                    style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
                                    v-model="durationSeconds"/>
                         </label>
@@ -147,6 +149,9 @@
             },
             clearFields() {
                 this.duration = '';
+                this.durationHours = '';
+                this.durationMinutes = '';
+                this.durationSeconds = '';
                 this.speed = '';
                 this.distance = '';
                 this.calculatedField = '';
@@ -164,8 +169,12 @@
             // nbFields == 1 : hour format, nbFields == 3 : hours, minutes, seconds
             formatDuration: function (duration, nbReturnedFields = 1) {
                 // hours only
-                if (/^\d+$/.test(duration)) {
-                    return duration;
+                if (/^\d+$/.test(duration) || duration === "") {
+                    if (nbReturnedFields !== 3) {
+                        return duration
+                    } else {
+                        return {'hours': parseFloat(duration) || ""}
+                    }
                     // hours / minutes / seconds
                 } else {
                     let hours = 0;
@@ -173,14 +182,17 @@
                     let seconds = 0;
 
                     let nbFields = (this.duration.match(/[:mhs]/g) || []).length + 1;
-                    // dans ce cas, on a des h, des m, des s
+                    // dans ce cas, on a des h, des m, des s OU h / m, m / s
                     if (nbFields >= 3) {
-                        hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
-                        if (this.duration.match(/[:h](\d*)[m:]/g)) {
-                            minutes = this.duration.match(/[:h](\d*)[m:]/g)[0].replace(/[hm:]*/g, '');
+                        if (this.duration.match(/(^\d*)[h:]/g)) {
+                            hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '') || 0;
                         }
-                        seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[hms:]*/g, '');
-                        console.log(`seconds ${seconds}`)
+                        if (this.duration.match(/[:h]?(\d*)[m:]/g)) {
+                            minutes = this.duration.match(/[:h]?(\d*)[m:]/g)[0].replace(/[hm:]*/g, '') || 0;
+                        }
+                        if (this.duration.match(/[:mh](\d*)s?$/g)) {
+                            seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[hms:]*/g, '') || 0;
+                        }
                     } else if (nbFields === 2) {
                         // si un h ou un : && !s > calcul h / m
                         if ((this.duration.match(/[:h]/g) || []).length === 1 && (this.duration.match(/[s]/g) || []).length === 0) {
@@ -207,9 +219,9 @@
                         return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
                     } else if (nbReturnedFields === 3) {
                         return {
-                            'hours': parseFloat(hours),
-                            'minutes': parseFloat(minutes),
-                            'seconds': parseFloat(seconds)
+                            'hours': parseFloat(hours) || "",
+                            'minutes': parseFloat(minutes) || "",
+                            'seconds': parseFloat(seconds) || ""
                         }
                     }
 
@@ -245,15 +257,34 @@
             },
             focusMe: function (field) {
                 // if field clicked eq "distance", shows the preset distances
-                this.showPresetDistances = field === 'distance';
+                this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
+
                 // exception for threeFieldsMode
                 if (this.oneFieldMode || field !== 'duration') {
                     this.$refs[field].focus();
                 }
+            },
+            updateCursor: function (ref) {
+                if (ref === 'minutes' && this.$refs[ref].selectionStart === 0) {
+                    this.$refs['hours'].focus();
+                    this.$refs['hours'].setSelectionRange(this.durationHours.length)
+
+                } else if (ref === 'seconds' && this.$refs[ref].selectionStart === 0) {
+                    this.$refs['minutes'].focus();
+                    this.$refs['minutes'].setSelectionRange(this.durationMinutes.length)
+
+                }
+                // si le curseur est à 2, on change de change vers la droite
+                /*if (ref === 'hours' && this.$refs[ref].selectionStart === 2 ) {
+                    this.$refs['minutes'].focus();
+                    this.$refs['minutes'].setSelectionRange(this.minutes.length)
+                } else if (ref === 'minutes' && this.$refs[ref].selectionStart === 2 ) {
+                    this.$refs['seconds'].focus();
+                }*/
             }
         },
         watch: {
-            duration: function () {
+            duration: function (newVal, oldVal) {
                 if (this.duration === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
@@ -266,18 +297,25 @@
                     this.duration = this.duration.replace(/[^0-9,.:hms]/g, '');
                     // removing leading zero(s)
                     this.duration = this.duration.replace(/^0*([1-9]*)/g, '$1');
-                    if (this.duration.match(/(\d{1,4}([h:]|[h:]?$))?(\d{1,2}([m:]|[m:]?$))?(\d{1,2}([s]|[s]?$))?/g)) {
-                        this.duration = this.duration.match(/(\d{1,4}([h:]|[h:]?$))?(\d{1,2}([m:]|[m:]?$))?(\d{1,2}([s]|[s]?$))?/g)[0];
-                        // formatting character for display
-                        if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
-                            this.durationDisplayedFormat = 'm'
-                        } else if ((this.duration.match(/[s]/g) || []).length === 1) {
-                            this.durationDisplayedFormat = ''
-                        } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
-                            this.durationDisplayedFormat = 's'
+
+                    // if duration  matches at least partially with the pattern ?
+                    if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]|[s]?$))?/g)) {
+                        // if not exactly match
+                        if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]|[s]?$))?/g)[0] !== this.duration) {
+                            this.duration = oldVal
                         } else {
-                            this.durationDisplayedFormat = 'h'
+                            // formatting character for display
+                            if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
+                                this.durationDisplayedFormat = 'm'
+                            } else if ((this.duration.match(/[s]/g) || []).length === 1) {
+                                this.durationDisplayedFormat = ''
+                            } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
+                                this.durationDisplayedFormat = 's'
+                            } else {
+                                this.durationDisplayedFormat = 'h'
+                            }
                         }
+                        // else cancelling the input
                     } else {
                         this.duration = ''
                     }
@@ -306,7 +344,7 @@
                     // removing all others leading zeros by
                     this.distance = this.distance.replace(/^0([0-9]+)/g, '$1');
 
-                    // if distances matches at least partially with the pattern ?
+                    // if distance matches at least partially with the pattern ?
                     if (this.distance.match(/\d+([.,]\d{0,4})?/g)) {
                         // if not exactly match
                         if (this.distance.match(/\d+([.,]\d{0,4})?/g)[0] !== this.distance) {
@@ -318,7 +356,6 @@
                         this.distance = oldVal
                     }
                 }
-                this.checkFields();
                 this.$store.commit('setDistance', this.distance);
             },
             speed: function (newVal, oldVal) {
@@ -329,12 +366,12 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
-                    // check leading zero is followed by zero or , / .
+                    // check leading zero is followed by zero, and not by , / .
                     if (this.speed.match(/^0{2,}(?![.,])/g)) {
                         // if yes : cancelling the input
                         this.speed = oldVal
                     }
-                    // removing all others leading zeros by
+                    // removing all others leading zeros
                     this.speed = this.speed.replace(/^0([0-9]+)/g, '$1');
 
                     // if distances matches at least partially with the pattern ?
@@ -375,25 +412,75 @@
                     this.prettyCalculatedField = "durée"
                 }
             },
-            durationHours: function () {
+            durationHours: function (newVal, oldVal) {
+                if (this.durationHours !== '') {
+                    if (this.durationHours.match(/([0-9]?[0-9])/g)) {
+                        // if not exactly match
+                        if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
+                            // cancelling the input
+                            this.durationHours = oldVal
+                        } else if (this.durationHours.match(/([0-9][0-9])/g)) {
+                            this.$refs.minutes.focus();
+                        }
+                    }
+                    // else : cancelling the input
+                    else {
+                        this.durationHours = oldVal
+                    }
+                }
+                this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
+                this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
+                this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
             },
-            durationMinutes: function () {
-
+            durationMinutes: function (newVal, oldVal) {
+                if (this.durationMinutes !== '') {
+                    if (this.durationMinutes.match(/([0-5]?[0-9])/g)) {
+                        // if not exactly match
+                        if (this.durationMinutes.match(/([0-5]?[0-9])/g)[0] !== this.durationMinutes) {
+                            // cancelling the input
+                            this.durationMinutes = oldVal
+                        } else if (this.durationMinutes.match(/([0-5][0-9])/g)) {
+                            if (!this.oneFieldMode) {
+                                this.$refs.seconds.focus();
+                            }
+                        }
+                    }
+                    // else : cancelling the input
+                    else {
+                        this.durationMinutes = oldVal
+                    }
+                }
+                this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
+                this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
+                this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
             },
-            durationSeconds: function () {
-                console.log(this.durationSeconds)
-
+            durationSeconds: function (newVal, oldVal) {
+                if (this.durationSeconds !== '') {
+                    if (this.durationSeconds.match(/([0-5]?[0-9])/g)) {
+                        // if not exactly match
+                        if (this.durationSeconds.match(/([0-5]?[0-9])/g)[0] !== this.durationSeconds) {
+                            // cancelling the input
+                            this.durationSeconds = oldVal
+                        }
+                    }
+                    // else : cancelling the input
+                    else {
+                        this.durationSeconds = oldVal
+                    }
+                }
+                this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
+                this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
+                this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
             },
             oneFieldMode: function () {
                 if (this.oneFieldMode) {
-                    this.duration = this.durationtHours !== '' ? this.durationHours + 'h' : '';
+                    this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
                     this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
                     this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
                 } else {
-                    this.durationHours = this.formatDuration(this.duration, 3).hours || "";
-                    this.durationMinutes = this.formatDuration(this.duration, 3).minutes || "";
-                    this.durationSeconds = this.formatDuration(this.duration, 3).seconds || "";
-
+                    this.durationHours = String((this.formatDuration(this.duration, 3).hours) || "");
+                    this.durationMinutes = String((this.formatDuration(this.duration, 3).minutes) || "");
+                    this.durationSeconds = String((this.formatDuration(this.duration, 3).seconds) || "");
                 }
             }
         }
@@ -408,6 +495,7 @@
         background: linear-gradient($ma-primary, #70a9d2);
         color: white;
         transition: all 0.5s;
+        min-height: 100px;
 
         @media (min-device-width: 600px) {
             border-radius: 13px;
@@ -449,6 +537,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        min-height: 40px;
+
     }
 
     .box:hover(:not(calculated)) {

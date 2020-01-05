@@ -12,10 +12,10 @@
             <p>L'idée repose sur une application qui ne collecte pas de données autre que pour sauvegarder l'historique
                 du coureur (c'est-à-dire en connaissance explicite de cause et sans but financier).</p>
             <p>Le développeur travaille en parmanence pour améliorer l'expérience et les fonctionnalités. </p>
-            <p><b>Développeur ?</b> Contactez-moi pour échanger sur ma vision du projet et définir sa finalité</p>
+            <p><b>Développeur ?</b> Contactez-nous pour échanger sur ma vision du projet et définir sa finalité</p>
             <p>L'application est 100% gratuite et ses fonctions basiques le resterons. Elle bénéficie de mises à jours
                 régulières transparantes pour l'utilisateur (plusieurs par semaine)</p>
-            <p>Ma Vitesse fait partie du groupe d'aplications MApps, une bibliothèque d'outils en devenir basée sur ses
+            <p>Ma Vitesse fait partie du groupe d'aplications MApps, une bibliothèque d'outils en devenir basés sur ces
                 valeurs : modernité, sobriété, simplicité, efficacité, légèreté</p>
             <p>Ces valeurs recoupent avec les valeurs environnementales et éthiques des développeurs.</p>
             <p>Pour soutenir cette application et les MAPS, vous pouvez nous soutenir via Patreon, Paypal</p>
@@ -49,13 +49,6 @@
     }
 </script>
 
-<style scoped>
-    .about {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
+<style lang="scss" scoped>
+
 </style>
