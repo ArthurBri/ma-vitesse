@@ -2,8 +2,8 @@
     <div id="app">
         <Header/>
         <div class="container grid">
-            <Calculator class="calculator"/>
-            <Prediction class="prediction"/>
+            <Calculator class="calculator "/>
+            <Prediction class="prediction "/>
             <Settings class="settings" v-if="1 === 2 "/>
         </div>
         <Footer/>
@@ -35,6 +35,8 @@
         min-width: 100%;
         height: 100vh;
         overflow: hidden;
+        z-index: 0;
+        position: relative;
     }
 
     .container {
@@ -61,7 +63,7 @@
         grid-row: 4 / 5;
         grid-column: 1 / 3;
         align-self: end;
-        height: 10vh;
+        min-height: 300px;
     }
 
     .calculator {

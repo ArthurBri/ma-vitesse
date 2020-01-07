@@ -1,6 +1,6 @@
 <template>
     <transition name="modal-fade">
-        <div class="modal-backdrop" role="dialog" v-on:keyup.enter="close">
+        <div class="modal-backdrop z-10" role="dialog" v-on:keyup.enter="close">
             <div class="modal" ref="modal">
                 <header class="modal-header">
                     <slot name="header"/>

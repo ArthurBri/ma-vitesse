@@ -1,8 +1,9 @@
 <template>
-    <div class="box">
-        <div style="display:flex;">
-            <img alt-="prediciton icon" src="../assets/icons/prediction.svg" style="color:white;" width="30px"/>
-            <h2 class="noselect-nodrag">Prédictions de course</h2>
+    <div class="box p-6">
+        <div class="flex">
+            <img alt="prediction icon" src="../assets/icons/prediction.svg" width="30px"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold">Prédictions de course</h2>
+            <span class="self-top text-xxs bg-white text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
         </div>
         <table class="estimations-table" v-if="$store.state.distance !== '' && $store.state.duration !== ''">
             <tr>
@@ -63,13 +64,11 @@
 
 <style lang="scss" scoped>
     .box {
-        position: relative;
         background: $ma-primary;
         background: linear-gradient(#5b039d, #d273a5);
         color: white;
         min-height: 20vh;
         border-radius: 13px;
-        padding: 3vh 3vh 3vh 4vh;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
     }
 
@@ -86,5 +85,9 @@
 
     td {
         width: 50%;
+    }
+
+    .prediction {
+        fill: white;
     }
 </style>

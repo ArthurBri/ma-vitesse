@@ -1,12 +1,20 @@
 <template>
-    <div class="main-box">
-        <h2 class="noselect-nodrag" v-if="calculatedField === ''">Calculateur de vitesse, de durée, de distance</h2>
-        <div class="noselect-nodrag" style="display:flex" v-else>
-            <h2>Calcul de la <span class="calculated-label">{{ prettyCalculatedField }}</span></h2>
+    <div class="main-box p-6">
+        <div class="flex" v-if="calculatedField === ''">
+            <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold">Calculateur de vitesse, de durée, de
+                distance</h2>
+
+        </div>
+        <div class="noselect-nodrag flex" v-else>
+            <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
+            <h2 class="self-center font-semibold pl-2">Calcul de la <span
+                    class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span></h2>
             <span><img @click="clearFields()" alt="clear field button" class="clear-fields-button"
                        src="../assets/icons/cancel.svg"/></span>
         </div>
         <div class="wrapper">
+            <!-- DURATION -->
             <div class="subbox-distance noselect-nodrag">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('duration')" class="box duration">
@@ -22,18 +30,21 @@
                     <div class="three-fields-mode" v-show="!oneFieldMode">
                         <label>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keyup="checkFields" autocomplete="off" placeholder="hh" ref="hours"
+                                   @keydown.delete.left.right="updateCursor('hours',$event)" @keyup="checkFields"
+                                   autocomplete="off" placeholder="hh" ref="hours"
                                    style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
                                    v-model="durationHours"/>
                             <span class="noselect-nodrag">:</span>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keyup="checkFields" @keyup.delete.left="updateCursor('minutes')" autocomplete="off"
+                                   @keydown.delete.left.right="updateCursor('minutes',$event)" @keyup="checkFields"
+                                   autocomplete="off"
                                    placeholder="mm" ref="minutes"
                                    style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
                                    v-model="durationMinutes"/>
                             <span class="noselect-nodrag">:</span>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keyup="checkFields" @keyup.delete.left="updateCursor('seconds')" autocomplete="off"
+                                   @keydown.delete.left.right="updateCursor('seconds',$event)" @keyup="checkFields"
+                                   autocomplete="off"
                                    placeholder="ss" ref="seconds"
                                    style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
                                    v-model="durationSeconds"/>
@@ -56,6 +67,7 @@
                 </div>
             </div>
 
+            <!-- DISTANCE -->
             <div class="subbox-distance noselect-nodrag">
                 <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('distance')"
@@ -78,8 +90,9 @@
                 </label>
             </div>
 
+            <!-- SPEED -->
             <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
-                 @click="focusMe('speed')" class="box speed" style="position:relative;">
+                 @click="focusMe('speed')" class="box speed">
                 <label for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
                 <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                        @keyup="checkFields" autocomplete="off"
@@ -264,23 +277,35 @@
                     this.$refs[field].focus();
                 }
             },
-            updateCursor: function (ref) {
-                if (ref === 'minutes' && this.$refs[ref].selectionStart === 0) {
-                    this.$refs['hours'].focus();
-                    this.$refs['hours'].setSelectionRange(this.durationHours.length)
-
-                } else if (ref === 'seconds' && this.$refs[ref].selectionStart === 0) {
-                    this.$refs['minutes'].focus();
-                    this.$refs['minutes'].setSelectionRange(this.durationMinutes.length)
-
+            updateCursor: function (ref, event) {
+                // to left management (backspace OR left arrow)
+                if (event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft") {
+                    if (ref === "minutes" && (this.durationMinutes === "" || this.$refs['minutes'].selectionStart === 0)) {
+                        if (this.$refs['minutes'].selectionStart === this.$refs['minutes'].selectionEnd) {
+                            event.preventDefault();
+                            this.$refs['hours'].setSelectionRange(this.durationHours.length, this.durationHours.length)
+                            this.$refs['hours'].focus();
+                        }
+                    }
+                    if (ref === "seconds" && (this.durationSeconds === "" || this.$refs['seconds'].selectionStart === 0)) {
+                        if (this.$refs['seconds'].selectionStart === this.$refs['seconds'].selectionEnd) {
+                            event.preventDefault();
+                            this.$refs['minutes'].setSelectionRange(this.durationMinutes.length, this.durationMinutes.length)
+                            this.$refs['minutes'].focus();
+                        }
+                    }
+                    // to right management
+                } else {
+                    if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
+                        event.preventDefault();
+                        this.$refs['minutes'].setSelectionRange(0, 0)
+                        this.$refs['minutes'].focus();
+                    } else if (ref === 'minutes' && this.$refs[ref].selectionStart === this.durationMinutes.length) {
+                        event.preventDefault();
+                        this.$refs['seconds'].setSelectionRange(0, 0)
+                        this.$refs['seconds'].focus();
+                    }
                 }
-                // si le curseur est à 2, on change de change vers la droite
-                /*if (ref === 'hours' && this.$refs[ref].selectionStart === 2 ) {
-                    this.$refs['minutes'].focus();
-                    this.$refs['minutes'].setSelectionRange(this.minutes.length)
-                } else if (ref === 'minutes' && this.$refs[ref].selectionStart === 2 ) {
-                    this.$refs['seconds'].focus();
-                }*/
             }
         },
         watch: {
@@ -490,17 +515,15 @@
 <style lang="scss" scoped>
 
     .main-box {
-        position: relative;
         background: $ma-primary;
         background: linear-gradient($ma-primary, #70a9d2);
         color: white;
         transition: all 0.5s;
-        min-height: 100px;
+        min-height: 150px;
 
         @media (min-device-width: 600px) {
             border-radius: 13px;
         }
-        padding: 3vh 3vh 3vh 3vh;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
     }
 
@@ -692,12 +715,12 @@
     }
 
     .calculated-label {
-        text-decoration: underline;
         text-decoration-color: #FF9900;
     }
 
     .duration-display-switch {
         position: relative;
+        z-index: 0;
     }
 
     .dot {

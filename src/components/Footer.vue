@@ -1,8 +1,11 @@
 <template>
-    <div class="footer select-none nodrag bg-grey">
-        <span @click="showModalAbout" class="button">A propos</span>
-        <span class="text-white">|</span>
-        <span class="button">Proposer une fonctionnalité</span>
+    <div class="footer flex flex-row justify-center select-none nodrag bg-grey">
+        <!--        <span class="button mr-4">Proposer une fonctionnalité</span>-->
+        <!--        <span class="text-white">|</span>-->
+        <span class="text-white ml-4 mr-2">Soutenir le projet :</span>
+        <a href="https://www.patreon.com/bePatron?u=27939606" target="_blank">
+            <img alt="" class="patreon-button h-6 mr-2 rounded-full" src="../assets/patreon.png"/>
+        </a>
         <about @close="closeModal" v-show="isModalAbout"/>
     </div>
 </template>
@@ -42,15 +45,18 @@
         cursor: default;
     }
 
-    .button {
+    .button, button {
         color: white;
         border-radius: 3px 3px 3px 3px;
         text-decoration: underline $ma-secondary;
-        padding: 0.5vh 0.5vh 0.5vh 0.5vh;
         transition: all 0.5s;
+    }
+
+    .patreon-button {
+        transition: all 0.1s;
 
         &:hover {
-            text-decoration: underline white;
+            transform: scale(1.05);
         }
     }
 
