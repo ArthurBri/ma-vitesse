@@ -1,6 +1,6 @@
 <template>
     <div class="main-box p-6">
-        <div class="flex" v-if="calculatedField === ''">
+        <div class="flex h-8" v-if="calculatedField === ''">
             <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold">Calculateur de vitesse, de durée, de
                 distance</h2>
@@ -283,14 +283,14 @@
                     if (ref === "minutes" && (this.durationMinutes === "" || this.$refs['minutes'].selectionStart === 0)) {
                         if (this.$refs['minutes'].selectionStart === this.$refs['minutes'].selectionEnd) {
                             event.preventDefault();
-                            this.$refs['hours'].setSelectionRange(this.durationHours.length, this.durationHours.length)
+                            this.$refs['hours'].setSelectionRange(this.durationHours.length, this.durationHours.length);
                             this.$refs['hours'].focus();
                         }
                     }
                     if (ref === "seconds" && (this.durationSeconds === "" || this.$refs['seconds'].selectionStart === 0)) {
                         if (this.$refs['seconds'].selectionStart === this.$refs['seconds'].selectionEnd) {
                             event.preventDefault();
-                            this.$refs['minutes'].setSelectionRange(this.durationMinutes.length, this.durationMinutes.length)
+                            this.$refs['minutes'].setSelectionRange(this.durationMinutes.length, this.durationMinutes.length);
                             this.$refs['minutes'].focus();
                         }
                     }
@@ -298,11 +298,11 @@
                 } else {
                     if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
                         event.preventDefault();
-                        this.$refs['minutes'].setSelectionRange(0, 0)
+                        this.$refs['minutes'].setSelectionRange(0, 0);
                         this.$refs['minutes'].focus();
                     } else if (ref === 'minutes' && this.$refs[ref].selectionStart === this.durationMinutes.length) {
                         event.preventDefault();
-                        this.$refs['seconds'].setSelectionRange(0, 0)
+                        this.$refs['seconds'].setSelectionRange(0, 0);
                         this.$refs['seconds'].focus();
                     }
                 }

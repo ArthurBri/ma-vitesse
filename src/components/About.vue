@@ -21,11 +21,11 @@
                 régulières transparentes pour l'utilisateur (jusqu'à plusieurs par semaine).
                 Ma Vitesse fait partie du groupe d'aplications Mean Apps, une bibliothèque d'outils en devenir basée sur
                 ces
-                valeurs : modernité, sobriété, simplicité, efficacité, légèreté
+                valeurs : modernité, sobriété, simplicité, efficacité, légèreté.
                 Ces valeurs recoupent avec les valeurs environnementales et éthiques des développeurs.
-                Pour soutenir cette application et les Mean Apps, vous pouvez nous soutenir via <a class="link"
-                                                                                                   href="https://www.patreon.com/bePatron?u=27939606"
-                                                                                                   target="_blank">Patreon</a>.
+                Pour soutenir cette application et les Mean Apps, vous pouvez allez vers <a class="link"
+                                                                                            href="https://www.patreon.com/bePatron?u=27939606"
+                                                                                            target="_blank">Patreon</a>.
             </p>
         </template>
         <template @click="close" v-slot:footer/>

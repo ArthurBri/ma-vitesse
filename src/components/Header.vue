@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-between justify-left items-center noselect-nodrag ml-8 mt-4 mr-8">
+    <div class="flex flex-row h-16 items-center justify-between justify-left items-center noselect-nodrag ml-8 mt-4 mr-8">
         <div class="mapps-menu flex flex-row">
             <img alt="" class="w-12" src="../assets/logo.svg"/>
             <h1 class="title text-2xl self-center">Vitesse</h1>

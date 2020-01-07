@@ -1,6 +1,6 @@
 <template>
     <div class="box p-6">
-        <div class="flex">
+        <div class="flex h-8">
             <img alt="prediction icon" src="../assets/icons/prediction.svg" width="30px"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold">Prédictions de course</h2>
             <span class="self-top text-xxs bg-white text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
