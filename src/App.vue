@@ -1,26 +1,28 @@
 <template>
     <div id="app">
-        <div class="preloader flex flex-col text-white text-4xl flex justify-center items-center"
-             v-bind:class="!showPreloader ? 'hidden' : ''">
-            <div class="flex">
-                <img alt="" class="w-20 h-20" src="./assets/logo.svg"/>
-                <span class="text-primary self-center">Vitesse</span>
+        <transition name="fade">
+            <div class="preloader flex flex-col text-white text-4xl justify-center items-center" v-if="showPreloader">
+                <div class="flex">
+                    <img alt="" class="w-20 h-20" src="./assets/logo.svg"/>
+                    <span class="text-primary self-center">Vitesse</span>
+                </div>
+                <div class="ml-8 lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div>
+                </div>
             </div>
-            <div class="ml-8 lds-ellipsis">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div>
-
-            </div>
-        </div>
+        </transition>
         <div v-if="!showPreloader">
             <Header/>
             <div class="container grid">
                 <Calculator class="calculator "/>
-                <Prediction class="prediction "/>
+                <transition name="fade">
+                    <Prediction @close="showPredictions = false" class="prediction" v-if="showPredictions"/>
+                </transition>
                 <Settings class="settings" v-if="1 === 2 "/>
             </div>
             <Footer/>
@@ -40,7 +42,8 @@
         components: {Prediction, Calculator, Settings, Footer, Header},
         data() {
             return {
-                showPreloader: true
+                showPreloader: true,
+                showPredictions: true
             }
         },
         mounted() {
@@ -67,8 +70,10 @@
     .preloader {
         width: 100%;
         height: 100%;
+        background-color: white;
         position: absolute;
         z-index: 10;
+        transition: all 5s;
     }
 
     .container {
@@ -182,10 +187,13 @@
         }
     }
 
-    .hidden {
-        visibility: hidden;
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 0.5s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
         opacity: 0;
-        transition: fade 0s 2s, opacity 2s linear;
     }
 
 </style>

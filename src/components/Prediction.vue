@@ -1,9 +1,15 @@
 <template>
-    <div class="box p-6">
-        <div class="flex h-8">
-            <img alt="prediction icon" src="../assets/icons/prediction.svg" width="30px"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold">Prédictions de course</h2>
-            <span class="self-top text-xxs bg-white text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
+    <div class="box p-4">
+        <div class="flex justify-between">
+            <div class="flex h-8 ml-2 mt-2">
+                <img alt="prediction icon w-8" src="../assets/icons/prediction.svg" width="30px"/>
+                <h2 class="noselect-nodrag self-center pl-2 font-semibold">Prédictions de course</h2>
+                <span class="self-top text-xxs bg-white text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
+            </div>
+            <div class="w-4 h-4 filter">
+                <img @click="close" alt="hide predictions" class="noselect-nodrag close-icon"
+                     src="../assets/icons/cancel.svg"/>
+            </div>
         </div>
         <table class="estimations-table" v-if="$store.state.distance !== '' && $store.state.duration !== ''">
             <tr>
@@ -51,6 +57,9 @@
                     prettyDuration += (seconds + 's')
                 }
                 return prettyDuration
+            },
+            close() {
+                this.$emit('close');
             }
         }
     }
@@ -81,7 +90,13 @@
         width: 50%;
     }
 
-    .prediction {
-        fill: white;
+    .filter {
+        -webkit-filter: brightness(0) invert(1);
+        filter: brightness(0) invert(1);
+    }
+
+    .close-icon:hover {
+        transform: scale(1.1);
+        cursor: pointer;
     }
 </style>

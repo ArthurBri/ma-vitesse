@@ -32,7 +32,7 @@
                             <!-- Fields for 3 fields mode -->
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                    @keydown.delete.left.right="updateCursor('hours',$event)" @keyup="checkFields"
-                                   autocomplete="off" placeholder="hh" ref="hours"
+                                   :plaholder="'cc'" autocomplete="off" placeholder="hh" ref="hours"
                                    style="text-align: center; width:20px;padding-right: 5px;"
                                    tabindex="1"
                                    v-model="durationHours"/>
@@ -152,28 +152,34 @@
                 speedFormat: 'speed',
                 speedDisplayedFormat: 'km/h',
                 calculatedField: '',
-                prettyCalculatedField: ''
+                prettyCalculatedField: '',
+                separator: '.'
             };
         },
         methods: {
             checkFields() {
+                // separator set depending the one used in input
+                this.separator = (this.distance + this.speed).includes(",") ? "," : ".";
                 if (this.duration !== '' && this.distance !== '' && (this.speed === '' || this.calculatedField === 'speed')) {
                     this.calculatedField = 'speed';
                     this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.duration))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '');
+                        .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
                     this.speed = this.speed === '' ? '< 0.001km/h' : this.speed;
                 } else if (this.distance !== '' && this.speed !== '' && (this.duration === '' || this.calculatedField === 'duration')) {
                     this.calculatedField = 'duration';
-                    this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
+                    this.duration = this.prettyDuration(this.formatDistance(this.distance) / this.formatSpeed(this.speed))
                         .toFixed(3)
-                        .replace(/\.?0+$/, ''));
+                        .replace(/\.?0+$/, '');
                     this.duration = this.duration === '' ? '< 1sec' : this.duration;
+                    this.durationHours = String(this.formatDuration(this.duration, 3).hours);
+                    this.durationMinutes = String(this.formatDuration(this.duration, 3).minutes);
+                    this.durationSeconds = String(this.formatDuration(this.duration, 3).seconds);
                 } else if (this.speed !== '' && this.duration !== '' && (this.distance === '' || this.calculatedField === 'distance')) {
                     this.calculatedField = 'distance';
                     this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.duration))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '');
+                        .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
                     this.distance = this.distance === '' ? '< 0.001m' : this.distance;
                 } else {
                     this.calculatedField = ''
@@ -780,7 +786,7 @@
         width: 5px;
         height: 5px;
         position: absolute;
-        left: 50%;
+        left: calc(50% - 2.5px);
         transition: 500ms;
     }
 
@@ -788,7 +794,7 @@
         width: 5px;
         height: 5px;
         position: absolute;
-        left: 20%;
+        left: calc(20% - 2.5px);
         transition: 500ms;
     }
 
@@ -796,7 +802,7 @@
         width: 5px;
         height: 5px;
         position: absolute;
-        left: 80%;
+        left: calc(80% - 2.5px);
         transition: 500ms;
     }
 </style>
