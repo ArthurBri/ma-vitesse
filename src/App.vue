@@ -1,12 +1,30 @@
 <template>
     <div id="app">
-        <Header/>
-        <div class="container grid">
-            <Calculator class="calculator "/>
-            <Prediction class="prediction "/>
-            <Settings class="settings" v-if="1 === 2 "/>
+        <div class="preloader flex flex-col text-white text-4xl flex justify-center items-center"
+             v-bind:class="!showPreloader ? 'hidden' : ''">
+            <div class="flex">
+                <img alt="" class="w-20 h-20" src="./assets/logo.svg"/>
+                <span class="text-primary self-center">Vitesse</span>
+            </div>
+            <div class="ml-8 lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div>
+
+            </div>
         </div>
-        <Footer/>
+        <div v-if="!showPreloader">
+            <Header/>
+            <div class="container grid">
+                <Calculator class="calculator "/>
+                <Prediction class="prediction "/>
+                <Settings class="settings" v-if="1 === 2 "/>
+            </div>
+            <Footer/>
+        </div>
     </div>
 </template>
 
@@ -21,7 +39,14 @@
         name: 'app',
         components: {Prediction, Calculator, Settings, Footer, Header},
         data() {
-            return {}
+            return {
+                showPreloader: true
+            }
+        },
+        mounted() {
+            setTimeout(() => {
+                this.showPreloader = false;
+            }, 800)
         }
     }
 </script>
@@ -37,6 +62,13 @@
         overflow: hidden;
         z-index: 0;
         position: relative;
+    }
+
+    .preloader {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 10;
     }
 
     .container {
@@ -72,7 +104,7 @@
     }
 
     .prediction {
-        grid-column: 1 / 2;
+        grid-column: 1 / 3;
         grid-row: 3 / 4;
     }
 
@@ -85,4 +117,75 @@
     h2, h1, p {
         margin: 0;
     }
+
+    .lds-ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+    }
+
+    .lds-ellipsis div {
+        position: absolute;
+        top: 33px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: $ma-primary;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+
+    .lds-ellipsis div:nth-child(1) {
+        left: 8px;
+        animation: lds-ellipsis1 0.6s infinite;
+    }
+
+    .lds-ellipsis div:nth-child(2) {
+        left: 8px;
+        animation: lds-ellipsis2 0.6s infinite;
+    }
+
+    .lds-ellipsis div:nth-child(3) {
+        left: 32px;
+        animation: lds-ellipsis2 0.6s infinite;
+    }
+
+    .lds-ellipsis div:nth-child(4) {
+        left: 56px;
+        animation: lds-ellipsis3 0.6s infinite;
+    }
+
+    @keyframes lds-ellipsis1 {
+        0% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes lds-ellipsis3 {
+        0% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(0);
+        }
+    }
+
+    @keyframes lds-ellipsis2 {
+        0% {
+            transform: translate(0, 0);
+        }
+        100% {
+            transform: translate(24px, 0);
+        }
+    }
+
+    .hidden {
+        visibility: hidden;
+        opacity: 0;
+        transition: fade 0s 2s, opacity 2s linear;
+    }
+
 </style>

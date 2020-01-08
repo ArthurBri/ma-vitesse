@@ -6,7 +6,7 @@
                 distance</h2>
 
         </div>
-        <div class="noselect-nodrag flex" v-else>
+        <div class="noselect-nodrag flex h-8" v-else>
             <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
             <h2 class="self-center font-semibold pl-2">Calcul de la <span
                     class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span></h2>
@@ -15,95 +15,115 @@
         </div>
         <div class="wrapper">
             <!-- DURATION -->
-            <div class="subbox-distance noselect-nodrag">
+            <div class="flex flex-col noselect-nodrag items-center">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('duration')" class="box duration">
+                     @click="focusMe('duration')" class="box self-stretch justify-between">
                     <label for="duration">Durée</label>
-
                     <div class="one-field-mode" v-if="oneFieldMode">
+                        <!-- Field for 1 field mode -->
                         <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                @keyup="checkFields"
                                autocomplete="off" id="duration" ref="duration"
                                tabindex="1" v-model="duration"/>
                         <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                     </div>
-                    <div class="three-fields-mode" v-show="!oneFieldMode">
+                    <div class="flex" v-show="!oneFieldMode">
                         <label>
+                            <!-- Fields for 3 fields mode -->
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                    @keydown.delete.left.right="updateCursor('hours',$event)" @keyup="checkFields"
                                    autocomplete="off" placeholder="hh" ref="hours"
-                                   style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
+                                   style="text-align: center; width:20px;padding-right: 5px;"
+                                   tabindex="1"
                                    v-model="durationHours"/>
                             <span class="noselect-nodrag">:</span>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                    @keydown.delete.left.right="updateCursor('minutes',$event)" @keyup="checkFields"
-                                   autocomplete="off"
-                                   placeholder="mm" ref="minutes"
-                                   style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
+                                   autocomplete="off" placeholder="mm" ref="minutes"
+                                   style="text-align: center; width:20px;padding-right: 5px;"
+                                   tabindex="1"
                                    v-model="durationMinutes"/>
                             <span class="noselect-nodrag">:</span>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                    @keydown.delete.left.right="updateCursor('seconds',$event)" @keyup="checkFields"
-                                   autocomplete="off"
-                                   placeholder="ss" ref="seconds"
-                                   style="width:20px;text-align:center;padding-right: 5px;" tabindex="1"
+                                   autocomplete="off" placeholder="ss" ref="seconds"
+                                   style="text-align: center; width:20px;padding-right: 5px;"
+                                   tabindex="1"
                                    v-model="durationSeconds"/>
                         </label>
                     </div>
                 </div>
-                <div @click="oneFieldMode = !oneFieldMode" class="duration-display-switch">
+                <div @click="oneFieldMode = !oneFieldMode"
+                     class="duration-display-switch w-20 h-8 border rounded flex items-center cursor-pointer noselect-nodrag">
                     <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']">
-                        <rect height="5" rx="2" ry="2" style="fill:none;stroke:white;stroke-width:1;" width="5" x="1"
-                              y="1"/>
+                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
+                              x="0"
+                              y="0"/>
                     </svg>
                     <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot']">
-                        <rect height="5" rx="2" ry="2" style="fill:none;stroke:white;stroke-width:1;" width="5" x="1"
-                              y="1"/>
+                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
+                              x="0"
+                              y="0"/>
                     </svg>
                     <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']">
-                        <rect height="5" rx="2" ry="2" style="fill:none;stroke:white;stroke-width:1;" width="5" x="1"
-                              y="1"/>
+                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
+                              x="0"
+                              y="0"/>
                     </svg>
                 </div>
             </div>
 
             <!-- DISTANCE -->
-            <div class="subbox-distance noselect-nodrag">
+            <div class="flex flex-col noselect-nodrag items-center">
                 <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('distance')"
-                     class="box distance">
+                     class="box distance self-stretch justify-between">
                     <label for="distance">Distance</label>
-                    <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
-                           @keyup="checkFields" autocomplete="off"
-                           id="distance" name="distance" onblur=""
-                           ref="distance" tabindex="2"
-                           v-model="distance"/>
-                    <span class="noselect-nodrag">km</span>
+                    <div>
+                        <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
+                               @keyup="checkFields" autocomplete="off"
+                               id="distance" name="distance" onblur=""
+                               ref="distance" tabindex="2"
+                               v-model="distance"/>
+                        <span class="noselect-nodrag">km</span>
+                    </div>
                 </div>
                 <label>
-                    <select v-model="presetDistances" v-show="showPresetDistances">
+                    <select class="border p-1 rounded" v-model="presetDistances" v-show="showPresetDistances">
                         <option disabled value="">Distances officielles</option>
-                        <option>Marathon</option>
-                        <option>Semi-Marathon</option>
-                        <option>10km</option>
+                        <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
+                            {{ preset.label }}
+                        </option>
                     </select>
                 </label>
             </div>
 
             <!-- SPEED -->
-            <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
-                 @click="focusMe('speed')" class="box speed">
-                <label for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
-                <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                       @keyup="checkFields" autocomplete="off"
-                       id="speed" name="speed" ref="speed" tabindex="3"
-                       v-if="speedFormat === 'speed'" v-model="speed"/>
-                <label for="pace" v-if="speedFormat === 'pace'">Allure</label>
-                <input :disabled="calculatedField === 'pace'" @focus="showPresetDistances = false"
-                       @keyup="checkFields" autocomplete="off" id="pace" name="speed"
-                       placeholder="Rythme" v-if="speedFormat === 'pace'" v-model="pace"/>
-                <span class="noselect-nodrag" v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
+            <div class="flex flex-col items-center">
+                <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
+                     @click="focusMe('speed')" class="box speed self-stretch justify-between">
+                    <label for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
+                    <label for="pace" v-if="speedFormat === 'pace'">Allure</label>
+                    <div>
+                        <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                               @keydown.up="upspeed" @keyup="checkFields" autocomplete="off"
+                               id="speed" name="speed" ref="speed" tabindex="3"
+                               v-if="speedFormat === 'speed'" v-model="speed"/>
+                        <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                               @keyup="checkFields" autocomplete="off" id="pace" name="speed" ref="speed"
+                               v-if="speedFormat === 'pace'" v-model="pace"/>
+                        <span class=""
+                              v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
+                    </div>
+                </div>
+                <div @click="changeSpeedFormat" class="flex border p-1 rounded h-8 noselect-nodrag cursor-pointer">
+                    <img alt="switch between pace and speed" class="w-5 mr-1 noselect-nodrag"
+                         src="../assets/icons/arrows.svg"/>
+                    <span v-if="speedFormat === 'speed'">Allure</span>
+                    <span v-if="speedFormat === 'pace'">Vitesse</span>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -111,7 +131,7 @@
 
 <script>
     export default {
-        name: "Calculator.vue",
+        name: "Calculator",
         data() {
             return {
                 /* duration */
@@ -148,7 +168,6 @@
                     this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
                         .toFixed(3)
                         .replace(/\.?0+$/, ''));
-                    // eslint-disable-next-line no-console
                     this.duration = this.duration === '' ? '< 1sec' : this.duration;
                 } else if (this.speed !== '' && this.duration !== '' && (this.distance === '' || this.calculatedField === 'distance')) {
                     this.calculatedField = 'distance';
@@ -176,8 +195,7 @@
 
             },
             formatDistance(distance) {
-                distance = distance.replace(',', '.');
-                return distance
+                return distance.replace(',', '.');
             },
             // nbFields == 1 : hour format, nbFields == 3 : hours, minutes, seconds
             formatDuration: function (duration, nbReturnedFields = 1) {
@@ -258,14 +276,14 @@
                 return prettyDuration
             },
             changeSpeedFormat: function () {
-                if (this.calculatedField === 'speed') {
-                    if (this.speedFormat === 'speed') {
-                        this.speedFormat = 'pace';
-                        this.speedDisplayedFormat = 'min/km';
-                    } else {
-                        this.speedFormat = 'speed';
-                        this.speedDisplayedFormat = 'km/h';
-                    }
+                if (this.speedFormat === 'speed') {
+                    this.speedFormat = 'pace';
+                    this.pace = this.speedToPace(this.speed);
+                    this.speedDisplayedFormat = 'min/km';
+                } else {
+                    this.speedFormat = 'speed';
+                    this.speed = this.paceToSpeed(this.pace);
+                    this.speedDisplayedFormat = 'km/h';
                 }
             },
             focusMe: function (field) {
@@ -306,6 +324,32 @@
                         this.$refs['seconds'].focus();
                     }
                 }
+            },
+            paceToSpeed: function (pace) {
+                if (pace !== "") {
+                    let minutes = 0;
+                    let seconds = 0;
+                    if (pace.match(/(^\d{1,2})[:]?/g)) {
+                        minutes = pace.match(/(\d{1,2})[:]?/)[1];
+                    }
+                    if (pace.match(/[:](\d{1,2})/g)) {
+                        seconds = pace.match(/[:](\d{1,2})?/)[1];
+                    }
+                    let speed = 60 / (parseInt(minutes) + parseInt(seconds) / 60);
+                    return speed.toFixed(3).replace(/\.?0+$/, '');
+                } else return "";
+            },
+            speedToPace: function (speed) {
+                if (speed !== "") {
+                    let pace = 60 / speed;
+                    let minutes = pace | 0;
+                    let seconds = ((pace % 1) * 60) | 0;
+                    seconds = seconds < 10 && seconds > 0 ? '0' + seconds : seconds;
+                    seconds = seconds === 0 ? "00" : seconds;
+                    return minutes + ":" + seconds
+                } else return "";
+
+
             }
         },
         watch: {
@@ -352,6 +396,14 @@
                 this.$store.commit('setDuration', durationInHours);
             },
             distance: function (newVal, oldVal) {
+                if (this.$store.state.defaultDistances.find(defaultDist =>
+                    defaultDist.distance === this.distance)) {
+                    this.presetDistances = this.$store.state.defaultDistances.find(defaultDist =>
+                        defaultDist.distance === this.distance).label;
+                } else {
+                    this.presetDistances = ""
+                }
+
                 if (this.distance === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
@@ -399,7 +451,7 @@
                     // removing all others leading zeros
                     this.speed = this.speed.replace(/^0([0-9]+)/g, '$1');
 
-                    // if distances matches at least partially with the pattern ?
+                    // if speed matches at least partially with the pattern ?
                     if (this.speed.match(/\d+([.,]\d{0,4})?/g)) {
                         // if not exactly match
                         if (this.speed.match(/\d+([.,]\d{0,4})?/g)[0] !== this.speed) {
@@ -413,18 +465,44 @@
                 }
                 this.$store.commit('setSpeed', this.speed);
             },
+            pace: function (newVal, oldVal) {
+                if (this.pace === '') {
+                    if (this.calculatedField === 'speed') {
+                        this.speed = '';
+                        this.pace = ''
+                    } else if (this.calculatedField === 'duration') {
+                        this.duration = ''
+                    } else if (this.calculatedField === 'distance') {
+                        this.distance = ''
+                    }
+                }
+
+                if (this.pace !== "") {
+                    // check leading zero is followed by zero, and not by =
+                    if (this.pace.match(/^0{2,}(?![:])?/g)) {
+                        // if yes : cancelling the input
+                        this.pace = oldVal;
+                    }
+                    // if pace matches at least partially with the pattern ?
+                    if (this.pace.match(/(\d{1,2}:(\d{1,2})?)|(:?\d{1,2})|:/g)) {
+                        // if not exactly match
+                        if (this.pace.match(/(\d{1,2}:(\d{1,2})?)|(:?\d{1,2})|:/g)[0] !== this.pace) {
+                            // cancelling the input
+                            this.pace = oldVal
+                        }
+                        // else : cancelling the input
+                    } else {
+                        this.pace = oldVal
+                    }
+                }
+                this.speed = this.paceToSpeed(this.pace)
+            },
             presetDistances: function () {
                 if (this.calculatedField !== 'distance') {
-                    switch (this.presetDistances) {
-                        case 'Marathon':
-                            this.distance = "42,195";
-                            break;
-                        case 'Semi-Marathon' :
-                            this.distance = "21,0975";
-                            break;
-                        case '10km' :
-                            this.distance = "10";
-                            break;
+                    if (this.$store.state.defaultDistances.find(defaultDist =>
+                        defaultDist.label === this.presetDistances)) {
+                        this.distance = this.$store.state.defaultDistances.find(defaultDist =>
+                            defaultDist.label === this.presetDistances).distance;
                     }
                 }
             },
@@ -519,7 +597,6 @@
         background: linear-gradient($ma-primary, #70a9d2);
         color: white;
         transition: all 0.5s;
-        min-height: 150px;
 
         @media (min-device-width: 600px) {
             border-radius: 13px;
@@ -582,19 +659,6 @@
         padding-bottom: 5px;
     }
 
-    .duration {
-        order: 1;
-    }
-
-    .subbox-distance {
-        order: 2;
-        text-align: center;
-    }
-
-    .speed {
-        order: 3;
-    }
-
     .calculated {
         box-shadow: 0 8px 15px #FF9900, 0 6px 6px rgba(0, 0, 0, 0.23);
         background-color: #FF9900;
@@ -625,10 +689,7 @@
 
     select {
         background-color: rgba(0, 0, 0, 0.0);
-        border: 1px white solid;
-        border-radius: 5px;
         text-align: center;
-        padding: 5px 5px 5px 5px;
         font-size: 1em;
         color: white;
         -webkit-appearance: none;
@@ -644,15 +705,6 @@
 
     select:focus {
         outline: none;
-    }
-
-    .noselect-nodrag {
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none;
-        cursor: default;
     }
 
     h1 {
@@ -721,29 +773,30 @@
     .duration-display-switch {
         position: relative;
         z-index: 0;
+
     }
 
     .dot {
-        width: 10px;
-        height: 10px;
+        width: 5px;
+        height: 5px;
         position: absolute;
         left: 50%;
         transition: 500ms;
     }
 
     .dot1threeFieldsMode {
-        width: 10px;
-        height: 10px;
+        width: 5px;
+        height: 5px;
         position: absolute;
-        left: 45%;
+        left: 20%;
         transition: 500ms;
     }
 
     .dot3threeFieldsMode {
-        width: 10px;
-        height: 10px;
+        width: 5px;
+        height: 5px;
         position: absolute;
-        left: 55%;
+        left: 80%;
         transition: 500ms;
     }
 </style>

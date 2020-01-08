@@ -3,8 +3,10 @@
         <!--        <span class="button mr-4">Proposer une fonctionnalité</span>-->
         <!--        <span class="text-white">|</span>-->
         <span class="text-white ml-4 mr-2">Soutenir le projet :</span>
-        <a href="https://www.patreon.com/bePatron?u=27939606" target="_blank">
-            <img alt="" class="patreon-button h-6 mr-2 rounded-full" src="../assets/patreon.png"/>
+        <a class="noselect-nodrag h-8 outline-none" href="https://www.patreon.com/bePatron?u=27939606" tabindex="-1"
+           target="_blank">
+            <img alt="" class="patreon-button h-6 mr-2 rounded-full noselect-nodrag cursor-pointer"
+                 src="../assets/patreon.png"/>
         </a>
         <about @close="closeModal" v-show="isModalAbout"/>
     </div>
