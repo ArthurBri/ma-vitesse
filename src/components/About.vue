@@ -2,7 +2,7 @@
     <modal @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <h2>A propos</h2>
-            <p>v{{ version }}</p>
+            <p class="font-light text-base">v{{ version }}</p>
         </template>
         <template v-slot:body>
             <p class="ml-5 mr-5 mb-5 text-base text-justify">Ma Vitesse est une application légère, intelligente et

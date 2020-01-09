@@ -1,8 +1,8 @@
 <template>
     <transition name="modal-fade">
-        <div class="modal-backdrop z-10" role="dialog" v-on:keyup.enter="close">
+        <div class="modal-backdrop z-10" role="dialog">
             <div class="modal" ref="modal">
-                <header class="modal-header">
+                <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
                 </header>
                 <section class="modal-body">

@@ -22,7 +22,7 @@
                     <div class="one-field-mode" v-if="oneFieldMode">
                         <!-- Field for 1 field mode -->
                         <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                               @keyup="checkFields"
+                               @keyup="checkFields($event)"
                                autocomplete="off" id="duration" ref="duration"
                                tabindex="1" v-model="duration"/>
                         <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
@@ -31,21 +31,24 @@
                         <label>
                             <!-- Fields for 3 fields mode -->
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keydown.delete.left.right="updateCursor('hours',$event)" @keyup="checkFields"
+                                   @keydown.delete.left.right="updateCursor('hours',$event)"
+                                   @keyup="checkFields($event)"
                                    :plaholder="'cc'" autocomplete="off" placeholder="hh" ref="hours"
                                    style="text-align: center; width:20px;padding-right: 5px;"
                                    tabindex="1"
                                    v-model="durationHours"/>
                             <span class="noselect-nodrag">:</span>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keydown.delete.left.right="updateCursor('minutes',$event)" @keyup="checkFields"
+                                   @keydown.delete.left.right="updateCursor('minutes',$event)"
+                                   @keyup="checkFields($event)"
                                    autocomplete="off" placeholder="mm" ref="minutes"
                                    style="text-align: center; width:20px;padding-right: 5px;"
                                    tabindex="1"
                                    v-model="durationMinutes"/>
                             <span class="noselect-nodrag">:</span>
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keydown.delete.left.right="updateCursor('seconds',$event)" @keyup="checkFields"
+                                   @keydown.delete.left.right="updateCursor('seconds',$event)"
+                                   @keyup="checkFields($event)"
                                    autocomplete="off" placeholder="ss" ref="seconds"
                                    style="text-align: center; width:20px;padding-right: 5px;"
                                    tabindex="1"
@@ -81,7 +84,7 @@
                     <label for="distance">Distance</label>
                     <div>
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
-                               @keyup="checkFields" autocomplete="off"
+                               @keyup="checkFields($event)" autocomplete="off"
                                id="distance" name="distance" onblur=""
                                ref="distance" tabindex="2"
                                v-model="distance"/>
@@ -89,7 +92,8 @@
                     </div>
                 </div>
                 <label>
-                    <select class="border p-1 rounded" v-model="presetDistances" v-show="showPresetDistances">
+                    <select @change="checkFields" class="border p-1 rounded" v-model="presetDistances"
+                            v-show="showPresetDistances">
                         <option disabled value="">Distances officielles</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
@@ -106,11 +110,11 @@
                     <label for="pace" v-if="speedFormat === 'pace'">Allure</label>
                     <div>
                         <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                               @keydown.up="upspeed" @keyup="checkFields" autocomplete="off"
+                               @keyup="checkFields($event)" autocomplete="off"
                                id="speed" name="speed" ref="speed" tabindex="3"
                                v-if="speedFormat === 'speed'" v-model="speed"/>
                         <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                               @keyup="checkFields" autocomplete="off" id="pace" name="speed" ref="speed"
+                               @keyup="checkFields($event)" autocomplete="off" id="pace" name="speed" ref="speed"
                                v-if="speedFormat === 'pace'" v-model="pace"/>
                         <span class=""
                               v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
@@ -157,25 +161,38 @@
             };
         },
         methods: {
-            checkFields() {
+            checkFields(event) {
+                if (event) {
+                    if (event.key === 'Shift') {
+                        return
+                    }
+                }
                 // separator set depending the one used in input
-                this.separator = (this.distance + this.speed).includes(",") ? "," : ".";
-                if (this.duration !== '' && this.distance !== '' && (this.speed === '' || this.calculatedField === 'speed')) {
+                if (this.calculatedField === 'distance') {
+                    this.separator = (this.speed).includes(",") ? "," : ".";
+                } else {
+                    this.separator = (this.distance).includes(",") ? "," : ".";
+                }
+                // SPEED calculation
+                if (this.duration !== '' && this.distance !== '' && ((this.speed === '' && this.pace === '') || this.calculatedField === 'speed')) {
                     this.calculatedField = 'speed';
                     this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.duration))
                         .toFixed(3)
                         .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
                     this.speed = this.speed === '' ? '< 0.001km/h' : this.speed;
-                } else if (this.distance !== '' && this.speed !== '' && (this.duration === '' || this.calculatedField === 'duration')) {
+                    this.pace = this.speedToPace(this.speed)
+                    // DURATION calculation
+                } else if (this.distance !== '' && (this.speed !== '' || this.pace !== '') && (this.duration === '' || this.calculatedField === 'duration')) {
                     this.calculatedField = 'duration';
-                    this.duration = this.prettyDuration(this.formatDistance(this.distance) / this.formatSpeed(this.speed))
+                    this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
                         .toFixed(3)
-                        .replace(/\.?0+$/, '');
+                        .replace(/\.?0+$/, ''));
                     this.duration = this.duration === '' ? '< 1sec' : this.duration;
                     this.durationHours = String(this.formatDuration(this.duration, 3).hours);
                     this.durationMinutes = String(this.formatDuration(this.duration, 3).minutes);
                     this.durationSeconds = String(this.formatDuration(this.duration, 3).seconds);
-                } else if (this.speed !== '' && this.duration !== '' && (this.distance === '' || this.calculatedField === 'distance')) {
+                    // DISTANCE calculation
+                } else if ((this.speed !== '' || this.pace !== '') && this.duration !== '' && (this.distance === '' || this.calculatedField === 'distance')) {
                     this.calculatedField = 'distance';
                     this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.duration))
                         .toFixed(3)
@@ -190,15 +207,15 @@
                 this.durationHours = '';
                 this.durationMinutes = '';
                 this.durationSeconds = '';
+                this.presetDistances = '';
                 this.speed = '';
+                this.pace = '';
                 this.distance = '';
                 this.calculatedField = '';
                 this.durationDisplayedFormat = 'h';
             },
             formatSpeed(speed) {
-                speed = speed.replace(',', '.');
-                return speed
-
+                return speed.replace(',', '.');
             },
             formatDistance(distance) {
                 return distance.replace(',', '.');
@@ -288,7 +305,7 @@
                     this.speedDisplayedFormat = 'min/km';
                 } else {
                     this.speedFormat = 'speed';
-                    this.speed = this.paceToSpeed(this.pace);
+                    this.speed = this.paceToSpeed(this.pace).replace(/[.,]/, this.separator);
                     this.speedDisplayedFormat = 'km/h';
                 }
             },
@@ -347,7 +364,7 @@
             },
             speedToPace: function (speed) {
                 if (speed !== "") {
-                    let pace = 60 / speed;
+                    let pace = 60 / this.formatSpeed(speed);
                     let minutes = pace | 0;
                     let seconds = ((pace % 1) * 60) | 0;
                     seconds = seconds < 10 && seconds > 0 ? '0' + seconds : seconds;
@@ -415,7 +432,10 @@
                         this.speed = '';
                         this.pace = ''
                     } else if (this.calculatedField === 'duration') {
-                        this.duration = ''
+                        this.duration = '';
+                        this.durationHours = '';
+                        this.durationMinutes = '';
+                        this.durationSeconds = '';
                     }
 
                 } else if (this.calculatedField !== 'distance') {
@@ -444,7 +464,10 @@
             speed: function (newVal, oldVal) {
                 if (this.speed === '') {
                     if (this.calculatedField === 'duration') {
-                        this.duration = ''
+                        this.duration = '';
+                        this.durationHours = '';
+                        this.durationMinutes = '';
+                        this.durationSeconds = '';
                     } else if (this.calculatedField === 'distance') {
                         this.distance = ''
                     }
@@ -475,15 +498,16 @@
                 if (this.pace === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
-                        this.pace = ''
+                        this.pace = '';
                     } else if (this.calculatedField === 'duration') {
                         this.duration = ''
                     } else if (this.calculatedField === 'distance') {
                         this.distance = ''
                     }
+                    this.speed = "";
                 }
 
-                if (this.pace !== "") {
+                if (this.pace !== "" && this.calculatedField !== "speed") {
                     // check leading zero is followed by zero, and not by =
                     if (this.pace.match(/^0{2,}(?![:])?/g)) {
                         // if yes : cancelling the input
@@ -500,16 +524,14 @@
                     } else {
                         this.pace = oldVal
                     }
+                    this.speed = this.paceToSpeed(this.pace)
                 }
-                this.speed = this.paceToSpeed(this.pace)
             },
             presetDistances: function () {
-                if (this.calculatedField !== 'distance') {
-                    if (this.$store.state.defaultDistances.find(defaultDist =>
-                        defaultDist.label === this.presetDistances)) {
-                        this.distance = this.$store.state.defaultDistances.find(defaultDist =>
-                            defaultDist.label === this.presetDistances).distance;
-                    }
+                if (this.calculatedField !== 'distance' && this.presetDistances !== '') {
+                    this.distance = this.$store.state.defaultDistances.find(defaultDist =>
+                        defaultDist.label === this.presetDistances).distance;
+                    this.checkFields()
                 }
             },
             calculatedField: function () {
@@ -666,9 +688,9 @@
     }
 
     .calculated {
-        box-shadow: 0 8px 15px #FF9900, 0 6px 6px rgba(0, 0, 0, 0.23);
+        box-shadow: 0 2px 20px #FF9900, 0 6px 6px rgba(0, 0, 0, 0.23);
         background-color: #FF9900;
-        animation: scale-up 0.2s forwards, scale-out 0.5s;
+        animation: scale-up 0.2s forwards, sale-down 0.5s;
         font-size: 1.4em;
         color: white;
         margin: 2vh 1vh 2vh 1vh;

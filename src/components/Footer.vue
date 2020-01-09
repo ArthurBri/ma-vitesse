@@ -1,34 +1,41 @@
 <template>
     <div class="footer flex flex-row justify-center select-none nodrag bg-grey">
-        <!--        <span class="button mr-4">Proposer une fonctionnalité</span>-->
-        <!--        <span class="text-white">|</span>-->
+        <span @click="isModalSuggestFeature = true"
+              class="button h-6 cursor-pointer mr-4">Proposer une fonctionnalité</span>
+        <span class="text-white">|</span>
         <span class="text-white ml-4 mr-2">Soutenir le projet :</span>
         <a class="noselect-nodrag h-8 outline-none" href="https://www.patreon.com/bePatron?u=27939606" tabindex="-1"
            target="_blank">
             <img alt="" class="patreon-button h-6 mr-2 rounded-full noselect-nodrag cursor-pointer"
                  src="../assets/patreon.png"/>
         </a>
-        <about @close="closeModal" v-show="isModalAbout"/>
+        <about @close="closeModalAbout" v-show="isModalAbout"/>
+        <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature"/>
     </div>
 </template>
 
 <script>
     import About from '@/components/About'
+    import SuggestFeature from '@/components/SuggestFeature'
 
     export default {
         name: "Footer",
-        components: {About},
+        components: {SuggestFeature, About},
         data() {
             return {
-                isModalAbout: false
+                isModalAbout: false,
+                isModalSuggestFeature: false
             }
         },
         methods: {
             showModalAbout() {
                 this.isModalAbout = true;
             },
-            closeModal() {
+            closeModalAbout() {
                 this.isModalAbout = false;
+            },
+            closeModalSuggestFeature() {
+                this.isModalSuggestFeature = false;
             },
         },
     }
@@ -52,6 +59,10 @@
         border-radius: 3px 3px 3px 3px;
         text-decoration: underline $ma-secondary;
         transition: all 0.5s;
+
+        &:hover {
+            text-decoration: underline white;
+        }
     }
 
     .patreon-button {
