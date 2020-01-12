@@ -1,14 +1,17 @@
 <template>
-    <div class="footer flex flex-row justify-center select-none nodrag bg-grey">
-        <span @click="isModalSuggestFeature = true"
-              class="button h-6 cursor-pointer mr-4">Proposer une fonctionnalité</span>
-        <span class="text-white">|</span>
-        <span class="text-white ml-4 mr-2">Soutenir le projet :</span>
-        <a class="noselect-nodrag h-8 outline-none" href="https://www.patreon.com/bePatron?u=27939606" tabindex="-1"
-           target="_blank">
-            <img alt="" class="patreon-button h-6 mr-2 rounded-full noselect-nodrag cursor-pointer"
-                 src="../assets/patreon.png"/>
-        </a>
+    <div class="footer flex flex-row flex-wrap justify-center select-none nodrag bg-grey xs:border-t xs:border-primary">
+        <!--<span @click="isModalSuggestFeature = true"
+              class="text-primary font-bold button h-6 cursor-pointer mr-4 xs:text-xs">Proposer une fonctionnalité</span>
+        <span class="text-primary font-bold h-6 xs:hidden">|</span>-->
+        <div class="flex xs:pt-1">
+            <span class="text-primary ml-4 mr-2 h-6">Soutenir le projet :</span>
+            <a class="noselect-nodrag h-8 outline-none xs:h-3" href="https://www.patreon.com/bePatron?u=27939606"
+               tabindex="-1"
+               target="_blank">
+                <img alt="" class="patreon-button h-6 mr-2 rounded-full noselect-nodrag cursor-pointer"
+                     src="../assets/patreon.png"/>
+            </a>
+        </div>
         <about @close="closeModalAbout" v-show="isModalAbout"/>
         <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature"/>
     </div>
@@ -43,10 +46,7 @@
 
 <style lang="scss" scoped>
     .footer {
-        text-align: center;
-        padding-top: 3vh;
-        background-color: $ma-primary;
-
+        @apply text-center pt-2;
     }
 
     .nodrag {
@@ -55,13 +55,14 @@
     }
 
     .button, button {
-        color: white;
         border-radius: 3px 3px 3px 3px;
-        text-decoration: underline $ma-secondary;
+        text-decoration: none;
+        text-decoration-color: white;
         transition: all 0.5s;
 
         &:hover {
-            text-decoration: underline white;
+            padding-bottom: 2px;
+            text-decoration: underline $ma-secondary;
         }
     }
 

@@ -1,63 +1,77 @@
 <template>
-    <div class="main-box p-6">
-        <div class="flex h-8" v-if="calculatedField === ''">
-            <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold">Calculateur de vitesse, de durée, de
+    <div class="main-box p-6 m-2 xs:m-0 xs:pl-0 xs:pr-0 bg-primary text-white">
+        <div class="flex h-8 mb-2" v-if="calculatedField === ''">
+            <img alt="calaculator icon" class="w-8 sm:ml-4" src="../assets/icons/timer.svg"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4">Calculateur de vitesse, de durée, de
                 distance</h2>
 
         </div>
-        <div class="noselect-nodrag flex h-8" v-else>
+        <div class="noselect-nodrag flex h-8 mb-2" v-else>
             <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
-            <h2 class="self-center font-semibold pl-2">Calcul de la <span
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold">Calcul de la <span
                     class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span></h2>
             <span><img @click="clearFields()" alt="clear field button" class="clear-fields-button"
                        src="../assets/icons/cancel.svg"/></span>
         </div>
         <div class="wrapper">
             <!-- DURATION -->
-            <div class="flex flex-col noselect-nodrag items-center">
+            <div class="flex flex-col noselect-nodrag">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('duration')" class="box self-stretch justify-between">
                     <label for="duration">Durée</label>
-                    <div class="one-field-mode" v-if="oneFieldMode">
-                        <!-- Field for 1 field mode -->
-                        <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                               @keyup="checkFields($event)"
-                               autocomplete="off" id="duration" ref="duration"
-                               tabindex="1" v-model="duration"/>
-                        <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
-                    </div>
-                    <div class="flex" v-show="!oneFieldMode">
-                        <label>
-                            <!-- Fields for 3 fields mode -->
+                    <div class="w-40">
+                        <!-- ONE FIELD mode -->
+                        <div class="one-field-mode flex justify-end" v-if="oneFieldMode">
+                            <!-- Field for 1 field mode -->
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keydown.delete.left.right="updateCursor('hours',$event)"
                                    @keyup="checkFields($event)"
-                                   :plaholder="'cc'" autocomplete="off" placeholder="hh" ref="hours"
-                                   style="text-align: center; width:20px;padding-right: 5px;"
-                                   tabindex="1"
-                                   v-model="durationHours"/>
-                            <span class="noselect-nodrag">:</span>
-                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keydown.delete.left.right="updateCursor('minutes',$event)"
-                                   @keyup="checkFields($event)"
-                                   autocomplete="off" placeholder="mm" ref="minutes"
-                                   style="text-align: center; width:20px;padding-right: 5px;"
-                                   tabindex="1"
-                                   v-model="durationMinutes"/>
-                            <span class="noselect-nodrag">:</span>
-                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keydown.delete.left.right="updateCursor('seconds',$event)"
-                                   @keyup="checkFields($event)"
-                                   autocomplete="off" placeholder="ss" ref="seconds"
-                                   style="text-align: center; width:20px;padding-right: 5px;"
-                                   tabindex="1"
-                                   v-model="durationSeconds"/>
-                        </label>
+                                   autocomplete="off"
+                                   class="w-24 text-right pr-1" id="duration" ref="duration"
+                                   tabindex="1" v-model="duration"/>
+                            <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
+                        </div>
+                        <!-- THREE FIELDS mode -->
+                        <div class="flex justify-end" v-show="!oneFieldMode">
+                            <label>
+                                <!-- Fields for 3 fields mode -->
+                                <input :disabled="calculatedField === 'duration'"
+                                       :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
+                                       @focus="focusMe('duration')"
+                                       @keydown.delete.left.right="updateCursor('hours',$event)"
+                                       @keyup="checkFields($event)" autocomplete="off"
+                                       class="w-10 pl-1 pr-1 text-center appearance-none"
+                                       ref="hours"
+                                       tabindex="1"
+                                       v-model="durationHours"/>
+                                <span class="noselect-nodrag">:</span>
+                                <input :disabled="calculatedField === 'duration'"
+                                       :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
+                                       @focus="focusMe('duration')"
+                                       @keydown.delete.left.right="updateCursor('minutes',$event)"
+                                       @keyup="checkFields($event)" autocomplete="off"
+                                       class="w-10 pl-1 pr-1 ml-1 mr-1 text-center appearance-none"
+                                       ref="minutes"
+                                       tabindex="1"
+                                       v-model="durationMinutes"/>
+                                <span class="noselect-nodrag">:</span>
+                                <input :disabled="calculatedField === 'duration'"
+                                       :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
+                                       @focus="focusMe('duration')"
+                                       @keydown.delete.left.right="updateCursor('seconds',$event)"
+                                       @keyup="checkFields($event)" autocomplete="off"
+                                       class="w-10 pl-1 pr-1 text-center appearance-none"
+                                       ref="seconds"
+                                       tabindex="1"
+                                       v-model="durationSeconds"/>
+                            </label>
+                        </div>
                     </div>
                 </div>
+                <!-- SWITCH 1 field / 3 fields -->
                 <div @click="oneFieldMode = !oneFieldMode"
-                     class="duration-display-switch w-20 h-8 border rounded flex items-center cursor-pointer noselect-nodrag">
+                     :class="calculatedField === 'duration' ? 'calculated2 noselect-nodrag' : ''"
+                     class="duration-display-switch w-20 h-8 mr-3 sm:mb-1 border-r self-end border-b border-white rounded-br
+                     flex items-center cursor-pointer noselect-nodrag">
                     <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']">
                         <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
                               x="0"
@@ -77,23 +91,24 @@
             </div>
 
             <!-- DISTANCE -->
-            <div class="flex flex-col noselect-nodrag items-center">
+            <div class="flex flex-col noselect-nodrag">
                 <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('distance')"
                      class="box distance self-stretch justify-between">
                     <label for="distance">Distance</label>
-                    <div>
+                    <div class="flex">
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @keyup="checkFields($event)" autocomplete="off"
-                               id="distance" name="distance" onblur=""
+                               class="text-right pr-1" id="distance" name="distance" onblur=""
                                ref="distance" tabindex="2"
                                v-model="distance"/>
                         <span class="noselect-nodrag">km</span>
                     </div>
                 </div>
-                <label>
-                    <select @change="checkFields" class="border p-1 rounded" v-model="presetDistances"
-                            v-show="showPresetDistances">
+                <label class="preset-distances h-8 mr-3 pt-1 pb-1 pr-1 border-r self-end border-b border-white rounded-br
+                       flex cursor-pointer noselect-nodrag sm:mb-1"
+                       v-show="showPresetDistances">
+                    <select @change="checkFields" class="cursor-pointer" v-model="presetDistances">
                         <option disabled value="">Distances officielles</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
@@ -103,28 +118,35 @@
             </div>
 
             <!-- SPEED -->
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center sm:mt-1">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('speed')" class="box speed self-stretch justify-between">
-                    <label for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
-                    <label for="pace" v-if="speedFormat === 'pace'">Allure</label>
-                    <div>
+                    <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
+                    <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">Allure</label>
+                    <div class="flex">
                         <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                               class="text-right pr-1"
                                @keyup="checkFields($event)" autocomplete="off"
                                id="speed" name="speed" ref="speed" tabindex="3"
                                v-if="speedFormat === 'speed'" v-model="speed"/>
+
                         <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                               class="text-right pr-1"
                                @keyup="checkFields($event)" autocomplete="off" id="pace" name="speed" ref="speed"
                                v-if="speedFormat === 'pace'" v-model="pace"/>
-                        <span class=""
+                        <div class="md:w-16 lg:w-16 xl:w-16 flex items-stretch justify-end">
+                        <span class="noselect-nodrag text-right"
                               v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
+                        </div>
                     </div>
                 </div>
-                <div @click="changeSpeedFormat" class="flex border p-1 rounded h-8 noselect-nodrag cursor-pointer">
+                <div :class="calculatedField === 'speed' ? 'calculated2 noselect-nodrag' : ''"
+                     @click="changeSpeedFormat"
+                     class="flex w-20 h-8 mr-3 border-r self-end border-b border-white rounded-br flex items-center cursor-pointer noselect-nodrag">
                     <img alt="switch between pace and speed" class="w-5 mr-1 noselect-nodrag"
                          src="../assets/icons/arrows.svg"/>
-                    <span v-if="speedFormat === 'speed'">Allure</span>
-                    <span v-if="speedFormat === 'pace'">Vitesse</span>
+                    <span class="pt-1 pb-1" v-if="speedFormat === 'speed'">Allure</span>
+                    <span class="pt-1 pb-1" v-if="speedFormat === 'pace'">Vitesse</span>
                 </div>
             </div>
 
@@ -463,6 +485,7 @@
             },
             speed: function (newVal, oldVal) {
                 if (this.speed === '') {
+                    this.pace = '';
                     if (this.calculatedField === 'duration') {
                         this.duration = '';
                         this.durationHours = '';
@@ -621,15 +644,12 @@
 <style lang="scss" scoped>
 
     .main-box {
-        background: $ma-primary;
-        background: linear-gradient($ma-primary, #70a9d2);
-        color: white;
         transition: all 0.5s;
 
         @media (min-device-width: 600px) {
             border-radius: 13px;
         }
-        box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
+        box-shadow: 0 3px 3px rgba(33, 33, 33, .4);
     }
 
     @media screen and (max-width: 950px) {
@@ -653,19 +673,15 @@
     }
 
     .box {
-        border-radius: 7px;
-        height: 5vh;
-        box-shadow: 0 0 10px rgba(33, 33, 33, .2);
-        background-color: white;
-        margin: 2vh 1vw 2vh 1vw;
-        padding: 1vh 2vw 1vh 2vw;
+        border-radius: 7px 7px 0 7px;
         color: $ma-primary;
         font-size: 1.1em;
-        transition: width .5s;
+        transition: all .3s;
         display: flex;
         align-items: center;
         justify-content: space-between;
         min-height: 40px;
+        @apply bg-white mt-2 ml-3 mr-3 p-3;
 
     }
 
@@ -688,29 +704,15 @@
     }
 
     .calculated {
-        box-shadow: 0 2px 20px #FF9900, 0 6px 6px rgba(0, 0, 0, 0.23);
-        background-color: #FF9900;
-        animation: scale-up 0.2s forwards, sale-down 0.5s;
-        font-size: 1.4em;
+        background-color: $ma-secondary;
         color: white;
-        margin: 2vh 1vh 2vh 1vh;
+        transition: all 0.2s;
+        @apply ml-3 mt-2;
     }
 
     input {
-        color: $ma-primary;
+        background-color: transparent;
     }
-
-    input {
-        background-color: rgba(0, 0, 0, 0.0);
-        font-size: 1em;
-        text-align: right;
-        padding-right: 0.2em;
-        border: none;
-        width: 100px;
-        min-width: 50px;
-        transition: all 0.5s;
-    }
-
     input:focus {
         outline: none;
     }
@@ -719,7 +721,6 @@
         background-color: rgba(0, 0, 0, 0.0);
         text-align: center;
         font-size: 1em;
-        color: white;
         -webkit-appearance: none;
         -moz-appearance: none;
         text-indent: 1px;
@@ -738,24 +739,6 @@
     h1 {
         font-size: 2.5em;
         text-align: center;
-    }
-
-    @keyframes scale-up {
-        from {
-            transform: scale(1.0);
-        }
-        to {
-            transform: scale(1.05);
-        }
-    }
-
-    @keyframes scale-down {
-        from {
-            transform: scale(1.05);
-        }
-        to {
-            transform: scale(1.0);
-        }
     }
 
     .settings-box {
@@ -801,7 +784,7 @@
     .duration-display-switch {
         position: relative;
         z-index: 0;
-
+        @apply text-primary;
     }
 
     .dot {
@@ -827,4 +810,13 @@
         left: calc(80% - 2.5px);
         transition: 500ms;
     }
+
+    .preset-distances {
+        transition: all 1s;
+    }
+
+    .calculated2 {
+        @apply border-secondary;
+    }
+
 </style>

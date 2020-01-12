@@ -4,10 +4,11 @@ module.exports = {
     separator: ':',
     theme: {
         screens: {
-            sm: '640px',
-            md: '768px',
-            lg: '1024px',
-            xl: '1280px',
+            xs: {'max': '380px'},
+            sm: {'max': '639px'},
+            md: {'min': '640px', 'max': '767px'},
+            lg: {'min': '768px', 'max': '1023px'},
+            xl: {'min': '1024px'}
         },
         colors: {
             transparent: 'transparent',
@@ -327,6 +328,7 @@ module.exports = {
             '4xl': '56rem',
             '5xl': '64rem',
             '6xl': '72rem',
+            '3/4': '75%',
             full: '100%',
         },
         minHeight: {

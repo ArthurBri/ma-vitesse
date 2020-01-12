@@ -5,6 +5,7 @@
   "extends": "eslint:recommended",
   "parser": "vue-eslint-parser",
   "parserOptions": {
+    "ecmaVersion": 2018,
     "sourceType": "module",
     "allowImportExportEverywhere": false,
     "codeFrame": false

@@ -1,27 +1,30 @@
 <template>
-    <div class="box p-4">
+    <div class="box p-6 border-gray-600 bg-white border">
         <div class="flex justify-between">
-            <div class="flex h-8 ml-2 mt-2">
+            <div class="flex h-8 m-2 mb-4">
                 <img alt="prediction icon w-8" src="../assets/icons/prediction.svg" width="30px"/>
-                <h2 class="noselect-nodrag self-center pl-2 font-semibold">Prédictions de course</h2>
-                <span class="self-top text-xxs bg-white text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
+                <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold">Prédictions de course</h2>
+                <span class="self-top text-xxs bg-secondary text-white inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
             </div>
-            <div class="w-4 h-4 filter">
+            <div class="w-4 h-4">
                 <img @click="close" alt="hide predictions" class="noselect-nodrag close-icon"
                      src="../assets/icons/cancel.svg"/>
             </div>
         </div>
-        <table class="estimations-table" v-if="$store.state.distance !== '' && $store.state.duration !== ''">
-            <tr>
-                <th>Distance</th>
-                <th>Temps estimé</th>
-            </tr>
-            <tr :key="item.label" v-for="(item) in updatedPredictions">
-                <td>{{item.label}}</td>
-                <td>{{item.duration}}</td>
-            </tr>
-        </table>
-        <p class="mt-8 text-center" v-else>
+        <div class="flex items-stretch justify-center"
+             v-if="$store.state.distance !== '' && $store.state.duration !== ''">
+            <table>
+                <tr>
+                    <th class="">Distance</th>
+                    <th>Temps estimé</th>
+                </tr>
+                <tr :key="item.label" v-for="(item) in updatedPredictions">
+                    <td>{{item.label}}</td>
+                    <td>{{item.duration}}</td>
+                </tr>
+            </table>
+        </div>
+        <p class="mt-8 text-center text-primary" v-else>
             Effectuer un calcul pour voir les prédictions sur d'autres distances.
         </p>
     </div>
@@ -37,7 +40,7 @@
         computed: {
             updatedPredictions() {
                 this.$store.state.defaultDistances.forEach(element => element.duration = this.prettyDuration((this.$store.state.duration * 3600 * (element.distance.replace(',', '.') / this.$store.state.distance.replace(',', '.')) * 1.06) / 3600));
-                return this.$store.state.defaultDistances.filter(i => i.distance !== this.$store.state.distance.replace(',', '.'))
+                return this.$store.state.defaultDistances.filter(i => i.distance !== this.$store.state.distance)
             }
         },
         methods: {
@@ -67,32 +70,37 @@
 
 <style lang="scss" scoped>
     .box {
-        background: $ma-primary;
-        background: linear-gradient(#5b039d, #d273a5);
         color: white;
-        min-height: 20vh;
         border-radius: 13px;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
-    }
+        @apply m-2;
 
-    .estimations-table {
-        width: 100%;
-        margin-top: 20px;
     }
 
     table, th, td {
-        border: 1px solid white;
         border-collapse: collapse;
         padding: 5px 5px 5px 5px;
+        @apply text-primary border-gray-500;
     }
 
-    td {
-        width: 50%;
+    th {
+        @apply bg-primary text-white text-left pl-3;
     }
 
-    .filter {
-        -webkit-filter: brightness(0) invert(1);
-        filter: brightness(0) invert(1);
+    table tr:first-child th:first-child {
+        border-top-left-radius: 8px;
+    }
+
+    table tr:first-child th:last-child {
+        border-top-right-radius: 8px;
+    }
+
+    tr {
+        @apply border-b;
+
+        &:hover {
+            @apply font-bold cursor-default;
+        }
     }
 
     .close-icon:hover {

@@ -5,7 +5,7 @@
             <p class="font-light text-base">v{{ version }}</p>
         </template>
         <template v-slot:body>
-            <p class="ml-5 mr-5 mb-5 text-base text-justify">Ma Vitesse est une application légère, intelligente et
+            <p class="ml-5 mr-5 mb-5 text-base text-justify">MA Vitesse est une application légère, intelligente et
                 moderne de calcul et d'estimations de temps de
                 course.
                 Conçue initialement pour la course à pied et de manière statique (pré et post sortie), elle a pour but
@@ -13,9 +13,6 @@
                 L'idée repose sur une application qui ne collecte pas de données autre que pour sauvegarder l'historique
                 du coureur (c'est-à-dire en connaissance explicite de cause et sans but financier).
                 Le développeur travaille en parmanence pour améliorer l'expérience et les fonctionnalités.</p>
-            <p class="ml-5 mr-5 mb-5 text-base text-center">
-                <b>Développeur ?</b> <a class="link" href="mailto:contact@ma-vitesse.app">Contactez-nous</a> pour
-                échanger sur notre vision du projet et définir sa finalité.</p>
             <p class="ml-5 mr-5 text-base text-justify">
                 L'application est 100% gratuite et ses fonctions basiques le resterons. Elle bénéficie de mises à jours
                 régulières transparentes pour l'utilisateur (jusqu'à plusieurs par semaine).
@@ -27,6 +24,9 @@
                                                                                             href="https://www.patreon.com/bePatron?u=27939606"
                                                                                             target="_blank">Patreon</a>.
             </p>
+            <p class="ml-5 mr-5 mt-5 text-base text-center">
+                <b>Développeur ?</b> <a class="link" href="mailto:contact@ma-vitesse.app">Contactez-nous</a> pour
+                échanger sur notre vision du projet et définir sa finalité.</p>
         </template>
         <template @click="close" v-slot:footer/>
     </modal>
