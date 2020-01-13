@@ -46,7 +46,7 @@
 
 <style lang="scss" scoped>
     .footer {
-        @apply text-center pt-2;
+        @apply text-center pt-2 h-16 w-full;
     }
 
     .nodrag {

@@ -1,17 +1,21 @@
 <template>
-    <div class="main-box p-6 m-2 xs:m-0 xs:pl-0 xs:pr-0 bg-primary text-white">
+    <div class="main-box flex-grow-0 p-6 m-4 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full bg-primary text-white">
         <div class="flex h-8 mb-2" v-if="calculatedField === ''">
-            <img alt="calaculator icon" class="w-8 sm:ml-4" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4">Calculateur de vitesse, de durée, de
+            <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calculateur de vitesse, de durée,
+                de
                 distance</h2>
 
         </div>
-        <div class="noselect-nodrag flex h-8 mb-2" v-else>
-            <img alt=" " class="w-8" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold">Calcul de la <span
-                    class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span></h2>
-            <span><img @click="clearFields()" alt="clear field button" class="clear-fields-button"
-                       src="../assets/icons/cancel.svg"/></span>
+        <div class="flex h-8 mb-2" v-else>
+            <img alt=" " class="w-8 sm:ml-4" src="../assets/icons/timer.svg"/>
+            <div class="flex self-center pl-2 font-semibold sm:mr-4">
+                <h2 class="">Calcul de la <span
+                        class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span>
+                </h2>
+                <span><img @click="clearFields()" alt="clear field button" class="h-3"
+                           src="../assets/icons/cancel.svg"/></span>
+            </div>
         </div>
         <div class="wrapper">
             <!-- DURATION -->
@@ -642,13 +646,45 @@
 </script>
 
 <style lang="scss" scoped>
+    @screen xs {
+        .main-box {
+            @apply rounded-none;
+            @apply m-2;
+        }
+    }
 
+    @screen sm {
+        .main-box {
+            @apply rounded-lg;
+            @apply m-2;
+
+        }
+    }
+
+    @screen md {
+        .main-box {
+            @apply rounded-lg;
+            @apply m-2;
+
+        }
+    }
+
+    @screen lg {
+        .main-box {
+            @apply rounded-lg;
+            @apply m-4;
+
+        }
+    }
+
+    @screen xl {
+        .main-box {
+            @apply rounded-lg;
+            @apply m-4;
+        }
+    }
     .main-box {
         transition: all 0.5s;
-
-        @media (min-device-width: 600px) {
-            border-radius: 13px;
-        }
         box-shadow: 0 3px 3px rgba(33, 33, 33, .4);
     }
 
@@ -768,7 +804,6 @@
 
     .clear-fields-button {
         margin-left: 0.10em;
-        width: 0.8rem;
         transition: all .1s ease-in-out;
         cursor: pointer;
 

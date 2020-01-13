@@ -1,12 +1,12 @@
 <template>
-    <div class="bg-gray-200" id="app">
+    <div class="bg-gray-200">
         <preloader v-if="showPreloader"/>
-        <div v-if="!showPreloader">
+        <div id="app" v-if="!showPreloader">
             <Header/>
-            <div class="container flex justify-center flex-wrap xl:justify-start">
-                <Calculator class="calculator mb-6 "/>
+            <div class="body">
+                <Calculator class="calculator mb-6"/>
                 <transition name="fade">
-                    <Prediction @close="showPredictions = false" class="prediction" v-if="showPredictions"/>
+                    <Prediction @close="showPredictions = false" v-if="showPredictions"/>
                 </transition>
                 <Settings class="settings" v-if="1 === 2 "/>
             </div>
@@ -46,39 +46,14 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: $ma-primary;
-        min-width: 100%;
-        height: 100vh;
         overflow: hidden;
         z-index: 0;
         position: relative;
+        @apply flex flex-col items-center self-stretch min-h-screen min-w-full;
     }
 
-    .preloader {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: 10;
-        transition: all 5s;
-        @apply bg-gray-200;
-    }
-
-    .container {
-        display: grid;
-        align-content: start;
-        grid-template-rows: repeat(3, auto);
-        justify-content: center;
-        grid-column-gap: 2vh;
-        margin: auto;
-        height: 80vh;
-        overflow: auto;
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        grid-column: 1 / 3;
-        grid-row: 1 / 2;
-        height: 10vh;
+    .body {
+        @apply flex flex-grow flex-wrap ml-0 justify-center overflow-auto w-5/6 items-start content-start;
     }
 
     h2, h1, p {

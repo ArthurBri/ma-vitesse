@@ -24,6 +24,14 @@
 </script>
 
 <style lang="scss" scoped>
+    .preloader {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 10;
+        transition: all 0.8s;
+        @apply bg-gray-200;
+    }
 
     .lds-ellipsis {
         display: inline-block;
@@ -89,12 +97,4 @@
         }
     }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 0.5s;
-    }
-
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-    {
-        opacity: 0;
-    }
 </style>

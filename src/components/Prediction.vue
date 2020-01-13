@@ -1,7 +1,7 @@
 <template>
-    <div class="box p-6 border-gray-600 bg-white border">
+    <div class="box p-6 m-4 border-gray-600 xs:w-full bg-white border">
         <div class="flex justify-between">
-            <div class="flex h-8 m-2 mb-4">
+            <div class="flex h-8 mb-4">
                 <img alt="prediction icon w-8" src="../assets/icons/prediction.svg" width="30px"/>
                 <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold">Prédictions de course</h2>
                 <span class="self-top text-xxs bg-secondary text-white inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
@@ -24,7 +24,7 @@
                 </tr>
             </table>
         </div>
-        <p class="mt-8 text-center text-primary" v-else>
+        <p class="m-auto text-center text-primary" v-else>
             Effectuer un calcul pour voir les prédictions sur d'autres distances.
         </p>
     </div>
@@ -69,12 +69,39 @@
 </script>
 
 <style lang="scss" scoped>
+    @screen xs {
+        .box {
+            @apply mt-4 rounded-none;
+        }
+    }
+
+    @screen sm {
+        .box {
+            @apply rounded-lg;
+        }
+    }
+
+    @screen md {
+        .box {
+            @apply rounded-lg;
+        }
+    }
+
+    @screen lg {
+        .box {
+            @apply rounded-lg;
+        }
+    }
+
+    @screen xl {
+        .box {
+            @apply rounded-lg;
+        }
+    }
+
     .box {
         color: white;
-        border-radius: 13px;
         box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
-        @apply m-2;
-
     }
 
     table, th, td {
