@@ -10,39 +10,56 @@
         </div>
 
         <div class="header-end flex flex-row ">
+            <img @click="showModalSettings" alt=""
+                 class="settings-icon xs:h-4 sm:h-4 md:h-5 lg:h-6 xl:h-6 noselect-nodrag pr-4"
+                 src="../assets/icons/settings.svg"
+                 title="Réglages"/>
             <img @click="showModalAbout" alt="" class="about-icon xs:h-4 sm:h-4 md:h-5 lg:h-6 xl:h-6 noselect-nodrag"
                  src="../assets/icons/question.svg"
                  title="A propos"/>
             <!-- <img alt="" title="Toutes les applications" class="mapps-menu w-6" src="../assets/icons/menu.svg"/>-->
         </div>
-        <about @close="closeModal" v-show="isModalAbout"/>
+        <about @close="closeModal('about')" v-show="isModalAbout"/>
+        <settings @close="closeModal('settings')" v-show="isModalSettings"/>
     </div>
 </template>
 
 <script>
     import About from '@/components/About'
+    import Settings from '@/components/Settings'
 
     export default {
         name: "Header",
-        components: {About},
+        components: {About, Settings},
         data() {
             return {
-                isModalAbout: false
+                isModalAbout: false,
+                isModalSettings: false
             }
         },
         methods: {
             showModalAbout() {
                 this.isModalAbout = true;
             },
-            closeModal() {
-                this.isModalAbout = false;
+            showModalSettings() {
+                this.isModalSettings = true;
+            },
+            closeModal(name) {
+                switch (name) {
+                    case 'about':
+                        this.isModalAbout = false;
+                        break;
+                    case 'settings':
+                        this.isModalSettings = false;
+                        break;
+                }
             },
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .logo, .about-icon {
+    .logo, .about-icon, .settings-icon {
         cursor: pointer;
         transition: all 200ms;
 
@@ -55,39 +72,39 @@
     /* <= 379px */
     @screen xs {
         .header {
-            @apply h-8 p-3;
+            @apply h-8 p-3 mt-2;
         }
     }
 
     /* 380px < width > 639px  */
     @screen sm {
         .header {
-            @apply h-8 p-3;
+            @apply h-8 p-3 mt-2;
         }
     }
 
     /* 640px < width > 767px */
     @screen md {
         .header {
-            @apply h-8 p-3;
+            @apply h-8 p-3 mt-2;
         }
     }
 
     /* 768px < width > 1023px */
     @screen lg {
         .header {
-            @apply h-8 p-4;
+            @apply h-8 p-4 mt-2;
         }
     }
 
     /* > 1024px */
     @screen xl {
         .header {
-            @apply h-12 p-4 pl-6 pr-6;
+            @apply h-12 p-4 pl-6 pr-6 mt-2;
         }
     }
 
     .header {
-        @apply flex flex-row items-center justify-between w-full h-16;
+        @apply flex flex-row items-center justify-between w-full;
     }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="box p-6 m-4 border-gray-600 xs:w-full bg-white border">
+    <div class="box p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border">
         <div class="flex justify-between">
             <div class="flex h-8 mb-4">
                 <img alt="prediction icon w-8" src="../assets/icons/prediction.svg" width="30px"/>
@@ -40,7 +40,7 @@
         computed: {
             updatedPredictions() {
                 this.$store.state.defaultDistances.forEach(element => element.duration = this.prettyDuration((this.$store.state.duration * 3600 * (element.distance.replace(',', '.') / this.$store.state.distance.replace(',', '.')) * 1.06) / 3600));
-                return this.$store.state.defaultDistances.filter(i => i.distance !== this.$store.state.distance)
+                return this.$store.state.defaultDistances.filter(i => (i.distance !== this.$store.state.distance))
             }
         },
         methods: {
@@ -63,6 +63,7 @@
             },
             close() {
                 this.$emit('close');
+                this.$store.commit('showPredictions', false)
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <div class="main-box flex-grow-0 p-6 m-4 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full bg-primary text-white">
+    <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full bg-primary text-white">
         <div class="flex h-8 mb-2" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calculateur de vitesse, de durée,
@@ -168,7 +168,7 @@
                 duration: '',
                 durationDisplayed: '',
                 durationDisplayedFormat: 'h',
-                oneFieldMode: true,
+                oneFieldMode: false,
                 durationHours: '',
                 durationMinutes: '',
                 durationSeconds: '',
@@ -195,10 +195,12 @@
                 }
                 // separator set depending the one used in input
                 if (this.calculatedField === 'distance') {
-                    this.separator = (this.speed).includes(",") ? "," : ".";
+                    this.separator = (this.speed).includes(",") ? "," : (this.speed).includes(".") ? "." : this.separator;
                 } else {
-                    this.separator = (this.distance).includes(",") ? "," : ".";
+                    this.separator = (this.distance).includes(",") ? "," : (this.distance).includes(".") ? "." : this.separator;
                 }
+                console.log(this.separator)
+
                 // SPEED calculation
                 if (this.duration !== '' && this.distance !== '' && ((this.speed === '' && this.pace === '') || this.calculatedField === 'speed')) {
                     this.calculatedField = 'speed';
@@ -334,6 +336,7 @@
                     this.speed = this.paceToSpeed(this.pace).replace(/[.,]/, this.separator);
                     this.speedDisplayedFormat = 'km/h';
                 }
+                localStorage.speedFormat = this.speedFormat
             },
             focusMe: function (field) {
                 // if field clicked eq "distance", shows the preset distances
@@ -640,7 +643,21 @@
                     this.durationMinutes = String((this.formatDuration(this.duration, 3).minutes) || "");
                     this.durationSeconds = String((this.formatDuration(this.duration, 3).seconds) || "");
                 }
+                localStorage.oneFieldMode = this.oneFieldMode
+            },
+            separator: (newVal) => {
+                localStorage.separator = newVal;
             }
+        },
+        mounted() {
+            if (localStorage.separator) {
+                this.separator = localStorage.separator;
+            }
+            /* if(localStorage.oneFieldMode) {this.oneFieldMode = localStorage.oneFieldMode; }
+            console.log(this.oneFieldMode)
+
+            //TODO : gérer le speedDisplayFormat
+            if(localStorage.speedFormat) {this.speedFormat = localStorage.speedFormat; } */
         }
     }
 </script>
@@ -648,16 +665,13 @@
 <style lang="scss" scoped>
     @screen xs {
         .main-box {
-            @apply rounded-none;
-            @apply m-2;
+            @apply rounded-none mt-2 mb-2 w-full;
         }
     }
 
     @screen sm {
         .main-box {
-            @apply rounded-lg;
-            @apply m-2;
-
+            @apply rounded-none mt-2 mb-2 w-full;
         }
     }
 
