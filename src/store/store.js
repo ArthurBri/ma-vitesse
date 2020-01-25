@@ -31,10 +31,23 @@ export const store = new Vuex.Store({
             state.showPredictions = show;
             localStorage.showPredictions = state.showPredictions;
         },
+        addPresetDistance(state, newPreset) {
+            state.defaultDistances.push(newPreset);
+            localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances));
+        },
+        rmPresetDistance(state, labelPresetToRm) {
+            state.defaultDistances.splice(
+                state.defaultDistances.findIndex(distance => distance.label === labelPresetToRm), 1);
+            localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances));
+        },
         initialiseStore(state) {
             // Check if the ID exists
             if (localStorage.getItem('showPredictions')) {
                 state.showPredictions = localStorage.showPredictions === 'true'
+            }
+
+            if (localStorage.getItem('defaultDistances')) {
+                state.defaultDistances = JSON.parse(localStorage.getItem('defaultDistances'));
             }
         }
     },

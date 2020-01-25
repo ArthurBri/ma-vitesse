@@ -1,5 +1,5 @@
 <template>
-    <modal @close="close" v-show="isModalVisible">
+    <bottom-modal @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <h2>Proposer une fonctionnalité</h2>
         </template>
@@ -24,11 +24,11 @@
 
         </template>
         <template @click="close" v-slot:footer/>
-    </modal>
+    </bottom-modal>
 </template>
 
 <script>
-    import Modal from '@/components/Modal'
+    import BottomModal from '@/components/BottomModal'
     import {version} from '../../package.json';
 
     export default {
@@ -39,7 +39,7 @@
                 isModalVisible: false,
             }
         },
-        components: {Modal},
+        components: {BottomModal},
         methods: {
             closeModal() {
                 this.isModalVisible = false;

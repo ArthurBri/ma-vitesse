@@ -35,7 +35,7 @@
                             <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                         </div>
                         <!-- THREE FIELDS mode -->
-                        <div class="flex justify-end" v-show="!oneFieldMode">
+                        <div class="flex justify-end" v-else>
                             <label>
                                 <!-- Fields for 3 fields mode -->
                                 <input :disabled="calculatedField === 'duration'"
@@ -117,6 +117,11 @@
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
                         </option>
+                        <option class="text-italic appearance-none" value="addDistance">+ Ajouter</option>
+                        <option class="text-italic appearance-none" v-if="this.$store.state.defaultDistances.length > 0"
+                                value="removeDistance">- Supprimer
+                        </option>
+
                     </select>
                 </label>
             </div>
@@ -155,13 +160,19 @@
             </div>
 
         </div>
+        <AddPresetDistance @close="closeAddDistance" v-show="addDistance"/>
+        <RemovePresetDistance @close="closeRemoveDistance" v-show="removeDistance"/>
     </div>
 
 </template>
 
 <script>
+    import AddPresetDistance from '@/components/AddPresetDistance'
+    import RemovePresetDistance from '@/components/RemovePresetDistance'
+
     export default {
         name: "Calculator",
+        components: {AddPresetDistance, RemovePresetDistance},
         data() {
             return {
                 /* duration */
@@ -183,7 +194,9 @@
                 speedDisplayedFormat: 'km/h',
                 calculatedField: '',
                 prettyCalculatedField: '',
-                separator: '.'
+                separator: '.',
+                addDistance: false,
+                removeDistance: false
             };
         },
         methods: {
@@ -199,7 +212,6 @@
                 } else {
                     this.separator = (this.distance).includes(",") ? "," : (this.distance).includes(".") ? "." : this.separator;
                 }
-                console.log(this.separator)
 
                 // SPEED calculation
                 if (this.duration !== '' && this.distance !== '' && ((this.speed === '' && this.pace === '') || this.calculatedField === 'speed')) {
@@ -402,6 +414,14 @@
                 } else return "";
 
 
+            },
+            closeAddDistance: function () {
+                this.addDistance = false;
+                this.presetDistances = ""
+            },
+            closeRemoveDistance: function () {
+                this.removeDistance = false;
+                this.presetDistances = ""
             }
         },
         watch: {
@@ -477,9 +497,9 @@
                     this.distance = this.distance.replace(/^0([0-9]+)/g, '$1');
 
                     // if distance matches at least partially with the pattern ?
-                    if (this.distance.match(/\d+([.,]\d{0,4})?/g)) {
+                    if (this.distance.match(/\d{0,9}([.,]\d{0,4})?/g)) {
                         // if not exactly match
-                        if (this.distance.match(/\d+([.,]\d{0,4})?/g)[0] !== this.distance) {
+                        if (this.distance.match(/\d{0,9}([.,]\d{0,4})?/g)[0] !== this.distance) {
                             // cancelling the input
                             this.distance = oldVal
                         }
@@ -491,6 +511,7 @@
                 this.$store.commit('setDistance', this.distance);
             },
             speed: function (newVal, oldVal) {
+                console.log(this.oneFieldMode);
                 if (this.speed === '') {
                     this.pace = '';
                     if (this.calculatedField === 'duration') {
@@ -557,10 +578,18 @@
                     this.speed = this.paceToSpeed(this.pace)
                 }
             },
-            presetDistances: function () {
+            presetDistances: function (newVal) {
+                if (newVal === "addDistance") {
+                    this.addDistance = true;
+                    this.presetDistances = ""
+                }
+                if (newVal === "removeDistance") {
+                    this.removeDistance = true;
+                    this.presetDistances = ""
+                }
                 if (this.calculatedField !== 'distance' && this.presetDistances !== '') {
                     this.distance = this.$store.state.defaultDistances.find(defaultDist =>
-                        defaultDist.label === this.presetDistances).distance;
+                        defaultDist.label === this.presetDistances).distance || 0;
                     this.checkFields()
                 }
             },
@@ -653,11 +682,14 @@
             if (localStorage.separator) {
                 this.separator = localStorage.separator;
             }
-            /* if(localStorage.oneFieldMode) {this.oneFieldMode = localStorage.oneFieldMode; }
-            console.log(this.oneFieldMode)
+            if (localStorage.oneFieldMode) {
+                this.oneFieldMode = JSON.parse(localStorage.oneFieldMode);
+            }
 
-            //TODO : gérer le speedDisplayFormat
-            if(localStorage.speedFormat) {this.speedFormat = localStorage.speedFormat; } */
+            if (localStorage.speedFormat) {
+                this.speedFormat = localStorage.speedFormat;
+                this.speedDisplayedFormat = this.speedFormat === 'speed' ? 'km/h' : 'min/km'
+            }
         }
     }
 </script>

@@ -8,7 +8,6 @@
                 <transition name="fade">
                     <Prediction v-show="showPredictions"/>
                 </transition>
-                <Settings class="settings" v-if="1 === 2 "/>
             </div>
             <Footer/>
         </div>

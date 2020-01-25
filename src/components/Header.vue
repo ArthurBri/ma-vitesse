@@ -86,14 +86,14 @@
     /* 640px < width > 767px */
     @screen md {
         .header {
-            @apply h-8 p-3 mt-2;
+            @apply h-8 p-4 mt-3;
         }
     }
 
     /* 768px < width > 1023px */
     @screen lg {
         .header {
-            @apply h-8 p-4 mt-2;
+            @apply h-8 p-4 mt-3;
         }
     }
 

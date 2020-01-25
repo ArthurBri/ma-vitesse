@@ -5,14 +5,14 @@
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
                 </header>
-                <section class="modal-body">
+                <section class="modal-body text-primary">
                     <slot name="body"/>
                 </section>
-                <footer class="modal-footer">
+                <footer class="modal-footer" v-if="footer === true">
                     <slot name="footer">
                         <button @click="close" aria-label="Close modal"
                                 class="btn btn-green noselect-nodrag outline-none" type="button">
-                            Fermer
+                            <slot>Fermer</slot>
                         </button>
                     </slot>
                 </footer>
@@ -28,6 +28,11 @@
         methods: {
             close() {
                 this.$emit('close');
+            }
+        },
+        props: {
+            footer: {
+                default: true
             }
         }
     }
@@ -49,7 +54,7 @@
         right: 0;
         display: flex;
         justify-content: center;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.8);
         align-items: flex-end;
     }
 
@@ -58,10 +63,10 @@
         overflow-x: auto;
         display: flex;
         flex-direction: column;
+        align-self: center;
+        justify-self: center;
         z-index: 3;
-        width: 85vw;
-        bottom: 0;
-        border-radius: 13px 13px 0 0;
+        border-radius: 13px;
     }
 
     .modal-header,
@@ -79,7 +84,7 @@
 
     .modal-footer {
         border-top: 1px solid #eeeeee;
-        justify-content: flex-end;
+        justify-content: center;
     }
 
     .modal-body {

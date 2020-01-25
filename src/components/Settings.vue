@@ -1,5 +1,5 @@
 <template>
-    <modal @close="close" v-show="isModalVisible">
+    <bottom-modal @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <h2>Réglages</h2>
         </template>
@@ -32,11 +32,11 @@
             </div>
         </template>
         <template @click="close" v-slot:footer/>
-    </modal>
+    </bottom-modal>
 </template>
 
 <script>
-    import Modal from '@/components/Modal'
+    import BottomModal from '@/components/BottomModal'
 
     export default {
         name: "Settings",
@@ -46,7 +46,7 @@
                 showPredictions: true
             }
         },
-        components: {Modal},
+        components: {BottomModal},
         mounted() {
             this.showPredictions = this.getPredictionsPreference
         },
