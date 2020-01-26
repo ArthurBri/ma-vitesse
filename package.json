@@ -1,6 +1,6 @@
 {
   "name": "ma-vitesse",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "postinstall": "npm run build",
   "start": "node server.js",

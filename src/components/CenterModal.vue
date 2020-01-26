@@ -4,6 +4,9 @@
             <div class="modal" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
+                    <span @click="close" class="pl-2"><img alt="delete a distance"
+                                                           class="icon-close w-6 noselect-nodrag"
+                                                           src="../assets/icons/cancel.svg"/></span>
                 </header>
                 <section class="modal-body text-primary">
                     <slot name="body"/>
@@ -11,7 +14,7 @@
                 <footer class="modal-footer" v-if="footer === true">
                     <slot name="footer">
                         <button @click="close" aria-label="Close modal"
-                                class="btn btn-green noselect-nodrag outline-none" type="button">
+                                class="btn noselect-nodrag outline-none" type="button">
                             <slot>Fermer</slot>
                         </button>
                     </slot>
@@ -44,6 +47,22 @@
         border-radius: 3px;
         font-size: 14px;
         cursor: pointer;
+        transition: all 200ms;
+
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
+    }
+
+    .icon-close {
+        transition: all 200ms;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.1);
+            cursor: pointer;
+        }
     }
 
     .modal-backdrop {

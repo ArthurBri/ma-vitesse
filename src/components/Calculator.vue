@@ -113,7 +113,7 @@
                        flex cursor-pointer noselect-nodrag sm:mb-1"
                        v-show="showPresetDistances">
                     <select @change="checkFields" class="cursor-pointer" v-model="presetDistances">
-                        <option disabled value="">Distances officielles</option>
+                        <option disabled value="">Mes distances</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
                         </option>
@@ -201,6 +201,7 @@
         },
         methods: {
             checkFields(event) {
+                console.log(this.calculatedField)
                 if (event) {
                     if (event.key === 'Shift') {
                         return
@@ -511,7 +512,6 @@
                 this.$store.commit('setDistance', this.distance);
             },
             speed: function (newVal, oldVal) {
-                console.log(this.oneFieldMode);
                 if (this.speed === '') {
                     this.pace = '';
                     if (this.calculatedField === 'duration') {
@@ -603,7 +603,8 @@
                 }
             },
             durationHours: function (newVal, oldVal) {
-                if (this.durationHours !== '') {
+                // check a durationHours change only if it's not the calculated fields
+                if (this.durationHours !== '' && this.calculatedField !== 'duration') {
                     if (this.durationHours.match(/([0-9]?[0-9])/g)) {
                         // if not exactly match
                         if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
@@ -623,7 +624,8 @@
                 this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
             },
             durationMinutes: function (newVal, oldVal) {
-                if (this.durationMinutes !== '') {
+                // check a durationMinutes change only if it's not the calculated fields
+                if (this.durationMinutes !== '' && this.calculatedField !== 'duration') {
                     if (this.durationMinutes.match(/([0-5]?[0-9])/g)) {
                         // if not exactly match
                         if (this.durationMinutes.match(/([0-5]?[0-9])/g)[0] !== this.durationMinutes) {
@@ -645,7 +647,8 @@
                 this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
             },
             durationSeconds: function (newVal, oldVal) {
-                if (this.durationSeconds !== '') {
+                // check a durationSeconds change only if it's not the calculated fields
+                if (this.durationSeconds !== '' && this.calculatedField !== 'duration') {
                     if (this.durationSeconds.match(/([0-5]?[0-9])/g)) {
                         // if not exactly match
                         if (this.durationSeconds.match(/([0-5]?[0-9])/g)[0] !== this.durationSeconds) {

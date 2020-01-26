@@ -15,7 +15,7 @@ export const store = new Vuex.Store({
             {label: "10km", distance: "10"},
         ],
         /* Settings */
-        showPredictions: false
+        showPredictions: true
     },
     mutations: {
         setSpeed(state, speed) {

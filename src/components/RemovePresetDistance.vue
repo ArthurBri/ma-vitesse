@@ -1,9 +1,7 @@
 <template>
-    <center-modal :footer='true' @close="close" v-show="isModalVisible">
+    <center-modal :footer='false' @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <h2 class="noselect-nodrag">Supprimer une distance</h2>
-            <span @click="close" class="pl-2 w-6 close-icon"><img alt="delete a distance" class="noselect-nodrag"
-                                                                  src="../assets/icons/cancel.svg"/></span>
         </template>
         <template class="flex justify-center content-center" v-slot:body>
             <div class="flex items-stretch justify-center">

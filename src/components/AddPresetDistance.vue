@@ -2,8 +2,6 @@
     <center-modal :footer='false' @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <h2 class="noselect-nodrag">Ajouter une distance</h2>
-            <span @click="close" class="w-6 close-icon"><img alt="close the modal" class="noselect-nodrag"
-                                                             src="../assets/icons/cancel.svg"/></span>
         </template>
         <template class="flex justify-center content-center" v-slot:body>
             <div class="bg-primary p-2 rounded-l-lg rounded-t-lg flex justify-between">

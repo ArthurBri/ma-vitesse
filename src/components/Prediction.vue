@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="flex items-stretch justify-center"
-             v-if="$store.state.distance !== '' && $store.state.duration !== ''">
+             v-if="$store.state.distance !== '' && $store.state.duration !== '' && $store.state.defaultDistances.length > 0">
             <table>
                 <tr>
                     <th class="">Distance</th>
@@ -24,8 +24,11 @@
                 </tr>
             </table>
         </div>
-        <p class="m-auto text-center text-primary" v-else>
+        <p class="m-auto text-center text-primary" v-else-if="$store.state.defaultDistances.length > 0">
             Effectuer un calcul pour voir les prédictions sur d'autres distances.
+        </p>
+        <p class="m-auto text-center text-primary" v-else>
+            Ajouter une distance dans le menu "Mes distances" pour voir les prédictions sur ces distances.
         </p>
     </div>
 </template>

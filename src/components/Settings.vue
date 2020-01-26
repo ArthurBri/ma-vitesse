@@ -10,24 +10,15 @@
                         <input id="showPredictions" type="checkbox" v-model="showPredictions"/>
                         <label class="pl-2 noselect-nodrag" for="showPredictions">Afficher les prédictions</label>
                     </div>
-                    <!--<div class="flex flex-row">
-                        Champ par défaut :
-                        Distance
-                    <label class="switch ml-2 mr-2 content-center">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                        Allure
+                    <div class="flex flex-row justify-center">
+                        <button @click="resetApp" class="btn-reset " v-if="!appReseted">Réinitialiser l'application
+                        </button>
+                        <span v-else>L'application a été réinitialisée, rechargez la page pour appliquer les modifications.</span>
+
                     </div>
-                    <div class="flex flex-row">
-                        Mode de durée par défaut :
-                        3 champs
-                    <label class="switch ml-2 mr-2 content-center">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                        1 champ
-                    </div>-->
+                    <div class="flex justify-center pt-4">
+                        <span class="text-sm pb-2 ">Les réglages sont stockés uniquement dans votre navigateur. Toute suppression du cache entraînera la perte de ceux-ci.</span>
+                    </div>
                 </div>
             </div>
         </template>
@@ -43,7 +34,8 @@
         data() {
             return {
                 isModalVisible: false,
-                showPredictions: true
+                showPredictions: true,
+                appReseted: false
             }
         },
         components: {BottomModal},
@@ -53,6 +45,10 @@
         methods: {
             close() {
                 this.$emit('close');
+            },
+            resetApp() {
+                localStorage.clear();
+                this.appReseted = true
             }
         },
         computed: {
@@ -138,5 +134,14 @@
 
     .slider.round:before {
         border-radius: 25%;
+    }
+
+    .btn-reset {
+        transition: all 500ms;
+        @apply pt-1 pb-1 pl-2 pr-2 rounded-lg bg-primary text-white;
+
+        &:hover {
+            @apply bg-secondary;
+        }
     }
 </style>
