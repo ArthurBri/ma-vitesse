@@ -39,31 +39,34 @@
                             <label>
                                 <!-- Fields for 3 fields mode -->
                                 <input :disabled="calculatedField === 'duration'"
+                                       class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @keyup="checkFields($event)" autocomplete="off"
-                                       class="w-10 pl-1 pr-1 text-center appearance-none"
+                                       type="number"
                                        ref="hours"
                                        tabindex="1"
                                        v-model="durationHours"/>
                                 <span class="noselect-nodrag">:</span>
                                 <input :disabled="calculatedField === 'duration'"
+                                       class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @keyup="checkFields($event)" autocomplete="off"
-                                       class="w-10 pl-1 pr-1 ml-1 mr-1 text-center appearance-none"
+                                       type="number"
                                        ref="minutes"
                                        tabindex="1"
                                        v-model="durationMinutes"/>
                                 <span class="noselect-nodrag">:</span>
                                 <input :disabled="calculatedField === 'duration'"
+                                       class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @keyup="checkFields($event)" autocomplete="off"
-                                       class="w-10 pl-1 pr-1 text-center appearance-none"
+                                       type="number"
                                        ref="seconds"
                                        tabindex="1"
                                        v-model="durationSeconds"/>
@@ -201,7 +204,7 @@
         },
         methods: {
             checkFields(event) {
-                console.log(this.calculatedField)
+                console.log(this.calculatedField);
                 if (event) {
                     if (event.key === 'Shift') {
                         return
@@ -901,6 +904,15 @@
 
     .calculated2 {
         @apply border-secondary;
+    }
+
+    .number-input {
+        &::-webkit-inner-spin-button {
+            display: none;
+        }
+
+        -moz-appearance: textfield;
+
     }
 
 </style>
