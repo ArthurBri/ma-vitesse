@@ -129,17 +129,17 @@
             </div>
 
             <!-- SPEED -->
-            <div class="flex flex-col items-center sm:mt-1">
+            <div class="flex flex-col items-center sm:mt-10">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('speed')" class="box speed self-stretch justify-between">
                     <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
                     <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">Allure</label>
-                    <div class="flex">
+                    <div class="flex w-48" style="flex: 0 0 50px">
                         <!-- Speed display -->
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @keyup="checkFields($event)"
-                                   autocomplete="off" class="text-right pr-1 xs:w-20"
+                                   autocomplete="off" class="text-right pr-1 xs:w-20 w-32"
                                    id="speed" name="speed" ref="speed"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
                             <span class="noselect-nodrag text-right"
@@ -149,7 +149,8 @@
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'pace'">
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @keyup="checkFields($event)"
-                                   autocomplete="off" class="text-right pr-1 xs:w-20" id="pace" name="speed" ref="speed"
+                                   autocomplete="off" class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
+                                   ref="speed"
                                    v-if="speedFormat === 'pace'" v-model="pace"/>
                             <span class="noselect-nodrag text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>

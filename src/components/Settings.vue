@@ -1,7 +1,11 @@
 <template>
     <bottom-modal @close="close" v-show="isModalVisible">
         <template v-slot:header>
-            <h2>Réglages</h2>
+            <div>
+                <h2>Réglages</h2>
+                <span class="text-sm pb-2 font-normal">Les réglages sont stockés uniquement dans votre navigateur. Toute suppression du cache entraînera la perte de ceux-ci.</span>
+            </div>
+            <button @click="resetApp" class="btn-reset" v-if="!appReseted">Réinitialiser</button>
         </template>
         <template class="flex" v-slot:body>
             <div>
@@ -11,13 +15,7 @@
                         <label class="pl-2 noselect-nodrag" for="showPredictions">Afficher les prédictions</label>
                     </div>
                     <div class="flex flex-row justify-center">
-                        <button @click="resetApp" class="btn-reset " v-if="!appReseted">Réinitialiser l'application
-                        </button>
-                        <span v-else>L'application a été réinitialisée, rechargez la page pour appliquer les modifications.</span>
-
-                    </div>
-                    <div class="flex justify-center pt-4">
-                        <span class="text-sm pb-2 ">Les réglages sont stockés uniquement dans votre navigateur. Toute suppression du cache entraînera la perte de ceux-ci.</span>
+                        <span v-if="appReseted">L'application a été réinitialisée, rechargez la page pour appliquer les modifications.</span>
                     </div>
                 </div>
             </div>
@@ -138,7 +136,7 @@
 
     .btn-reset {
         transition: all 500ms;
-        @apply pt-1 pb-1 pl-2 pr-2 rounded-lg bg-primary text-white;
+        @apply pt-1 pb-1 pl-2 pr-2 rounded-lg bg-primary text-white text-sm font-light;
 
         &:hover {
             @apply bg-secondary;

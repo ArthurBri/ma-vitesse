@@ -4,7 +4,7 @@
             <div class="flex h-8 mb-4">
                 <img alt="prediction icon w-8" src="../assets/icons/prediction.svg" width="30px"/>
                 <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold">Prédictions de course</h2>
-                <span class="self-top text-xxs bg-secondary text-white inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
+                <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
             </div>
             <div class="w-4 h-4">
                 <img @click="close" alt="hide predictions" class="noselect-nodrag close-icon"
