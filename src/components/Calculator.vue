@@ -13,7 +13,8 @@
                 <h2 class="">Calcul de la <span
                         class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span>
                 </h2>
-                <span><img @click="clearFields()" alt="clear field button" class="h-3"
+                <span><img @click="clearFields()" alt="clear field button"
+                           class="h-3 noselect-nodrag clear-fields-button"
                            src="../assets/icons/cancel.svg"/></span>
             </div>
         </div>
@@ -31,7 +32,7 @@
                                    @keyup="checkFields($event)"
                                    autocomplete="off"
                                    class="w-24 text-right pr-1" id="duration" ref="duration"
-                                   tabindex="1" v-model="duration"/>
+                                   v-model="duration"/>
                             <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
                         </div>
                         <!-- THREE FIELDS mode -->
@@ -46,7 +47,6 @@
                                        @keyup="checkFields($event)" autocomplete="off"
                                        type="number"
                                        ref="hours"
-                                       tabindex="1"
                                        v-model="durationHours"/>
                                 <span class="noselect-nodrag">:</span>
                                 <input :disabled="calculatedField === 'duration'"
@@ -57,7 +57,6 @@
                                        @keyup="checkFields($event)" autocomplete="off"
                                        type="number"
                                        ref="minutes"
-                                       tabindex="1"
                                        v-model="durationMinutes"/>
                                 <span class="noselect-nodrag">:</span>
                                 <input :disabled="calculatedField === 'duration'"
@@ -68,7 +67,6 @@
                                        @keyup="checkFields($event)" autocomplete="off"
                                        type="number"
                                        ref="seconds"
-                                       tabindex="1"
                                        v-model="durationSeconds"/>
                             </label>
                         </div>
@@ -107,7 +105,7 @@
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1" id="distance" name="distance" onblur=""
-                               ref="distance" tabindex="2"
+                               ref="distance"
                                v-model="distance"/>
                         <span class="noselect-nodrag">km</span>
                     </div>
@@ -127,6 +125,7 @@
 
                     </select>
                 </label>
+                <span class="h-8 pt-1 pb-1" v-show="!showPresetDistances"></span>
             </div>
 
             <!-- SPEED -->
@@ -136,19 +135,24 @@
                     <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
                     <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">Allure</label>
                     <div class="flex">
-                        <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                               class="text-right pr-1"
-                               @keyup="checkFields($event)" autocomplete="off"
-                               id="speed" name="speed" ref="speed" tabindex="3"
-                               v-if="speedFormat === 'speed'" v-model="speed"/>
-
-                        <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                               class="text-right pr-1"
-                               @keyup="checkFields($event)" autocomplete="off" id="pace" name="speed" ref="speed"
-                               v-if="speedFormat === 'pace'" v-model="pace"/>
-                        <div class="md:w-16 lg:w-16 xl:w-16 flex items-stretch justify-end">
-                        <span class="noselect-nodrag text-right"
-                              v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
+                        <!-- Speed display -->
+                        <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
+                            <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                                   @keyup="checkFields($event)"
+                                   autocomplete="off" class="text-right pr-1 xs:w-20"
+                                   id="speed" name="speed" ref="speed"
+                                   v-if="speedFormat === 'speed'" v-model="speed"/>
+                            <span class="noselect-nodrag text-right"
+                                  v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
+                        </div>
+                        <!-- Pace display -->
+                        <div class="flex items-stretch justify-end" v-if="speedFormat === 'pace'">
+                            <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
+                                   @keyup="checkFields($event)"
+                                   autocomplete="off" class="text-right pr-1 xs:w-20" id="pace" name="speed" ref="speed"
+                                   v-if="speedFormat === 'pace'" v-model="pace"/>
+                            <span class="noselect-nodrag text-right"
+                                  v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                         </div>
                     </div>
                 </div>
@@ -801,6 +805,7 @@
     input {
         background-color: transparent;
     }
+
     input:focus {
         outline: none;
     }
