@@ -1,17 +1,26 @@
 {
   "name": "ma-vitesse",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
+    "dev": "vue-cli-service serve | nodemon server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "devServer": "nodemon server.js"
   },
   "dependencies": {
     "@vue/cli": "^4.1.2",
+    "axios": "^0.19.2",
     "compression": "latest",
     "core-js": "^3.4.3",
+    "cors": "latest",
+    "dns": "^0.2.2",
     "express": "latest",
+    "express-rate-limit": "^5.0.0",
+    "module": "^1.2.5",
+    "mongodb": "^3.5.2",
+    "mongoose": "^5.8.11",
     "register-service-worker": "^1.6.2",
     "serve-static": "latest",
     "vue": "^2.6.10"
@@ -25,11 +34,13 @@
     "babel-loader": "^8.0.6",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^8.0.0",
     "tailwindcss": "^1.1.4",
     "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "nodemon": "^1.19.0",
+    "dotenv": "latest"
   },
   "browserslist": [
     "> 1%",

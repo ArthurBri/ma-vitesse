@@ -1,6 +1,6 @@
 <template>
     <transition name="modal-fade">
-        <div class="modal-backdrop z-10" role="dialog">
+        <div class="modal-backdrop" role="dialog">
             <div class="modal" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
@@ -22,7 +22,6 @@
             </div>
         </div>
     </transition>
-
 </template>
 
 <script>
@@ -73,7 +72,8 @@
         right: 0;
         display: flex;
         justify-content: center;
-        background-color: rgba(0, 0, 0, 0.8);
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(10px);
         align-items: flex-end;
     }
 

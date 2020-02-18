@@ -1,11 +1,8 @@
 <template>
     <transition name="fade">
-        <div class="preloader flex flex-col text-white text-4xl justify-center items-center">
-            <div class="flex">
-                <img alt="" class="w-20 h-20" src="../assets/logo.svg"/>
-                <span class="text-primary self-center">Vitesse</span>
-            </div>
-            <div class="ml-8 lds-ellipsis">
+        <div class="preloader flex flex-col text-white justify-center items-center">
+            <img alt="" class="w-32" src="../assets/logo.svg"/>
+            <div class="ml-2 lds-ellipsis">
                 <div></div>
                 <div></div>
                 <div></div>
@@ -19,7 +16,7 @@
 
 <script>
     export default {
-        name: "Preloader.vue"
+        name: "Preloader"
     }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
-    <div class="box p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border">
+    <div class="box ">
         <div class="flex justify-between">
-            <div class="flex h-8 mb-4">
+            <!--<div class="flex h-8 mb-4">
                 <img alt="prediction icon w-8" src="../assets/icons/prediction.svg" width="30px"/>
                 <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold">Prédictions de course</h2>
                 <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
@@ -9,7 +9,7 @@
             <div class="w-4 h-4">
                 <img @click="close" alt="hide predictions" class="noselect-nodrag close-icon"
                      src="../assets/icons/cancel.svg"/>
-            </div>
+            </div>-->
         </div>
         <div class="flex items-stretch justify-center"
              v-if="$store.state.distance !== '' && $store.state.duration !== '' && $store.state.defaultDistances.length > 0">
@@ -35,10 +35,9 @@
 
 <script>
     export default {
-        name: "Prediction.vue",
+        name: "Prediction",
         data() {
-            return {
-            }
+            return {}
         },
         computed: {
             updatedPredictions() {
@@ -87,25 +86,20 @@
 
     @screen md {
         .box {
-            @apply rounded-lg;
+            @apply rounded-b-lg rounded-r-lg;
         }
     }
 
     @screen lg {
         .box {
-            @apply rounded-lg;
+            @apply rounded-b-lg rounded-r-lg;
         }
     }
 
     @screen xl {
         .box {
-            @apply rounded-lg;
+            @apply rounded-b-lg rounded-r-lg;
         }
-    }
-
-    .box {
-        color: white;
-        box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
     }
 
     table, th, td {

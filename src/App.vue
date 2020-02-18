@@ -1,12 +1,47 @@
 <template>
-    <div class="bg-gray-200">
+    <div>
         <preloader v-if="showPreloader"/>
+        <div class="bg-gray-200 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
-            <div class="body">
-                <Calculator class="calculator mb-6"/>
+            <h1 class="text-white text-4xl"><b>MA Vitesse</b> : outil de calcul pour la course à pied</h1>
+            <div class="body pt-8">
+                <Calculator class="mt-12"/>
                 <transition name="fade">
-                    <Prediction v-show="showPredictions"/>
+                    <!-- TABS DES FONCTIONS ADDITIONNELLES : A COMPOSANTISER -->
+                    <div class="tabs-menu w-2/3 mt-5">
+                        <div class="tabs flex">
+                            <div :class="[tabSelected === 'predictions' ? '' : 'border bg-gray-300 pb-1']"
+                                 @click="tabSelected = 'predictions'"
+                                 class="tab bg-white text-primary pt-2 pl-2 pr-2 rounded-t-lg border-t border-l border-primary"
+                                 v-show="showPredictions">
+                                <div class="flex h-8 mt-1 ml-1 mr-1">
+                                    <div @click="showPredictions = false" class="prediction-icon w-8"></div>
+                                    <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold cursor-pointer">
+                                        Prédictions de course</h2>
+                                    <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
+
+                                </div>
+                            </div>
+                            <div :class="[tabSelected === 'laptime' ? '' : 'border bg-gray-300 pb-1']"
+                                 @click="tabSelected = 'laptime'" class="tab flex bg-white text-primary pt-2 pl-2 pr-2 rounded-t-lg border-t
+                             border-l border-primary" v-show="showLapTime">
+                                <div class="flex h-8 mt-1 ml-1 mr-1">
+
+                                    <div @click="showLapTime = false" class="laptime-icon w-8"></div>
+                                    <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold cursor-pointer">
+                                        Temps de passage</h2>
+                                    <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">A venir</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabs-content p-6 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border-l border-b border-r
+                            rounded-b-lg rounded-r-lg">
+                            <Prediction v-show="showPredictions && tabSelected === 'predictions'"/>
+                            <LapTime v-show="showLapTime && tabSelected === 'laptime'"></LapTime>
+                        </div>
+                    </div>
+                    <!-- FIN TABS -->
                 </transition>
             </div>
             <Footer/>
@@ -19,16 +54,19 @@
     import Footer from '@/components/Footer'
     import Calculator from '@/components/Calculator'
     import Prediction from '@/components/Prediction'
+    import LapTime from '@/components/LapTime'
     import Settings from '@/components/Settings'
     import Preloader from '@/components/Preloader'
 
     export default {
         name: 'app',
-        components: {Prediction, Calculator, Settings, Footer, Header, Preloader},
+        components: {Prediction, Calculator, LapTime, Settings, Footer, Header, Preloader},
         data() {
             return {
                 showPreloader: true,
-                showPredictions: false
+                showPredictions: false,
+                showLapTime: true,
+                tabSelected: 'predictions'
             }
         },
         mounted() {
@@ -59,6 +97,17 @@
         z-index: 0;
         position: relative;
         @apply flex flex-col items-center self-stretch min-h-screen min-w-full ;
+
+    }
+
+    .background {
+        background: url('../src/assets/wallpp.jpg');
+        background-size: cover;
+        z-index: -999;
+        position: fixed;
+        width: 100vw;
+        top: 0;
+        height: 100vh;
     }
 
     .body {
@@ -79,5 +128,35 @@
 
     h2, h1, p {
         margin: 0;
+    }
+
+    .tab {
+        cursor: pointer;
+
+        > span {
+            cursor: pointer;
+        }
+    }
+
+    .prediction-icon {
+        background-image: url("./assets/icons/prediction.svg");
+        background-size: cover;
+        transition: all 200ms;
+
+        &:hover {
+            background-image: url('./assets/icons/cancel.svg');
+            transform: scale(0.6)
+        }
+    }
+
+    .laptime-icon {
+        background-image: url("./assets/icons/laptime.svg");
+        background-size: cover;
+        transition: all 200ms;
+
+        &:hover {
+            background-image: url('./assets/icons/cancel.svg');
+            transform: scale(0.6)
+        }
     }
 </style>

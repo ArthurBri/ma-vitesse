@@ -1,16 +1,24 @@
 <template>
-    <div class="footer flex flex-row flex-wrap justify-center select-none nodrag bg-grey xs:border-t xs:border-primary">
-        <!--<span @click="isModalSuggestFeature = true"
-              class="text-primary font-bold button h-6 cursor-pointer mr-4 xs:text-xs">Proposer une fonctionnalité</span>
-        <span class="text-primary font-bold h-6 xs:hidden">|</span>-->
-        <div class="flex xs:pt-1">
-            <span class="text-primary ml-4 mr-2 h-6">Soutenir le projet :</span>
-            <a class="noselect-nodrag h-8 outline-none xs:h-3" href="https://www.patreon.com/bePatron?u=27939606"
-               tabindex="-1"
-               target="_blank">
-                <img alt="" class="patreon-button h-6 mr-2 rounded-full noselect-nodrag cursor-pointer"
-                     src="../assets/patreon.png"/>
-            </a>
+    <div class="footer flex flex-row justify-between xs:flex-wrap sm:flex-wrap justify-center select-none nodrag bg-grey xs:border-t xs:border-primary">
+        <div class="footer-start w-1/4"></div>
+        <div class="footer-center flex w-1/2 justify-center">
+        <span @click="isModalSuggestFeature = true"
+              class="text-white font-bold button h-6 cursor-pointer mr-4 xs:text-xs">Proposer une fonctionnalité</span>
+            <span class="text-white font-bold h-6 xs:hidden">|</span>
+            <div class="flex xs:pt-1">
+                <span class="text-white font-bold ml-4 mr-2 h-6">Soutenir le projet :</span>
+                <a class="noselect-nodrag h-8 outline-none xs:h-3" href="https://www.patreon.com/bePatron?u=27939606"
+                   tabindex="-1"
+                   target="_blank">
+                    <img alt="" class="patreon-button h-6 mr-2 rounded-full noselect-nodrag cursor-pointer"
+                         src="../assets/patreon.png"/>
+                </a>
+            </div>
+        </div>
+        <div class="footer-end text-right pr-4 w-1/4">
+            <span class="text-white h-6 xs:hidden">Proposé par <a class="link"
+                                                                  href="https://www.linkedin.com/in/arthur-bri%C3%A8re/"
+                                                                  target="_blank">Arthur Brière</a></span>
         </div>
         <about @close="closeModalAbout" v-show="isModalAbout"/>
         <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature"/>
@@ -45,6 +53,13 @@
 </script>
 
 <style lang="scss" scoped>
+    .link {
+        &:hover {
+            padding-bottom: 2px;
+            text-decoration: underline $ma-secondary;
+        }
+    }
+
     .footer {
         @apply text-center pt-2 h-16 w-full;
     }

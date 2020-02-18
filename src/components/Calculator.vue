@@ -1,10 +1,9 @@
 <template>
-    <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full bg-primary text-white">
+    <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white">
         <div class="flex h-8 mb-2" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calculateur de vitesse, de durée,
-                de
-                distance</h2>
+                de distance</h2>
 
         </div>
         <div class="flex h-8 mb-2" v-else>
@@ -44,7 +43,7 @@
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
-                                       @keyup="checkFields($event)" autocomplete="off"
+                                       @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        type="number"
                                        ref="hours"
                                        v-model="durationHours"/>
@@ -54,7 +53,7 @@
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
-                                       @keyup="checkFields($event)" autocomplete="off"
+                                       @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        type="number"
                                        ref="minutes"
                                        v-model="durationMinutes"/>
@@ -64,7 +63,7 @@
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
-                                       @keyup="checkFields($event)" autocomplete="off"
+                                       @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        type="number"
                                        ref="seconds"
                                        v-model="durationSeconds"/>
@@ -103,9 +102,9 @@
                     <label for="distance">Distance</label>
                     <div class="flex">
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
-                               @keyup="checkFields($event)" autocomplete="off"
-                               class="text-right pr-1" id="distance" name="distance" onblur=""
-                               ref="distance"
+                               @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                               class="text-right pr-1 number-input" id="distance" name="distance" onblur=""
+                               ref="distance" step="any" type="number"
                                v-model="distance"/>
                         <span class="noselect-nodrag">km</span>
                     </div>
@@ -138,8 +137,9 @@
                         <!-- Speed display -->
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                                   @keyup="checkFields($event)"
-                                   autocomplete="off" class="text-right pr-1 xs:w-20 w-32"
+                                   @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                                   class="text-right pr-1 xs:w-20 w-32 number-input"
+                                   step="any" type="number"
                                    id="speed" name="speed" ref="speed"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
                             <span class="noselect-nodrag text-right"
@@ -209,7 +209,6 @@
         },
         methods: {
             checkFields(event) {
-                console.log(this.calculatedField);
                 if (event) {
                     if (event.key === 'Shift') {
                         return
@@ -374,14 +373,14 @@
                     if (ref === "minutes" && (this.durationMinutes === "" || this.$refs['minutes'].selectionStart === 0)) {
                         if (this.$refs['minutes'].selectionStart === this.$refs['minutes'].selectionEnd) {
                             event.preventDefault();
-                            this.$refs['hours'].setSelectionRange(this.durationHours.length, this.durationHours.length);
+                            // this.$refs['hours'].setSelectionRange(this.durationHours.length, this.durationHours.length);
                             this.$refs['hours'].focus();
                         }
                     }
                     if (ref === "seconds" && (this.durationSeconds === "" || this.$refs['seconds'].selectionStart === 0)) {
                         if (this.$refs['seconds'].selectionStart === this.$refs['seconds'].selectionEnd) {
                             event.preventDefault();
-                            this.$refs['minutes'].setSelectionRange(this.durationMinutes.length, this.durationMinutes.length);
+                            // this.$refs['minutes'].setSelectionRange(this.durationMinutes.length, this.durationMinutes.length);
                             this.$refs['minutes'].focus();
                         }
                     }
@@ -389,11 +388,11 @@
                 } else {
                     if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
                         event.preventDefault();
-                        this.$refs['minutes'].setSelectionRange(0, 0);
+                        // this.$refs['minutes'].setSelectionRange(0, 0);
                         this.$refs['minutes'].focus();
                     } else if (ref === 'minutes' && this.$refs[ref].selectionStart === this.durationMinutes.length) {
                         event.preventDefault();
-                        this.$refs['seconds'].setSelectionRange(0, 0);
+                        // this.$refs['seconds'].setSelectionRange(0, 0);
                         this.$refs['seconds'].focus();
                     }
                 }
@@ -742,7 +741,8 @@
     }
     .main-box {
         transition: all 0.5s;
-        box-shadow: 0 3px 3px rgba(33, 33, 33, .4);
+        box-shadow: 0 5px 1px rgba(255, 153, 0, 0.8);
+        background-color: $ma-primary;
     }
 
     @media screen and (max-width: 950px) {
@@ -833,31 +833,6 @@
     h1 {
         font-size: 2.5em;
         text-align: center;
-    }
-
-    .settings-box {
-        $left-pos: 88.5%;
-        position: absolute;
-        display: flex;
-        justify-content: flex-end;
-        top: 20%;
-        left: $left-pos;
-        background: $ma-primary;
-        background: linear-gradient(to left, #9d3077, #70a9d2);
-        color: white;
-        text-align: center;
-        border-radius: 13px;
-        padding: 1vh 0 1vh 3vw;
-        box-shadow: 0 5px 10px rgba(33, 33, 33, .2);
-        transition: left 0.5s;
-
-        &:hover {
-            left: $left-pos + 1%;
-        }
-
-        &:active {
-            animation: flip-over 0.7s forwards;
-        }
     }
 
     .clear-fields-button {

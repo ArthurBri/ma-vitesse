@@ -18,7 +18,7 @@
                 </div>
 
             </div>
-            <div class="flex justify-center" v-if="newDistance && distance !==''">
+            <div class="flex justify-center" v-if="newDistance && newLabel && distance !=='' && label !== ''">
                 <button @click="addDistance" aria-label="Add distance"
                         class="btn noselect-nodrag outline-none focus:outline-none rounded-lg mt-2 pl-2 pr-2 pt-1 pb-1 border-primary border"
                         type="button">
@@ -45,7 +45,8 @@
                 isModalVisible: true,
                 label: '',
                 distance: '',
-                newDistance: false,
+                newDistance: true,
+                newLabel: true,
                 matchDistanceLabel: '',
                 matchDistanceValue: ''
             }
@@ -106,12 +107,11 @@
                 }
                 if (this.$store.state.defaultDistances.find(defaultDist =>
                     defaultDist.distance === this.distance)) {
-                    this.newDistance = false;
+                    this.newLabel = false;
                     this.matchDistanceLabel = this.$store.state.defaultDistances.find(defaultDist =>
                         defaultDist.distance === this.distance).label;
-                    console.log(this.matchDistanceLabel)
                 } else {
-                    this.newDistance = true;
+                    this.newLabel = true;
                     this.matchDistanceLabel = '';
                 }
             }

@@ -49,17 +49,17 @@
         right: 0;
         display: flex;
         justify-content: center;
-        background-color: rgba(0, 0, 0, 0.4);
+        -webkit-backdrop-filter: blur(3px);
+        backdrop-filter: blur(3px);
         align-items: flex-end;
     }
 
     .modal {
-        background: #ffffff;
+        @apply border border-primary bg-white w-4/5;
         overflow-x: auto;
         display: flex;
         flex-direction: column;
         z-index: 3;
-        width: 85vw;
         bottom: 0;
         border-radius: 13px 13px 0 0;
     }
@@ -72,7 +72,7 @@
 
     .modal-header {
         border-bottom: 1px solid #eeeeee;
-        color: $ma-primary;
+        @apply bg-primary text-white;
         justify-content: space-between;
         align-items: center;
     }

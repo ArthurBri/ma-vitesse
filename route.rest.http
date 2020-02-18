@@ -1,0 +1,62 @@
+GET http://localhost:80/meanapps
+
+###
+
+DELETE http://localhost:80/meanapps/5e3c8697e7179a2f0119354a
+Content-Type: application/json
+
+{
+  "logo": "https://res.cloudinary.com/hazicy5aw/image/upload/c_scale,h_200/v1581181852/logo-MV_qlhdbe.png",
+  "url": "https://ma-vitesse.app"
+}
+
+###
+
+POST http://localhost:80/meanapps
+Content-Type: application/json
+
+{
+  "name": "MA Vitesse",
+  "description": "Application de calcul de vitesse, durée et distance.",
+  "logo": "https://res.cloudinary.com/hazicy5aw/image/upload/c_scale,h_200/v1581181852/logo-MV_qlhdbe.png",
+  "url": ""
+}
+
+###
+
+PATCH http://localhost:80/meanapps/5e3ef0a29328920be2c9a827
+Content-Type: application/json
+
+{
+  "logo": "https://res.cloudinary.com/hazicy5aw/image/upload/c_scale,h_200/v1581181852/logo-MV_qlhdbe.png",
+  "url": "https://ma-vitesse.app"
+}
+
+###
+
+GET http://localhost:80/featuresuggests
+
+###
+
+DELETE http://localhost:80/featuresuggests/5e3fe226fed57f0626d0c89f
+
+###
+
+POST http://localhost:80/featuresuggests
+Content-Type: application/json
+
+{
+  "description": "Ajout d'un mode nuit",
+  "contributor_email": "arthur.briere@gmail.com"
+}
+
+###
+
+PATCH http://localhost:80/featuresuggests/5e3fe226fed57f0626d0c89f
+Content-Type: application/json
+
+{
+  "contributor_email": "jeanlouislarun@gmail.com"
+}
+
+###
