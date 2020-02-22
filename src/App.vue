@@ -4,12 +4,13 @@
         <div class="bg-gray-200 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
-            <h1 class="text-white text-4xl"><b>MA Vitesse</b> : outil de calcul pour la course à pied</h1>
-            <div class="body pt-8">
+            <h1 class="text-white text-center text-3xl ml-10 mr-10 xs:text-lg xs:m-4 xs:mb-0 sm:text-xl sm:m-3 sm:mb-0 md:text-xl md:mt-2 lg:text-2xl">
+                <b>MA Vitesse</b> : outil de calcul pour la course à pied</h1>
+            <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4">
                 <Calculator class="mt-12"/>
                 <transition name="fade">
                     <!-- TABS DES FONCTIONS ADDITIONNELLES : A COMPOSANTISER -->
-                    <div class="tabs-menu w-2/3 mt-5">
+                    <div class="tabs-menu w-2/3 mt-5 xs:w-full sm:w-full ">
                         <div class="tabs flex">
                             <div :class="[tabSelected === 'predictions' ? '' : 'border bg-gray-300 pb-1']"
                                  @click="tabSelected = 'predictions'"

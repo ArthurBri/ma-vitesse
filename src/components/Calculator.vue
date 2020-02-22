@@ -128,7 +128,7 @@
             </div>
 
             <!-- SPEED -->
-            <div class="flex flex-col items-center sm:mt-10">
+            <div class="flex flex-col items-center">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('speed')" class="box speed self-stretch justify-between">
                     <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
