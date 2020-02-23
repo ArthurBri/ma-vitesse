@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
             {label: "10km", distance: "10"},
         ],
         /* Settings */
-        showPredictions: true
+        showPredictions: true,
+        showLapTime: true
     },
     mutations: {
         setSpeed(state, speed) {
@@ -31,6 +32,10 @@ export const store = new Vuex.Store({
             state.showPredictions = show;
             localStorage.showPredictions = state.showPredictions;
         },
+        showLapTime(state, show) {
+            state.showLapTime = show;
+            localStorage.showLapTime = state.showLapTime;
+        },
         addPresetDistance(state, newPreset) {
             state.defaultDistances.push(newPreset);
             localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances));
@@ -44,6 +49,10 @@ export const store = new Vuex.Store({
             // Check if the ID exists
             if (localStorage.getItem('showPredictions')) {
                 state.showPredictions = localStorage.showPredictions === 'true'
+            }
+
+            if (localStorage.getItem('showLapTime')) {
+                state.showLapTime = localStorage.showLapTime === 'true'
             }
 
             if (localStorage.getItem('defaultDistances')) {

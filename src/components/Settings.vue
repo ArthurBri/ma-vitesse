@@ -10,9 +10,15 @@
         <template class="flex" v-slot:body>
             <div>
                 <div class="flex flex-col">
-                    <div>
-                        <input id="showPredictions" type="checkbox" v-model="showPredictions"/>
-                        <label class="pl-2 noselect-nodrag" for="showPredictions">Afficher les prédictions</label>
+                    <div class="flex flex-col">
+                        <div>
+                            <input id="showPredictions" type="checkbox" v-model="showPredictions"/>
+                            <label class="pl-2 noselect-nodrag" for="showPredictions">Afficher les prédictions</label>
+                        </div>
+                        <div>
+                            <input id="showLapTime" type="checkbox" v-model="showLapTime"/>
+                            <label class="pl-2 noselect-nodrag" for="showLapTime">Afficher les temps de passage</label>
+                        </div>
                     </div>
                     <div class="flex flex-row justify-center">
                         <span v-if="appReseted">L'application a été réinitialisée, rechargez la page pour appliquer les modifications.</span>
@@ -32,7 +38,6 @@
         data() {
             return {
                 isModalVisible: false,
-                showPredictions: true,
                 appReseted: false
             }
         },
@@ -50,16 +55,19 @@
             }
         },
         computed: {
-            getPredictionsPreference: function () {
-                return this.$store.state.showPredictions
-            }
-        },
-        watch: {
-            getPredictionsPreference: function () {
-                this.showPredictions = this.getPredictionsPreference
+            showPredictions: {
+                get: function () {
+                    return this.$store.state.showPredictions
+                }, set: function (newVal) {
+                    this.$store.commit('showPredictions', newVal)
+                }
             },
-            showPredictions: function (newVal) {
-                this.$store.commit('showPredictions', newVal)
+            showLapTime: {
+                get: function () {
+                    return this.$store.state.showLapTime
+                }, set: function (newVal) {
+                    this.$store.commit('showLapTime', newVal)
+                }
             }
         }
     }

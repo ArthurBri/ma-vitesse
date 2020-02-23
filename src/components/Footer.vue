@@ -1,12 +1,12 @@
 <template>
-    <div class="footer flex flex-row justify-between xs:flex-wrap sm:flex-wrap justify-center select-none nodrag bg-grey xs:border-t xs:border-primary">
-        <div class="footer-start w-1/4 xs:w-0 sm:w-0"></div>
-        <div class="footer-center flex w-1/2 justify-center">
+    <div class="footer w-full flex flex-row justify-between xs:flex-wrap sm:flex-wrap justify-center select-none nodrag bg-grey xs:border-t xs:border-primary overflow-x-auto">
+        <div class="footer-start w-1/8 xs:w-0 sm:w-0"></div>
+        <div class="footer-center flex w-3/4 justify-center">
         <span @click="isModalSuggestFeature = true"
               class="text-white font-bold button h-6 cursor-pointer mr-4 xs:text-xs">Proposer une fonctionnalité</span>
             <span class="text-white font-bold h-6 xs:hidden">|</span>
             <div class="flex xs:pt-1">
-                <span class="text-white font-bold ml-4 mr-2 h-6 xs:text-xs">Soutenir le projet :</span>
+                <span class="text-white font-bold ml-4 mr-2 h-6 xs:hidden">Soutenir le projet :</span>
                 <a class="noselect-nodrag h-8 outline-none xs:h-3" href="https://www.patreon.com/bePatron?u=27939606"
                    tabindex="-1"
                    target="_blank">
@@ -15,10 +15,10 @@
                 </a>
             </div>
         </div>
-        <div class="footer-end text-right pr-4 w-1/4 xs:w-0 sm:w-0">
-            <span class="text-white h-6 xs:hidden">Proposé par <a class="link"
-                                                                  href="https://www.linkedin.com/in/arthur-bri%C3%A8re/"
-                                                                  target="_blank">Arthur Brière</a></span>
+        <div class="footer-end text-right pr-4 w-1/8 xs:w-0 sm:w-0">
+            <span class="text-white h-6 sm:hidden xs:hidden">Proposé par <a class="link"
+                                                                            href="https://www.linkedin.com/in/arthur-bri%C3%A8re/"
+                                                                            target="_blank">Arthur Brière</a></span>
         </div>
         <about @close="closeModalAbout" v-show="isModalAbout"/>
         <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature"/>

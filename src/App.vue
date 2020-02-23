@@ -10,36 +10,24 @@
                 <Calculator class="mt-12"/>
                 <transition name="fade">
                     <!-- TABS DES FONCTIONS ADDITIONNELLES : A COMPOSANTISER -->
-                    <div class="tabs-menu w-2/3 mt-5 xs:w-full sm:w-full ">
-                        <div class="tabs flex">
-                            <div :class="[tabSelected === 'predictions' ? '' : 'border bg-gray-300 pb-1']"
-                                 @click="tabSelected = 'predictions'"
-                                 class="tab bg-white text-primary pt-2 pl-2 pr-2 rounded-t-lg border-t border-l border-primary"
-                                 v-show="showPredictions">
-                                <div class="flex h-8 mt-1 ml-1 mr-1">
-                                    <div @click="showPredictions = false" class="prediction-icon w-8"></div>
-                                    <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold cursor-pointer">
-                                        Prédictions de course</h2>
-                                    <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">Alpha</span>
-
-                                </div>
-                            </div>
-                            <div :class="[tabSelected === 'laptime' ? '' : 'border bg-gray-300 pb-1']"
-                                 @click="tabSelected = 'laptime'" class="tab flex bg-white text-primary pt-2 pl-2 pr-2 rounded-t-lg border-t
-                             border-l border-primary" v-show="showLapTime">
-                                <div class="flex h-8 mt-1 ml-1 mr-1">
-
-                                    <div @click="showLapTime = false" class="laptime-icon w-8"></div>
-                                    <h2 class="noselect-nodrag self-center pl-2 text-primary font-semibold cursor-pointer">
-                                        Temps de passage</h2>
-                                    <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1">A venir</span>
-                                </div>
-                            </div>
+                    <div class="tabs-menu w-2/3 mt-5 xs:w-full sm:w-full">
+                        <div class="tabs flex overflow-x-auto">
+                            <TabMenuItem :active="tabActive === 'predictions'" :hidden="!showPredictions"
+                                         @click.native="setTabActive('predictions')"
+                                         component="predictions" label="Prédictions de course" version="Alpha"/>
+                            <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
+                                         @click.native="setTabActive('laptime')"
+                                         component="laptime" label="Temps de passage" version="A venir"/>
                         </div>
-                        <div class="tabs-content p-6 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border-l border-b border-r
-                            rounded-b-lg rounded-r-lg">
-                            <Prediction v-show="showPredictions && tabSelected === 'predictions'"/>
-                            <LapTime v-show="showLapTime && tabSelected === 'laptime'"></LapTime>
+                        <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border-l border-b border-r
+                            xl:rounded-b-lg lg:rounded-b-lg md:rounded-b-lg xl:rounded-r-lg lg:rounded-r-lg md:rounded-r-lg"
+                             v-if="showTabMenu">
+                            <span @click="hideTabActive"
+                                  class="self-end mr-3 mt-3 bg-primary hover:bg-gray-500 cursor-pointer rounded-lg p-2 pt-1 pb-1 text-xs text-white">Masquer</span>
+                            <div class="p-6">
+                                <Prediction v-show="showPredictions && tabActive === 'predictions'"/>
+                                <LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>
+                            </div>
                         </div>
                     </div>
                     <!-- FIN TABS -->
@@ -58,32 +46,63 @@
     import LapTime from '@/components/LapTime'
     import Settings from '@/components/Settings'
     import Preloader from '@/components/Preloader'
+    import TabMenuItem from '@/components/TabMenuItem'
 
     export default {
         name: 'app',
-        components: {Prediction, Calculator, LapTime, Settings, Footer, Header, Preloader},
+        components: {Prediction, Calculator, LapTime, Settings, Footer, Header, Preloader, TabMenuItem},
         data() {
             return {
                 showPreloader: true,
-                showPredictions: false,
-                showLapTime: true,
-                tabSelected: 'predictions'
+                tabActive: ''
             }
         },
         mounted() {
             setTimeout(() => {
                 this.showPreloader = false;
             }, 800);
-            this.showPredictions = this.getPredictionsPreference
+            this.tabActive = this.showPredictions ? 'predictions' : this.showLapTime ? 'laptime' : ''
         },
         computed: {
-            getPredictionsPreference: function () {
-                return this.$store.state.showPredictions
+            showPredictions: {
+                get: function () {
+                    return this.$store.state.showPredictions
+                }, set: function (newVal) {
+                    this.$store.commit('showPredictions', newVal)
+                }
+            },
+            showLapTime: {
+                get: function () {
+                    return this.$store.state.showLapTime
+                }, set: function (newVal) {
+                    this.$store.commit('showLapTime', newVal)
+                }
+            },
+            showTabMenu: function () {
+                return this.showPredictions || this.showLapTime
             }
         },
         watch: {
-            getPredictionsPreference: function () {
-                this.showPredictions = this.getPredictionsPreference
+            showPredictions: function () {
+                this.tabActive = this.showPredictions ? 'predictions' : 'laptime'
+            },
+            showLapTime: function () {
+                this.tabActive = this.showLapTime ? 'laptime' : 'predictions'
+            }
+        },
+        methods: {
+            setTabActive: function (tabToActivate) {
+                this.tabActive = tabToActivate
+            },
+            hideTabActive: function () {
+                if (this.tabActive === 'predictions') {
+                    this.showPredictions = false;
+                    this.tabActive = 'laptime'
+                } else if (this.tabActive === 'laptime') {
+                    this.showLapTime = false;
+                    this.tabActive = 'predictions'
+
+                }
             }
         }
     }
@@ -112,7 +131,7 @@
     }
 
     .body {
-        @apply flex flex-grow flex-wrap ml-0 justify-center overflow-auto w-5/6 items-start content-start ;
+        @apply flex flex-grow flex-wrap ml-0 mb-8 justify-center overflow-auto w-5/6 items-start content-start ;
     }
 
     @screen xs {
@@ -140,13 +159,15 @@
     }
 
     .prediction-icon {
-        background-image: url("./assets/icons/prediction.svg");
+        background-image: url("assets/icons/predictions.svg");
         background-size: cover;
         transition: all 200ms;
 
-        &:hover {
-            background-image: url('./assets/icons/cancel.svg');
-            transform: scale(0.6)
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-image: url('./assets/icons/cancel.svg');
+                transform: scale(0.6)
+            }
         }
     }
 
@@ -155,9 +176,15 @@
         background-size: cover;
         transition: all 200ms;
 
-        &:hover {
-            background-image: url('./assets/icons/cancel.svg');
-            transform: scale(0.6)
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background-image: url('./assets/icons/cancel.svg');
+                transform: scale(0.6)
+            }
         }
+    }
+
+    .tabs-content {
+        @apply flex flex-col;
     }
 </style>

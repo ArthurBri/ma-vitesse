@@ -1,5 +1,5 @@
 <template>
-    <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white">
+    <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calculateur de vitesse, de durée,
