@@ -3,7 +3,6 @@
         <template v-slot:header>
             <div>
                 <h2>Réglages</h2>
-                <span class="text-sm font-normal">Les réglages sont stockés uniquement dans votre navigateur. Toute suppression du cache entraînera la perte de ceux-ci.</span>
             </div>
             <button @click="resetApp" class="btn-reset" v-if="!appReseted">Réinitialiser</button>
         </template>
@@ -142,9 +141,40 @@
         border-radius: 25%;
     }
 
+    @screen xs {
+        .btn-reset {
+            @apply bg-primary text-white;
+        }
+    }
+
+    @screen sm {
+        .btn-reset {
+            @apply bg-primary text-white;
+        }
+    }
+
+    @screen md {
+        .btn-reset {
+            @apply bg-white text-primary;
+        }
+    }
+
+    @screen lg {
+        .btn-reset {
+            @apply bg-white text-primary;
+        }
+    }
+
+    @screen xl {
+        .btn-reset {
+            @apply bg-white text-primary;
+        }
+    }
+
+
     .btn-reset {
         transition: all 500ms;
-        @apply pt-1 pb-1 pl-2 pr-2 rounded-lg bg-white text-primary text-sm font-light;
+        @apply pt-1 pb-1 pl-2 pr-2 rounded-lg text-sm font-light;
 
         &:hover {
             @apply bg-secondary;

@@ -16,7 +16,7 @@ export const store = new Vuex.Store({
         ],
         /* Settings */
         showPredictions: true,
-        showLapTime: true
+        showLapTime: false
     },
     mutations: {
         setSpeed(state, speed) {

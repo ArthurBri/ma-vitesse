@@ -1,8 +1,8 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop z-10" role="dialog">
-            <div class="modal w-4/5 sm:w-full xs:w-full" ref="modal">
-                <header class="modal-header text-xl font-bold">
+            <div class="modal w-4/5 rounded-t-lg sm:w-full xs:w-full sm:rounded-none xs:rounded-none" ref="modal">
+                <header class="modal-header text-xl text-white sm:text-primary xs:text-primary font-bold bg-primary xs:bg-transparent sm:bg-transparent xs:border-t-4 sm:border-t-4 xs:border-secondary sm:border-secondary">
                     <slot name="header"/>
                 </header>
                 <section class="modal-body">
@@ -61,7 +61,6 @@
         flex-direction: column;
         z-index: 3;
         bottom: 0;
-        border-radius: 13px 13px 0 0;
     }
 
     .modal-header,
@@ -70,9 +69,9 @@
         display: flex;
     }
 
+
     .modal-header {
         border-bottom: 1px solid #eeeeee;
-        @apply bg-primary text-white;
         justify-content: space-between;
         align-items: center;
     }
