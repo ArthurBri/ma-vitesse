@@ -2,7 +2,7 @@
     <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calculateur de vitesse, de durée,
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calcul de vitesse, de durée,
                 de distance</h2>
 
         </div>
@@ -32,7 +32,7 @@
                                    autocomplete="off"
                                    class="w-24 text-right pr-1" id="duration" ref="duration"
                                    v-model="duration"/>
-                            <span class="noselect-nodrag">{{ durationDisplayedFormat }}</span>
+                            <span class="noselect-nodrag">{{ durationDisplayedUnit }}</span>
                         </div>
                         <!-- THREE FIELDS mode -->
                         <div class="flex justify-end" v-else>
@@ -44,7 +44,7 @@
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="number"
+                                       type="tel"
                                        ref="hours"
                                        v-model="durationHours"/>
                                 <span class="noselect-nodrag">:</span>
@@ -54,7 +54,7 @@
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="number"
+                                       type="tel"
                                        ref="minutes"
                                        v-model="durationMinutes"/>
                                 <span class="noselect-nodrag">:</span>
@@ -64,7 +64,7 @@
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="number"
+                                       type="tel"
                                        ref="seconds"
                                        v-model="durationSeconds"/>
                             </label>
@@ -104,7 +104,7 @@
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1 number-input" id="distance" name="distance" onblur=""
-                               ref="distance" step="any" type="number"
+                               ref="distance" type="tel"
                                v-model="distance"/>
                         <span class="noselect-nodrag">km</span>
                     </div>
@@ -139,7 +139,7 @@
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
-                                   step="any" type="number"
+                                   type="tel"
                                    id="speed" name="speed" ref="speed"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
                             <span class="noselect-nodrag text-right"
@@ -186,7 +186,7 @@
                 /* duration */
                 duration: '',
                 durationDisplayed: '',
-                durationDisplayedFormat: 'h',
+                durationDisplayedUnit: 'h',
                 oneFieldMode: false,
                 durationHours: '',
                 durationMinutes: '',
@@ -260,7 +260,7 @@
                 this.pace = '';
                 this.distance = '';
                 this.calculatedField = '';
-                this.durationDisplayedFormat = 'h';
+                this.durationDisplayedUnit = 'h';
             },
             formatSpeed(speed) {
                 return speed.replace(',', '.');
@@ -388,11 +388,11 @@
                 } else {
                     if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
                         event.preventDefault();
-                        // this.$refs['minutes'].setSelectionRange(0, 0);
+                        this.$refs['minutes'].setSelectionRange(0, 0);
                         this.$refs['minutes'].focus();
                     } else if (ref === 'minutes' && this.$refs[ref].selectionStart === this.durationMinutes.length) {
                         event.preventDefault();
-                        // this.$refs['seconds'].setSelectionRange(0, 0);
+                        this.$refs['seconds'].setSelectionRange(0, 0);
                         this.$refs['seconds'].focus();
                     }
                 }
@@ -446,31 +446,85 @@
                     this.duration = this.duration.replace(/[^0-9,.:hms]/g, '');
                     // removing leading zero(s)
                     this.duration = this.duration.replace(/^0*([1-9]*)/g, '$1');
-
-                    // if duration  matches at least partially with the pattern ?
-                    if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]|[s]?$))?/g)) {
+                    // PATTERN DESCRIPTION
+                    // ([0-9]?[0-9]([h:]|[h:]?$))?
+                    // => hours between 0 and 99, followed by h, : or nothing, but following character required if not the end of input
+                    // ([0-5]?[0-9]([m:]|[m:]?$))?
+                    // => minutes between 0 and 59, followed by m, : or nothing, but following character required if not the end of input
+                    // ([0-5]?[0-9]([s]?$))?
+                    // => seconds between 0 and 59, followed by s or nothing
+                    if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)) {
                         // if not exactly match
-                        if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]|[s]?$))?/g)[0] !== this.duration) {
-                            this.duration = oldVal
+                        if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)[0] !== this.duration) {
+                            // check if a new unit h or m is added : 3 digits in string and newVal length > oldVal
+                            if (this.duration.match(/[0-9][0-5][0-9][m|s].*/g) && newVal.length > oldVal.length) {
+                                console.log('cas 1');
+                                let newCaracter;
+                                if (this.duration.includes('m') && !this.duration.includes('h')) {
+                                    newCaracter = 'h'
+                                } else newCaracter = 'm';
+                                // hours or minute adding
+                                this.duration = this.duration.replace(/([0-9])([0-5][0-9][m|s].*)/g, '$1' + newCaracter + '$2');
+
+                                console.log(newCaracter);
+                                this.$nextTick(() => {
+                                    this.$refs['duration'].setSelectionRange(this.duration.indexOf(newCaracter), this.duration.indexOf(newCaracter));
+                                });
+                                // check if a starting unit is deleted
+                            } else if (this.duration.match(/^[h|m|s][0-5]?[0-9](.*|$)/g)) {
+                                console.log('cas 2');
+                                this.duration = this.duration.replace(/([h|m|s])([0-5]?[0-9](.*|$))/g, '$2');
+                                this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
+                                this.$nextTick(() => {
+                                    this.$refs['duration'].setSelectionRange(0, 0);
+                                });
+                                // check if minutes are deleted by deleting 'm' : 3 / 4 digits followed by s or end of string
+                            } else if (this.duration.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {
+                                console.log('cas 3');
+                                this.duration = this.duration.replace(/([h]?)([0-5]?[0-9])([0-5][0-9](s|$))/g, '$1$3' + this.durationDisplayedUnit);
+                                this.$nextTick(() => {
+                                    if (this.duration.includes('h')) {
+                                        this.$refs['duration'].setSelectionRange(this.duration.indexOf('h') + 1, this.duration.indexOf('h') + 1);
+                                    } else this.$refs['duration'].setSelectionRange(0, 0)
+                                });
+                                // check if minutes are deleted by deleting digits : 'hm' or 'hs
+                            } else if (this.duration.match(/hm|ms/g) && newVal.length < oldVal.length) {
+                                console.log('cas 3bis');
+                                this.duration = this.duration.replace(/hm/, 'h');
+                                this.duration = this.duration.replace(/ms/, 'm');
+                                // check if hours are deleted
+                            } else if (this.duration.match(/[[0-9]?[0-9][0-5][0-9](m|s|$)/g) && oldVal.includes('h')) {
+                                console.log('cas 4');
+                                this.duration = this.duration.replace(/([0-9]?[0-9])([0-5][0-9](m|s|$))/g, '$2');
+                                this.duration = this.duration.match(/[m|s]$/g) ? this.duration : this.duration + this.durationDisplayedUnit
+                            } else if (this.duration.match(/^[h|m|s]$/g)) {
+                                console.log('cas 5');
+                                this.duration = '';
+                                this.durationDisplayedUnit = 'h'
+                            } else {
+                                console.log('cas non géré');
+                                this.duration = oldVal
+                            }
                         } else {
                             // formatting character for display
                             if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
-                                this.durationDisplayedFormat = 'm'
+                                this.durationDisplayedUnit = 'm'
                             } else if ((this.duration.match(/[s]/g) || []).length === 1) {
-                                this.durationDisplayedFormat = ''
+                                this.durationDisplayedUnit = ''
                             } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
-                                this.durationDisplayedFormat = 's'
+                                this.durationDisplayedUnit = 's'
                             } else {
-                                this.durationDisplayedFormat = 'h'
+                                this.durationDisplayedUnit = 'h'
                             }
                         }
                         // else cancelling the input
                     } else {
+                        console.log(newVal);
                         this.duration = ''
                     }
                 } else if (this.calculatedField === 'duration') {
                     // formatting character for display
-                    this.durationDisplayedFormat = ''
+                    this.durationDisplayedUnit = ''
                 }
                 let durationInHours = this.formatDuration(this.duration);
                 this.$store.commit('setDuration', durationInHours);
@@ -617,8 +671,8 @@
                         if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
                             // cancelling the input
                             this.durationHours = oldVal
-                        } else if (this.durationHours.match(/([0-9][0-9])/g)) {
-                            this.$refs.minutes.focus();
+                        } else if (this.durationHours.match(/([0-9][0-9])/g) && this.$refs['minutes']) {
+                            this.$refs['minutes'].focus();
                         }
                     }
                     // else : cancelling the input
@@ -639,8 +693,8 @@
                             // cancelling the input
                             this.durationMinutes = oldVal
                         } else if (this.durationMinutes.match(/([0-5][0-9])/g)) {
-                            if (!this.oneFieldMode) {
-                                this.$refs.seconds.focus();
+                            if (!this.oneFieldMode && this.$refs['seconds']) {
+                                this.$refs['seconds'].focus();
                             }
                         }
                     }
@@ -799,6 +853,7 @@
     .calculated {
         background-color: $ma-secondary;
         color: white;
+        font-weight: 800;
         transition: all 0.2s;
         @apply ml-3 mt-2;
     }
@@ -846,7 +901,7 @@
     }
 
     .calculated-label {
-        text-decoration-color: #FF9900;
+        text-decoration-color: $ma-secondary;
     }
 
     .duration-display-switch {

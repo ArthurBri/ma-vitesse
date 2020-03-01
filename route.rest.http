@@ -16,10 +16,14 @@ POST http://localhost:80/meanapps
 Content-Type: application/json
 
 {
-  "name": "MA Vitesse",
-  "description": "Application de calcul de vitesse, durée et distance.",
-  "logo": "https://res.cloudinary.com/hazicy5aw/image/upload/c_scale,h_200/v1581181852/logo-MV_qlhdbe.png",
-  "url": ""
+  "name": "MA Vitesse Live",
+  "description": "GPS avec vitesse, distance et durée en temps réel.",
+  "logo": "https://res.cloudinary.com/hazicy5aw/image/upload/c_scale,h_200/v1583056724/logo-MVL_w0bqbu.png",
+  "url": "https://live.ma-vitesse.app",
+  "colors": {
+    "primary": "#22333B",
+    "secondary": "#C83636"
+  }
 }
 
 ###

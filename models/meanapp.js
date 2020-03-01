@@ -16,6 +16,10 @@ const meanAppsSchema = new mongoose.Schema({
     logo: {
         type: String,
         required: true
+    },
+    colors: {
+        primary: String,
+        secondary: String
     }
 });
 

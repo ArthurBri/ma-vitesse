@@ -1,7 +1,7 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop z-10" role="dialog">
-            <div class="modal" ref="modal">
+            <div class="modal w-4/5 sm:w-full xs:w-full" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
                 </header>
@@ -55,7 +55,7 @@
     }
 
     .modal {
-        @apply border border-primary bg-white w-4/5;
+        @apply border border-primary bg-white;
         overflow-x: auto;
         display: flex;
         flex-direction: column;

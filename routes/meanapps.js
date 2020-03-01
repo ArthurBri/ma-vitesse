@@ -23,7 +23,11 @@ router.post('/', async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         url: req.body.url,
-        logo: req.body.logo
+        logo: req.body.logo,
+        colors: {
+            primary: req.body.colors.primary,
+            secondary: req.body.colors.secondary
+        }
     });
     try {
         const newMeanApp = await meanApp.save();
@@ -46,6 +50,10 @@ router.patch('/:id', getMeanApp, async (req, res) => {
     }
     if (req.body.logo != null) {
         res.meanapp.logo = req.body.logo
+    }
+    if (req.body.colors != null) {
+        res.meanapp.colors.primary = req.body.colors.primary;
+        res.meanapp.colors.secondary = req.body.colors.secondary
     }
     try {
         const updatedMeanApp = await res.meanapp.save();

@@ -15,9 +15,9 @@
                             <TabMenuItem :active="tabActive === 'predictions'" :hidden="!showPredictions"
                                          @click.native="setTabActive('predictions')"
                                          component="predictions" label="Prédictions de course" version="Alpha"/>
-                            <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
+                            <!--<TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
                                          @click.native="setTabActive('laptime')"
-                                         component="laptime" label="Temps de passage" version="A venir"/>
+                                         component="laptime" label="Temps de passage" version="A venir"/>-->
                         </div>
                         <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border-l border-b border-r
                             xl:rounded-b-lg lg:rounded-b-lg md:rounded-b-lg xl:rounded-r-lg lg:rounded-r-lg md:rounded-r-lg"
@@ -26,7 +26,7 @@
                                   class="self-end mr-3 mt-3 bg-primary hover:bg-gray-500 cursor-pointer rounded-lg p-2 pt-1 pb-1 text-xs text-white">Masquer</span>
                             <div class="p-6">
                                 <Prediction v-show="showPredictions && tabActive === 'predictions'"/>
-                                <LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>
+                                <!--<LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>-->
                             </div>
                         </div>
                     </div>

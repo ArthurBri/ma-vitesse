@@ -5,10 +5,6 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <link href='manifest.webmanifest' rel='manifest'>
 
-  <link href="img/icons/apple-touch-icon-60x60.png" rel="apple-touch-icon" sizes="60x60">
-  <link href="img/icons/apple-touch-icon-76x76.png" rel="apple-touch-icon" sizes="76x76">
-  <link href="img/icons/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120">
-  <link href="img/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152">
   <link href="img/icons/android-chrome-192x192.png" rel="icon" sizes="192x192" type="image/png">
   <link href="img/icons/android-chrome-512x512.png" rel="icon" sizes="512x512" type="image/png">
   <link href="img/icons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
@@ -59,4 +55,35 @@
     }
   }
 
+  // Analytics powered by Heap
+  if (webpackHotUpdate) {
+    window.heap = window.heap || [], heap.load = function (e, t) {
+      window.heap.appid = e, window.heap.config = t = t || {};
+      var r = document.createElement("script");
+      r.type = "text/javascript", r.async = !0, r.src = "https://cdn.heapanalytics.com/js/heap-" + e + ".js";
+      var a = document.getElementsByTagName("script")[0];
+      a.parentNode.insertBefore(r, a);
+      for (var n = function (e) {
+        return function () {
+          heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+        }
+      }, p = ["addEventProperties", "addUserProperties", "clearEventProperties", "identify", "resetIdentity", "removeEventProperty", "setEventProperties", "track", "unsetEventProperty"], o = 0; o < p.length; o++) heap[p[o]] = n(p[o])
+    };
+    heap.load("821706778");
+  } else {
+    window.heap = window.heap || [], heap.load = function (e, t) {
+      window.heap.appid = e, window.heap.config = t = t || {};
+      var r = document.createElement("script");
+      r.type = "text/javascript", r.async = !0, r.src = "https://cdn.heapanalytics.com/js/heap-" + e + ".js";
+      var a = document.getElementsByTagName("script")[0];
+      a.parentNode.insertBefore(r, a);
+      for (var n = function (e) {
+        return function () {
+          heap.push([e].concat(Array.prototype.slice.call(arguments, 0)))
+        }
+      }, p = ["addEventProperties", "addUserProperties", "clearEventProperties", "identify", "resetIdentity", "removeEventProperty", "setEventProperties", "track", "unsetEventProperty"], o = 0; o < p.length; o++) heap[p[o]] = n(p[o])
+    };
+
+    heap.load("8293519");
+  }
 </script>

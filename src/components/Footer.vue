@@ -1,5 +1,5 @@
 <template>
-    <div class="footer w-full flex flex-row justify-between xs:flex-wrap sm:flex-wrap justify-center select-none nodrag bg-grey xs:border-t xs:border-primary overflow-x-auto">
+    <div class="footer w-full flex flex-row justify-between xs:flex-wrap sm:flex-wrap justify-center select-none nodrag bg-grey overflow-x-auto">
         <div class="footer-start w-1/8 xs:w-0 sm:w-0"></div>
         <div class="footer-center flex w-3/4 justify-center">
         <span @click="isModalSuggestFeature = true"
