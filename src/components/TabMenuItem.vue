@@ -1,6 +1,6 @@
 <template>
-    <div :class="[active ? '' : 'border bg-gray-300 pb-1']"
-         class="tab bg-white text-primary pt-2 pl-2 pr-2 xl:rounded-t-lg lg:rounded-t-lg md:rounded-t-lg border-t border-l border-primary"
+    <div :class="[active ? '' : 'bg-gray-300 pb-1']"
+         class="tab bg-white text-primary pt-2 pl-2 pr-2 mb-8 lg:rounded-t-lg md:rounded-t-lg shadow rounded-b-lg border-primary"
          v-show="hidden === false">
         <div class="flex h-8 mt-1 ml-1 mr-1">
             <img :src="require('../assets/icons/' + component + '.svg')" alt="Component icon" class="w-8"/>

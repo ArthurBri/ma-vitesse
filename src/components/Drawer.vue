@@ -1,7 +1,7 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop z-10" role="dialog">
-            <div class="modal w-4/5 rounded-t-lg sm:w-full xs:w-full sm:rounded-none xs:rounded-none" ref="modal">
+            <div class="modal" ref="modal">
                 <header class="modal-header text-xl text-white sm:text-primary xs:text-primary font-bold bg-primary xs:bg-transparent sm:bg-transparent xs:border-t-4 sm:border-t-4 xs:border-secondary sm:border-secondary">
                     <slot name="header"/>
                 </header>
@@ -55,12 +55,14 @@
     }
 
     .modal {
-        @apply border border-primary bg-white;
+        @apply shadow-2xl bg-white absolute;
         overflow-x: auto;
         display: flex;
         flex-direction: column;
         z-index: 3;
-        bottom: 0;
+        right: 0;
+        height: 100vh;
+        width: 30vw;
     }
 
     .modal-header,
@@ -85,7 +87,7 @@
         position: relative;
         padding: 20px 10px;
         overflow-x: auto;
-        max-height: 40vh;
+        max-height: 80vh;
     }
 
     .btn-close {

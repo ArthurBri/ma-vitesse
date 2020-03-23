@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import BottomModal from '@/components/BottomModal'
+    import BottomModal from '@/components/Drawer'
     import {version} from '../../package.json';
 
     export default {

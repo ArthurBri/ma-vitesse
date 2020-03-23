@@ -9,19 +9,19 @@
         <div class="flex h-8 mb-2" v-else>
             <img alt=" " class="w-8 sm:ml-4" src="../assets/icons/timer.svg"/>
             <div class="flex self-center pl-2 font-semibold sm:mr-4">
-                <h2 class="">Calcul de la <span
+                <h2 class="lg:text-2xl">Calcul de la <span
                         class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span>
                 </h2>
-                <span><img @click="clearFields()" alt="clear field button"
+                <span><img @click="clearFields" alt="clear field button"
                            class="h-3 noselect-nodrag clear-fields-button"
                            src="../assets/icons/cancel.svg"/></span>
             </div>
         </div>
-        <div class="wrapper">
+        <div class="wrapper" style="min-height:3rem;">
             <!-- DURATION -->
-            <div class="flex flex-col noselect-nodrag">
+            <div class="flex flex-col noselect-nodrag ">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('duration')" class="box self-stretch justify-between">
+                     @click="focusMe('duration')" class="box self-stretch justify-between shadow-md">
                     <label for="duration">Durée</label>
                     <div class="w-40">
                         <!-- ONE FIELD mode -->
@@ -32,7 +32,7 @@
                                    autocomplete="off"
                                    class="w-24 text-right pr-1" id="duration" ref="duration"
                                    v-model="duration"/>
-                            <span class="noselect-nodrag">{{ durationDisplayedUnit }}</span>
+                            <span class="noselect-nodrag self-center">{{ durationDisplayedUnit }}</span>
                         </div>
                         <!-- THREE FIELDS mode -->
                         <div class="flex justify-end" v-else>
@@ -47,7 +47,7 @@
                                        type="tel"
                                        ref="hours"
                                        v-model="durationHours"/>
-                                <span class="noselect-nodrag">:</span>
+                                <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
@@ -57,7 +57,7 @@
                                        type="tel"
                                        ref="minutes"
                                        v-model="durationMinutes"/>
-                                <span class="noselect-nodrag">:</span>
+                                <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
@@ -74,23 +74,24 @@
                 <!-- SWITCH 1 field / 3 fields -->
                 <div @click="oneFieldMode = !oneFieldMode"
                      :class="calculatedField === 'duration' ? 'calculated2 noselect-nodrag' : ''"
-                     class="duration-display-switch w-20 h-8 mr-3 sm:mb-1 border-r self-end border-b border-white rounded-br
-                     flex items-center cursor-pointer noselect-nodrag">
-                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']">
-                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
-                              x="0"
-                              y="0"/>
-                    </svg>
-                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot']">
-                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
-                              x="0"
-                              y="0"/>
-                    </svg>
-                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']">
-                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
-                              x="0"
-                              y="0"/>
-                    </svg>
+                     class="box-option relative w-12 noselect-nodrag">
+                    <div class="h-6">
+                        <svg class="mt-2" v-bind:class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']">
+                            <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
+                                  x="0"
+                                  y="0"/>
+                        </svg>
+                        <svg class="mt-2" v-bind:class="[oneFieldMode ? 'dot' : 'dot']">
+                            <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
+                                  x="0"
+                                  y="0"/>
+                        </svg>
+                        <svg class="mt-2" v-bind:class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']">
+                            <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
+                                  x="0"
+                                  y="0"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
@@ -98,7 +99,7 @@
             <div class="flex flex-col noselect-nodrag">
                 <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('distance')"
-                     class="box distance self-stretch justify-between">
+                     class="box distance self-stretch justify-between shadow-md">
                     <label for="distance">Distance</label>
                     <div class="flex">
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
@@ -106,13 +107,12 @@
                                class="text-right pr-1 number-input" id="distance" name="distance" onblur=""
                                ref="distance" type="tel"
                                v-model="distance"/>
-                        <span class="noselect-nodrag">km</span>
+                        <span class="noselect-nodrag self-center">km</span>
                     </div>
                 </div>
-                <label class="preset-distances h-8 mr-3 pt-1 pb-1 pr-1 border-r self-end border-b border-white rounded-br
-                       flex cursor-pointer noselect-nodrag sm:mb-1"
+                <label class="box-option preset-distances noselect-nodrag"
                        v-show="showPresetDistances">
-                    <select @change="checkFields" class="cursor-pointer" v-model="presetDistances">
+                    <select @change="checkFields" class="cursor-pointer" tabindex="-1" v-model="presetDistances">
                         <option disabled value="">Mes distances</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
@@ -130,7 +130,7 @@
             <!-- SPEED -->
             <div class="flex flex-col items-center">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('speed')" class="box speed self-stretch justify-between">
+                     @click="focusMe('speed')" class="box speed self-stretch justify-between shadow-md">
                     <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
                     <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">Allure</label>
                     <div class="flex w-48" style="flex: 0 0 50px">
@@ -142,7 +142,7 @@
                                    type="tel"
                                    id="speed" name="speed" ref="speed"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
-                            <span class="noselect-nodrag text-right"
+                            <span class="noselect-nodrag self-center text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                         </div>
                         <!-- Pace display -->
@@ -152,18 +152,18 @@
                                    autocomplete="off" class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
                                    ref="speed"
                                    v-if="speedFormat === 'pace'" v-model="pace"/>
-                            <span class="noselect-nodrag text-right"
+                            <span class="noselect-nodrag self-center text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                         </div>
                     </div>
                 </div>
                 <div :class="calculatedField === 'speed' ? 'calculated2 noselect-nodrag' : ''"
                      @click="changeSpeedFormat"
-                     class="flex w-20 h-8 mr-3 border-r self-end border-b border-white rounded-br flex items-center cursor-pointer noselect-nodrag">
-                    <img alt="switch between pace and speed" class="w-5 mr-1 noselect-nodrag"
+                     class="box-option noselect-nodrag">
+                    <img alt="switch between pace and speed" class="w-4 mr-1 noselect-nodrag"
                          src="../assets/icons/arrows.svg"/>
-                    <span class="pt-1 pb-1" v-if="speedFormat === 'speed'">Allure</span>
-                    <span class="pt-1 pb-1" v-if="speedFormat === 'pace'">Vitesse</span>
+                    <span v-if="speedFormat === 'speed'">Allure</span>
+                    <span v-if="speedFormat === 'pace'">Vitesse</span>
                 </div>
             </div>
 
@@ -471,9 +471,9 @@
                                     this.$refs['duration'].setSelectionRange(this.duration.indexOf(newCaracter), this.duration.indexOf(newCaracter));
                                 });
                                 // check if a starting unit is deleted
-                            } else if (this.duration.match(/^[h|m|s][0-5]?[0-9](.*|$)/g)) {
+                            } else if (this.duration.match(/^[hms][0-5]?[0-9](.*|$)/g)) {
                                 console.log('cas 2');
-                                this.duration = this.duration.replace(/([h|m|s])([0-5]?[0-9](.*|$))/g, '$2');
+                                this.duration = this.duration.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
                                 this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
                                 this.$nextTick(() => {
                                     this.$refs['duration'].setSelectionRange(0, 0);
@@ -497,7 +497,7 @@
                                 console.log('cas 4');
                                 this.duration = this.duration.replace(/([0-9]?[0-9])([0-5][0-9](m|s|$))/g, '$2');
                                 this.duration = this.duration.match(/[m|s]$/g) ? this.duration : this.duration + this.durationDisplayedUnit
-                            } else if (this.duration.match(/^[h|m|s]$/g)) {
+                            } else if (this.duration.match(/^[hms]$/g)) {
                                 console.log('cas 5');
                                 this.duration = '';
                                 this.durationDisplayedUnit = 'h'
@@ -773,30 +773,27 @@
 
     @screen md {
         .main-box {
-            @apply rounded-lg;
-            @apply m-2;
+            @apply rounded-lg m-2;
 
         }
     }
 
     @screen lg {
         .main-box {
-            @apply rounded-lg;
-            @apply m-4;
+            @apply rounded-lg m-4;
 
         }
     }
 
     @screen xl {
         .main-box {
-            @apply rounded-lg;
-            @apply m-4;
+            @apply rounded-lg m-4 shadow-xl;
+            background-color: rgba($ma-secondary, 0.8);
+            backdrop-filter: blur(2px);
         }
     }
     .main-box {
         transition: all 0.5s;
-        box-shadow: 0 5px 1px rgba(255, 153, 0, 0.8);
-        background-color: $ma-primary;
     }
 
     @media screen and (max-width: 950px) {
@@ -828,7 +825,7 @@
         align-items: center;
         justify-content: space-between;
         min-height: 40px;
-        @apply bg-white mt-2 ml-3 mr-3 p-3;
+        @apply bg-white mt-2 ml-3 mr-3 p-3 items-center;
 
     }
 
@@ -851,15 +848,16 @@
     }
 
     .calculated {
-        background-color: $ma-secondary;
+        background-color: $ma-primary;
         color: white;
         font-weight: 800;
         transition: all 0.2s;
-        @apply ml-3 mt-2;
+        @apply ml-3 mt-2 shadow-lg;
     }
 
     input {
-        background-color: transparent;
+        @apply rounded-lg font-bold text-xl bg-transparent;
+
     }
 
     input:focus {
@@ -901,13 +899,12 @@
     }
 
     .calculated-label {
-        text-decoration-color: $ma-secondary;
+        text-decoration-color: white;
     }
 
     .duration-display-switch {
         position: relative;
         z-index: 0;
-        @apply text-primary;
     }
 
     .dot {
@@ -949,6 +946,16 @@
 
         -moz-appearance: textfield;
 
+    }
+
+    .box-option {
+        @apply mr-3 px-2 self-end bg-primary rounded-b-lg shadow-lg
+        flex cursor-pointer;
+        transition: all 200ms ease-in;
+
+        &:hover {
+            padding-top: 5px;
+        }
     }
 
 </style>

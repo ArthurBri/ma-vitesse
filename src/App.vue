@@ -8,30 +8,34 @@
                 <b>MA Vitesse</b> : outil de calcul pour la course à pied</h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4">
                 <Calculator class="mt-12"/>
-                <transition name="fade">
-                    <!-- TABS DES FONCTIONS ADDITIONNELLES : A COMPOSANTISER -->
-                    <div class="tabs-menu w-2/3 mt-5 xs:w-full sm:w-full">
-                        <div class="tabs flex overflow-x-auto">
-                            <TabMenuItem :active="tabActive === 'predictions'" :hidden="!showPredictions"
-                                         @click.native="setTabActive('predictions')"
-                                         component="predictions" label="Prédictions de course" version="Alpha"/>
-                            <!--<TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
-                                         @click.native="setTabActive('laptime')"
-                                         component="laptime" label="Temps de passage" version="A venir"/>-->
-                        </div>
-                        <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full bg-white border-l border-b border-r
-                            xl:rounded-b-lg lg:rounded-b-lg md:rounded-b-lg xl:rounded-r-lg lg:rounded-r-lg md:rounded-r-lg"
-                             v-if="showTabMenu">
-                            <span @click="hideTabActive"
-                                  class="self-end mr-3 mt-3 bg-primary hover:bg-gray-500 cursor-pointer rounded-lg p-2 pt-1 pb-1 text-xs text-white">Masquer</span>
-                            <div class="p-6">
-                                <Prediction v-show="showPredictions && tabActive === 'predictions'"/>
-                                <!--<LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>-->
+                <div class="w-4/5 flex">
+                    <transition name="fade">
+                        <div class="tabs-menu w-1/2 mt-5 xs:w-full sm:w-full">
+                            <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 border-gray-600 xs:w-full sm:w-full
+                                xl:rounded-b-lg lg:rounded-b-lg md:rounded-b-lg xl:rounded-r-lg lg:rounded-r-lg md:rounded-r-lg"
+                                 v-if="showTabMenu">
+                                <span @click="hideTabActive"
+                                      class="self-end mr-3 mt-3 bg-primary hover:bg-gray-500 cursor-pointer rounded-lg p-2 pt-1 pb-1 text-xs text-white">Masquer</span>
+                                <div class="p-6">
+                                    <Prediction v-show="showPredictions && tabActive === 'predictions'"/>
+                                    <LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>
+                                </div>
+                            </div>
+                            <div class="tabs flex overflow-x-auto">
+                                <TabMenuItem :active="tabActive === 'predictions'" :hidden="!showPredictions"
+                                             @click.native="setTabActive('predictions')"
+                                             component="predictions" label="Prédictions de course" version="Alpha"/>
+                                <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
+                                             @click.native="setTabActive('laptime')"
+                                             component="laptime" label="Temps de passage" version="A venir"/>
                             </div>
                         </div>
+                        <!-- FIN TABS -->
+                    </transition>
+                    <div class="share-box w-1/3 ml-8 mt-5 xs:w-full sm:w-full h-20">
+                        <h1>Partager</h1>
                     </div>
-                    <!-- FIN TABS -->
-                </transition>
+                </div>
             </div>
             <Footer/>
         </div>
@@ -40,7 +44,6 @@
 
 <script>
     import Header from '@/components/Header'
-    import Footer from '@/components/Footer'
     import Calculator from '@/components/Calculator'
     import Prediction from '@/components/Prediction'
     import LapTime from '@/components/LapTime'
@@ -50,7 +53,7 @@
 
     export default {
         name: 'app',
-        components: {Prediction, Calculator, LapTime, Settings, Footer, Header, Preloader, TabMenuItem},
+        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem},
         data() {
             return {
                 showPreloader: true,
@@ -121,7 +124,7 @@
     }
 
     .background {
-        background: url('../src/assets/wallpp.jpg');
+        background: url('../src/assets/wallpp3.jpg');
         background-size: cover;
         z-index: -999;
         position: fixed;
@@ -186,5 +189,15 @@
 
     .tabs-content {
         @apply flex flex-col;
+        @apply rounded-lg shadow-xl;
+        background-color: rgba($ma-primary, 0.8);
+        backdrop-filter: blur(2px);
+    }
+
+    .share-box {
+        @apply flex flex-col;
+        @apply rounded-lg shadow-xl;
+        background-color: rgba(white, 0.8);
+        backdrop-filter: blur(2px);
     }
 </style>

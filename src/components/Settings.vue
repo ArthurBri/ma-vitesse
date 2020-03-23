@@ -14,10 +14,10 @@
                             <input id="showPredictions" type="checkbox" v-model="showPredictions"/>
                             <label class="pl-2 noselect-nodrag" for="showPredictions">Afficher les prédictions</label>
                         </div>
-                        <!--<div>
+                        <div>
                             <input id="showLapTime" type="checkbox" v-model="showLapTime"/>
                             <label class="pl-2 noselect-nodrag" for="showLapTime">Afficher les temps de passage</label>
-                        </div>-->
+                        </div>
                     </div>
                     <div class="flex flex-row justify-center">
                         <span v-if="appReseted">L'application a été réinitialisée, rechargez la page pour appliquer les modifications.</span>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import BottomModal from '@/components/BottomModal'
+    import BottomModal from '@/components/Drawer'
 
     export default {
         name: "Settings",
