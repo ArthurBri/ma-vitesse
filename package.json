@@ -3,11 +3,12 @@
   "version": "0.0.6",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve | nodemon server.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "devServer": "nodemon server.js"
+    "dev": "vue-cli-service serve | nodemon server.js",
+    "devServer": "nodemon server.js",
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
     "@vue/cli": "^4.1.2",
@@ -23,7 +24,8 @@
     "mongoose": "^5.8.11",
     "register-service-worker": "^1.6.2",
     "serve-static": "latest",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.0",
@@ -32,15 +34,16 @@
     "@vue/cli-service": "^4.1.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
+    "dotenv": "latest",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.13.1",
+    "nodemon": "^1.19.0",
     "sass-loader": "^8.0.0",
     "tailwindcss": "^1.1.4",
+    "vue-cli-plugin-i18n": "^0.6.1",
     "vue-template-compiler": "^2.6.10",
-    "vuex": "^3.1.2",
-    "nodemon": "^1.19.0",
-    "dotenv": "latest"
+    "vuex": "^3.1.2"
   },
   "browserslist": [
     "> 1%",
