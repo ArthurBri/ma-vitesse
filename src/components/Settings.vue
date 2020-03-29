@@ -9,7 +9,7 @@
             <div>
                 <div class="flex flex-col">
                     <div class="flex flex-col ml-5">
-                        <h1 class="text-xl font-bold pb-2">Composants</h1>
+                        <h1 class="text-xl font-bold pb-2 noselect-nodrag">Composants</h1>
                         <div class="ml-2">
                             <div class="flex">
                                 <label class="switch">
@@ -18,7 +18,8 @@
                                         <span class="slider round shadow-lg"></span>
                                     </div>
                                 </label>
-                                <div @click="showPredictions = !showPredictions" class="cursor-pointer ml-2">Afficher
+                                <div @click="showPredictions = !showPredictions"
+                                     class="cursor-pointer ml-2 noselect-nodrag">Afficher
                                     les prédictions
                                 </div>
                             </div>
@@ -29,7 +30,8 @@
                                         <span class="slider round shadow-lg"></span>
                                     </div>
                                 </label>
-                                <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2">Afficher les temps
+                                <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
+                                    Afficher les temps
                                     de passage
                                 </div>
                             </div>
@@ -38,7 +40,7 @@
                 </div>
             </div>
             <div class="flex flex-col ml-5 pt-6">
-                <h1 class="text-xl font-bold">Réinitialiser</h1>
+                <h1 class="text-xl font-bold noselect-nodrag">Réinitialiser</h1>
                 <div class="pt-4 flex justify-center">
                     <button @click="resetApp" class="mv-btn" v-if="!appReseted">Réinitialiser l'application</button>
                     <div class="flex flex-row justify-center text-center">
