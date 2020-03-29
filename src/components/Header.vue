@@ -7,16 +7,17 @@
             </div>
         </div>
 
-        <div class="header-end flex flex-row ">
+        <div class="header-end flex flex-row mr-8">
             <img @click="showModalSettings" alt=""
-                 class="settings-icon xs:h-4 sm:h-4 md:h-5 lg:h-6 xl:h-6 noselect-nodrag pr-4"
+                 class="icon settings-icon noselect-nodrag"
                  src="../assets/icons/settings.svg"
                  title="Réglages"/>
             <img @click="showModalAbout" alt=""
-                 class="about-icon xs:h-4 sm:h-4 md:h-5 lg:h-6 xl:h-6 pr-4 noselect-nodrag"
+                 class="icon about-icon noselect-nodrag"
                  src="../assets/icons/question.svg"
                  title="A propos"/>
-            <img @click="showModalAllMA" alt="" class="all-ma-icon xs:h-4 sm:h-4 md:h-5 lg:h-6 xl:h-6"
+            <img @click="showModalAllMA" alt=""
+                 class="icon icon-orange all-ma-icon noselect-nodrag"
                  src="../assets/icons/menu.svg" title="Toutes les applications"/>
         </div>
         <about @close="closeModal('about')" v-show="isModalAbout"/>
@@ -68,6 +69,16 @@
 </script>
 
 <style lang="scss" scoped>
+    .icon {
+        background: rgba(white, 0.7);
+        backdrop-filter: blur(2px);
+
+        &.icon-orange {
+            background: rgba($ma-secondary, 0.9);
+
+        }
+    }
+
     .logo, .about-icon, .settings-icon, .all-ma-icon {
         cursor: pointer;
         transition: all 200ms;
@@ -83,12 +94,28 @@
         .header {
             @apply h-8 p-3 mt-2;
         }
+
+        .icon {
+            @apply py-2 px-1 h-8 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-3;
+            }
+        }
     }
 
     /* 380px < width > 639px  */
     @screen sm {
         .header {
             @apply h-8 p-3 mt-2;
+        }
+
+        .icon {
+            @apply py-2 px-1 h-8 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-3;
+            }
         }
     }
 
@@ -97,6 +124,14 @@
         .header {
             @apply h-8 p-4 mt-3;
         }
+
+        .icon {
+            @apply p-2 h-8 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-2;
+            }
+        }
     }
 
     /* 768px < width > 1023px */
@@ -104,12 +139,24 @@
         .header {
             @apply h-8 p-4 mt-3;
         }
+
+        .icon {
+            @apply p-2 h-10 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-2;
+            }
+        }
     }
 
     /* > 1024px */
     @screen xl {
         .header {
             @apply h-16 p-4 pl-6 pr-6 mt-2;
+        }
+
+        .icon {
+            @apply p-2 h-10 m-1 rounded shadow-lg;
         }
     }
 

@@ -7,7 +7,7 @@
             <div class="flex items-stretch justify-center">
                 <table class="table-fixed">
                     <tr>
-                        <th class="">Label</th>
+                        <th>Libellé</th>
                         <th>Distance</th>
                         <th/>
                     </tr>
@@ -132,7 +132,7 @@
     }
 
     th {
-        @apply bg-primary text-white text-left pl-3;
+        @apply bg-primary text-white text-center pl-3;
     }
 
     table tr:first-child th:first-child {
@@ -147,8 +147,13 @@
         @apply border-b;
 
         &:hover {
-            @apply font-bold cursor-default;
+            @apply cursor-default table-fixed;
+            background-color: rgba($ma-primary, 0.2);
         }
+    }
+
+    .icon {
+        filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
     }
 
     .icon:hover {

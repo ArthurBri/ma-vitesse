@@ -1,5 +1,5 @@
 <template>
-    <bottom-modal @close="close" v-show="isModalVisible">
+    <drawer @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <h2>Proposer une fonctionnalité</h2>
         </template>
@@ -10,31 +10,32 @@
                 correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir. &#127881; </p>
             <div class="ml-5 flex flex-col justify-start content-start">
                 <label class="font-bold text-left" for="suggest">Dans MA Vitesse, je voudrais...</label>
-                <textarea class="mt-2 mr-5 p-2 border border-primary rounded h-20 outline-none text-gray-900"
-                          placeholder="Pouvoir sauvegarder mes courses"
-                          cols="40" id="suggest"
-                          v-model="suggestDescription"
-                          rows="5"/>
+                <textarea
+                        class="mt-2 mr-5 p-2 bg-gray-200 focus:shadow-lg text-primary placeholder-gray-600 rounded h-20 outline-none"
+                        placeholder="Pouvoir sauvegarder mes courses"
+                        cols="40" id="suggest"
+                        v-model="suggestDescription"
+                        rows="5"/>
                 <label class="font-bold text-left mt-2" for="mail-suggest">Une adresse mail ?<span
                         class="ml-2 font-light text-xs">Pour vous tenir informé ou vous demander plus de précisions </span></label>
-                <input class="mt-2 mr-5 p-2 outline-none border border-primary rounded text-gray-900"
+                <input class="mt-2 mr-5 p-2 outline-none bg-gray-200 focus:shadow-lg text-primary placeholder-gray-600 rounded"
                        id="mail-suggest" v-model="suggestContributorEmail"
                        placeholder="jecoursvite@mail.com"/>
             </div>
-            <button @click="submitForm" class="bg-secondary p-2 mt-2 rounded text-white outline-none"
-                    v-if="!maxSuggestRate">{{ buttonLabel
-                }}
-            </button>
-            <p class="mt-2" v-else>Vous avez déjà partagé une superbe idée aujourd'hui, merci. Revenez demain !</p>
-
-
+            <div class="mt-4 flex justify-center">
+                <button @click="submitForm" class="mv-btn"
+                        v-if="!maxSuggestRate">{{ buttonLabel }}
+                </button>
+                <p class="mt-2 text-center" v-else>Vous avez déjà partagé une superbe idée aujourd'hui, merci. Revenez
+                    demain !</p>
+            </div>
         </template>
         <template @click="close" v-slot:footer/>
-    </bottom-modal>
+    </drawer>
 </template>
 
 <script>
-    import BottomModal from '@/components/BottomModal'
+    import Drawer from '@/components/Drawer'
     import {version} from '../../package.json';
 
     export default {
@@ -49,7 +50,7 @@
                 maxSuggestRate: false
             }
         },
-        components: {BottomModal},
+        components: {Drawer},
         mounted() {
             if (localStorage.maxSuggestRate) {
                 this.maxSuggestRate = localStorage.maxSuggestRate;

@@ -1,27 +1,28 @@
 <template>
     <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
-        <div class="flex h-8 mb-2" v-if="calculatedField === ''">
+        <div class="flex h-8 mb-2 items-center content-center" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4">Calcul de vitesse, de durée,
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">Calcul de vitesse, de
+                durée,
                 de distance</h2>
 
         </div>
         <div class="flex h-8 mb-2" v-else>
-            <img alt=" " class="w-8 sm:ml-4" src="../assets/icons/timer.svg"/>
-            <div class="flex self-center pl-2 font-semibold sm:mr-4">
-                <h2 class="">Calcul de la <span
-                        class="self-center font-semibold underline calculated-label">{{ prettyCalculatedField }}</span>
+            <img alt=" " class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
+            <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
+                <h2 class="xl:text-xl">Calcul de la <span
+                        class="self-center font-semibold calculated-label">{{ prettyCalculatedField }}</span>
                 </h2>
-                <span><img @click="clearFields()" alt="clear field button"
+                <span><img @click="clearFields" alt="clear field button"
                            class="h-3 noselect-nodrag clear-fields-button"
                            src="../assets/icons/cancel.svg"/></span>
             </div>
         </div>
-        <div class="wrapper">
+        <div class="wrapper" style="min-height:3rem;">
             <!-- DURATION -->
-            <div class="flex flex-col noselect-nodrag">
+            <div class="flex flex-col h-24 noselect-nodrag ">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('duration')" class="box self-stretch justify-between">
+                     @click="focusMe('duration')" class="box self-stretch justify-between shadow-md">
                     <label for="duration">Durée</label>
                     <div class="w-40">
                         <!-- ONE FIELD mode -->
@@ -30,9 +31,9 @@
                             <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
                                    @keyup="checkFields($event)"
                                    autocomplete="off"
-                                   class="w-24 text-right pr-1" id="duration" ref="duration"
+                                   class="w-28 text-right pr-1" id="duration" ref="duration"
                                    v-model="duration"/>
-                            <span class="noselect-nodrag">{{ durationDisplayedUnit }}</span>
+                            <span class="noselect-nodrag self-center">{{ durationDisplayedUnit }}</span>
                         </div>
                         <!-- THREE FIELDS mode -->
                         <div class="flex justify-end" v-else>
@@ -47,7 +48,7 @@
                                        type="tel"
                                        ref="hours"
                                        v-model="durationHours"/>
-                                <span class="noselect-nodrag">:</span>
+                                <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
@@ -57,7 +58,7 @@
                                        type="tel"
                                        ref="minutes"
                                        v-model="durationMinutes"/>
-                                <span class="noselect-nodrag">:</span>
+                                <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
@@ -73,46 +74,49 @@
                 </div>
                 <!-- SWITCH 1 field / 3 fields -->
                 <div @click="oneFieldMode = !oneFieldMode"
-                     :class="calculatedField === 'duration' ? 'calculated2 noselect-nodrag' : ''"
-                     class="duration-display-switch w-20 h-8 mr-3 sm:mb-1 border-r self-end border-b border-white rounded-br
-                     flex items-center cursor-pointer noselect-nodrag">
-                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']">
-                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
-                              x="0"
-                              y="0"/>
-                    </svg>
-                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot']">
-                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
-                              x="0"
-                              y="0"/>
-                    </svg>
-                    <svg v-bind:class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']">
-                        <rect height="5" rx="2" ry="2" style="fill:white;stroke:white;stroke-width:1;" width="5"
-                              x="0"
-                              y="0"/>
-                    </svg>
+                     :class="calculatedField === 'duration' ? 'noselect-nodrag active' : ''"
+                     class="box-option relative w-12 noselect-nodrag">
+                    <div class="h-6">
+                        <svg :class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']" class="mt-2">
+                            <rect :style="calculatedField === 'duration' ? 'fill:#2C629D' : 'fill:white'" height="5"
+                                  rx="2" ry="2" width="5"
+                                  x="0"
+                                  y="0"/>
+                        </svg>
+                        <svg :class="[oneFieldMode ? 'dot' : 'dot']" class="mt-2">
+                            <rect :style="calculatedField === 'duration' ? 'fill:#2C629D' : 'fill:white'" height="5"
+                                  rx="2" ry="2" width="5"
+                                  x="0"
+                                  y="0"/>
+                        </svg>
+                        <svg :class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']" class="mt-2">
+                            <rect :style="calculatedField === 'duration' ? 'fill:#2C629D' : 'fill:white'" height="5"
+                                  rx="2" ry="2" width="5"
+                                  x="0"
+                                  y="0"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
 
             <!-- DISTANCE -->
-            <div class="flex flex-col noselect-nodrag">
+            <div class="flex flex-col h-24 noselect-nodrag">
                 <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('distance')"
-                     class="box distance self-stretch justify-between">
+                     class="box distance self-stretch justify-between shadow-md">
                     <label for="distance">Distance</label>
                     <div class="flex">
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                               class="text-right pr-1 number-input" id="distance" name="distance" onblur=""
-                               ref="distance" type="tel"
+                               class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
+                               ref="distance" type="number"
                                v-model="distance"/>
-                        <span class="noselect-nodrag">km</span>
+                        <span class="noselect-nodrag self-center">km</span>
                     </div>
                 </div>
-                <label class="preset-distances h-8 mr-3 pt-1 pb-1 pr-1 border-r self-end border-b border-white rounded-br
-                       flex cursor-pointer noselect-nodrag sm:mb-1"
+                <label class="box-option preset-distances noselect-nodrag"
                        v-show="showPresetDistances">
-                    <select @change="checkFields" class="cursor-pointer" v-model="presetDistances">
+                    <select @change="checkFields" class="cursor-pointer" tabindex="-1" v-model="presetDistances">
                         <option disabled value="">Mes distances</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
@@ -128,9 +132,9 @@
             </div>
 
             <!-- SPEED -->
-            <div class="flex flex-col items-center">
+            <div class="flex flex-col h-24">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('speed')" class="box speed self-stretch justify-between">
+                     @click="focusMe('speed')" class="box speed self-stretch justify-between shadow-md">
                     <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
                     <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">Allure</label>
                     <div class="flex w-48" style="flex: 0 0 50px">
@@ -139,10 +143,10 @@
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
-                                   type="tel"
+                                   type="number"
                                    id="speed" name="speed" ref="speed"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
-                            <span class="noselect-nodrag text-right"
+                            <span class="noselect-nodrag self-center text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                         </div>
                         <!-- Pace display -->
@@ -152,18 +156,20 @@
                                    autocomplete="off" class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
                                    ref="speed"
                                    v-if="speedFormat === 'pace'" v-model="pace"/>
-                            <span class="noselect-nodrag text-right"
+                            <span class="noselect-nodrag self-center text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
                         </div>
                     </div>
                 </div>
-                <div :class="calculatedField === 'speed' ? 'calculated2 noselect-nodrag' : ''"
+                <!-- Speed switch button -->
+                <div :class="calculatedField === 'speed' ? 'active noselect-nodrag' : ''"
                      @click="changeSpeedFormat"
-                     class="flex w-20 h-8 mr-3 border-r self-end border-b border-white rounded-br flex items-center cursor-pointer noselect-nodrag">
-                    <img alt="switch between pace and speed" class="w-5 mr-1 noselect-nodrag"
+                     class="box-option noselect-nodrag">
+                    <img :class="calculatedField === 'speed' ? 'icon-active' : ''" alt="switch between pace and speed"
+                         class="w-4 mr-1 noselect-nodrag"
                          src="../assets/icons/arrows.svg"/>
-                    <span class="pt-1 pb-1" v-if="speedFormat === 'speed'">Allure</span>
-                    <span class="pt-1 pb-1" v-if="speedFormat === 'pace'">Vitesse</span>
+                    <span v-if="speedFormat === 'speed'">Allure</span>
+                    <span v-if="speedFormat === 'pace'">Vitesse</span>
                 </div>
             </div>
 
@@ -222,30 +228,30 @@
                 }
 
                 // SPEED calculation
-                if (this.duration !== '' && this.distance !== '' && ((this.speed === '' && this.pace === '') || this.calculatedField === 'speed')) {
+                if (this.duration && this.distance && ((!this.speed && !this.pace) || this.calculatedField === 'speed')) {
                     this.calculatedField = 'speed';
                     this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.duration))
-                        .toFixed(3)
+                        .toFixed(4)
                         .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
                     this.speed = this.speed === '' ? '< 0.001km/h' : this.speed;
                     this.pace = this.speedToPace(this.speed)
                     // DURATION calculation
-                } else if (this.distance !== '' && (this.speed !== '' || this.pace !== '') && (this.duration === '' || this.calculatedField === 'duration')) {
+                } else if (this.distance && (this.speed || this.pace) && (!this.duration || this.calculatedField === 'duration')) {
                     this.calculatedField = 'duration';
                     this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
-                        .toFixed(3)
+                        .toFixed(4)
                         .replace(/\.?0+$/, ''));
-                    this.duration = this.duration === '' ? '< 1sec' : this.duration;
+                    this.duration = !this.duration ? '< 1sec' : this.duration;
                     this.durationHours = String(this.formatDuration(this.duration, 3).hours);
                     this.durationMinutes = String(this.formatDuration(this.duration, 3).minutes);
                     this.durationSeconds = String(this.formatDuration(this.duration, 3).seconds);
                     // DISTANCE calculation
-                } else if ((this.speed !== '' || this.pace !== '') && this.duration !== '' && (this.distance === '' || this.calculatedField === 'distance')) {
+                } else if ((this.speed || this.pace) && this.duration && (!this.distance || this.calculatedField === 'distance')) {
                     this.calculatedField = 'distance';
                     this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.duration))
-                        .toFixed(3)
+                        .toFixed(4)
                         .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
-                    this.distance = this.distance === '' ? '< 0.001m' : this.distance;
+                    this.distance = !this.distance ? '< 0.001m' : this.distance;
                 } else {
                     this.calculatedField = ''
                 }
@@ -321,9 +327,9 @@
                         return parseFloat(hours) + (parseFloat(minutes) / 60) + (parseFloat(seconds) / 3600)
                     } else if (nbReturnedFields === 3) {
                         return {
-                            'hours': parseFloat(hours) || "",
-                            'minutes': parseFloat(minutes) || "",
-                            'seconds': parseFloat(seconds) || ""
+                            hours: parseFloat(hours) || "",
+                            minutes: parseFloat(minutes) || "",
+                            seconds: parseFloat(seconds) || ""
                         }
                     }
 
@@ -331,8 +337,14 @@
             },
             prettyDuration: function (duration) {
                 let hours = duration | 0;
-                let minutes = ((duration % 1) * 60) | 0;
-                let seconds = ((((duration % 1) * 60) % 1) * 60) | 0;
+                let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
+                let seconds = Math.round((((duration % 1) * 60) % 1) * 60);
+                if (seconds === 60) {
+                    minutes++, seconds = 0
+                }
+                if (minutes === 60) {
+                    hours++, minutes = 0
+                }
 
                 let prettyDuration = '';
                 if (hours !== 0) {
@@ -411,13 +423,13 @@
                     return speed.toFixed(3).replace(/\.?0+$/, '');
                 } else return "";
             },
-            speedToPace: function (speed) {
-                if (speed !== "") {
+            speedToPace(speed) {
+                if (speed) {
                     let pace = 60 / this.formatSpeed(speed);
                     let minutes = pace | 0;
-                    let seconds = ((pace % 1) * 60) | 0;
-                    seconds = seconds < 10 && seconds > 0 ? '0' + seconds : seconds;
-                    seconds = seconds === 0 ? "00" : seconds;
+                    let seconds = Math.round(((pace % 1) * 60) | 0);
+                    seconds = seconds < 10 && seconds ? '0' + seconds : seconds;
+                    seconds = !seconds ? "00" : seconds;
                     return minutes + ":" + seconds
                 } else return "";
 
@@ -458,7 +470,6 @@
                         if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)[0] !== this.duration) {
                             // check if a new unit h or m is added : 3 digits in string and newVal length > oldVal
                             if (this.duration.match(/[0-9][0-5][0-9][m|s].*/g) && newVal.length > oldVal.length) {
-                                console.log('cas 1');
                                 let newCaracter;
                                 if (this.duration.includes('m') && !this.duration.includes('h')) {
                                     newCaracter = 'h'
@@ -466,21 +477,18 @@
                                 // hours or minute adding
                                 this.duration = this.duration.replace(/([0-9])([0-5][0-9][m|s].*)/g, '$1' + newCaracter + '$2');
 
-                                console.log(newCaracter);
                                 this.$nextTick(() => {
                                     this.$refs['duration'].setSelectionRange(this.duration.indexOf(newCaracter), this.duration.indexOf(newCaracter));
                                 });
                                 // check if a starting unit is deleted
-                            } else if (this.duration.match(/^[h|m|s][0-5]?[0-9](.*|$)/g)) {
-                                console.log('cas 2');
-                                this.duration = this.duration.replace(/([h|m|s])([0-5]?[0-9](.*|$))/g, '$2');
+                            } else if (this.duration.match(/^[hms][0-5]?[0-9](.*|$)/g)) {
+                                this.duration = this.duration.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
                                 this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
                                 this.$nextTick(() => {
                                     this.$refs['duration'].setSelectionRange(0, 0);
                                 });
                                 // check if minutes are deleted by deleting 'm' : 3 / 4 digits followed by s or end of string
                             } else if (this.duration.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {
-                                console.log('cas 3');
                                 this.duration = this.duration.replace(/([h]?)([0-5]?[0-9])([0-5][0-9](s|$))/g, '$1$3' + this.durationDisplayedUnit);
                                 this.$nextTick(() => {
                                     if (this.duration.includes('h')) {
@@ -489,20 +497,16 @@
                                 });
                                 // check if minutes are deleted by deleting digits : 'hm' or 'hs
                             } else if (this.duration.match(/hm|ms/g) && newVal.length < oldVal.length) {
-                                console.log('cas 3bis');
                                 this.duration = this.duration.replace(/hm/, 'h');
                                 this.duration = this.duration.replace(/ms/, 'm');
                                 // check if hours are deleted
                             } else if (this.duration.match(/[[0-9]?[0-9][0-5][0-9](m|s|$)/g) && oldVal.includes('h')) {
-                                console.log('cas 4');
                                 this.duration = this.duration.replace(/([0-9]?[0-9])([0-5][0-9](m|s|$))/g, '$2');
                                 this.duration = this.duration.match(/[m|s]$/g) ? this.duration : this.duration + this.durationDisplayedUnit
-                            } else if (this.duration.match(/^[h|m|s]$/g)) {
-                                console.log('cas 5');
+                            } else if (this.duration.match(/^[hms]$/g)) {
                                 this.duration = '';
                                 this.durationDisplayedUnit = 'h'
                             } else {
-                                console.log('cas non géré');
                                 this.duration = oldVal
                             }
                         } else {
@@ -519,7 +523,6 @@
                         }
                         // else cancelling the input
                     } else {
-                        console.log(newVal);
                         this.duration = ''
                     }
                 } else if (this.calculatedField === 'duration') {
@@ -529,7 +532,7 @@
                 let durationInHours = this.formatDuration(this.duration);
                 this.$store.commit('setDuration', durationInHours);
             },
-            distance: function (newVal, oldVal) {
+            distance(newVal, oldVal) {
                 if (this.$store.state.defaultDistances.find(defaultDist =>
                     defaultDist.distance === this.distance)) {
                     this.presetDistances = this.$store.state.defaultDistances.find(defaultDist =>
@@ -572,8 +575,8 @@
                 }
                 this.$store.commit('setDistance', this.distance);
             },
-            speed: function (newVal, oldVal) {
-                if (this.speed === '') {
+            speed(newVal, oldVal) {
+                if (!this.speed) {
                     this.pace = '';
                     if (this.calculatedField === 'duration') {
                         this.duration = '';
@@ -584,6 +587,9 @@
                         this.distance = ''
                     }
                 } else if (this.calculatedField !== 'speed') {
+                    // removing faulty characters
+                    this.speed = this.speed.replace(/[^0-9,.]/g, '');
+
                     // check leading zero is followed by zero, and not by , / .
                     if (this.speed.match(/^0{2,}(?![.,])/g)) {
                         // if yes : cancelling the input
@@ -606,7 +612,7 @@
                 }
                 this.$store.commit('setSpeed', this.speed);
             },
-            pace: function (newVal, oldVal) {
+            pace(newVal, oldVal) {
                 if (this.pace === '') {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
@@ -680,9 +686,9 @@
                         this.durationHours = oldVal
                     }
                 }
-                this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
-                this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
-                this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
+                this.duration = this.durationHours ? this.durationHours + 'h' : '';
+                this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
+                this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
             durationMinutes: function (newVal, oldVal) {
                 // check a durationMinutes change only if it's not the calculated fields
@@ -726,17 +732,19 @@
                 this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
                 this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
             },
-            oneFieldMode: function () {
+            oneFieldMode() {
                 if (this.oneFieldMode) {
-                    this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
-                    this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
-                    this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
+                    this.duration = parseInt(this.durationHours) ? this.durationHours + 'h' : '';
+                    this.duration += parseInt(this.durationMinutes) ? this.durationMinutes + 'm' : '';
+                    this.duration += parseInt(this.durationSeconds) ? this.durationSeconds + 's' : '';
                 } else {
-                    this.durationHours = String((this.formatDuration(this.duration, 3).hours) || "");
-                    this.durationMinutes = String((this.formatDuration(this.duration, 3).minutes) || "");
-                    this.durationSeconds = String((this.formatDuration(this.duration, 3).seconds) || "");
+                    this.durationHours = this.formatDuration(this.duration, 3).hours;
+                    this.durationMinutes = this.formatDuration(this.duration, 3).minutes;
+                    this.durationSeconds = this.formatDuration(this.duration, 3).seconds;
                 }
-                localStorage.oneFieldMode = this.oneFieldMode
+                localStorage.oneFieldMode = this.oneFieldMode;
+                this.$store.commit('setOneFieldMode', this.oneFieldMode);
+
             },
             separator: (newVal) => {
                 localStorage.separator = newVal;
@@ -761,42 +769,44 @@
 <style lang="scss" scoped>
     @screen xs {
         .main-box {
-            @apply rounded-none mt-2 mb-2 w-full;
+            @apply rounded-none mt-2 w-full;
+            background-color: rgba($ma-secondary, 0.8);
+            backdrop-filter: blur(2px);
         }
     }
 
     @screen sm {
         .main-box {
             @apply rounded-none mt-2 mb-2 w-full;
+            background-color: rgba($ma-secondary, 0.8);
+            backdrop-filter: blur(2px);
         }
     }
 
     @screen md {
         .main-box {
-            @apply rounded-lg;
-            @apply m-2;
-
+            @apply rounded-lg m-2;
+            background-color: rgba($ma-secondary, 0.8);
+            backdrop-filter: blur(2px);
         }
     }
 
     @screen lg {
         .main-box {
-            @apply rounded-lg;
-            @apply m-4;
-
+            @apply rounded-lg my-4 shadow-xl;
+            background-color: rgba($ma-secondary, 0.8);
+            backdrop-filter: blur(2px);
         }
     }
 
     @screen xl {
         .main-box {
-            @apply rounded-lg;
-            @apply m-4;
+            @apply rounded-lg my-4 shadow-xl;
+            background-color: rgba($ma-secondary, 0.8);
         }
     }
     .main-box {
         transition: all 0.5s;
-        box-shadow: 0 5px 1px rgba(255, 153, 0, 0.8);
-        background-color: $ma-primary;
     }
 
     @media screen and (max-width: 950px) {
@@ -828,7 +838,7 @@
         align-items: center;
         justify-content: space-between;
         min-height: 40px;
-        @apply bg-white mt-2 ml-3 mr-3 p-3;
+        @apply bg-white mt-2 ml-3 mr-3 p-3 items-center;
 
     }
 
@@ -851,15 +861,19 @@
     }
 
     .calculated {
-        background-color: $ma-secondary;
+        background-color: $ma-primary;
         color: white;
         font-weight: 800;
         transition: all 0.2s;
-        @apply ml-3 mt-2;
+        @apply ml-3 mt-2 shadow-lg;
     }
 
     input {
-        background-color: transparent;
+        @apply font-bold text-xl bg-transparent;
+
+        &::placeholder {
+            @apply font-light text-base;
+        }
     }
 
     input:focus {
@@ -901,13 +915,12 @@
     }
 
     .calculated-label {
-        text-decoration-color: $ma-secondary;
+        color: $ma-primary;
     }
 
     .duration-display-switch {
         position: relative;
         z-index: 0;
-        @apply text-primary;
     }
 
     .dot {
@@ -938,9 +951,6 @@
         transition: all 1s;
     }
 
-    .calculated2 {
-        @apply border-secondary;
-    }
 
     .number-input {
         &::-webkit-inner-spin-button {
@@ -949,6 +959,28 @@
 
         -moz-appearance: textfield;
 
+    }
+
+    .box-option {
+        @apply mr-3 px-2 self-end rounded-b-lg shadow-lg
+        flex cursor-pointer;
+        transition: all 200ms ease-in;
+
+        &:not(active) {
+            @apply bg-primary;
+        }
+
+        &.active {
+            @apply bg-white text-primary;
+        }
+
+        &:hover {
+            padding-top: 5px;
+        }
+    }
+
+    .icon-active {
+        filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
     }
 
 </style>

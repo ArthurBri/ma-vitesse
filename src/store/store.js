@@ -16,7 +16,8 @@ export const store = new Vuex.Store({
         ],
         /* Settings */
         showPredictions: true,
-        showLapTime: false
+        showLapTime: true,
+        oneFieldMode: false
     },
     mutations: {
         setSpeed(state, speed) {
@@ -27,6 +28,9 @@ export const store = new Vuex.Store({
         },
         setDuration(state, duration) {
             state.duration = duration
+        },
+        setOneFieldMode(state, oneFieldMode) {
+            state.oneFieldMode = oneFieldMode
         },
         showPredictions(state, show) {
             state.showPredictions = show;
@@ -45,18 +49,21 @@ export const store = new Vuex.Store({
                 state.defaultDistances.findIndex(distance => distance.label === labelPresetToRm), 1);
             localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances));
         },
-        initialiseStore(state) {
-            // Check if the ID exists
+        initializeStore(state) {
             if (localStorage.getItem('showPredictions')) {
-                state.showPredictions = localStorage.showPredictions === 'true'
+                state.showPredictions = JSON.parse(localStorage.getItem('showPredictions'));
             }
 
             if (localStorage.getItem('showLapTime')) {
-                state.showLapTime = localStorage.showLapTime === 'true'
+                state.showLapTime = JSON.parse(localStorage.getItem('showLapTime'));
             }
 
             if (localStorage.getItem('defaultDistances')) {
                 state.defaultDistances = JSON.parse(localStorage.getItem('defaultDistances'));
+            }
+
+            if (localStorage.getItem('oneFieldMode')) {
+                state.oneFieldMode = JSON.parse(localStorage.getItem('oneFieldMode'));
             }
         }
     },
