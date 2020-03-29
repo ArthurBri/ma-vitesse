@@ -1,21 +1,17 @@
 <template>
-    <transition name="modal-fade">
-        <div class="modal-backdrop z-10" role="dialog">
-            <div class="modal" ref="modal">
-                <header class="modal-header text-xl text-white sm:text-primary xs:text-primary font-bold bg-primary xs:bg-transparent sm:bg-transparent xs:border-t-4 sm:border-t-4 xs:border-secondary sm:border-secondary">
+    <transition name="drawer-fade">
+        <div @click="handleClick($event.target)" class="drawer-backdrop z-10" role="dialog">
+            <div class="drawer xl:w-1/3 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
+                <header class="drawer-header text-xl text-white font-bold bg-primary">
                     <slot name="header"/>
+                    <button @click="close" aria-label="Close drawer"
+                            class="btn noselect-nodrag outline-none" type="button">
+                        Fermer
+                    </button>
                 </header>
-                <section class="modal-body">
+                <section class="drawer-body">
                     <slot name="body"/>
                 </section>
-                <footer class="modal-footer">
-                    <slot name="footer">
-                        <button @click="close" aria-label="Close modal"
-                                class="btn noselect-nodrag outline-none" type="button">
-                            Fermer
-                        </button>
-                    </slot>
-                </footer>
             </div>
         </div>
     </transition>
@@ -24,10 +20,15 @@
 
 <script>
     export default {
-        name: "BottomModal",
+        name: "Drawer",
         methods: {
             close() {
                 this.$emit('close');
+            },
+            handleClick(target) {
+                if (target.className.match('drawer-backdrop')) {
+                    this.$emit('close');
+                }
             }
         }
     }
@@ -35,13 +36,10 @@
 
 <style lang="scss" scoped>
     .btn {
-        padding: 8px 16px;
-        border-radius: 3px;
-        font-size: 14px;
-        cursor: pointer;
+        @apply px-2 py-1 rounded-lg text-base cursor-pointer;
     }
 
-    .modal-backdrop {
+    .drawer-backdrop {
         position: fixed;
         top: 0;
         bottom: 0;
@@ -54,40 +52,23 @@
         align-items: flex-end;
     }
 
-    .modal {
-        @apply shadow-2xl bg-white absolute;
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        z-index: 3;
-        right: 0;
-        height: 100vh;
-        width: 30vw;
+    .drawer {
+        @apply shadow-2xl bg-white absolute overflow-x-auto flex flex-col z-10 right-0 h-screen;
     }
 
-    .modal-header,
-    .modal-footer {
-        padding: 15px;
-        display: flex;
+    .drawer-header {
+        @apply flex p-4 justify-between items-center outline-none;
     }
 
-
-    .modal-header {
-        border-bottom: 1px solid #eeeeee;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .modal-footer {
+    .drawer-footer {
         border-top: 1px solid #eeeeee;
         justify-content: flex-end;
     }
 
-    .modal-body {
+    .drawer-body {
         position: relative;
         padding: 20px 10px;
         overflow-x: auto;
-        max-height: 80vh;
     }
 
     .btn-close {
@@ -101,10 +82,7 @@
     }
 
     .btn {
-        color: white;
-        background: $ma-primary;
-        border: 1px solid #4aae9b;
-        border-radius: 2px;
+        @apply text-white bg-primary border border-white rounded;
     }
 
     .slide-up-enter-active {
@@ -120,13 +98,13 @@
         opacity: 0;
     }
 
-    .modal-fade-enter,
-    .modal-fade-leave-active {
+    .drawer-fade-enter,
+    .drawer-fade-leave-active {
         opacity: 0;
     }
 
-    .modal-fade-enter-active,
-    .modal-fade-leave-active {
+    .drawer-fade-enter-active,
+    .drawer-fade-leave-active {
         transition: opacity 0.5s ease;
     }
 

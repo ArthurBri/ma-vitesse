@@ -70,12 +70,12 @@
 
 <style lang="scss" scoped>
     .icon {
-        @apply p-2 h-10 m-1 rounded shadow-lg;
         background: rgba(white, 0.7);
         backdrop-filter: blur(2px);
 
         &.icon-orange {
             background: rgba($ma-secondary, 0.9);
+
         }
     }
 
@@ -94,12 +94,28 @@
         .header {
             @apply h-8 p-3 mt-2;
         }
+
+        .icon {
+            @apply py-2 px-1 h-8 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-3;
+            }
+        }
     }
 
     /* 380px < width > 639px  */
     @screen sm {
         .header {
             @apply h-8 p-3 mt-2;
+        }
+
+        .icon {
+            @apply py-2 px-1 h-8 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-3;
+            }
         }
     }
 
@@ -108,6 +124,14 @@
         .header {
             @apply h-8 p-4 mt-3;
         }
+
+        .icon {
+            @apply p-2 h-8 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-2;
+            }
+        }
     }
 
     /* 768px < width > 1023px */
@@ -115,12 +139,24 @@
         .header {
             @apply h-8 p-4 mt-3;
         }
+
+        .icon {
+            @apply p-2 h-10 m-1 rounded shadow-lg;
+
+            &.icon-orange {
+                @apply mr-2;
+            }
+        }
     }
 
     /* > 1024px */
     @screen xl {
         .header {
             @apply h-16 p-4 pl-6 pr-6 mt-2;
+        }
+
+        .icon {
+            @apply p-2 h-10 m-1 rounded shadow-lg;
         }
     }
 

@@ -4,9 +4,9 @@
             <div class="modal" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
-                    <span @click="close" class="pl-2"><img alt="delete a distance"
-                                                           class="icon-close w-6 noselect-nodrag"
-                                                           src="../assets/icons/cancel.svg"/></span>
+                    <span @click="close" class="pl-2 icon"><img alt="delete a distance"
+                                                                class="icon-close w-6 noselect-nodrag"
+                                                                src="../assets/icons/cancel.svg"/></span>
                 </header>
                 <section class="modal-body text-primary">
                     <slot name="body"/>
@@ -75,6 +75,7 @@
         -webkit-backdrop-filter: blur(3px);
         backdrop-filter: blur(10px);
         align-items: flex-end;
+        z-index: 1000;
     }
 
     .modal {
@@ -151,6 +152,10 @@
     .modal-fade-enter-active,
     .modal-fade-leave-active {
         transition: opacity 0.5s ease;
+    }
+
+    .icon {
+        filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
     }
 
 </style>

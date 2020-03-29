@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="flex items-stretch justify-center"
-             v-if="$store.state.distance !== '' && $store.state.duration !== '' && $store.state.defaultDistances.length > 0">
+             v-if="distance && duration && defaultDistances.length">
             <table>
                 <tr>
                     <th class="">Distance</th>
@@ -13,25 +13,29 @@
                 </tr>
             </table>
         </div>
-        <p class="m-auto text-center text-primary" v-else-if="$store.state.defaultDistances.length > 0">
+        <p class="m-auto text-center" v-else-if="defaultDistances.length">
             Effectuer un calcul pour voir les prédictions sur d'autres distances.
         </p>
-        <p class="m-auto text-center text-primary" v-else>
+        <p class="m-auto text-center" v-else>
             Ajouter une distance dans le menu "Mes distances" pour voir les prédictions sur ces distances.
         </p>
     </div>
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     export default {
         name: "Prediction",
         data() {
             return {}
         },
         computed: {
+            ...mapState(["defaultDistances", "distance", "duration"]),
             updatedPredictions() {
-                this.$store.state.defaultDistances.forEach(element => element.duration = this.prettyDuration((this.$store.state.duration * 3600 * (element.distance.replace(',', '.') / this.$store.state.distance.replace(',', '.')) * 1.06) / 3600));
-                return this.$store.state.defaultDistances.filter(i => (i.distance !== this.$store.state.distance))
+                this.defaultDistances.forEach(element => {
+                    element.duration = this.prettyDuration((this.duration * 3600 * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06) / 3600)
+                });
+                return this.defaultDistances.filter(i => (i.distance !== this.distance))
             }
         },
         methods: {
@@ -92,29 +96,31 @@
         }
     }
 
+
     table, th, td {
         border-collapse: collapse;
         padding: 5px 5px 5px 5px;
-        @apply text-primary border-gray-500;
+        @apply border-gray-500;
     }
 
     th {
-        @apply bg-primary text-white text-left pl-3;
+        @apply bg-white text-primary text-left px-3;
     }
 
     table tr:first-child th:first-child {
-        border-top-left-radius: 8px;
+        @apply rounded-tl-lg;
     }
 
     table tr:first-child th:last-child {
-        border-top-right-radius: 8px;
+        @apply rounded-tr-lg;
     }
 
     tr {
         @apply border-b;
 
         &:hover {
-            @apply font-bold cursor-default;
+            @apply cursor-default;
+            background-color: rgba(#edf2f7, 0.2);
         }
     }
 
