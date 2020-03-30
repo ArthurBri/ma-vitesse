@@ -112,7 +112,7 @@
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
-                               ref="distance" type="number"
+                               inputmode="numeric" pattern="[0-9]*" ref="distance"
                                v-model="distance"/>
                         <span class="noselect-nodrag self-center">km</span>
                     </div>
@@ -148,8 +148,7 @@
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
-                                   type="number"
-                                   id="speed" name="speed" ref="speed"
+                                   id="speed" inputmode="numeric" name="speed" pattern="[0-9]*" ref="speed"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
                             <span class="noselect-nodrag self-center text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>

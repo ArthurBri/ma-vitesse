@@ -22,10 +22,10 @@ export const store = new Vuex.Store({
     },
     mutations: {
         setSpeed(state, speed) {
-            state.speed = speed
+            state.speed = speed.replace(",", ".")
         },
         setDistance(state, distance) {
-            state.distance = distance
+            state.distance = distance.replace(",", ".")
         },
         setDuration(state, duration) {
             state.duration = duration

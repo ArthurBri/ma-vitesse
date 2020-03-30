@@ -9,7 +9,7 @@
                 </tr>
                 <tr :key="item.label" v-for="(item) in updatedPredictions">
                     <td>{{item.label}}</td>
-                    <td>{{item.duration}}</td>
+                    <td class="text-center">{{item.duration}}</td>
                 </tr>
             </table>
         </div>
@@ -30,7 +30,7 @@
             return {}
         },
         computed: {
-            ...mapState(["defaultDistances", "distance", "duration"]),
+            ...mapState(["defaultDistances", "distance", "duration", "oneFieldMode"]),
             updatedPredictions() {
                 this.defaultDistances.forEach(element => {
                     element.duration = this.prettyDuration((this.duration * 3600 * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06) / 3600)
@@ -40,20 +40,29 @@
         },
         methods: {
             prettyDuration: function (duration) {
-                let hours = duration | 0;
-                let minutes = ((duration % 1) * 60) | 0;
-                let seconds = ((((duration % 1) * 60) % 1) * 60) | 0;
-
                 let prettyDuration = '';
-                if (hours !== 0) {
-                    prettyDuration += (hours + 'h')
+                let hours = duration | 0;
+                let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
+                let seconds = (((duration % 1) * 60) % 1) * 60;
+
+                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds >= 1 ? seconds.toFixed(1) : 0;
+                if (seconds === 60) {
+                    minutes++, seconds = 0
                 }
-                if (minutes !== 0) {
-                    prettyDuration += (minutes + 'm')
+                if (minutes === 60) {
+                    hours++, minutes = 0
                 }
-                if (seconds !== 0) {
-                    prettyDuration += (seconds + 's')
+
+                if (this.oneFieldMode) {
+                    prettyDuration += hours && hours < 10 ? '0' + hours + 'h' : hours ? hours + 'h' : '';
+                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
+                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
+                } else {
+                    prettyDuration += hours && hours < 10 ? '0' + hours + ':' : hours ? hours + ':' : '00:';
+                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + ':' : minutes < 10 ? '0' + minutes + ':' : minutes ? minutes + ':' : '00:';
+                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds : seconds ? seconds : '00';
                 }
+
                 return prettyDuration
             },
             close() {

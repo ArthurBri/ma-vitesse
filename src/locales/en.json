@@ -42,14 +42,14 @@
   },
   "predictions": {
     "title": "Running predictions",
-    "label_no_calculation": "Perform a calculation to see running predictions",
+    "label_no_calculation": "Do a calculation to see running predictions",
     "label_no_distances": "Add a distance via 'My distances' to see running predictions",
     "duration": "@:common.duration",
     "estimated_duration": "Estimated duration"
   },
   "laptime": {
     "title": "Laptime",
-    "label_no_calculation": "Perform a calculation to see laptime",
+    "label_no_calculation": "Do a calculation to see laptime",
     "distance": "@:common.distance",
     "duration": "@:common.duration",
     "traveled_distance": "Traveled distance",
@@ -71,7 +71,8 @@
     },
     "reset_section": {
       "title": "Restore default",
-      "reset_button": "Application reset"
+      "reset_button": "Application reset",
+      "reset_message_success": "Application was successfully reset, reload it to apply changes."
     }
   },
   "share": {

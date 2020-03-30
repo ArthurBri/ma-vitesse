@@ -70,7 +70,8 @@
     },
     "reset_section": {
       "title": "Réinitialiser",
-      "reset_button": "Réinitialiser l'application"
+      "reset_button": "Réinitialiser l'application",
+      "reset_message_success": "L'application a été réinitialisée, rechargez l'application pour appliquer les modifications."
     }
   },
   "share": {

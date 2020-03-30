@@ -50,7 +50,7 @@
                         </thead>
                         <tbody>
                         <tr :key="line.remaining_distance" class="border-b" v-for="line in laptime_distance_steps">
-                            <td>{{line.remaining_distance}}km</td>
+                            <td><b>{{line.remaining_distance}}</b> km</td>
                             <td>{{line.duration}}</td>
                             <td>{{line.remaining_duration}}</td>
                         </tr>
@@ -207,11 +207,11 @@
                 }
 
                 if (this.oneFieldMode) {
-                    prettyDuration += hours ? hours + 'h' : '';
+                    prettyDuration += hours && hours < 10 ? '0' + hours + 'h' : hours ? hours + 'h' : '';
                     prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
                     prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
                 } else {
-                    prettyDuration += hours ? hours + ':' : '00:';
+                    prettyDuration += hours && hours < 10 ? '0' + hours + ':' : hours ? hours + ':' : '00:';
                     prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + ':' : minutes < 10 ? '0' + minutes + ':' : minutes ? minutes + ':' : '00:';
                     prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds : seconds ? seconds : '00';
                 }

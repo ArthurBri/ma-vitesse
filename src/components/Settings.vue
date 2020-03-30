@@ -22,16 +22,16 @@
             <div class="flex flex-col ml-5">
                 <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.component_section.title') }}</h1>
                 <div class="ml-2">
-                    < class="flex">
-                    <label class="switch">
-                        <input class="appearance-none" type="checkbox" v-model="showPredictions">
-                        <span class="slider round shadow-lg"/>
-                    </label>
-                    <div @click="showPredictions = !showPredictions"
-                         class="cursor-pointer ml-2 noselect-nodrag">{{
-                        $t('settings.component_section.show_predictions') }}
+                    <div class="flex">
+                        <label class="switch">
+                            <input class="appearance-none" type="checkbox" v-model="showPredictions">
+                            <span class="slider round shadow-lg"/>
+                        </label>
+                        <div @click="showPredictions = !showPredictions"
+                             class="cursor-pointer ml-2 noselect-nodrag">{{
+                            $t('settings.component_section.show_predictions') }}
+                        </div>
                     </div>
-                </div>
                 <div class="flex mt-2">
                     <label class="switch">
                         <<input class="appearance-none" type="checkbox" v-model="showLapTime">
@@ -50,7 +50,7 @@
                         {{$t('settings.reset_section.reset_button')}}
                     </button>
                     <div class="flex flex-row justify-center text-center">
-                        <span v-if="appReseted">L'application a été réinitialisée, rechargez l'application pour appliquer les modifications.</span>
+                        <span v-if="appReseted">{{ $t('settings.reset_section.reset_message_success') }}</span>
                     </div>
                 </div>
             </div>
