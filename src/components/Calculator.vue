@@ -112,8 +112,9 @@
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
-                               inputmode="numeric" pattern="[0-9]*" ref="distance"
-                               v-model="distance"/>
+                               @keydown.down="decrement('distance')" @keydown.up="increment('distance')"
+                               inputmode="numeric" pattern="[0-9]*"
+                               ref="distance" v-model="distance"/>
                         <span class="noselect-nodrag self-center">km</span>
                     </div>
                 </div>
@@ -149,6 +150,7 @@
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
                                    id="speed" inputmode="numeric" name="speed" pattern="[0-9]*" ref="speed"
+                                   @keydown.down="decrement('speed')" @keydown.up="increment('speed')"
                                    v-if="speedFormat === 'speed'" v-model="speed"/>
                             <span class="noselect-nodrag self-center text-right"
                                   v-on:dblclick="changeSpeedFormat">{{ speedDisplayedFormat }}</span>
@@ -225,9 +227,9 @@
                 }
                 // separator set depending the one used in input
                 if (this.calculatedField === 'distance') {
-                    this.separator = (this.speed).includes(",") ? "," : (this.speed).includes(".") ? "." : this.separator;
+                    this.separator = this.speed.includes(",") ? "," : this.speed.includes(".") ? "." : this.separator;
                 } else {
-                    this.separator = (this.distance).includes(",") ? "," : (this.distance).includes(".") ? "." : this.separator;
+                    this.separator = this.distance.includes(",") ? "," : this.distance.includes(".") ? "." : this.separator;
                 }
 
                 // SPEED calculation
@@ -445,6 +447,30 @@
             closeRemoveDistance: function () {
                 this.removeDistance = false;
                 this.presetDistances = ""
+            },
+            increment(field) {
+                if (this[field]) {
+                    if (typeof this[field] === 'string') {
+                        this[field] = String(parseFloat(this[field].replace(",", ".")) + 1).replace(/[,.]/g, this.separator);
+                    } else {
+                        this[field] = String(this[field]++)
+                    }
+                } else {
+                    this[field] = "1"
+                }
+                this.checkFields()
+            },
+            decrement(field) {
+                if (this[field] && this[field] >= 1) {
+                    if (typeof this[field] === 'string') {
+                        this[field] = String(parseFloat(this[field].replace(",", ".")) - 1).replace(/[,.]/g, this.separator);
+                    } else {
+                        this[field] = String(this[field]--)
+                    }
+                } else {
+                    this[field] = "0"
+                }
+                this.checkFields()
             }
         },
         watch: {
@@ -488,7 +514,9 @@
                                 this.duration = this.duration.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
                                 this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
                                 this.$nextTick(() => {
-                                    this.$refs['duration'].setSelectionRange(0, 0);
+                                    if (this.duration) {
+                                        this.$refs['duration'].setSelectionRange(0, 0);
+                                    }
                                 });
                                 // check if minutes are deleted by deleting 'm' : 3 / 4 digits followed by s or end of string
                             } else if (this.duration.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {

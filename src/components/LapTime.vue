@@ -198,7 +198,7 @@
                 let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
                 let seconds = (((duration % 1) * 60) % 1) * 60;
 
-                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds >= 1 ? seconds.toFixed(1) : 0;
+                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds.toFixed(1) > 0.1 ? seconds.toFixed(1) : 0;
                 if (seconds === 60) {
                     minutes++, seconds = 0
                 }
