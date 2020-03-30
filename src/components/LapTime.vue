@@ -4,10 +4,12 @@
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
                 <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg noselect-nodrag">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'distance'" class="laptime-type-switch rounded-t-lg">Distance
+                         @click="laptime_type = 'distance'" class="laptime-type-switch rounded-t-lg">{{
+                        $t('laptime.distance')}}
                     </div>
                     <div :class="[laptime_type === 'duration' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'duration'" class="laptime-type-switch rounded-b-lg ">Temps
+                         @click="laptime_type = 'duration'" class="laptime-type-switch rounded-b-lg ">{{
+                        $t('laptime.duration')}}
                     </div>
                 </div>
                 <div class="laptime-end flex content-center bg-white text-primary mt-6 xs:mt-0 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 shadow-lg">
@@ -35,14 +37,14 @@
                     <table class="w-full">
                         <thead>
                         <tr class="text-primary bg-white">
-                            <th>Distance
-                                <span v-if="laptime_sort === 'asc'">restante</span>
-                                <span v-else>parcourue</span>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
+                                <span v-else>{{ $t('laptime.traveled_distance')}}</span>
                             </th>
-                            <th>Durée segment</th>
-                            <th>Temps
-                                <span v-if="laptime_sort === 'asc'">restant</span>
-                                <span v-else>écoulé</span>
+                            <th>{{ $t('laptime.lap_duration')}}</th>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_duration')}}</span>
+                                <span v-else>{{ $t('laptime.elapsed_time')}}</span>
                             </th>
                         </tr>
                         </thead>
@@ -59,14 +61,14 @@
                     <table class="w-full">
                         <thead>
                         <tr class="text-primary bg-white">
-                            <th>Temps
-                                <span v-if="laptime_sort === 'asc'">restant</span>
-                                <span v-else>écoulé</span>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_duration')}}</span>
+                                <span v-else>{{ $t('laptime.elapsed_time')}}</span>
                             </th>
-                            <th>Distance segment</th>
-                            <th>Distance
-                                <span v-if="laptime_sort === 'asc'">restante</span>
-                                <span v-else>parcourue</span>
+                            <th>{{ $t('laptime.lap_distance')}}</th>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
+                                <span v-else>{{ $t('laptime.traveled_distance')}}</span>
                             </th>
                         </tr>
                         </thead>
@@ -82,7 +84,7 @@
             </div>
         </div>
         <p class="m-auto h-full text-center" v-else>
-            Effectuer un calcul pour voir les temps de passage.
+            {{ $t('laptime.label_no_calculation')}}
         </p>
     </div>
 </template>

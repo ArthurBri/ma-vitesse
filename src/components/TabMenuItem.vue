@@ -4,7 +4,7 @@
          v-show="hidden === false">
         <div class="flex h-8 mt-1 ml-1 mr-1 pb-1 leading-none font-light">
             <img :class="[active ? '' : 'icon-inactive']" :src="require('../assets/icons/' + component + '.svg')"
-                 alt="Component icon" class="w-6"/>
+                 alt="Component icon" class="w-6 noselect-nodrag"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold cursor-pointer">
                 {{label}}</h2>
             <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1"

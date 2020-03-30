@@ -2,47 +2,53 @@
     <drawer @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <div>
-                <h2>Réglages</h2>
+                <h2>{{ $t('settings.title')}}</h2>
             </div>
         </template>
         <template class="flex" v-slot:body>
-            <div>
-                <div class="flex flex-col">
-                    <div class="flex flex-col ml-5">
-                        <h1 class="text-xl font-bold pb-2 noselect-nodrag">Composants</h1>
-                        <div class="ml-2">
-                            <div class="flex">
-                                <label class="switch">
-                                    <div>
-                                        <input class="appearance-none" type="checkbox" v-model="showPredictions">
-                                        <span class="slider round shadow-lg"></span>
-                                    </div>
-                                </label>
-                                <div @click="showPredictions = !showPredictions"
-                                     class="cursor-pointer ml-2 noselect-nodrag">Afficher
-                                    les prédictions
-                                </div>
-                            </div>
-                            <div class="flex mt-2">
-                                <label class="switch">
-                                    <div>
-                                        <input class="appearance-none" type="checkbox" v-model="showLapTime">
-                                        <span class="slider round shadow-lg"></span>
-                                    </div>
-                                </label>
-                                <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
-                                    Afficher les temps
-                                    de passage
-                                </div>
-                            </div>
-                        </div>
+            <div class="flex flex-col ml-5">
+                <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
+                <div class="ml-2 flex">
+                    <div class="flex">
+                        <img :class="[lang === 'fr' ? 'border-b-4 border-primary' : '']" @click="lang = 'fr'"
+                             alt="French flag"
+                             class="w-12 cursor-pointer" src="../assets/flags/france.svg"/>
+                        <img :class="[lang === 'en' ? 'border-b-4 border-primary' : '']" @click="lang = 'en'"
+                             alg="UK flag"
+                             class="w-12 cursor-pointer ml-2" src="../assets/flags/uk.svg"/>
                     </div>
                 </div>
             </div>
+            <div class="flex flex-col ml-5">
+                <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.component_section.title') }}</h1>
+                <div class="ml-2">
+                    < class="flex">
+                    <label class="switch">
+                        <input class="appearance-none" type="checkbox" v-model="showPredictions">
+                        <span class="slider round shadow-lg"/>
+                    </label>
+                    <div @click="showPredictions = !showPredictions"
+                         class="cursor-pointer ml-2 noselect-nodrag">{{
+                        $t('settings.component_section.show_predictions') }}
+                    </div>
+                </div>
+                <div class="flex mt-2">
+                    <label class="switch">
+                        <<input class="appearance-none" type="checkbox" v-model="showLapTime">
+                        <span class="slider round shadow-lg"/>
+                    </label>
+                    <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
+                        {{ $t('settings.component_section.show_laptime') }}
+                    </div>
+                </div>
+            </div>
+            </div>
             <div class="flex flex-col ml-5 pt-6">
-                <h1 class="text-xl font-bold noselect-nodrag">Réinitialiser</h1>
+                <h1 class="text-xl font-bold noselect-nodrag">{{ $t('settings.reset_section.title') }}</h1>
                 <div class="pt-4 flex justify-center">
-                    <button @click="resetApp" class="mv-btn" v-if="!appReseted">Réinitialiser l'application</button>
+                    <button @click="resetApp" class="mv-btn" v-if="!appReseted">
+                        {{$t('settings.reset_section.reset_button')}}
+                    </button>
                     <div class="flex flex-row justify-center text-center">
                         <span v-if="appReseted">L'application a été réinitialisée, rechargez l'application pour appliquer les modifications.</span>
                     </div>
@@ -61,11 +67,13 @@
         data() {
             return {
                 isModalVisible: false,
-                appReseted: false
+                appReseted: false,
+                lang: 'fr'
             }
         },
         components: {Drawer},
         mounted() {
+            this.lang = this.$i18n.locale
         },
         methods: {
             close() {
@@ -90,6 +98,12 @@
                 }, set: function (newVal) {
                     this.$store.commit('showLapTime', newVal)
                 }
+            }
+        },
+        watch: {
+            lang() {
+                console.log('change');
+                this.$i18n.locale = this.lang
             }
         }
     }

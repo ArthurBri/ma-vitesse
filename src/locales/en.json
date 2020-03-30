@@ -1,0 +1,94 @@
+{
+  "global": {
+    "app_name": "MA Vitesse",
+    "app_subname": "Training assistant for running",
+    "app_meta_title": "Smart calculation tool of speed, duration, distance"
+  },
+  "common": {
+    "duration": "Duration",
+    "duration_lc": "duration",
+    "speed": "Speed",
+    "speed_lc": "speed",
+    "pace": "Pace",
+    "pace_lc": "pace",
+    "distance": "Distance",
+    "distance_lc": "distance",
+    "close": "Close",
+    "marathon": "Marathon",
+    "half_marathon": "Half-marathon",
+    "add": "Add",
+    "delete": "Delete",
+    "label": "Label"
+  },
+  "add_preset": {
+    "title": "Add a distance",
+    "label": "@:common.label",
+    "label_eg": "eg. Lake tour",
+    "distance": "@:common.distance"
+  },
+  "delete_preset": {
+    "title": "Remove a distance",
+    "label": "@:common.label",
+    "distance": "@:common.distance"
+  },
+  "calculator": {
+    "description": "Speed, duration, distance calculation",
+    "calculation_label": "calculation",
+    "duration": "@:common.duration",
+    "speed": "@:common.speed",
+    "pace": "@:common.pace",
+    "distance": "@:common.distance",
+    "my_distances": "My distances"
+  },
+  "predictions": {
+    "title": "Running predictions",
+    "label_no_calculation": "Perform a calculation to see running predictions",
+    "label_no_distances": "Add a distance via 'My distances' to see running predictions",
+    "duration": "@:common.duration",
+    "estimated_duration": "Estimated duration"
+  },
+  "laptime": {
+    "title": "Laptime",
+    "label_no_calculation": "Perform a calculation to see laptime",
+    "distance": "@:common.distance",
+    "duration": "@:common.duration",
+    "traveled_distance": "Traveled distance",
+    "elapsed_time": "Elapsed time",
+    "remaining_distance": "Remaining distance",
+    "remaining_duration": "Remaining duration",
+    "lap_distance": "Lap distance",
+    "lap_duration": "Lap duration"
+  },
+  "settings": {
+    "title": "Settings",
+    "language_section": {
+      "title": "Language"
+    },
+    "component_section": {
+      "title": "Components",
+      "show_predictions": "Show predictions",
+      "show_laptime": "Show laptime"
+    },
+    "reset_section": {
+      "title": "Restore default",
+      "reset_button": "Application reset"
+    }
+  },
+  "share": {
+    "main_message": "Share your performance !"
+  },
+  "about": {
+    "title": "About",
+    "1st_section": "MA Vitesse is a light, smart and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
+    "2nd_section": "The app is 100% free and basic features will remain free forever. MA Vitesse is a part of Mean Apps, a library of tools with a culture of modernity, soberty, simplicity, and efficacity. That culture is overlapping with a strong guideline of ethical a sustainable developement.",
+    "dev_label": "Developer",
+    "dev_contact_us": "Contact us",
+    "dev_to_join_message": "to join the project.",
+    "btn_feature": "Suggest a feature",
+    "btn_support": "Support the project",
+    "initiated_by": "Initiated by"
+  },
+  "all_ma": {
+    "title": "All our apps"
+  }
+}

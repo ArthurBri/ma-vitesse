@@ -2,16 +2,19 @@
     <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">Calcul de vitesse, de
-                durée,
-                de distance</h2>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">{{
+                $t('calculator.description')}}</h2>
 
         </div>
         <div class="flex h-8 mb-2" v-else>
             <img alt=" " class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
             <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
-                <h2 class="xl:text-xl">Calcul de la <span
-                        class="self-center font-semibold calculated-label">{{ prettyCalculatedField }}</span>
+                <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">{{ $t('calculator.calculation_label')}}<span
+                        class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
+                </h2>
+                <h2 class="xl:text-xl" v-else> <span
+                        class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
+                    {{ $t('calculator.calculation_label')}}
                 </h2>
                 <span><img @click="clearFields" alt="clear field button"
                            class="h-3 noselect-nodrag clear-fields-button"
@@ -23,7 +26,7 @@
             <div class="flex flex-col h-24 noselect-nodrag ">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('duration')" class="box self-stretch justify-between shadow-md">
-                    <label for="duration">Durée</label>
+                    <label for="duration">{{ $t('calculator.duration') }}</label>
                     <div class="w-40">
                         <!-- ONE FIELD mode -->
                         <div class="one-field-mode flex justify-end" v-if="oneFieldMode">
@@ -104,7 +107,7 @@
                 <div :class="calculatedField === 'distance' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('distance')"
                      class="box distance self-stretch justify-between shadow-md">
-                    <label for="distance">Distance</label>
+                    <label for="distance">{{ $t('calculator.distance') }}</label>
                     <div class="flex">
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
@@ -117,13 +120,13 @@
                 <label class="box-option preset-distances noselect-nodrag"
                        v-show="showPresetDistances">
                     <select @change="checkFields" class="cursor-pointer" tabindex="-1" v-model="presetDistances">
-                        <option disabled value="">Mes distances</option>
+                        <option disabled value="">{{ $t('calculator.my_distances')}}</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
                         </option>
-                        <option class="text-italic appearance-none" value="addDistance">+ Ajouter</option>
+                        <option class="text-italic appearance-none" value="addDistance">+ {{$t('common.add')}}</option>
                         <option class="text-italic appearance-none" v-if="this.$store.state.defaultDistances.length > 0"
-                                value="removeDistance">- Supprimer
+                                value="removeDistance">- {{$t('common.delete')}}
                         </option>
 
                     </select>
@@ -135,8 +138,10 @@
             <div class="flex flex-col h-24">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('speed')" class="box speed self-stretch justify-between shadow-md">
-                    <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">Vitesse</label>
-                    <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">Allure</label>
+                    <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">{{ $t('calculator.speed')
+                        }}</label>
+                    <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">{{ $t('calculator.pace')
+                        }}</label>
                     <div class="flex w-48" style="flex: 0 0 50px">
                         <!-- Speed display -->
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
@@ -168,8 +173,8 @@
                     <img :class="calculatedField === 'speed' ? 'icon-active' : ''" alt="switch between pace and speed"
                          class="w-4 mr-1 noselect-nodrag"
                          src="../assets/icons/arrows.svg"/>
-                    <span v-if="speedFormat === 'speed'">Allure</span>
-                    <span v-if="speedFormat === 'pace'">Vitesse</span>
+                    <span v-if="speedFormat === 'speed'">{{ $t('calculator.pace') }}</span>
+                    <span v-if="speedFormat === 'pace'">{{ $t('calculator.speed') }}</span>
                 </div>
             </div>
 
@@ -207,7 +212,6 @@
                 speedFormat: 'speed',
                 speedDisplayedFormat: 'km/h',
                 calculatedField: '',
-                prettyCalculatedField: '',
                 separator: '.',
                 addDistance: false,
                 removeDistance: false
@@ -658,15 +662,6 @@
                     this.distance = this.$store.state.defaultDistances.find(defaultDist =>
                         defaultDist.label === this.presetDistances).distance || 0;
                     this.checkFields()
-                }
-            },
-            calculatedField: function () {
-                if (this.calculatedField === 'distance') {
-                    this.prettyCalculatedField = "distance"
-                } else if (this.calculatedField === 'speed') {
-                    this.prettyCalculatedField = "vitesse"
-                } else if (this.calculatedField === 'duration') {
-                    this.prettyCalculatedField = "durée"
                 }
             },
             durationHours: function (newVal, oldVal) {

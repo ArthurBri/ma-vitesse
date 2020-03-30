@@ -5,8 +5,8 @@
         <div id="app" v-if="!showPreloader">
             <Header/>
             <h1 class="text-white leading-tight flex flex-col text-center text-3xl ml-10 mr-10 xs:text-lg xs:m-4 xs:mb-0 sm:text-xl sm:m-3 sm:mb-0 md:text-xl md:mt-2 lg:text-2xl">
-                <span><b>MA Vitesse</b></span>
-                <span>Assistant d'entraînement pour course à pied</span>
+                <span><b>{{ $t('global.app_name') }}</b></span>
+                <span>{{ $t('global.app_subname') }}</span>
             </h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
                 <Calculator class="mt-12"/>
@@ -16,10 +16,10 @@
                             <div class="tabs flex flex-col xs:flex-row md:flex-row xs:overflow-x-auto overflow-x-auto xl:h-24">
                                 <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
                                              @click.native="setTabActive('laptime')"
-                                             component="laptime" label="Temps de passage"/>
+                                             :label="$t('laptime.title')" component="laptime"/>
                                 <TabMenuItem :active="tabActive === 'predictions'" :hidden="!showPredictions"
                                              @click.native="setTabActive('predictions')"
-                                             component="predictions" label="Prédictions de course"/>
+                                             :label="$t('predictions.title')" component="predictions"/>
                             </div>
                             <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:w-full sm:w-full
                                 lg:rounded-b-lg md:rounded-b-lg rounded-r-lg sm:rounded-r-none xs:rounded-none w-full justify-center"
@@ -60,6 +60,7 @@
             }
         },
         mounted() {
+            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             setTimeout(() => {
                 this.showPreloader = false;
             }, 800);

@@ -1,14 +1,14 @@
 <template>
     <center-modal :footer='false' @close="close" v-show="isModalVisible">
         <template v-slot:header>
-            <h2 class="noselect-nodrag">Supprimer une distance</h2>
+            <h2 class="noselect-nodrag">{{ $t('delete_preset.title')}}</h2>
         </template>
         <template class="flex justify-center content-center" v-slot:body>
             <div class="flex items-stretch justify-center">
                 <table class="table-fixed">
                     <tr>
-                        <th>Libellé</th>
-                        <th>Distance</th>
+                        <th>{{ $t('delete_preset.label')}}</th>
+                        <th>{{ $t('delete_preset.distance')}}</th>
                         <th/>
                     </tr>
                     <tr :key="item.label" v-for="(item) in $store.state.defaultDistances">

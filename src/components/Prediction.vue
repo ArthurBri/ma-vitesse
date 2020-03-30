@@ -4,8 +4,8 @@
              v-if="distance && duration && defaultDistances.length">
             <table>
                 <tr>
-                    <th class="">Distance</th>
-                    <th>Temps estimé</th>
+                    <th>{{ $t('calculator.distance') }}</th>
+                    <th>{{ $t('predictions.estimated_duration') }}</th>
                 </tr>
                 <tr :key="item.label" v-for="(item) in updatedPredictions">
                     <td>{{item.label}}</td>
@@ -14,10 +14,10 @@
             </table>
         </div>
         <p class="m-auto text-center" v-else-if="defaultDistances.length">
-            Effectuer un calcul pour voir les prédictions sur d'autres distances.
+            {{ $t('predictions.label_no_calculation')}}
         </p>
         <p class="m-auto text-center" v-else>
-            Ajouter une distance dans le menu "Mes distances" pour voir les prédictions sur ces distances.
+            {{ $t('predictions.label_no_distances')}}
         </p>
     </div>
 </template>

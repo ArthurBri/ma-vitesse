@@ -11,7 +11,6 @@ new Vue({
     store,
     render: h => h(App),
     i18n,
-
     beforeCreate() {
         this.$store.commit('initializeStore');
     }

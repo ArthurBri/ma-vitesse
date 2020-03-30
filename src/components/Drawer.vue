@@ -6,7 +6,7 @@
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
                             class="btn noselect-nodrag outline-none" type="button">
-                        Fermer
+                        {{ $t('common.close')}}
                     </button>
                 </header>
                 <section class="drawer-body">

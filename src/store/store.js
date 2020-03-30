@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import i18n from './../i18n';
 
 Vue.use(Vuex);
 
@@ -10,8 +11,8 @@ export const store = new Vuex.Store({
         distance: '',
         duration: '',
         defaultDistances: [
-            {label: "Marathon", distance: "42.195"},
-            {label: "Semi-Marathon", distance: "21.0975"},
+            {label: i18n.t('common.marathon'), distance: "42.195"},
+            {label: i18n.t('common.half_marathon'), distance: "21.0975"},
             {label: "10km", distance: "10"},
         ],
         /* Settings */
