@@ -60,10 +60,11 @@
             }
         },
         mounted() {
+            this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
             document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             setTimeout(() => {
                 this.showPreloader = false;
-            }, 800);
+            }, 300);
             this.tabActive = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
         },
         computed: {

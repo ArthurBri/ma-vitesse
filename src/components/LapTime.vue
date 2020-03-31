@@ -207,7 +207,7 @@
                 }
 
                 if (this.oneFieldMode) {
-                    prettyDuration += hours && hours < 10 ? '0' + hours + 'h' : hours ? hours + 'h' : '';
+                    prettyDuration += hours && hours < 10 ? hours + 'h' : hours ? hours + 'h' : '';
                     prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
                     prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
                 } else {

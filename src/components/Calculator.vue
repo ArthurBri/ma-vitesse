@@ -764,7 +764,6 @@
                     this.durationMinutes = this.formatDuration(this.duration, 3).minutes;
                     this.durationSeconds = this.formatDuration(this.duration, 3).seconds;
                 }
-                localStorage.oneFieldMode = this.oneFieldMode;
                 this.$store.commit('setOneFieldMode', this.oneFieldMode);
 
             },
@@ -773,12 +772,8 @@
             }
         },
         mounted() {
-            if (localStorage.separator) {
-                this.separator = localStorage.separator;
-            }
-            if (localStorage.oneFieldMode) {
-                this.oneFieldMode = JSON.parse(localStorage.oneFieldMode);
-            }
+            this.separator = localStorage.separator ? localStorage.separator : '.';
+            this.oneFieldMode = localStorage.oneFieldMode ? JSON.parse(localStorage.oneFieldMode) : false;
 
             if (localStorage.speedFormat) {
                 this.speedFormat = localStorage.speedFormat;

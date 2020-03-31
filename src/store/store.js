@@ -18,7 +18,8 @@ export const store = new Vuex.Store({
         /* Settings */
         showPredictions: true,
         showLapTime: true,
-        oneFieldMode: false
+        oneFieldMode: false,
+        lang: 'fr'
     },
     mutations: {
         setSpeed(state, speed) {
@@ -31,7 +32,8 @@ export const store = new Vuex.Store({
             state.duration = duration
         },
         setOneFieldMode(state, oneFieldMode) {
-            state.oneFieldMode = oneFieldMode
+            state.oneFieldMode = oneFieldMode;
+            localStorage.oneFieldMode = state.oneFieldMode;
         },
         showPredictions(state, show) {
             state.showPredictions = show;

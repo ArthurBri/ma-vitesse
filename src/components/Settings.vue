@@ -8,14 +8,24 @@
         <template class="flex" v-slot:body>
             <div class="flex flex-col ml-5">
                 <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
-                <div class="ml-2 flex">
+                <div class="ml-2 flex mb-2">
                     <div class="flex">
-                        <img :class="[lang === 'fr' ? 'border-b-4 border-primary' : '']" @click="lang = 'fr'"
-                             alt="French flag"
-                             class="w-12 cursor-pointer" src="../assets/flags/france.svg"/>
-                        <img :class="[lang === 'en' ? 'border-b-4 border-primary' : '']" @click="lang = 'en'"
-                             alg="UK flag"
-                             class="w-12 cursor-pointer ml-2" src="../assets/flags/uk.svg"/>
+                        <div class="flex flex-col noselect-nodrag">
+                            <img :class="[lang === 'fr' ? '' : 'pb-4']" @click="lang = 'fr'"
+                                 alt="French flag"
+                                 class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/france.svg"/>
+                            <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'fr'">
+                                <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col ml-2 noselect-nodrag">
+                            <img :class="[lang === 'en' ? '' : 'pb-4']" @click="lang = 'en'"
+                                 alt="UK flag"
+                                 class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/uk.svg"/>
+                            <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'en'">
+                                <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,8 +112,8 @@
         },
         watch: {
             lang() {
-                console.log('change');
-                this.$i18n.locale = this.lang
+                this.$i18n.locale = this.lang;
+                localStorage.setItem('lang', this.lang)
             }
         }
     }
