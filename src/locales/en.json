@@ -75,6 +75,19 @@
       "reset_message_success": "Application was successfully reset, reload it to apply changes."
     }
   },
+  "suggest_feature": {
+    "title": "Proposer une fonctionnalité",
+    "description": "MA Vitesse is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
+    "suggest_label": "In MA Vitesse, I would like to......",
+    "suggest_label_placeholder": "keep a history of my workouts.",
+    "suggest_email": "An email address ? ",
+    "suggest_email_placeholder": "irunfast@mail.com",
+    "suggest_email_tip": "To keep you in touch or ask you for details.",
+    "btn_send": "Send",
+    "btn_sent_ok": "We take it in note. Thank you !",
+    "btn_sent_ko": "Oops, a problem occurred. Can you try again ?",
+    "suggest_limit_message": "You already sent an amazing idea today. Come back tomorrow !"
+  },
   "share": {
     "main_message": "Share your performance !"
   },

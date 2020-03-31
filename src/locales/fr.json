@@ -74,6 +74,19 @@
       "reset_message_success": "L'application a été réinitialisée, rechargez l'application pour appliquer les modifications."
     }
   },
+  "suggest_feature": {
+    "title": "Proposer une fonctionnalité",
+    "description": "MA Vitesse se construit grâce aux idées de ses utilisateurs. Proposez ci-dessous une fonctionnalité que vous souhaiteriez voir integrée à l'application. Si elle correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir.",
+    "suggest_label": "Dans MA Vitesse, je voudrais...",
+    "suggest_label_placeholder": "garder un historique de mes courses.",
+    "suggest_email": "Une adresse email ?",
+    "suggest_email_placeholder": "jecoursvite@mail.com",
+    "suggest_email_tip": "Pour vous tenir informé ou vous demander plus de précisions",
+    "btn_send": "Envoyer",
+    "btn_sent_ok": "Nous prenons note, merci !",
+    "btn_sent_ko": "Oups, il y a eu un souci ! Réessayez pour voir ?",
+    "suggest_limit_message": "Vous avez déjà envoyé une superbe idée aujourd'hui. Revenez demain !"
+  },
   "share": {
     "main_message": "Partagez votre performance !"
   },

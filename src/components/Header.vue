@@ -8,15 +8,15 @@
         </div>
 
         <div class="header-end flex flex-row mr-8">
-            <img @click="showModalSettings" alt=""
+            <img @click="showModal('settings')" alt=""
                  class="icon settings-icon noselect-nodrag"
                  src="../assets/icons/settings.svg"
                  title="Réglages"/>
-            <img @click="showModalAbout" alt=""
+            <img @click="showModal('about')" alt=""
                  class="icon about-icon noselect-nodrag"
                  src="../assets/icons/question.svg"
                  title="A propos"/>
-            <img @click="showModalAllMA" alt=""
+            <img @click="showModal('all-MA')" alt=""
                  class="icon icon-orange all-ma-icon noselect-nodrag"
                  src="../assets/icons/menu.svg" title="Toutes les applications"/>
         </div>
@@ -42,14 +42,20 @@
             }
         },
         methods: {
-            showModalAbout() {
-                this.isModalAbout = true;
-            },
-            showModalSettings() {
-                this.isModalSettings = true;
-            },
-            showModalAllMA() {
-                this.isModalAllMA = true;
+            showModal(name) {
+                switch (name) {
+                    case 'about':
+                        this.isModalAbout = true;
+                        break;
+                    case 'settings':
+                        this.isModalSettings = true;
+                        break;
+                    case 'all-MA':
+                        this.isModalAllMA = true;
+                        break;
+                }
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${window.scrollY}px`;
             },
             closeModal(name) {
                 switch (name) {
@@ -63,7 +69,11 @@
                         this.isModalAllMA = false;
                         break;
                 }
-            },
+                const scrollY = document.body.style.top;
+                document.body.style.position = '';
+                document.body.style.top = '';
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            }
         }
     }
 </script>

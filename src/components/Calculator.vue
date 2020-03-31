@@ -139,10 +139,12 @@
             <div class="flex flex-col h-24">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      @click="focusMe('speed')" class="box speed self-stretch justify-between shadow-md">
-                    <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">{{ $t('calculator.speed')
-                        }}</label>
-                    <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">{{ $t('calculator.pace')
-                        }}</label>
+                    <label class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">
+                        {{ $t('calculator.speed') }}
+                    </label>
+                    <label class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">
+                        {{ $t('calculator.pace') }}
+                    </label>
                     <div class="flex w-48" style="flex: 0 0 50px">
                         <!-- Speed display -->
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
@@ -172,7 +174,7 @@
                      @click="changeSpeedFormat"
                      class="box-option noselect-nodrag">
                     <img :class="calculatedField === 'speed' ? 'icon-active' : ''" alt="switch between pace and speed"
-                         class="w-4 mr-1 noselect-nodrag"
+                         class="w-4 h-6 mr-1 noselect-nodrag"
                          src="../assets/icons/arrows.svg"/>
                     <span v-if="speedFormat === 'speed'">{{ $t('calculator.pace') }}</span>
                     <span v-if="speedFormat === 'pace'">{{ $t('calculator.speed') }}</span>
@@ -979,7 +981,7 @@
     }
 
     .box-option {
-        @apply mr-3 px-2 self-end rounded-b-lg shadow-lg
+        @apply mr-3 px-2 self-end items-center rounded-b-lg shadow-lg
         flex cursor-pointer;
         transition: all 200ms ease-in;
 

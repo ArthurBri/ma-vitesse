@@ -27,7 +27,7 @@
             },
             handleClick(target) {
                 if (target.className.match('drawer-backdrop')) {
-                    this.$emit('close');
+                    this.close()
                 }
             }
         }
