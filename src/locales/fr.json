@@ -65,8 +65,8 @@
     },
     "component_section": {
       "title": "Composants",
-      "show_predictions": "Afficher les predictions",
-      "show_laptime": "Afficher les temps de passage"
+      "show_predictions": "Prédictions",
+      "show_laptime": "Temps de passage"
     },
     "reset_section": {
       "title": "Réinitialiser",

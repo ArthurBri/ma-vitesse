@@ -66,8 +66,8 @@
     },
     "component_section": {
       "title": "Components",
-      "show_predictions": "Show predictions",
-      "show_laptime": "Show laptime"
+      "show_predictions": "Predictions",
+      "show_laptime": "Laptime"
     },
     "reset_section": {
       "title": "Restore default",

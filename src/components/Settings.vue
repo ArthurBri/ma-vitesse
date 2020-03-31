@@ -42,16 +42,18 @@
                             $t('settings.component_section.show_predictions') }}
                         </div>
                     </div>
-                <div class="flex mt-2">
-                    <label class="switch">
-                        <<input class="appearance-none" type="checkbox" v-model="showLapTime">
-                        <span class="slider round shadow-lg"/>
-                    </label>
-                    <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
-                        {{ $t('settings.component_section.show_laptime') }}
+                    <div class="mt-2">
+                        <div class="flex">
+                            <label class="switch">
+                                <<input class="appearance-none" type="checkbox" v-model="showLapTime">
+                                <span class="slider round shadow-lg"/>
+                            </label>
+                            <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
+                                {{ $t('settings.component_section.show_laptime') }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
             <div class="flex flex-col ml-5 pt-6">
                 <h1 class="text-xl font-bold noselect-nodrag">{{ $t('settings.reset_section.title') }}</h1>
@@ -120,6 +122,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .body {
+        @apply bg-red-600;
+    }
+
     .link {
         text-decoration: underline;
         text-decoration-color: $ma-secondary;
