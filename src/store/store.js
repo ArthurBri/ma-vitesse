@@ -69,10 +69,5 @@ export const store = new Vuex.Store({
                 state.oneFieldMode = JSON.parse(localStorage.getItem('oneFieldMode'));
             }
         }
-    },
-    getters: {
-        getSpeed: state => state.speed,
-        getDistance: state => state.distance,
-        getDuration: state => state.duration
     }
 });

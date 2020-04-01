@@ -75,7 +75,7 @@
 
             },
             distance: function (newVal, oldVal) {
-                if (this.distance !== '') {
+                if (this.distance) {
                     // check leading zero is followed by zero or , / .
                     if (this.distance.match(/^0{2,}(?![.,])/g)) {
                         // if yes : cancelling the input

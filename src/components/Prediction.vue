@@ -64,10 +64,6 @@
                 }
 
                 return prettyDuration
-            },
-            close() {
-                this.$emit('close');
-                this.$store.commit('showPredictions', false)
             }
         }
     }

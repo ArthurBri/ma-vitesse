@@ -733,9 +733,9 @@
                         this.durationMinutes = oldVal
                     }
                 }
-                this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
-                this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
-                this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
+                this.duration = this.durationHours ? this.durationHours + 'h' : '';
+                this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
+                this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
             durationSeconds: function (newVal, oldVal) {
                 // check a durationSeconds change only if it's not the calculated fields
@@ -752,9 +752,9 @@
                         this.durationSeconds = oldVal
                     }
                 }
-                this.duration = this.durationHours !== '' ? this.durationHours + 'h' : '';
-                this.duration += this.durationMinutes !== '' ? this.durationMinutes + 'm' : '';
-                this.duration += this.durationSeconds !== '' ? this.durationSeconds + 's' : '';
+                this.duration = this.durationHours ? this.durationHours + 'h' : '';
+                this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
+                this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
             oneFieldMode() {
                 if (this.oneFieldMode) {

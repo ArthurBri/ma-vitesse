@@ -115,7 +115,8 @@
         watch: {
             lang() {
                 this.$i18n.locale = this.lang;
-                localStorage.setItem('lang', this.lang)
+                localStorage.setItem('lang', this.lang);
+                document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             }
         }
     }
