@@ -18,7 +18,13 @@
     "half_marathon": "Semi-marathon",
     "add": "Ajouter",
     "delete": "Supprimer",
-    "label": "Libellé"
+    "label": "Libellé",
+    "kilometers": "Kilomètres",
+    "miles": "Miles",
+    "kilometersPerHour": "Kilomètres par heure",
+    "milesPerHour": "Miles par heure",
+    "minutesPerKm": "Minutes par kilomètre",
+    "minutesPerMile": "Minutes par mile"
   },
   "add_preset": {
     "title": "Ajouter une distance",
@@ -62,6 +68,9 @@
     "title": "Réglages",
     "language_section": {
       "title": "Langue"
+    },
+    "unit_section": {
+      "title": "Unité"
     },
     "component_section": {
       "title": "Composants",

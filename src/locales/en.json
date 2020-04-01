@@ -18,7 +18,13 @@
     "half_marathon": "Half-marathon",
     "add": "Add",
     "delete": "Delete",
-    "label": "Label"
+    "label": "Label",
+    "kilometers": "Kilometers",
+    "miles": "Miles",
+    "kilometersPerHour": "Kilometers per hour",
+    "milesPerHour": "Miles per hour",
+    "minutesPerKm": "Minutes per kilometer",
+    "minutesPerMile": "Minutes per mile"
   },
   "add_preset": {
     "title": "Add a distance",
@@ -63,6 +69,9 @@
     "title": "Settings",
     "language_section": {
       "title": "Language"
+    },
+    "unit_section": {
+      "title": "Unit"
     },
     "component_section": {
       "title": "Components",

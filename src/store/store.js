@@ -15,6 +15,27 @@ export const store = new Vuex.Store({
             {label: i18n.t('common.half_marathon'), distance: "21.0975"},
             {label: "10km", distance: "10"},
         ],
+        unitMode: 'kilometers',
+        /* unit of reference is km */
+        unitMultipliers: [
+            {type: 'kilometers', multiplier: 1},
+            {type: 'miles', multiplier: 0.62137119224}
+        ],
+        distanceUnit: 'km',
+        distanceUnits: [
+            {type: 'kilometers', short: "km", full: i18n.t('common.kilometers')},
+            {type: 'miles', short: "mi", full: i18n.t('common.miles')}
+        ],
+        speedUnit: 'km/h',
+        speedUnits: [
+            {type: 'kilometers', short: "km/h", full: i18n.t('common.kilometersPerHour')},
+            {type: 'miles', short: "mph", full: i18n.t('common.milesPerHour')}
+        ],
+        paceUnit: 'min/km',
+        paceUnits: [
+            {type: 'kilometers', short: "min/km", full: i18n.t('common.minutesPerKm')},
+            {type: 'miles', short: "min/mi", full: i18n.t('common.minutesPerMile')}
+        ],
         /* Settings */
         showPredictions: true,
         showLapTime: true,
@@ -52,6 +73,25 @@ export const store = new Vuex.Store({
                 state.defaultDistances.findIndex(distance => distance.label === labelPresetToRm), 1);
             localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances));
         },
+        changeUnitMode(state, newMode) {
+            // new unit mode is sent like it have to do
+            if (typeof newMode === 'string') {
+                state.unitMode = newMode
+                // new unit mode déduit à partir du select des champs vitesses / distance / rythme
+            } else {
+                if (newMode.fieldType === 'speed') {
+                    state.unitMode = state.speedUnits.filter(speedUnit => speedUnit.short === newMode.unit)[0].type;
+                } else if (newMode.fieldType === 'distance') {
+                    state.unitMode = state.distanceUnits.filter(distanceUnit => distanceUnit.short === newMode.unit)[0].type;
+                } else if (newMode.fieldType === 'pace') {
+                    state.unitMode = state.paceUnits.filter(paceUnit => paceUnit.short === newMode.unit)[0].type;
+                }
+            }
+            state.distanceUnit = state.distanceUnits.filter(distanceUnit => distanceUnit.type === state.unitMode)[0].short;
+            state.speedUnit = state.speedUnits.filter(speedUnit => speedUnit.type === state.unitMode)[0].short;
+            state.paceUnit = state.paceUnits.filter(paceUnit => paceUnit.type === state.unitMode)[0].short;
+            localStorage.setItem('unitMode', state.unitMode);
+        },
         initializeStore(state) {
             if (localStorage.getItem('showPredictions')) {
                 state.showPredictions = JSON.parse(localStorage.getItem('showPredictions'));
@@ -67,6 +107,13 @@ export const store = new Vuex.Store({
 
             if (localStorage.getItem('oneFieldMode')) {
                 state.oneFieldMode = JSON.parse(localStorage.getItem('oneFieldMode'));
+            }
+
+            if (localStorage.getItem('unitMode')) {
+                state.unitMode = localStorage.getItem('unitMode');
+                state.distanceUnit = state.distanceUnits.filter(distanceUnit => distanceUnit.type === state.unitMode)[0].short;
+                state.speedUnit = state.speedUnits.filter(speedUnit => speedUnit.type === state.unitMode)[0].short;
+                state.paceUnit = state.paceUnits.filter(paceUnit => paceUnit.type === state.unitMode)[0].short;
             }
         }
     }

@@ -6,25 +6,44 @@
             </div>
         </template>
         <template class="flex" v-slot:body>
-            <div class="flex flex-col ml-5">
-                <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
-                <div class="ml-2 flex mb-2">
-                    <div class="flex">
-                        <div class="flex flex-col noselect-nodrag">
-                            <img :class="[lang === 'fr' ? '' : 'pb-4']" @click="lang = 'fr'"
-                                 alt="French flag"
-                                 class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/france.svg"/>
-                            <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'fr'">
-                                <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
-                            </svg>
+            <div class="flex ml-5">
+                <div>
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
+                    <div class="ml-2 flex mb-2">
+                        <div class="flex">
+                            <div class="flex flex-col noselect-nodrag">
+                                <img :class="[lang === 'fr' ? '' : 'pb-4']" @click="lang = 'fr'"
+                                     alt="French flag"
+                                     class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/france.svg"/>
+                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'fr'">
+                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                                </svg>
+                            </div>
+                            <div class="flex flex-col ml-2 noselect-nodrag">
+                                <img :class="[lang === 'en' ? '' : 'pb-4']" @click="lang = 'en'"
+                                     alt="UK flag"
+                                     class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/uk.svg"/>
+                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'en'">
+                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="flex flex-col ml-2 noselect-nodrag">
-                            <img :class="[lang === 'en' ? '' : 'pb-4']" @click="lang = 'en'"
-                                 alt="UK flag"
-                                 class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/uk.svg"/>
-                            <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'en'">
-                                <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
-                            </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="flex ml-5 mb-4">
+                <div>
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.unit_section.title') }}</h1>
+                    <div class="ml-2 flex mb-2">
+                        <div class="flex shadow-lg">
+                            <div :class="[unitMode === 'kilometers' ? 'bg-primary text-white font-bold' : 'bg-gray-300']"
+                                 @click="unitMode = 'kilometers'" class="flex rounded-l-lg px-4 py-1 cursor-pointer">
+                                {{ $t('common.kilometers')}}
+                            </div>
+                            <div :class="[unitMode === 'miles' ? 'bg-primary text-white font-bold' : 'bg-gray-300']"
+                                 @click="unitMode = 'miles'" class="flex rounded-r-lg px-4 py-1 cursor-pointer">
+                                {{ $t('common.miles')}}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,7 +129,15 @@
                 }, set: function (newVal) {
                     this.$store.commit('showLapTime', newVal)
                 }
+            },
+            unitMode: {
+                get() {
+                    return this.$store.state.unitMode
+                }, set(newVal) {
+                    this.$store.commit('changeUnitMode', newVal)
+                }
             }
+
         },
         watch: {
             lang() {
