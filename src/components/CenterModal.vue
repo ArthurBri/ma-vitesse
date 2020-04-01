@@ -15,7 +15,7 @@
                     <slot name="footer">
                         <button @click="close" aria-label="Close modal"
                                 class="btn noselect-nodrag outline-none" type="button">
-                            <slot>Fermer</slot>
+                            <slot>{{ $t('common.close')}}</slot>
                         </button>
                     </slot>
                 </footer>

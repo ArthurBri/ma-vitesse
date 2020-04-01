@@ -1,16 +1,16 @@
 <template>
     <center-modal :footer='false' @close="close" v-show="isModalVisible">
         <template v-slot:header>
-            <h2 class="noselect-nodrag">Ajouter une distance</h2>
+            <h2 class="noselect-nodrag">{{ $t('add_preset.title')}}</h2>
         </template>
         <template class="flex justify-center content-center" v-slot:body>
             <div class="bg-primary p-2 rounded-l-lg rounded-t-lg flex justify-between">
-                <label class="pr-2 text-white" for="distanceLabel">Libellé</label>
+                <label class="pr-2 text-white" for="distanceLabel">{{ $t('add_preset.label')}}</label>
                 <input class="pl-4 text-right bg-transparent outline-none text-white" id="distanceLabel"
-                       placeholder="ex: Tour du lac..." v-model="label"/>
+                       :placeholder="$t('add_preset.label_eg')" v-model="label"/>
             </div>
             <div class="bg-primary p-2 mt-2 rounded-l-lg rounded-t-lg flex justify-between">
-                <label class="pr-2 text-white" for="distanceValue">Distance</label>
+                <label class="pr-2 text-white" for="distanceValue">{{ $t('add_preset.distance')}}</label>
                 <div>
                     <input class="pl-4 text-right bg-transparent outline-none text-white" id="distanceValue"
                            placeholder="12.5" v-model="distance"/>

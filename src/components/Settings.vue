@@ -2,47 +2,86 @@
     <drawer @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <div>
-                <h2>Réglages</h2>
+                <h2>{{ $t('settings.title')}}</h2>
             </div>
         </template>
         <template class="flex" v-slot:body>
-            <div>
-                <div class="flex flex-col">
-                    <div class="flex flex-col ml-5">
-                        <h1 class="text-xl font-bold pb-2">Composants</h1>
-                        <div class="ml-2">
-                            <div class="flex">
-                                <label class="switch">
-                                    <div>
-                                        <input class="appearance-none" type="checkbox" v-model="showPredictions">
-                                        <span class="slider round shadow-lg"></span>
-                                    </div>
-                                </label>
-                                <div @click="showPredictions = !showPredictions" class="cursor-pointer ml-2">Afficher
-                                    les prédictions
-                                </div>
+            <div class="flex ml-5">
+                <div>
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
+                    <div class="ml-2 flex mb-2">
+                        <div class="flex">
+                            <div class="flex flex-col noselect-nodrag">
+                                <img :class="[lang === 'fr' ? '' : 'pb-4']" @click="lang = 'fr'"
+                                     alt="French flag"
+                                     class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/france.svg"/>
+                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'fr'">
+                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                                </svg>
                             </div>
-                            <div class="flex mt-2">
-                                <label class="switch">
-                                    <div>
-                                        <input class="appearance-none" type="checkbox" v-model="showLapTime">
-                                        <span class="slider round shadow-lg"></span>
-                                    </div>
-                                </label>
-                                <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2">Afficher les temps
-                                    de passage
-                                </div>
+                            <div class="flex flex-col ml-2 noselect-nodrag">
+                                <img :class="[lang === 'en' ? '' : 'pb-4']" @click="lang = 'en'"
+                                     alt="UK flag"
+                                     class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/uk.svg"/>
+                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'en'">
+                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex ml-5 mb-4">
+                <div>
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.unit_section.title') }}</h1>
+                    <div class="ml-2 flex mb-2">
+                        <div class="flex shadow-lg">
+                            <div :class="[unitMode === 'kilometers' ? 'bg-primary text-white font-bold' : 'bg-gray-300']"
+                                 @click="unitMode = 'kilometers'" class="flex rounded-l-lg px-4 py-1 cursor-pointer">
+                                {{ $t('common.kilometers')}}
+                            </div>
+                            <div :class="[unitMode === 'miles' ? 'bg-primary text-white font-bold' : 'bg-gray-300']"
+                                 @click="unitMode = 'miles'" class="flex rounded-r-lg px-4 py-1 cursor-pointer">
+                                {{ $t('common.miles')}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col ml-5">
+                <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.component_section.title') }}</h1>
+                <div class="ml-2">
+                    <div class="flex">
+                        <label class="switch">
+                            <input class="appearance-none" type="checkbox" v-model="showPredictions">
+                            <span class="slider round shadow-lg"/>
+                        </label>
+                        <div @click="showPredictions = !showPredictions"
+                             class="cursor-pointer ml-2 noselect-nodrag">{{
+                            $t('settings.component_section.show_predictions') }}
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="flex">
+                            <label class="switch">
+                                <<input class="appearance-none" type="checkbox" v-model="showLapTime">
+                                <span class="slider round shadow-lg"/>
+                            </label>
+                            <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
+                                {{ $t('settings.component_section.show_laptime') }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col ml-5 pt-6">
-                <h1 class="text-xl font-bold">Réinitialiser</h1>
+                <h1 class="text-xl font-bold noselect-nodrag">{{ $t('settings.reset_section.title') }}</h1>
                 <div class="pt-4 flex justify-center">
-                    <button @click="resetApp" class="mv-btn" v-if="!appReseted">Réinitialiser l'application</button>
+                    <button @click="resetApp" class="mv-btn" v-if="!appReseted">
+                        {{$t('settings.reset_section.reset_button')}}
+                    </button>
                     <div class="flex flex-row justify-center text-center">
-                        <span v-if="appReseted">L'application a été réinitialisée, rechargez l'application pour appliquer les modifications.</span>
+                        <span v-if="appReseted">{{ $t('settings.reset_section.reset_message_success') }}</span>
                     </div>
                 </div>
             </div>
@@ -59,11 +98,13 @@
         data() {
             return {
                 isModalVisible: false,
-                appReseted: false
+                appReseted: false,
+                lang: 'fr'
             }
         },
         components: {Drawer},
         mounted() {
+            this.lang = this.$i18n.locale
         },
         methods: {
             close() {
@@ -88,12 +129,31 @@
                 }, set: function (newVal) {
                     this.$store.commit('showLapTime', newVal)
                 }
+            },
+            unitMode: {
+                get() {
+                    return this.$store.state.unitMode
+                }, set(newVal) {
+                    this.$store.commit('changeUnitMode', newVal)
+                }
+            }
+
+        },
+        watch: {
+            lang() {
+                this.$i18n.locale = this.lang;
+                localStorage.setItem('lang', this.lang);
+                document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    .body {
+        @apply bg-red-600;
+    }
+
     .link {
         text-decoration: underline;
         text-decoration-color: $ma-secondary;

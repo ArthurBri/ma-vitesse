@@ -4,16 +4,18 @@
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
                 <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg noselect-nodrag">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'distance'" class="laptime-type-switch rounded-t-lg">Distance
+                         @click="laptime_type = 'distance'" class="laptime-type-switch rounded-t-lg">
+                        {{ $t('laptime.distance')}}
                     </div>
                     <div :class="[laptime_type === 'duration' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'duration'" class="laptime-type-switch rounded-b-lg ">Temps
+                         @click="laptime_type = 'duration'" class="laptime-type-switch rounded-b-lg ">
+                        {{ $t('laptime.duration')}}
                     </div>
                 </div>
                 <div class="laptime-end flex content-center bg-white text-primary mt-6 xs:mt-0 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 shadow-lg">
                     <select class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                             v-if="laptime_type === 'distance'" v-model="selected_distance_step">
-                        <option :value="step.value" v-for="step in distance_steps">
+                        <option :key="step.label" :value="step.value" v-for="step in distance_steps">
                             <b>{{ step.label }}</b>
                         </option>
                     </select>
@@ -35,20 +37,20 @@
                     <table class="w-full">
                         <thead>
                         <tr class="text-primary bg-white">
-                            <th>Distance
-                                <span v-if="laptime_sort === 'asc'">restante</span>
-                                <span v-else>parcourue</span>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
+                                <span v-else>{{ $t('laptime.traveled_distance')}}</span>
                             </th>
-                            <th>Durée segment</th>
-                            <th>Temps
-                                <span v-if="laptime_sort === 'asc'">restant</span>
-                                <span v-else>écoulé</span>
+                            <th>{{ $t('laptime.lap_duration')}}</th>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_duration')}}</span>
+                                <span v-else>{{ $t('laptime.elapsed_time')}}</span>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr :key="line.remaining_distance" class="border-b" v-for="line in laptime_distance_steps">
-                            <td>{{line.remaining_distance}}km</td>
+                            <td><b>{{line.remaining_distance}}</b> {{ distanceUnit }}</td>
                             <td>{{line.duration}}</td>
                             <td>{{line.remaining_duration}}</td>
                         </tr>
@@ -59,22 +61,22 @@
                     <table class="w-full">
                         <thead>
                         <tr class="text-primary bg-white">
-                            <th>Temps
-                                <span v-if="laptime_sort === 'asc'">restant</span>
-                                <span v-else>écoulé</span>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_duration')}}</span>
+                                <span v-else>{{ $t('laptime.elapsed_time')}}</span>
                             </th>
-                            <th>Distance segment</th>
-                            <th>Distance
-                                <span v-if="laptime_sort === 'asc'">restante</span>
-                                <span v-else>parcourue</span>
+                            <th>{{ $t('laptime.lap_distance')}}</th>
+                            <th>
+                                <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
+                                <span v-else>{{ $t('laptime.traveled_distance')}}</span>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr :key="line.remaining_distance" class="border-b" v-for="line in laptime_duration_steps">
                             <td>{{line.remaining_duration}}</td>
-                            <td><b>{{line.distance}}</b> km</td>
-                            <td><b>{{line.remaining_distance}}</b> km</td>
+                            <td><b>{{line.distance}}</b> {{ distanceUnit }}</td>
+                            <td><b>{{line.remaining_distance}}</b> {{ distanceUnit }}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -82,7 +84,7 @@
             </div>
         </div>
         <p class="m-auto h-full text-center" v-else>
-            Effectuer un calcul pour voir les temps de passage.
+            {{ $t('laptime.label_no_calculation')}}
         </p>
     </div>
 </template>
@@ -95,18 +97,13 @@
             return {
                 laptime_type: 'distance',
                 laptime_sort: 'asc',
-                distance_steps: [
-                    {label: '1km', value: '1'},
-                    {label: '2km', value: '2'},
-                    {label: '3km', value: '3'},
-                    {label: '5km', value: '5'},
-                ],
+                distance_steps: [],
                 time_steps: [
-                    {label: '5min', value: '0.083333333'},
-                    {label: '10min', value: '0.16666667'},
-                    {label: '1/4h', value: '0.25'},
-                    {label: '1/2h', value: '0.5'},
-                    {label: '1h', value: '1'}
+                    {label: '5 min', value: '0.083333333'},
+                    {label: '10 min', value: '0.16666667'},
+                    {label: '1/4 h', value: '0.25'},
+                    {label: '1/2 h', value: '0.5'},
+                    {label: '1 h', value: '1'}
                 ],
                 selected_distance_step: '1',
                 selected_duration_step: '0.25',
@@ -114,8 +111,16 @@
                 laptime_duration_steps: []
             }
         },
+        mounted() {
+            this.distance_steps = [
+                {label: '1 ' + this.distanceUnit, value: '1'},
+                {label: '2 ' + this.distanceUnit, value: '2'},
+                {label: '3 ' + this.distanceUnit, value: '3'},
+                {label: '5 ' + this.distanceUnit, value: '5'}
+            ]
+        },
         computed: {
-            ...mapState(["distance", "duration", "speed", "oneFieldMode"]),
+            ...mapState(["distance", "duration", "speed", "oneFieldMode", "distanceUnit"]),
             dataChange() {
                 return [this.distance, this.duration, this.speed, this.steps_count, this.oneFieldMode].join('');
             },
@@ -125,7 +130,6 @@
                 } else if (this.laptime_type === 'duration') {
                     return Math.ceil(this.duration / this.selected_duration_step)
                 }
-
             }
         },
         watch: {
@@ -144,7 +148,7 @@
                             duration = (remaining_distance * this.duration) / this.distance;
                         }
                         this.laptime_distance_steps.push({
-                            remaining_distance: parseFloat(remaining_distance.toFixed(1)),
+                            remaining_distance: parseFloat(remaining_distance.toFixed(2)),
                             duration: this.prettyDuration(duration),
                             remaining_duration: this.prettyDuration(remaining_duration)
                         });
@@ -166,8 +170,8 @@
                             distance = (remaining_duration * this.distance) / this.duration;
                         }
                         this.laptime_duration_steps.push({
-                            remaining_distance: parseFloat(remaining_distance.toFixed(1)),
-                            distance: parseFloat(distance.toFixed(1)),
+                            remaining_distance: parseFloat(remaining_distance.toFixed(2)),
+                            distance: parseFloat(distance.toFixed(2)),
                             remaining_duration: this.prettyDuration(remaining_duration)
                         });
                         remaining_distance -= distance;
@@ -187,6 +191,18 @@
                     this.laptime_distance_steps.sort((a, b) => b.remaining_distance - a.remaining_distance);
                     this.laptime_duration_steps.sort((a, b) => b.remaining_distance - a.remaining_distance);
                 }
+            },
+            distanceUnit() {
+                this.distance_steps = [
+                    {label: '1 ' + this.distanceUnit, value: '1'},
+                    {label: '2 ' + this.distanceUnit, value: '2'},
+                    {label: '3 ' + this.distanceUnit, value: '3'},
+                    {label: '5 ' + this.distanceUnit, value: '5'}
+                ];
+                // contournement pour rafraichir la selected distnace step
+                this.$nextTick(() => {
+                    this.selected_distance_step = '1';
+                })
             }
         },
         methods: {
@@ -196,7 +212,7 @@
                 let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
                 let seconds = (((duration % 1) * 60) % 1) * 60;
 
-                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds >= 1 ? seconds.toFixed(1) : 0;
+                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds.toFixed(1) > 0.1 ? seconds.toFixed(1) : 0;
                 if (seconds === 60) {
                     minutes++, seconds = 0
                 }
@@ -205,11 +221,11 @@
                 }
 
                 if (this.oneFieldMode) {
-                    prettyDuration += hours ? hours + 'h' : '';
+                    prettyDuration += hours && hours < 10 ? hours + 'h' : hours ? hours + 'h' : '';
                     prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
                     prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
                 } else {
-                    prettyDuration += hours ? hours + ':' : '00:';
+                    prettyDuration += hours && hours < 10 ? '0' + hours + ':' : hours ? hours + ':' : '00:';
                     prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + ':' : minutes < 10 ? '0' + minutes + ':' : minutes ? minutes + ':' : '00:';
                     prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds : seconds ? seconds : '00';
                 }

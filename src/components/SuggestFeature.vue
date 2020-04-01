@@ -1,33 +1,30 @@
 <template>
     <drawer @close="close" v-show="isModalVisible">
         <template v-slot:header>
-            <h2>Proposer une fonctionnalité</h2>
+            <h2>{{ $t('suggest_feature.title') }}</h2>
         </template>
         <template v-slot:body>
-            <p class="ml-5 mr-5 mb-5 text-base text-justify">MA Vitesse se construit grâce aux idées de ses
-                utilisateurs.
-                Proposez ci-dessous une fonctionnalité que vous souhaiteriez voir integrée à l'application. Si elle
-                correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir. &#127881; </p>
+            <p class="ml-5 mr-5 mb-5 text-base text-justify">{{ $t('suggest_feature.description') }} &#127881; </p>
             <div class="ml-5 flex flex-col justify-start content-start">
-                <label class="font-bold text-left" for="suggest">Dans MA Vitesse, je voudrais...</label>
+                <label class="font-bold text-left" for="suggest">{{ $t('suggest_feature.suggest_label') }}</label>
                 <textarea
                         class="mt-2 mr-5 p-2 bg-gray-200 focus:shadow-lg text-primary placeholder-gray-600 rounded h-20 outline-none"
-                        placeholder="Pouvoir sauvegarder mes courses"
+                        :placeholder="$t('suggest_feature.suggest_label_placeholder')"
                         cols="40" id="suggest"
                         v-model="suggestDescription"
                         rows="5"/>
-                <label class="font-bold text-left mt-2" for="mail-suggest">Une adresse mail ?<span
-                        class="ml-2 font-light text-xs">Pour vous tenir informé ou vous demander plus de précisions </span></label>
+                <label class="font-bold text-left mt-2" for="mail-suggest">{{ $t('suggest_feature.suggest_email')
+                    }}<span
+                            class="ml-2 font-light text-xs">{{ $t('suggest_feature.suggest_email_tip') }} </span></label>
                 <input class="mt-2 mr-5 p-2 outline-none bg-gray-200 focus:shadow-lg text-primary placeholder-gray-600 rounded"
                        id="mail-suggest" v-model="suggestContributorEmail"
-                       placeholder="jecoursvite@mail.com"/>
+                       :placeholder=" $t('suggest_feature.suggest_email_placeholder')"/>
             </div>
             <div class="mt-4 flex justify-center">
                 <button @click="submitForm" class="mv-btn"
                         v-if="!maxSuggestRate">{{ buttonLabel }}
                 </button>
-                <p class="mt-2 text-center" v-else>Vous avez déjà partagé une superbe idée aujourd'hui, merci. Revenez
-                    demain !</p>
+                <p class="mt-2 text-center" v-else>{{ $t('suggest_feature.suggest_limit_message') }}</p>
             </div>
         </template>
         <template @click="close" v-slot:footer/>
@@ -46,7 +43,7 @@
                 isModalVisible: false,
                 suggestDescription: '',
                 suggestContributorEmail: '',
-                buttonLabel: 'Envoyer',
+                buttonLabel: this.$t('suggest_feature.btn_send'),
                 maxSuggestRate: false
             }
         },
@@ -74,7 +71,7 @@
                     contributor_email: this.suggestContributorEmail
                 })
                     .then((response) => {
-                        this.buttonLabel = response.status === 201 ? "Nous prenons note, merci !" : "Oups, il y a eu un souci ! Réessayez pour voir ?";
+                        this.buttonLabel = response.status === 201 ? this.$t('suggest_feature.btn_sent_ok') : this.$t('suggest_feature.btn_sent_ko');
                         if (response.status === 201) {
                             localStorage.maxSuggestRate = true;
                             setTimeout(() => {

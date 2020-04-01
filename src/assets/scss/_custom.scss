@@ -1,6 +1,12 @@
 .mv-btn {
   @apply text-primary border rounded-lg p-2 shadow cursor-pointer;
   transition: all 100ms ease;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  -webkit-user-drag: none;
 
   &:hover {
     @apply shadow-lg;

@@ -6,7 +6,7 @@
                 <div class="header-start"/>
                 <div class="header-center">
                     <h2 class="noselect-nodrag text-white pt-4 text-center text-3xl ml-10 mr-10 xs:text-lg xs:m-4 xs:mb-0 sm:text-xl sm:m-3 sm:mb-0 md:text-xl md:mt-2 lg:text-2xl">
-                        Toutes nos applications</h2>
+                        {{ $t('all_ma.title')}}</h2>
                 </div>
                 <div class="header-end absolute">
                 </div>

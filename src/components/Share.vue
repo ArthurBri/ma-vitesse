@@ -1,7 +1,7 @@
 <template>
     <div class="share-box w-1/4 xs:w-full sm:w-full md:w-full ml-8 xs:ml-0 sm:ml-0 md:ml-0 mt-5 xs:mt-0 h-32 xs:flex"
          v-if="calculOk">
-        <h3 class="mx-4 mt-4 text-center"><b>Partagez votre performance !</b></h3>
+        <h3 class="mx-4 mt-4 text-center"><b>{{ $t('share.main_message')}}</b></h3>
         <div class="flex mx-auto mt-3">
             <!-- TWITTER -->
             <a :href="`https://twitter.com/intent/tweet?text=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
