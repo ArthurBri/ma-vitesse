@@ -1,9 +1,12 @@
 <template>
     <div class="header">
         <div class="header-start flex flex-row">
-            <div class="logo flex justify-start h-16">
+            <div class="logo flex justify-start h-16 items-center">
                 <img alt="logo" class="noselect-nodrag xs:w-6 sm:w-8 md:w-8 lg:w-12 xl:w-16 cursor-pointer"
                      src="../assets/logo.svg"/>
+                <h1 class="text-white flex flex-col text-center xs:text-base xs:ml-1 xs:font-bold sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
+                    <span>{{ $t('global.app_name') }}</span>
+                </h1>
             </div>
         </div>
 
@@ -94,7 +97,7 @@
         transition: all 200ms;
 
         &:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             cursor: pointer;
         }
     }

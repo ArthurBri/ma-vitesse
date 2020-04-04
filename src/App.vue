@@ -4,8 +4,7 @@
         <div class="bg-gray-200 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
-            <h1 class="text-white leading-tight flex flex-col text-center text-3xl ml-10 mr-10 xs:text-lg xs:m-4 xs:mb-0 sm:text-xl sm:m-3 sm:mb-0 md:text-xl md:mt-2 lg:text-2xl">
-                <span><b>{{ $t('global.app_name') }}</b></span>
+            <h1 class="text-white flex flex-col text-center text-3xl ml-10 mr-10 xs:text-sm xs:m-4 xs:mb-0 sm:text-lg sm:m-3 sm:mb-0 md:text-xl md:mt-4 lg:mt-6 lg:text-2xl">
                 <span>{{ $t('global.app_subname') }}</span>
             </h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
@@ -60,43 +59,51 @@
             }
         },
         mounted() {
+            // Récupération de la langue de l'app
             this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
             document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             setTimeout(() => {
                 this.showPreloader = false;
             }, 300);
-            this.tabActive = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
+
+            // Définition de l'onglet / tab actif
+            if (localStorage.getItem('activeTab')) {
+                this.tabActive = localStorage.getItem('activeTab')
+            } else {
+                this.tabActive = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
+            }
         },
         computed: {
             showPredictions: {
-                get: function () {
+                get() {
                     return this.$store.state.showPredictions
-                }, set: function (newVal) {
+                }, set(newVal) {
                     this.$store.commit('showPredictions', newVal)
                 }
             },
             showLapTime: {
-                get: function () {
+                get() {
                     return this.$store.state.showLapTime
-                }, set: function (newVal) {
+                }, set(newVal) {
                     this.$store.commit('showLapTime', newVal)
                 }
             },
-            showTabMenu: function () {
+            showTabMenu() {
                 return this.showPredictions || this.showLapTime
             }
         },
         watch: {
-            showPredictions: function () {
+            showPredictions() {
                 this.tabActive = this.showPredictions ? 'predictions' : 'laptime'
             },
-            showLapTime: function () {
+            showLapTime() {
                 this.tabActive = this.showLapTime ? 'laptime' : 'predictions'
             }
         },
         methods: {
-            setTabActive: function (tabToActivate) {
-                this.tabActive = tabToActivate
+            setTabActive(tabToActivate) {
+                this.tabActive = tabToActivate;
+                localStorage.setItem('activeTab', tabToActivate)
             }
         }
     }

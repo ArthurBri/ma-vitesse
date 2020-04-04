@@ -35,7 +35,7 @@
                 <div>
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.unit_section.title') }}</h1>
                     <div class="ml-2 flex mb-2">
-                        <div class="flex shadow-lg">
+                        <div class="flex shadow-lg rounded-lg">
                             <div :class="[unitMode === 'kilometers' ? 'bg-primary text-white font-bold' : 'bg-gray-300']"
                                  @click="unitMode = 'kilometers'" class="flex rounded-l-lg px-4 py-1 cursor-pointer">
                                 {{ $t('common.kilometers')}}

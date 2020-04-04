@@ -1,8 +1,8 @@
 <template>
     <transition name="drawer-fade">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-10" role="dialog">
-            <div class="drawer xl:w-1/3 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
-                <header class="drawer-header text-xl text-white font-bold bg-primary">
+            <div class="drawer xl:w-1/4 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
+                <header class="drawer-header text-xl text-white font-bold">
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
                             class="btn noselect-nodrag outline-none" type="button">
@@ -53,19 +53,19 @@
     }
 
     .drawer {
-        @apply shadow-2xl bg-white absolute overflow-x-auto flex flex-col z-10 right-0 h-screen;
+        @apply bg-transparent absolute overflow-x-auto flex flex-col z-10 right-0 h-screen;
+        box-shadow: 0 0 5px rgba(#63b3ed, 0.8)
     }
 
     .drawer-header {
-        @apply flex p-4 justify-between items-center outline-none;
-    }
-
-    .drawer-footer {
-        border-top: 1px solid #eeeeee;
-        justify-content: flex-end;
+        @apply flex px-4 py-3 justify-between items-center outline-none;
+        background-color: rgba($ma-primary, 0.4);
+        background-image: linear-gradient(to right, rgba($ma-primary, 0), rgba($ma-primary, 1) 72%);
+        backdrop-filter: blur(1rem);
     }
 
     .drawer-body {
+        @apply bg-white relative h-full;
         position: relative;
         padding: 20px 10px;
         overflow-x: auto;

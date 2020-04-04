@@ -1,12 +1,12 @@
 <template>
     <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="calculatedField === ''">
-            <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
+            <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
             <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">{{
                 $t('calculator.description')}}</h2>
         </div>
         <div class="flex h-8 mb-2" v-else>
-            <img alt=" " class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
+            <img alt=" " class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
             <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
                 <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">{{ $t('calculator.calculation_label')}}<span
                         class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
@@ -47,9 +47,9 @@
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="tel"
-                                       ref="hours"
-                                       v-model="durationHours"/>
+                                       @keydown.down="decrement('durationHours', 'hours')"
+                                       @keydown.up="increment('durationHours', 'hours')" ref="hours"
+                                       type="tel" v-model="durationHours"/>
                                 <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
@@ -57,9 +57,9 @@
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="tel"
-                                       ref="minutes"
-                                       v-model="durationMinutes"/>
+                                       @keydown.down="decrement('durationMinutes', 'minutes')"
+                                       @keydown.up="increment('durationMinutes', 'minutes')" ref="minutes"
+                                       type="tel" v-model="durationMinutes"/>
                                 <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
@@ -67,9 +67,9 @@
                                        @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="tel"
-                                       ref="seconds"
-                                       v-model="durationSeconds"/>
+                                       @keydown.down="decrement('durationSeconds', 'seconds')"
+                                       @keydown.up="increment('durationSeconds', 'seconds')" ref="seconds"
+                                       type="tel" v-model="durationSeconds"/>
                             </label>
                         </div>
                     </div>
@@ -140,10 +140,12 @@
             <div class="flex flex-col h-24">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      class="box speed self-stretch justify-between shadow-md">
-                    <label @click="focusMe('speed')" class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">
+                    <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="speed"
+                           v-if="speedFormat === 'speed'">
                         {{ $t('calculator.speed') }}
                     </label>
-                    <label @click="focusMe('speed')" class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">
+                    <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="pace"
+                           v-if="speedFormat === 'pace'">
                         {{ $t('calculator.pace') }}
                     </label>
                     <div class="flex w-48" style="flex: 0 0 50px">
@@ -157,8 +159,8 @@
                                    v-model="speed"/>
                             <select @change="unitChange('speed', $event.target.value)"
                                     class="self-center text-right cursor-pointer" v-model="speedUnit">
-                                <option :key="item.type" :value="item.short" v-for="item in speedUnits">{{ item.short
-                                    }}
+                                <option :key="item.type" :value="item.short" v-for="item in speedUnits">
+                                    {{ item.short }}
                                 </option>
                             </select>
                         </div>
@@ -186,7 +188,6 @@
                     <span v-if="speedFormat === 'pace'">{{ $t('calculator.speed') }}</span>
                 </div>
             </div>
-
         </div>
         <AddPresetDistance @close="closeAddDistance" v-show="addDistance"/>
         <RemovePresetDistance @close="closeRemoveDistance" v-show="removeDistance"/>
@@ -405,7 +406,7 @@
                 }
                 localStorage.speedFormat = this.speedFormat
             },
-            focusMe: function (field) {
+            focusMe(field) {
                 // if field clicked eq "distance", shows the preset distances
                 this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
 
@@ -414,7 +415,7 @@
                     this.$refs[field].focus();
                 }
             },
-            updateCursor: function (ref, event) {
+            updateCursor(ref, event) {
                 // to left management (backspace OR left arrow)
                 if (event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft") {
                     if (ref === "minutes" && (this.durationMinutes === "" || this.$refs['minutes'].selectionStart === 0)) {
@@ -432,7 +433,7 @@
                         }
                     }
                     // to right management
-                } else {
+                } else if (event.key === "ArrowRight") {
                     if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
                         event.preventDefault();
                         this.$refs['minutes'].setSelectionRange(0, 0);
@@ -444,8 +445,8 @@
                     }
                 }
             },
-            paceToSpeed: function (pace) {
-                if (pace !== "") {
+            paceToSpeed(pace) {
+                if (pace) {
                     let minutes = 0;
                     let seconds = 0;
                     if (pace.match(/(^\d{1,2})[:]?/g)) {
@@ -478,7 +479,7 @@
                 this.removeDistance = false;
                 this.presetDistances = ""
             },
-            increment(field) {
+            increment(field, ref = null) {
                 if (this[field]) {
                     if (typeof this[field] === 'string') {
                         this[field] = String(parseFloat(this[field].replace(",", ".")) + 1).replace(/[,.]/g, this.separator);
@@ -488,9 +489,14 @@
                 } else {
                     this[field] = "1"
                 }
+                if (ref) {
+                    this.$nextTick(() => {
+                        this.$refs[ref].focus()
+                    });
+                }
                 this.checkFields()
             },
-            decrement(field) {
+            decrement(field, ref = null) {
                 if (this[field] && this[field] >= 1) {
                     if (typeof this[field] === 'string') {
                         this[field] = String(parseFloat(this[field].replace(",", ".")) - 1).replace(/[,.]/g, this.separator);
@@ -499,6 +505,11 @@
                     }
                 } else {
                     this[field] = "0"
+                }
+                if (ref) {
+                    this.$nextTick(() => {
+                        this.$refs[ref].focus()
+                    });
                 }
                 this.checkFields()
             },
@@ -514,9 +525,9 @@
             }
         },
         watch: {
-            duration: function (newVal, oldVal) {
+            duration(newVal, oldVal) {
                 this.duration = String(this.duration);
-                if (this.duration === '') {
+                if (!this.duration) {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
                         this.pace = '';
@@ -555,7 +566,7 @@
                                 this.duration = this.duration.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
                                 this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
                                 this.$nextTick(() => {
-                                    if (this.duration) {
+                                    if (this.duration && this.oneFieldMode) {
                                         this.$refs['duration'].setSelectionRange(0, 0);
                                     }
                                 });
@@ -563,7 +574,7 @@
                             } else if (this.duration.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {
                                 this.duration = this.duration.replace(/([h]?)([0-5]?[0-9])([0-5][0-9](s|$))/g, '$1$3' + this.durationDisplayedUnit);
                                 this.$nextTick(() => {
-                                    if (this.duration.includes('h')) {
+                                    if (this.duration.includes('h') && this.oneFieldMode) {
                                         this.$refs['duration'].setSelectionRange(this.duration.indexOf('h') + 1, this.duration.indexOf('h') + 1);
                                     } else this.$refs['duration'].setSelectionRange(0, 0)
                                 });
@@ -699,7 +710,8 @@
                 this.$store.commit('setSpeed', this.speed);
             },
             pace(newVal, oldVal) {
-                if (this.pace === '') {
+                this.pace = String(this.pace);
+                if (!this.pace) {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
                         this.pace = '';
@@ -731,7 +743,7 @@
                     this.speed = this.paceToSpeed(this.pace)
                 }
             },
-            presetDistances: function (newVal) {
+            presetDistances(newVal) {
                 if (newVal === "addDistance") {
                     this.addDistance = true;
                     this.presetDistances = ""
@@ -746,9 +758,11 @@
                     this.checkFields()
                 }
             },
-            durationHours: function (newVal, oldVal) {
+            durationHours(newVal, oldVal) {
+                this.durationHours = String(this.durationHours);
+
                 // check a durationHours change only if it's not the calculated fields
-                if (this.durationHours !== '' && this.calculatedField !== 'duration') {
+                if (this.durationHours && this.calculatedField !== 'duration') {
                     if (this.durationHours.match(/([0-9]?[0-9])/g)) {
                         // if not exactly match
                         if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
@@ -767,7 +781,8 @@
                 this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
-            durationMinutes: function (newVal, oldVal) {
+            durationMinutes(newVal, oldVal) {
+                this.durationMinutes = String(this.durationMinutes);
                 // check a durationMinutes change only if it's not the calculated fields
                 if (this.durationMinutes !== '' && this.calculatedField !== 'duration') {
                     if (this.durationMinutes.match(/([0-5]?[0-9])/g)) {
@@ -790,7 +805,8 @@
                 this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
-            durationSeconds: function (newVal, oldVal) {
+            durationSeconds(newVal, oldVal) {
+                this.durationSeconds = String(this.durationSeconds);
                 // check a durationSeconds change only if it's not the calculated fields
                 if (this.durationSeconds !== '' && this.calculatedField !== 'duration') {
                     if (this.durationSeconds.match(/([0-5]?[0-9])/g)) {
@@ -842,7 +858,7 @@
         .main-box {
             @apply rounded-none mt-2 w-full;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
@@ -850,7 +866,7 @@
         .main-box {
             @apply rounded-none mt-2 mb-2 w-full;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
@@ -858,7 +874,7 @@
         .main-box {
             @apply rounded-lg m-2;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
@@ -866,14 +882,14 @@
         .main-box {
             @apply rounded-lg my-4 shadow-xl;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
     @screen xl {
         .main-box {
             @apply rounded-lg my-4 shadow-xl;
-            background-color: rgba($ma-secondary, 0.8);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
     .main-box {

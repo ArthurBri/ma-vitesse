@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <div class="flex xs:flex-col sm:flex-col md:flex-col justify-start" v-if="distance && duration && speed">
+        <div class="flex w-full xs:flex-col sm:flex-col md:flex-col justify-start" v-if="distance && duration && speed">
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
                 <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg noselect-nodrag">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
@@ -32,11 +32,11 @@
                     <img class="h-6" src="../assets/icons/sort-desc.svg" v-else>
                 </div>
             </div>
-            <div>
+            <div class="w-full">
                 <div v-if="laptime_distance_steps.length && laptime_type === 'distance'">
                     <table class="w-full">
                         <thead>
-                        <tr class="text-primary bg-white">
+                        <tr class="table-header text-primary bg-white leading-tight">
                             <th>
                                 <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
                                 <span v-else>{{ $t('laptime.traveled_distance')}}</span>
@@ -268,6 +268,10 @@
         @apply table w-full;
     }
 
+    th {
+        @apply py-2;
+    }
+
     table tr {
         @apply rounded-t-lg;
     }
@@ -275,7 +279,6 @@
     table thead tr:first-child th:last-child {
         @apply rounded-tr-lg;
     }
-
 
     select {
         @apply font-bold outline-none;

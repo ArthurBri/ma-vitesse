@@ -2,13 +2,13 @@
     <div class="box">
         <div class="flex items-stretch justify-center"
              v-if="distance && duration && defaultDistances.length">
-            <table>
+            <table class="w-full">
                 <tr>
                     <th>{{ $t('calculator.distance') }}</th>
                     <th>{{ $t('predictions.estimated_duration') }}</th>
                 </tr>
                 <tr :key="item.label" v-for="(item) in updatedPredictions">
-                    <td>{{item.label}}</td>
+                    <td class="text-center">{{item.label}}</td>
                     <td class="text-center">{{item.duration}}</td>
                 </tr>
             </table>
@@ -103,13 +103,11 @@
 
 
     table, th, td {
-        border-collapse: collapse;
-        padding: 5px 5px 5px 5px;
-        @apply border-gray-500;
+        @apply border-gray-500 border-collapse p-1;
     }
 
     th {
-        @apply bg-white text-primary text-left px-3;
+        @apply bg-white text-primary text-center px-3;
     }
 
     table tr:first-child th:first-child {
