@@ -36,7 +36,7 @@
                 <div v-if="laptime_distance_steps.length && laptime_type === 'distance'">
                     <table class="w-full">
                         <thead>
-                        <tr class="table-header text-primary bg-white leading-tight">
+                        <tr class="text-primary bg-white leading-tight">
                             <th>
                                 <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
                                 <span v-else>{{ $t('laptime.traveled_distance')}}</span>
@@ -60,7 +60,7 @@
                 <div v-if="laptime_duration_steps.length && laptime_type === 'duration'">
                     <table class="w-full">
                         <thead>
-                        <tr class="text-primary bg-white">
+                        <tr class="text-primary bg-white leading-tight">
                             <th>
                                 <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_duration')}}</span>
                                 <span v-else>{{ $t('laptime.elapsed_time')}}</span>
@@ -91,6 +91,8 @@
 
 <script>
     import {mapState} from 'vuex'
+    import {prettyDuration} from '@/utils/formatData'
+
     export default {
         name: "LapTime",
         data() {
@@ -149,8 +151,8 @@
                         }
                         this.laptime_distance_steps.push({
                             remaining_distance: parseFloat(remaining_distance.toFixed(2)),
-                            duration: this.prettyDuration(duration),
-                            remaining_duration: this.prettyDuration(remaining_duration)
+                            duration: prettyDuration(duration, this.oneFieldMode),
+                            remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
                         });
                         remaining_duration -= duration;
                         remaining_distance -= this.selected_distance_step;
@@ -172,7 +174,7 @@
                         this.laptime_duration_steps.push({
                             remaining_distance: parseFloat(remaining_distance.toFixed(2)),
                             distance: parseFloat(distance.toFixed(2)),
-                            remaining_duration: this.prettyDuration(remaining_duration)
+                            remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
                         });
                         remaining_distance -= distance;
                         remaining_duration -= this.selected_duration_step;
@@ -206,32 +208,6 @@
             }
         },
         methods: {
-            prettyDuration(duration) {
-                let prettyDuration = '';
-                let hours = duration | 0;
-                let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
-                let seconds = (((duration % 1) * 60) % 1) * 60;
-
-                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds.toFixed(1) > 0.1 ? seconds.toFixed(1) : 0;
-                if (seconds === 60) {
-                    minutes++, seconds = 0
-                }
-                if (minutes === 60) {
-                    hours++, minutes = 0
-                }
-
-                if (this.oneFieldMode) {
-                    prettyDuration += hours && hours < 10 ? hours + 'h' : hours ? hours + 'h' : '';
-                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
-                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
-                } else {
-                    prettyDuration += hours && hours < 10 ? '0' + hours + ':' : hours ? hours + ':' : '00:';
-                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + ':' : minutes < 10 ? '0' + minutes + ':' : minutes ? minutes + ':' : '00:';
-                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds : seconds ? seconds : '00';
-                }
-
-                return prettyDuration
-            },
             switchLaptimeSort() {
                 this.laptime_sort = this.laptime_sort === 'asc' ? 'desc' : 'asc'
             }

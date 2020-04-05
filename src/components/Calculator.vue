@@ -189,6 +189,7 @@
                 </div>
             </div>
         </div>
+        <share-m-a/>
         <AddPresetDistance @close="closeAddDistance" v-show="addDistance"/>
         <RemovePresetDistance @close="closeRemoveDistance" v-show="removeDistance"/>
     </div>
@@ -198,11 +199,13 @@
 <script>
     import AddPresetDistance from '@/components/AddPresetDistance'
     import RemovePresetDistance from '@/components/RemovePresetDistance'
+    import ShareMA from "@/components/ShareMA";
+
     import {mapState} from 'vuex';
 
     export default {
         name: "Calculator",
-        components: {AddPresetDistance, RemovePresetDistance},
+        components: {ShareMA, AddPresetDistance, RemovePresetDistance},
         data() {
             return {
                 /* duration */

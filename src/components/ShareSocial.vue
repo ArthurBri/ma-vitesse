@@ -7,12 +7,12 @@
             <a :href="`https://twitter.com/intent/tweet?text=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
                data-size="large"
                target="_blank">
-                <img class="social-icon h-8" src="../assets/icons/social/twitter.svg"/>
+                <img alt="Twitter share icon" class="social-icon h-8" src="../assets/icons/social/twitter.svg"/>
             </a>
             <!-- FACEBOOK -->
             <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://ma-vitesse.app&quote=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
                target="_blank">
-                <img class="social-icon h-8 ml-8" src="../assets/icons/social/facebook.svg"/>
+                <img alt="Facebook shre icon" class="social-icon h-8 ml-8" src="../assets/icons/social/facebook.svg"/>
             </a>
         </div>
     </div>

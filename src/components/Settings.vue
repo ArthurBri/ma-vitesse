@@ -11,19 +11,14 @@
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
                     <div class="ml-2 flex mb-2">
                         <div class="flex">
-                            <div class="flex flex-col noselect-nodrag">
-                                <img :class="[lang === 'fr' ? '' : 'pb-4']" @click="lang = 'fr'"
-                                     alt="French flag"
-                                     class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/france.svg"/>
-                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'fr'">
-                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
-                                </svg>
-                            </div>
-                            <div class="flex flex-col ml-2 noselect-nodrag">
-                                <img :class="[lang === 'en' ? '' : 'pb-4']" @click="lang = 'en'"
-                                     alt="UK flag"
-                                     class="w-12 cursor-pointer noselect-nodrag" src="../assets/flags/uk.svg"/>
-                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D" v-if="lang === 'en'">
+                            <div class="flex flex-col noselect-nodrag" v-for="language in langList">
+                                <img :alt="language.lang_code + ' flag'"
+                                     :class="[lang === language.lang_code ? '' : 'pb-4']"
+                                     :src="language.logo"
+                                     @click="lang = language.lang_code"
+                                     class="w-12 cursor-pointer noselect-nodrag px-1"/>
+                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D"
+                                     v-if="lang === language.lang_code">
                                     <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
                                 </svg>
                             </div>
@@ -57,8 +52,8 @@
                             <span class="slider round shadow-lg"/>
                         </label>
                         <div @click="showPredictions = !showPredictions"
-                             class="cursor-pointer ml-2 noselect-nodrag">{{
-                            $t('settings.component_section.show_predictions') }}
+                             class="cursor-pointer ml-2 noselect-nodrag">
+                            {{ $t('settings.component_section.show_predictions') }}
                         </div>
                     </div>
                     <div class="mt-2">
@@ -99,7 +94,11 @@
             return {
                 isModalVisible: false,
                 appReseted: false,
-                lang: 'fr'
+                lang: 'fr',
+                langList: [
+                    {lang_code: 'fr', logo: require('../assets/flags/fr.svg')},
+                    {lang_code: 'uk', logo: require('../assets/flags/uk.svg')}
+                ]
             }
         },
         components: {Drawer},

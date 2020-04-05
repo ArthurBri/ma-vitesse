@@ -31,7 +31,7 @@
                         </div>
                         <!-- FIN TABS -->
                     </transition>
-                    <Share/>
+                    <ShareSocial/>
                 </div>
             </div>
             <Footer/>
@@ -47,11 +47,11 @@
     import Settings from '@/components/Settings'
     import Preloader from '@/components/Preloader'
     import TabMenuItem from '@/components/TabMenuItem'
-    import Share from '@/components/Share'
+    import ShareSocial from '@/components/ShareSocial'
 
     export default {
         name: 'app',
-        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, Share},
+        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial},
         data() {
             return {
                 showPreloader: true,

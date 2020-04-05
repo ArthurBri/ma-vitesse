@@ -1,6 +1,6 @@
 <template>
     <transition name="drawer-fade">
-        <div @click="handleClick($event.target)" class="drawer-backdrop z-10" role="dialog">
+        <div @click="handleClick($event.target)" class="drawer-backdrop z-50" role="dialog">
             <div class="drawer xl:w-1/4 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
                 <header class="drawer-header text-xl text-white font-bold">
                     <slot name="header"/>
