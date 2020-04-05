@@ -1,7 +1,5 @@
 GET http://localhost:80/meanapps
-
 ###
-
 DELETE http://localhost:80/meanapps/5e3c8697e7179a2f0119354a
 Content-Type: application/json
 
@@ -9,9 +7,7 @@ Content-Type: application/json
   "logo": "https://res.cloudinary.com/hazicy5aw/image/upload/c_scale,h_200/v1581181852/logo-MV_qlhdbe.png",
   "url": "https://ma-vitesse.app"
 }
-
 ###
-
 POST http://localhost:80/meanapps
 Content-Type: application/json
 
@@ -36,7 +32,8 @@ Content-Type: application/json
   "url": "https://ma-vitesse.app"
 }
 
-###
+###########################
+###########################
 
 GET http://localhost:80/featuresuggests
 
@@ -63,4 +60,38 @@ Content-Type: application/json
   "contributor_email": "jeanlouislarun@gmail.com"
 }
 
+###########################
+###########################
+
+GET http://localhost:80/publicworkouts
+
 ###
+
+POST http://localhost:80/publicworkouts
+Content-Type: application/json
+
+{
+  "country_code": "uk",
+  "distance": "5",
+  "distance_unit": "km",
+  "duration": "10",
+  "speed": "8",
+  "speed_unit": "km/h",
+  "created_date": 1586107125704
+}
+
+###
+
+DELETE http://localhost:80/publicworkouts/5e8a0ed636024b1752ef7f57
+
+###
+
+PATCH http://localhost:80/publicworkouts/5e8a0ed636024b1752ef7f57
+Content-Type: application/json
+
+{
+  "created_date": 1586106913892
+}
+
+###
+

@@ -47,7 +47,7 @@
     "my_distances": "My distances"
   },
   "predictions": {
-    "title": "Running predictions",
+    "title": "Workout predictions",
     "label_no_calculation": "Do a calculation to see running predictions",
     "label_no_distances": "Add a distance via 'My distances' to see running predictions",
     "duration": "@:common.duration",

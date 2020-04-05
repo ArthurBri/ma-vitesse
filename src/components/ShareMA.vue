@@ -1,27 +1,27 @@
 <template>
     <div class="flex justify-center items-center mx-10">
         <div v-if="calculatedField">
-            <span @click="shareWorkout" class="mv-btn py-1 text-white mr-4">Partager !</span>
+            <span @click="shareWorkout" class="mv-btn py-1 text-white mr-4">Partager</span>
         </div>
         <div class="flex" v-if="lastWorkouts.length">
             <div v-if="!calculatedField">
                 <p class="pr-2 blink"><img alt="Live icon" class="h-8" src="../assets/icons/live.svg"/></p>
             </div>
             <div class="flex items-center justify-center">
-                <table class="z-10 text-white show-workouts">
-                    <div :class="[showAllWorkouts ? 'rounded-t-lg rounded-r-lg bg-white text-primary' :'rounded-lg border-gray-200 border ']"
+                <table class="z-10 text-white show-workouts border-gray-200">
+                    <div :class="[showAllWorkouts ? 'rounded-t-lg bg-white text-primary' :'rounded-lg border']"
                          @click="showMoreWorkouts"
                          @mouseleave="showChevron = false" @mouseover="showChevron = true"
-                         class="animate flex justify-centers shadow-lg cursor-pointer"
+                         class="animate flex justify-center shadow-lg cursor-pointer"
                          title="Dernières courses">
                         <tr>
                             <td class="align-middle"><img :alt="lastWorkouts[0].country_code + ' flag icon' "
                                                           :src="require('../assets/flags/' + lastWorkouts[0].country_code + '.svg')"
                                                           class="h-5 w-5" v-if="lastWorkouts[0].country_code"/></td>
-                            <td><b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].dist_unit }}</b> en <b>{{
+                            <td><b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].distance_unit }}</b> en <b>{{
                                 lastWorkouts[0].duration }}</b> : <b>
                                 {{ lastWorkouts[0].speed }} {{ lastWorkouts[0].speed_unit }}</b></td>
-                            <td>{{ lastWorkouts[0].timestamp | moment }}</td>
+                            <td>{{ lastWorkouts[0].created_date | moment }}</td>
                         </tr>
                         <div class="flex items-center self-center justify-center h-4 opacity-100 px-2"
                              v-if="lastWorkouts.length > 1">
@@ -35,10 +35,10 @@
                         <tr v-for="(lastWorkout, index) in lastWorkouts" v-if="index > 0">
                             <td><img :src="require('../assets/flags/' + lastWorkout.country_code + '.svg')"
                                      class="h-5"/></td>
-                            <td><b>{{lastWorkout.distance}} {{lastWorkout.dist_unit}}</b> en
+                            <td><b>{{lastWorkout.distance}} {{lastWorkout.distance_unit}}</b> en
                                 <b>{{lastWorkout.duration}}</b> à <b> {{lastWorkout.speed}}
                                     {{lastWorkout.speed_unit}}</b></td>
-                            <td class="text-center">{{ lastWorkout.timestamp | moment }}</td>
+                            <td class="text-center">{{ lastWorkout.created_date | moment }}</td>
                         </tr>
                         </tbody>
                     </div>
@@ -66,7 +66,11 @@
                 })
                 .catch((error) => {
                     console.log(error);
-                })
+                });
+            this.loadWorkouts();
+            setInterval(() => {
+                this.loadWorkouts()
+            }, 5000);
         },
         data() {
             return {
@@ -83,16 +87,47 @@
                 }
             },
             shareWorkout() {
-                this.lastWorkouts.push({
+                const axios = require('axios');
+                // Make a request for a user with a given ID
+                axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL;
+                const ax = axios.create();
+                ax.post('/publicworkouts', {
                     country_code: this.userCountry.toLowerCase(),
-                    distance: this.distance,
-                    dist_unit: this.distanceUnit,
+                    distance: parseFloat(this.distance).toFixed(2),
+                    distance_unit: this.distanceUnit,
                     duration: prettyDuration(this.duration, true),
-                    speed: this.speed,
+                    speed: parseFloat(this.speed).toFixed(2),
                     speed_unit: this.speedUnit,
-                    timestamp: new (Date)
-                });
-                this.lastWorkouts.sort((a, b) => b.timestamp - a.timestamp)
+                    created_date: Date.now()
+                }, {
+                    'headers': {'Content-Type': 'application/json'}
+                })
+                    .then((response) => {
+                        if (response.status === 201) {
+                            console.log('workout ajouté !')
+                        } else {
+                            console.log(response);
+                            console.log('erreur lors de l\'ajout')
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('erreur lors de l\'ajout');
+                        console.log(error)
+                    });
+            },
+            loadWorkouts() {
+                const axios = require('axios');
+                // Make a request for a user with a given ID
+                axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL;
+                const ax = axios.create();
+                ax.get('/publicworkouts')
+                    .then(response => {
+                        this.lastWorkouts = response.data;
+                        this.lastWorkouts.sort((a, b) => b.created_date - a.created_date)
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             }
         },
         computed: {
@@ -103,7 +138,7 @@
         },
         filters: {
             moment(date) {
-                return moment(date).fromNow()
+                return moment(parseInt(date)).fromNow()
             }
         }
     }

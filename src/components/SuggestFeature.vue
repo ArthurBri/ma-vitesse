@@ -63,9 +63,8 @@
             submitForm() {
                 const axios = require('axios');
                 // Make a request for a user with a given ID
-                const ax = axios.create({
-                    baseURL: 'http://localhost:80'
-                });
+                axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL;
+                const ax = axios.create();
                 ax.post('/featuresuggests', {
                     description: this.suggestDescription,
                     contributor_email: this.suggestContributorEmail
