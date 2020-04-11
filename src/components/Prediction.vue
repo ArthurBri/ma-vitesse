@@ -72,7 +72,6 @@
 
                     }
                 });
-                console.log('update !');
                 return predictions.filter(i => (i.distance !== this.distance))
             },
             defaultDistances() {

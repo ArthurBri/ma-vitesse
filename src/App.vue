@@ -34,7 +34,6 @@
                         </div>
                         <!-- FIN TABS -->
                     </transition>
-                    <ShareSocial/>
                 </div>
             </div>
             <Footer/>

@@ -1,18 +1,17 @@
 <template>
-    <div class="share-box w-1/4 xs:w-full sm:w-full md:w-full ml-8 xs:ml-0 sm:ml-0 md:ml-0 mt-5 xs:mt-0 h-32 xs:flex"
+    <div class=""
          v-if="calculOk">
-        <h3 class="mx-4 mt-4 text-center"><b>{{ $t('share.main_message')}}</b></h3>
-        <div class="flex mx-auto mt-3">
+        <div class="flex">
             <!-- TWITTER -->
             <a :href="`https://twitter.com/intent/tweet?text=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
                data-size="large"
                target="_blank">
-                <img alt="Twitter share icon" class="social-icon h-8" src="../assets/icons/social/twitter.svg"/>
+                <img alt="Twitter share icon" class="social-icon h-6" src="../assets/icons/social/twitter.svg"/>
             </a>
             <!-- FACEBOOK -->
             <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://ma-vitesse.app&quote=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
                target="_blank">
-                <img alt="Facebook shre icon" class="social-icon h-8 ml-8" src="../assets/icons/social/facebook.svg"/>
+                <img alt="Facebook shre icon" class="social-icon h-6 ml-2" src="../assets/icons/social/facebook.svg"/>
             </a>
         </div>
     </div>
@@ -70,14 +69,6 @@
     .social-icon:hover {
         transition: all 200ms;
         filter: contrast(150%);
-    }
-
-    .share-box {
-        @apply flex flex-col;
-        @apply rounded-lg shadow-xl;
-        background-color: rgba(white, 0.8);
-        backdrop-filter: blur(2px);
-        z-index: -1;
     }
 
     @screen xs {

@@ -5,19 +5,24 @@
             <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">{{
                 $t('calculator.description')}}</h2>
         </div>
-        <div class="flex h-8 mb-2" v-else>
-            <img alt=" " class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
-            <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
-                <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">{{ $t('calculator.calculation_label')}}<span
-                        class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
-                </h2>
-                <h2 class="xl:text-xl" v-else> <span
-                        class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
-                    {{ $t('calculator.calculation_label')}}
-                </h2>
-                <span><img @click="clearFields" alt="clear field button"
-                           class="h-3 noselect-nodrag clear-fields-button"
-                           src="../assets/icons/cancel.svg"/></span>
+        <div class="flex justify-between h-8 mb-2" v-else>
+            <div class="flex">
+                <img alt=" " class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
+                <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
+                    <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">{{ $t('calculator.calculation_label')}}<span
+                            class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
+                    </h2>
+                    <h2 class="xl:text-xl" v-else> <span
+                            class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
+                        {{ $t('calculator.calculation_label')}}
+                    </h2>
+                    <span><img @click="clearFields" alt="clear field button"
+                               class="h-2 noselect-nodrag clear-fields-button"
+                               src="../assets/icons/cancel.svg"/></span>
+                </div>
+            </div>
+            <div class="xs:mr-2">
+                <share-social/>
             </div>
         </div>
         <div class="wrapper" style="min-height:3rem;">
@@ -199,13 +204,14 @@
 <script>
     import AddPresetDistance from '@/components/AddPresetDistance'
     import RemovePresetDistance from '@/components/RemovePresetDistance'
-    import ShareMA from "@/components/ShareMA";
+    import ShareMA from "@/components/ShareMA"
+    import ShareSocial from "@/components/ShareSocial"
 
     import {mapState} from 'vuex';
 
     export default {
         name: "Calculator",
-        components: {ShareMA, AddPresetDistance, RemovePresetDistance},
+        components: {ShareMA, AddPresetDistance, RemovePresetDistance, ShareSocial},
         data() {
             return {
                 /* duration */

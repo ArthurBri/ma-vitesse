@@ -138,7 +138,6 @@
                 if (this.lastWorkouts.length > 1) {
                     this.showAllWorkouts = !this.showAllWorkouts
                 }
-                console.log(this.lastWorkouts)
             },
             shareWorkout() {
                 const axios = require('axios');
@@ -158,15 +157,11 @@
                 })
                     .then((response) => {
                         if (response.status === 201) {
-                            console.log('workout ajouté !')
-                        } else {
-                            console.log(response);
-                            console.log('erreur lors de l\'ajout')
+                            console.log('Workout saved!')
                         }
                     })
                     .catch((error) => {
-                        console.error('erreur lors de l\'ajout');
-                        console.log(error)
+                        console.err(error)
                     });
             },
             loadWorkouts() {
