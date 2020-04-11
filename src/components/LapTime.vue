@@ -126,9 +126,9 @@
             ]
         },
         computed: {
-            ...mapState(["distance", "duration", "speed", "oneFieldMode", "distanceUnit"]),
+            ...mapState(["distance", "duration", "speed", "oneFieldMode", "distanceUnit", "showLapTime"]),
             dataChange() {
-                return [this.distance, this.duration, this.speed, this.steps_count, this.oneFieldMode].join('');
+                return [this.distance, this.duration, this.speed, this.steps_count, this.oneFieldMode, this.showLapTime].join('');
             },
             steps_count() {
                 if (this.laptime_type === 'distance') {
@@ -139,56 +139,58 @@
             }
         },
         watch: {
-            dataChange() {
-                if (this.distance > 1000) return false;
-                let remaining_distance = parseFloat(this.distance.replace(",", "."));
-                let remaining_duration = parseFloat(this.duration.toString());
+            dataChange: {
+                handler() {
+                    if (this.distance > 1000) return false;
+                    let remaining_distance = parseFloat(this.distance.replace(",", "."));
+                    let remaining_duration = parseFloat(this.duration.toString());
 
-                // DISTANCE - Laptime steps
-                if (this.laptime_type === 'distance') {
-                    this.laptime_distance_steps = [];
-                    for (let i = 0; i < this.steps_count; i++) {
-                        let duration;
-                        if (remaining_distance > this.selected_distance_step) {
-                            duration = (this.selected_distance_step * this.duration) / this.distance;
-                        } else {
-                            duration = (remaining_distance * this.duration) / this.distance;
+                    // DISTANCE - Laptime steps
+                    if (this.laptime_type === 'distance') {
+                        this.laptime_distance_steps = [];
+                        for (let i = 0; i < this.steps_count; i++) {
+                            let duration;
+                            if (remaining_distance > this.selected_distance_step) {
+                                duration = (this.selected_distance_step * this.duration) / this.distance;
+                            } else {
+                                duration = (remaining_distance * this.duration) / this.distance;
+                            }
+                            this.laptime_distance_steps.push({
+                                remaining_distance: parseFloat(remaining_distance.toFixed(2)),
+                                duration: prettyDuration(duration, this.oneFieldMode),
+                                remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
+                            });
+                            remaining_duration -= duration;
+                            remaining_distance -= this.selected_distance_step;
+
                         }
-                        this.laptime_distance_steps.push({
-                            remaining_distance: parseFloat(remaining_distance.toFixed(2)),
-                            duration: prettyDuration(duration, this.oneFieldMode),
-                            remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
-                        });
-                        remaining_duration -= duration;
-                        remaining_distance -= this.selected_distance_step;
-
-                    }
-                    if (this.laptime_sort === 'desc') {
-                        this.laptime_distance_steps.sort((a, b) => a.remaining_distance - b.remaining_distance);
-                    }
-                    // DURATION
-                } else if (this.laptime_type === 'duration') {
-                    this.laptime_duration_steps = [];
-                    for (let i = 0; i < this.steps_count; i++) {
-                        let distance;
-                        if (remaining_duration > this.selected_duration_step) {
-                            distance = (this.selected_duration_step * this.distance) / this.duration;
-                        } else {
-                            distance = (remaining_duration * this.distance) / this.duration;
+                        if (this.laptime_sort === 'desc') {
+                            this.laptime_distance_steps.sort((a, b) => a.remaining_distance - b.remaining_distance);
                         }
-                        this.laptime_duration_steps.push({
-                            remaining_distance: parseFloat(remaining_distance.toFixed(2)),
-                            distance: parseFloat(distance.toFixed(2)),
-                            remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
-                        });
-                        remaining_distance -= distance;
-                        remaining_duration -= this.selected_duration_step;
+                        // DURATION
+                    } else if (this.laptime_type === 'duration') {
+                        this.laptime_duration_steps = [];
+                        for (let i = 0; i < this.steps_count; i++) {
+                            let distance;
+                            if (remaining_duration > this.selected_duration_step) {
+                                distance = (this.selected_duration_step * this.distance) / this.duration;
+                            } else {
+                                distance = (remaining_duration * this.distance) / this.duration;
+                            }
+                            this.laptime_duration_steps.push({
+                                remaining_distance: parseFloat(remaining_distance.toFixed(2)),
+                                distance: parseFloat(distance.toFixed(2)),
+                                remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
+                            });
+                            remaining_distance -= distance;
+                            remaining_duration -= this.selected_duration_step;
 
+                        }
+                        if (this.laptime_sort === 'desc') {
+                            this.laptime_duration_steps.sort((a, b) => a.remaining_distance - b.remaining_distance);
+                        }
                     }
-                    if (this.laptime_sort === 'desc') {
-                        this.laptime_duration_steps.sort((a, b) => a.remaining_distance - b.remaining_distance);
-                    }
-                }
+                }, immediate: true
             },
             laptime_sort(oldVal, newVal) {
                 if (newVal === 'asc') {
@@ -206,7 +208,6 @@
                     {label: '3 ' + this.distanceUnit, value: '3'},
                     {label: '5 ' + this.distanceUnit, value: '5'}
                 ];
-                // contournement pour rafraichir la selected distnace step
                 this.$nextTick(() => {
                     this.selected_distance_step = '1';
                 })

@@ -1,27 +1,29 @@
 <template>
-    <div class="header">
-        <div class="header-start flex flex-row">
-            <div class="logo flex justify-start h-16 items-center">
-                <img alt="logo" class="noselect-nodrag xs:w-6 sm:w-8 md:w-8 lg:w-12 xl:w-16 cursor-pointer"
-                     src="../assets/logo.svg"/>
-                <h1 class="text-white flex flex-col text-center xs:text-base xs:ml-1 xs:font-bold sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
-                    <span>{{ $t('global.app_name') }}</span>
-                </h1>
+    <div class="relative w-full">
+        <div class="header fixed shadow-lg ">
+            <div class="header-start flex flex-row">
+                <div class="logo flex justify-start items-center">
+                    <img alt="logo" class="noselect-nodrag xs:w-6 sm:w-8 md:w-8 lg:w-12 xl:w-12 cursor-pointer"
+                         src="../assets/logo.svg"/>
+                    <h1 class="flex flex-col text-center xs:text-base xs:ml-1 xs:font-bold sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
+                        <span>{{ $t('global.app_name') }}</span>
+                    </h1>
+                </div>
             </div>
-        </div>
 
-        <div class="header-end flex flex-row mr-8">
+            <div class="header-end flex flex-row mr-8">
             <img @click="showModal('settings')" alt=""
                  class="icon settings-icon noselect-nodrag"
                  src="../assets/icons/settings.svg"
                  title="Réglages"/>
-            <img @click="showModal('about')" alt=""
-                 class="icon about-icon noselect-nodrag"
-                 src="../assets/icons/question.svg"
-                 title="A propos"/>
-            <img @click="showModal('all-MA')" alt=""
-                 class="icon icon-orange all-ma-icon noselect-nodrag"
-                 src="../assets/icons/menu.svg" title="Toutes les applications"/>
+                <img @click="showModal('about')" alt=""
+                     class="icon about-icon noselect-nodrag"
+                     src="../assets/icons/question.svg"
+                     title="A propos"/>
+                <img @click="showModal('all-MA')" alt=""
+                     class="icon icon-orange all-ma-icon noselect-nodrag"
+                     src="../assets/icons/menu.svg" title="Toutes les applications"/>
+            </div>
         </div>
         <about @close="closeModal('about')" v-show="isModalAbout"/>
         <settings @close="closeModal('settings')" v-show="isModalSettings"/>
@@ -83,7 +85,7 @@
 
 <style lang="scss" scoped>
     .icon {
-        background: rgba(white, 0.7);
+        background: rgba($ma-primary, 0.7);
         backdrop-filter: blur(2px);
 
         &.icon-orange {
@@ -105,7 +107,9 @@
     /* <= 379px */
     @screen xs {
         .header {
-            @apply h-8 p-3 mt-2;
+            @apply px-3 text-primary;
+            background-color: rgba(white, 0.8);
+            backdrop-filter: blur(2px);
         }
 
         .icon {
@@ -120,11 +124,13 @@
     /* 380px < width > 639px  */
     @screen sm {
         .header {
-            @apply h-8 p-3 mt-2;
+            @apply px-3 py-2;
+            background-color: rgba(white, 0.8);
+            backdrop-filter: blur(2px);
         }
 
         .icon {
-            @apply py-2 px-1 h-8 m-1 rounded shadow-lg;
+            @apply py-2 px-1 m-1 h-8 rounded shadow-lg;
 
             &.icon-orange {
                 @apply mr-3;
@@ -135,7 +141,9 @@
     /* 640px < width > 767px */
     @screen md {
         .header {
-            @apply h-8 p-4 mt-3;
+            @apply px-4 py-2;
+            background-color: rgba(white, 0.6);
+            backdrop-filter: blur(2px);
         }
 
         .icon {
@@ -150,7 +158,9 @@
     /* 768px < width > 1023px */
     @screen lg {
         .header {
-            @apply h-8 p-4 mt-3;
+            @apply px-4 py-2;
+            background-color: rgba(white, 0.4);
+            backdrop-filter: blur(2px);
         }
 
         .icon {
@@ -165,7 +175,9 @@
     /* > 1024px */
     @screen xl {
         .header {
-            @apply h-16 p-4 pl-6 pr-6 mt-2;
+            @apply px-6 py-2 text-white;
+            background-color: rgba(white, 0.3);
+            backdrop-filter: blur(2px);
         }
 
         .icon {
@@ -174,6 +186,6 @@
     }
 
     .header {
-        @apply flex flex-row items-center justify-between w-full;
+        @apply flex flex-row items-center justify-between w-full z-30;
     }
 </style>

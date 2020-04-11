@@ -2,7 +2,7 @@
     <div class="flex justify-center items-center mx-10">
         <div v-if="calculatedField">
             <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4">
-                <span>Partager</span>
+                <span>{{ $t('common.share') }}</span>
                 <img class="chevron transform self-center ml-2 -rotate-90" src="../assets/icons/chevron.svg"/>
             </span>
         </div>

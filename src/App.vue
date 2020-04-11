@@ -4,11 +4,11 @@
         <div class="bg-gray-200 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
-            <h1 class="text-white flex items-center text-center text-3xl ml-10 mr-10 xs:text-sm xs:m-4 xs:mb-0 sm:text-lg sm:m-3 sm:mb-0 md:text-xl md:mt-4 lg:mt-6 lg:text-2xl">
+            <h1 class="app-description">
                 <span>{{ $t('global.app_subname') }}</span>
-                <img class="h-8 ml-2 white-icon" src="./assets/icons/run.svg"/>
-                <img class="h-8 ml-2 white-icon" src="./assets/icons/bike.svg"/>
-                <img class="h-8 ml-2 white-icon" src="./assets/icons/hiking.svg"/>
+                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/run.svg"/>
+                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/bike.svg"/>
+                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/hiking.svg"/>
             </h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
                 <Calculator class="mt-12"/>
@@ -138,19 +138,32 @@
         @apply flex flex-grow flex-wrap ml-0 mb-8 justify-center overflow-auto w-4/6 items-start content-start ;
     }
 
+    .app-description {
+        @apply text-white flex items-center text-center text-3xl mx-5;
+    }
+
     @screen xs {
         .body {
             @apply w-full mb-0;
         }
+
+        .app-description {
+            @apply mt-16 text-base;
+        }
+
     }
 
     @screen sm {
         .body {
-            @apply w-full m-0;
+            @apply w-full;
         }
 
         .tabs-content {
             @apply rounded-r-none;
+        }
+
+        .app-description {
+            @apply mt-20 text-lg;
         }
     }
 
@@ -158,11 +171,25 @@
         .tabs-menu {
             @apply flex-col;
         }
+
+        .app-description {
+            @apply mt-20 text-xl;
+        }
     }
 
     @screen lg {
         .body {
             @apply w-5/6;
+        }
+
+        .app-description {
+            @apply text-2xl mt-20;
+        }
+    }
+
+    @screen xl {
+        .app-description {
+            @apply text-3xl mt-24;
         }
     }
 

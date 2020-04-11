@@ -1,11 +1,11 @@
 <template>
     <transition name="slide-up">
-        <div @click="handleClick($event.target)" class="drawer-backdrop z-50" role="dialog">
+        <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
             <div class="drawer xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
-                <header class="drawer-header text-xl text-white font-bold">
+                <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
-                            class="btn noselect-nodrag outline-none" type="button">
+                            class="mv-btn-inverted text-sm" type="button">
                         {{ $t('common.close')}}
                     </button>
                 </header>
@@ -52,12 +52,12 @@
     }
 
     .drawer {
-        @apply bg-transparent absolute overflow-x-auto flex flex-col z-10 right-0 h-screen;
-        box-shadow: 0 0 5px rgba(#63b3ed, 0.8)
+        @apply bg-transparent absolute overflow-x-auto flex flex-col z-40 right-0 h-screen;
+        box-shadow: 0 0 5px rgba(white, 0.8)
     }
 
     .drawer-header {
-        @apply flex px-4 py-3 justify-between items-center outline-none;
+        @apply flex justify-between items-center outline-none;
         background-color: rgba($ma-primary, 0.4);
         background-image: linear-gradient(to right, rgba($ma-primary, 0), rgba($ma-primary, 1) 72%);
         backdrop-filter: blur(1rem);
@@ -96,11 +96,19 @@
         .slide-up-enter, .slide-up-leave-to {
             transform: translateX(100vw);
         }
+
+        .drawer-header {
+            @apply px-3 py-2;
+        }
     }
 
     @screen sm {
         .slide-up-enter, .slide-up-leave-to {
             transform: translateX(25vw);
+        }
+
+        .drawer-header {
+            @apply p-3;
         }
     }
 
@@ -108,17 +116,29 @@
         .slide-up-enter, .slide-up-leave-to {
             transform: translateX(50vw);
         }
+
+        .drawer-header {
+            @apply p-3;
+        }
     }
 
     @screen lg {
         .slide-up-enter, .slide-up-leave-to {
             transform: translateX(33.3vw);
         }
+
+        .drawer-header {
+            @apply px-3 py-4;
+        }
     }
 
     @screen xl {
         .slide-up-enter, .slide-up-leave-to {
             transform: translateX(20vw);
+        }
+
+        .drawer-header {
+            @apply px-3 py-4;
         }
     }
 

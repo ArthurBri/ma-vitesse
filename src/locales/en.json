@@ -27,7 +27,8 @@
     "minutesPerMile": "Minutes per mile",
     "live": "live",
     "in": "in",
-    "at": "at"
+    "at": "at",
+    "share": "Share"
   },
   "add_preset": {
     "title": "Add a distance",

@@ -77,6 +77,7 @@
         @apply rounded-lg shadow-xl;
         background-color: rgba(white, 0.8);
         backdrop-filter: blur(2px);
+        z-index: -1;
     }
 
     @screen xs {

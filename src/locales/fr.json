@@ -27,7 +27,8 @@
     "minutesPerMile": "Minutes par mile",
     "live": "direct",
     "in": "en",
-    "at": "à"
+    "at": "à",
+    "share": "Partager"
   },
   "add_preset": {
     "title": "Ajouter une distance",

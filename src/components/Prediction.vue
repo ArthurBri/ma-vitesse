@@ -39,7 +39,7 @@
             }
         },
         methods: {
-            prettyDuration: function (duration) {
+            prettyDuration(duration) {
                 let prettyDuration = '';
                 let hours = duration | 0;
                 let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
