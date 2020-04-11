@@ -1,7 +1,7 @@
 <template>
-    <transition name="drawer-fade">
+    <transition name="slide-up">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-50" role="dialog">
-            <div class="drawer xl:w-1/4 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
+            <div class="drawer xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
                 <header class="drawer-header text-xl text-white font-bold">
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
@@ -47,9 +47,8 @@
         right: 0;
         display: flex;
         justify-content: center;
-        -webkit-backdrop-filter: blur(3px);
-        backdrop-filter: blur(3px);
         align-items: flex-end;
+        transition: none;
     }
 
     .drawer {
@@ -86,26 +85,41 @@
     }
 
     .slide-up-enter-active {
-        transition: all .2s ease;
+        transition: 300ms;
     }
 
     .slide-up-leave-active {
-        transition: all 2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        transition: 200ms;
     }
 
-    .slide-up-enter, .slide-fade-leave-to {
-        transform: translateY(100vh);
-        opacity: 0;
+    @screen xs {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(100vw);
+        }
     }
 
-    .drawer-fade-enter,
-    .drawer-fade-leave-active {
-        opacity: 0;
+    @screen sm {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(25vw);
+        }
     }
 
-    .drawer-fade-enter-active,
-    .drawer-fade-leave-active {
-        transition: opacity 0.5s ease;
+    @screen md {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(50vw);
+        }
+    }
+
+    @screen lg {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(33.3vw);
+        }
+    }
+
+    @screen xl {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(20vw);
+        }
     }
 
 </style>

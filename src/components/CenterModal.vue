@@ -5,7 +5,7 @@
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
                     <span @click="close" class="pl-2 icon"><img alt="delete a distance"
-                                                                class="icon-close w-6 noselect-nodrag"
+                                                                class="icon-close w-4 noselect-nodrag"
                                                                 src="../assets/icons/cancel.svg"/></span>
                 </header>
                 <section class="modal-body text-primary">
