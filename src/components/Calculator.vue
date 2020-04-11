@@ -189,7 +189,7 @@
                 </div>
             </div>
         </div>
-        <share-m-a/>
+        <share-m-a class="mt-4"/>
         <AddPresetDistance @close="closeAddDistance" v-show="addDistance"/>
         <RemovePresetDistance @close="closeRemoveDistance" v-show="removeDistance"/>
     </div>

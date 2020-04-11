@@ -4,8 +4,9 @@
         <div class="bg-gray-200 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
-            <h1 class="text-white flex flex-col text-center text-3xl ml-10 mr-10 xs:text-sm xs:m-4 xs:mb-0 sm:text-lg sm:m-3 sm:mb-0 md:text-xl md:mt-4 lg:mt-6 lg:text-2xl">
+            <h1 class="text-white flex items-center text-center text-3xl ml-10 mr-10 xs:text-sm xs:m-4 xs:mb-0 sm:text-lg sm:m-3 sm:mb-0 md:text-xl md:mt-4 lg:mt-6 lg:text-2xl">
                 <span>{{ $t('global.app_subname') }}</span>
+                <img class="h-8 ml-2 white-icon" src="./assets/icons/hiking.svg"/>
             </h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
                 <Calculator class="mt-12"/>
@@ -220,5 +221,9 @@
         .tabs-content {
             @apply rounded-none rounded-r-none;
         }
+    }
+
+    .white-icon {
+        filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
     }
 </style>

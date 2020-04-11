@@ -96,7 +96,6 @@
     }
 
     .modal-header {
-        border-bottom: 1px solid #eeeeee;
         color: $ma-primary;
         justify-content: space-between;
         align-items: center;

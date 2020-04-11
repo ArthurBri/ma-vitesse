@@ -98,7 +98,7 @@
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         transition: all 200ms;
-        @apply flex justify-center;
+        @apply flex justify-center z-40;
     }
 
 

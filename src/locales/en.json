@@ -1,7 +1,7 @@
 {
   "global": {
     "app_name": "MA Vitesse",
-    "app_subname": "Training assistant for running",
+    "app_subname": "Training assistant for",
     "app_meta_title": "Smart calculation tool of speed, duration, distance"
   },
   "common": {
@@ -24,7 +24,10 @@
     "kilometersPerHour": "Kilometers per hour",
     "milesPerHour": "Miles per hour",
     "minutesPerKm": "Minutes per kilometer",
-    "minutesPerMile": "Minutes per mile"
+    "minutesPerMile": "Minutes per mile",
+    "live": "live",
+    "in": "in",
+    "at": "at"
   },
   "add_preset": {
     "title": "Add a distance",
@@ -56,6 +59,7 @@
   "laptime": {
     "title": "Laptime",
     "label_no_calculation": "Do a calculation to see laptime",
+    "label_max_distance_exceeded": "Oops ! Distance is too high to show laptimes.",
     "distance": "@:common.distance",
     "duration": "@:common.duration",
     "traveled_distance": "Traveled distance",
@@ -85,7 +89,7 @@
     }
   },
   "suggest_feature": {
-    "title": "Proposer une fonctionnalité",
+    "title": "Suggest a feature",
     "description": "MA Vitesse is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
     "suggest_label": "In MA Vitesse, I would like to......",
     "suggest_label_placeholder": "keep a history of my workouts.",

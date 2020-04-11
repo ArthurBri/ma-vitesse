@@ -1,6 +1,7 @@
 <template>
     <div class="box">
-        <div class="flex w-full xs:flex-col sm:flex-col md:flex-col justify-start" v-if="distance && duration && speed">
+        <div class="flex w-full xs:flex-col sm:flex-col md:flex-col justify-start"
+             v-if="distance <= 1000 && duration && speed">
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
                 <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg noselect-nodrag">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
@@ -83,6 +84,9 @@
                 </div>
             </div>
         </div>
+        <p class="m-auto h-full text-center" v-else-if="distance > 1000">
+            {{ $t('laptime.label_max_distance_exceeded')}}
+        </p>
         <p class="m-auto h-full text-center" v-else>
             {{ $t('laptime.label_no_calculation')}}
         </p>
@@ -136,6 +140,7 @@
         },
         watch: {
             dataChange() {
+                if (this.distance > 1000) return false;
                 let remaining_distance = parseFloat(this.distance.replace(",", "."));
                 let remaining_duration = parseFloat(this.duration.toString());
 

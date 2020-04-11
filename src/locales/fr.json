@@ -1,7 +1,7 @@
 {
   "global": {
     "app_name": "MA Vitesse",
-    "app_subname": "Assistant d'entraînement pour course à pied",
+    "app_subname": "Assistant d'entraînement pour",
     "app_meta_title": "Calcul intelligent de vitesse, durée, distance"
   },
   "common": {
@@ -24,7 +24,10 @@
     "kilometersPerHour": "Kilomètres par heure",
     "milesPerHour": "Miles par heure",
     "minutesPerKm": "Minutes par kilomètre",
-    "minutesPerMile": "Minutes par mile"
+    "minutesPerMile": "Minutes par mile",
+    "live": "direct",
+    "in": "en",
+    "at": "à"
   },
   "add_preset": {
     "title": "Ajouter une distance",
@@ -55,6 +58,7 @@
   "laptime": {
     "title": "Temps de passage",
     "label_no_calculation": "Effectuer un calcul pour voir les temps de passage",
+    "label_max_distance_exceeded": "Oups ! La distance est trop élevée pour faire un calcul.",
     "distance": "@:common.distance",
     "duration": "@:common.duration",
     "traveled_distance": "Distance parcourue",
