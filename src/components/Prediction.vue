@@ -1,5 +1,25 @@
 <template>
     <div class="box">
+        <div class="flex items-center mb-4 xs:flex-col lg:flex-col"
+             v-if="distance && duration && defaultDistances.length">
+            <div class="flex cursor-pointer shadow-lg rounded-lg border-gray-100 border">
+                <div :class="[formulaSelected === 'Riegel' ? 'text-primary bg-white font-bold' : '']"
+                     @click="formulaSelected = 'Riegel'" class="px-2 py-1 rounded-l">
+                    Riegel
+                </div>
+                <div :class="[formulaSelected === 'Williams' ? 'text-primary bg-white font-bold' : '']"
+                     @click="formulaSelected = 'Williams'"
+                     class="px-2 py-1 border-gray-100 border-r border-l ">
+                    Williams
+                </div>
+                <div :class="[formulaSelected === 'None' ? 'text-primary bg-white font-bold' : '']"
+                     @click="formulaSelected = 'None'" class="px-2 py-1 rounded-r">
+                    {{ $t('common.none')}}
+                </div>
+            </div>
+            <p class="ml-2 text-center xs:mt-2 xs:text-xs">{{ formulaList.filter(formula => formula.name ===
+                formulaSelected)[0].description }}</p>
+        </div>
         <div class="flex items-stretch justify-center"
              v-if="distance && duration && defaultDistances.length">
             <table class="w-full">
@@ -24,18 +44,39 @@
 
 <script>
     import {mapState} from 'vuex'
+
     export default {
         name: "Prediction",
         data() {
-            return {}
+            return {
+                formulaSelected: 'Riegel',
+                formulaList: [
+                    {name: 'Riegel', description: this.$i18n.t('predictions.riegel_desc')},
+                    {name: 'Williams', description: this.$i18n.t('predictions.williams_desc')},
+                    {name: 'None', description: this.$i18n.t('predictions.none_desc')}
+                ]
+
+            }
         },
         computed: {
-            ...mapState(["defaultDistances", "distance", "duration", "oneFieldMode"]),
+            ...mapState(["distance", "duration", "oneFieldMode"]),
             updatedPredictions() {
-                this.defaultDistances.forEach(element => {
-                    element.duration = this.prettyDuration((this.duration * 3600 * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06) / 3600)
+                let predictions = JSON.parse(JSON.stringify(this.defaultDistances));
+                predictions.forEach(element => {
+                    if (this.formulaSelected === 'Riegel') {
+                        element.duration = this.prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06))
+                    } else if (this.formulaSelected === 'Williams') {
+                        element.duration = this.prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.15))
+                    } else {
+                        element.duration = this.prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.'))))
+
+                    }
                 });
-                return this.defaultDistances.filter(i => (i.distance !== this.distance))
+                console.log('update !');
+                return predictions.filter(i => (i.distance !== this.distance))
+            },
+            defaultDistances() {
+                return this.$store.state.defaultDistances
             }
         },
         methods: {
@@ -103,11 +144,12 @@
 
 
     table, th, td {
-        @apply border-gray-500 border-collapse p-1;
+        @apply border-gray-500 border-collapse;
     }
 
     th {
-        @apply bg-white text-primary text-center px-3;
+        @apply text-primary text-center text-white border-b-4 px-3 py-1;
+        background-color: rgba(white, 0.2);
     }
 
     table tr:first-child th:first-child {
@@ -121,7 +163,7 @@
     tr {
         @apply border-b;
 
-        &:hover {
+        &:hover :not(th) {
             @apply cursor-default;
             background-color: rgba(#edf2f7, 0.2);
         }

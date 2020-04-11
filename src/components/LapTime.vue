@@ -3,17 +3,17 @@
         <div class="flex w-full xs:flex-col sm:flex-col md:flex-col justify-start"
              v-if="distance <= 1000 && duration && speed">
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
-                <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg noselect-nodrag">
+                <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg rounded-lg border-gray-100 border noselect-nodrag cursor-pointer">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'distance'" class="laptime-type-switch rounded-t-lg">
+                         @click="laptime_type = 'distance'" class="px-2 py-1 rounded-t-lg">
                         {{ $t('laptime.distance')}}
                     </div>
                     <div :class="[laptime_type === 'duration' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'duration'" class="laptime-type-switch rounded-b-lg ">
+                         @click="laptime_type = 'duration'" class="px-2 py-1 rounded-b">
                         {{ $t('laptime.duration')}}
                     </div>
                 </div>
-                <div class="laptime-end flex content-center bg-white text-primary mt-6 xs:mt-0 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 shadow-lg">
+                <div class="laptime-end flex content-center border border-gray-200  mt-6 xs:mt-0 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 shadow-lg">
                     <select class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                             v-if="laptime_type === 'distance'" v-model="selected_distance_step">
                         <option :key="step.label" :value="step.value" v-for="step in distance_steps">
@@ -28,7 +28,7 @@
                     </select>
                 </div>
                 <div @click="switchLaptimeSort"
-                     class="shadow-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 mt-6 xs:mt-0 sm:mt-0 md:mt-0 px-2 py-1 bg-white rounded-lg flex justify-center cursor-pointer noselect-nodrag">
+                     class="shadow-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 mt-6 xs:mt-0 sm:mt-0 md:mt-0 px-2 py-1 border border-gray-200 rounded-lg flex justify-center cursor-pointer noselect-nodrag">
                     <img class="h-6" src="../assets/icons/sort-asc.svg" v-if="laptime_sort === 'desc'">
                     <img class="h-6" src="../assets/icons/sort-desc.svg" v-else>
                 </div>
@@ -37,7 +37,7 @@
                 <div v-if="laptime_distance_steps.length && laptime_type === 'distance'">
                     <table class="w-full">
                         <thead>
-                        <tr class="text-primary bg-white leading-tight">
+                        <tr class="leading-tight">
                             <th>
                                 <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_distance')}}</span>
                                 <span v-else>{{ $t('laptime.traveled_distance')}}</span>
@@ -61,7 +61,7 @@
                 <div v-if="laptime_duration_steps.length && laptime_type === 'duration'">
                     <table class="w-full">
                         <thead>
-                        <tr class="text-primary bg-white leading-tight">
+                        <tr class="leading-tight">
                             <th>
                                 <span v-if="laptime_sort === 'asc'">{{ $t('laptime.remaining_duration')}}</span>
                                 <span v-else>{{ $t('laptime.elapsed_time')}}</span>
@@ -222,9 +222,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .laptime-type-switch {
-        @apply text-center p-2 pt-1 pb-1 shadow-lg cursor-pointer;
-    }
 
     .box {
         @apply flex;
@@ -251,7 +248,8 @@
     }
 
     th {
-        @apply py-2;
+        @apply text-primary text-center text-white border-b-4 px-3 py-2;
+        background-color: rgba(white, 0.2);
     }
 
     table tr {
@@ -260,6 +258,10 @@
 
     table thead tr:first-child th:last-child {
         @apply rounded-tr-lg;
+    }
+
+    table thead tr:first-child th:first-child {
+        @apply rounded-tl-lg;
     }
 
     select {

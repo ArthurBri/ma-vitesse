@@ -28,7 +28,8 @@
     "live": "direct",
     "in": "en",
     "at": "à",
-    "share": "Partager"
+    "share": "Partager",
+    "none": "Aucune"
   },
   "add_preset": {
     "title": "Ajouter une distance",
@@ -54,7 +55,10 @@
     "title": "Prédictions de course",
     "label_no_calculation": "Effectuer un calcul pour voir les prédictions de course",
     "label_no_distances": "Ajouter une distance via 'Mes distances' pour voir les prédictions de course",
-    "estimated_duration": "Durée estimée"
+    "estimated_duration": "Durée estimée",
+    "riegel_desc": "Formule de Riegel (ingénieur), ratio de 6%",
+    "williams_desc": "Formule de Ian Williams (coureur), ratio de 15%",
+    "none_desc": "Aucune formule n'est appliqué, projections faite sans ajustement de vitesse"
   },
   "laptime": {
     "title": "Temps de passage",
@@ -117,5 +121,8 @@
   },
   "all_ma": {
     "title": "Toutes nos applications"
+  },
+  "share_ma": {
+    "last_workouts": "Dernières courses"
   }
 }

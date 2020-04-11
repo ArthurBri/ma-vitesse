@@ -28,7 +28,8 @@
     "live": "live",
     "in": "in",
     "at": "at",
-    "share": "Share"
+    "share": "Share",
+    "none": "None"
   },
   "add_preset": {
     "title": "Add a distance",
@@ -55,7 +56,10 @@
     "label_no_calculation": "Do a calculation to see running predictions",
     "label_no_distances": "Add a distance via 'My distances' to see running predictions",
     "duration": "@:common.duration",
-    "estimated_duration": "Estimated duration"
+    "estimated_duration": "Estimated duration",
+    "riegel_desc": "Riegel's formula (engineer), 6% ratio",
+    "williams_desc": "Ian Williams' formula (runner), 15% ratio",
+    "none_desc": "No formula is applied, projection with same speed"
   },
   "laptime": {
     "title": "Laptime",
@@ -118,5 +122,8 @@
   },
   "all_ma": {
     "title": "All our apps"
+  },
+  "share_ma": {
+    "last_workouts": "Last workouts"
   }
 }
