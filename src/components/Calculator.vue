@@ -2,8 +2,8 @@
     <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="calculatedField === ''">
             <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">{{
-                $t('calculator.description')}}</h2>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">
+                {{ $t('calculator.description')}}</h2>
         </div>
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
@@ -49,32 +49,29 @@
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
-                                       @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationHours', 'hours')"
                                        @keydown.up="increment('durationHours', 'hours')" ref="hours"
-                                       type="tel" v-model="durationHours"/>
+                                       inputmode="numeric" pattern="[0-9]*" v-model="durationHours"/>
                                 <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
-                                       @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationMinutes', 'minutes')"
                                        @keydown.up="increment('durationMinutes', 'minutes')" ref="minutes"
-                                       type="tel" v-model="durationMinutes"/>
+                                       inputmode="numeric" pattern="[0-9]*" v-model="durationMinutes"/>
                                 <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
-                                       @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationSeconds', 'seconds')"
                                        @keydown.up="increment('durationSeconds', 'seconds')" ref="seconds"
-                                       type="tel" v-model="durationSeconds"/>
+                                       inputmode="numeric" pattern="[0-9]*" v-model="durationSeconds"/>
                             </label>
                         </div>
                     </div>
@@ -420,7 +417,7 @@
                 this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
 
                 // exception for threeFieldsMode
-                if (this.oneFieldMode || field !== 'duration') {
+                if (!this.oneFieldMode) {
                     this.$refs[field].focus();
                 }
             },
