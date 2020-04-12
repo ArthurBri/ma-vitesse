@@ -413,15 +413,13 @@
                 localStorage.speedFormat = this.speedFormat
             },
             focusMe(field) {
-                console.log(field);
                 // if field clicked eq "distance", shows the preset distances
                 this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
+
                 // exception in 3 fields mode : on clic on box, focus on hours
-                if (!this.oneFieldMode && field === 'duration') {
-                    this.$refs['hours'].focus();
-                } else {
+                if (!this.oneFieldMode && field !== 'duration') {
                     this.$refs[field].focus();
-                }
+                } else return false
             },
             updateCursor(ref, event) {
                 // to left management (backspace OR left arrow)
