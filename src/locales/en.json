@@ -53,8 +53,8 @@
   },
   "predictions": {
     "title": "Workout predictions",
-    "label_no_calculation": "Do a calculation to see running predictions",
-    "label_no_distances": "Add a distance via 'My distances' to see running predictions",
+    "label_no_calculation": "Do a calculation to see workouts predictions",
+    "label_no_distances": "Add a distance via 'My distances' to see workouts predictions",
     "duration": "@:common.duration",
     "estimated_duration": "Estimated duration",
     "riegel_desc": "Riegel's formula (engineer), 6% ratio",
