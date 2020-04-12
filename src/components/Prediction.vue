@@ -2,18 +2,18 @@
     <div class="box">
         <div class="flex items-center mb-4 xs:flex-col lg:flex-col"
              v-if="distance && duration && defaultDistances.length">
-            <div class="flex cursor-pointer shadow-lg rounded-lg border-gray-100 border">
+            <div class="flex cursor-pointer shadow-lg rounded-lg ">
                 <div :class="[formulaSelected === 'Riegel' ? 'text-primary bg-white font-bold' : '']"
-                     @click="formulaSelected = 'Riegel'" class="px-2 py-1 rounded-l">
+                     @click="formulaSelected = 'Riegel'" class="px-2 py-1 rounded-l-lg border-gray-100 border">
                     Riegel
                 </div>
                 <div :class="[formulaSelected === 'Williams' ? 'text-primary bg-white font-bold' : '']"
                      @click="formulaSelected = 'Williams'"
-                     class="px-2 py-1 border-gray-100 border-r border-l ">
+                     class="px-2 py-1 border-gray-100 border-r border-l-lg border-gray-100 border">
                     Williams
                 </div>
                 <div :class="[formulaSelected === 'None' ? 'text-primary bg-white font-bold' : '']"
-                     @click="formulaSelected = 'None'" class="px-2 py-1 rounded-r">
+                     @click="formulaSelected = 'None'" class="px-2 py-1 rounded-r-lg border-gray-100 border">
                     {{ $t('common.none')}}
                 </div>
             </div>
@@ -147,7 +147,7 @@
     }
 
     th {
-        @apply text-primary text-center text-white border-b-4 px-3 py-1;
+        @apply text-primary text-center text-white border-b-2 px-3 py-1;
         background-color: rgba(white, 0.2);
     }
 

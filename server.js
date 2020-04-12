@@ -57,5 +57,5 @@ app.use('/meanapps', meanappsRoute);
 app.use('/featuresuggests', apiLimiter1day, featuresuggestRoute);
 app.use('/publicworkouts', apiLimiter1hour, publicworkoutsRoute);
 
-app.listen(port);
+app.listen(port, '0.0.0.0');
 

@@ -67,8 +67,8 @@
 
 <style lang="scss" scoped>
     .social-icon:hover {
-        transition: all 200ms;
-        filter: contrast(150%);
+        transition: all 100ms;
+        transform: scale(1.20);
     }
 
     @screen xs {

@@ -3,13 +3,13 @@
         <div class="flex w-full xs:flex-col sm:flex-col md:flex-col justify-start"
              v-if="distance <= 1000 && duration && speed">
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
-                <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg rounded-lg border-gray-100 border noselect-nodrag cursor-pointer">
+                <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg rounded-lg noselect-nodrag cursor-pointer">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'distance'" class="px-2 py-1 rounded-t-lg">
+                         @click="laptime_type = 'distance'" class="px-2 py-1 rounded-t-lg border-gray-100 border">
                         {{ $t('laptime.distance')}}
                     </div>
                     <div :class="[laptime_type === 'duration' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'duration'" class="px-2 py-1 rounded-b">
+                         @click="laptime_type = 'duration'" class="px-2 py-1 rounded-b-lg border-gray-100 border ">
                         {{ $t('laptime.duration')}}
                     </div>
                 </div>
@@ -248,7 +248,7 @@
     }
 
     th {
-        @apply text-primary text-center text-white border-b-4 px-3 py-2;
+        @apply text-primary text-center text-white border-b-2 px-3 py-2;
         background-color: rgba(white, 0.2);
     }
 
