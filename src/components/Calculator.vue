@@ -49,7 +49,6 @@
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
-                                       @focus="focusMe('hours')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationHours', 'hours')"
@@ -59,7 +58,6 @@
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
-                                       @focus="focusMe('minutes')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationMinutes', 'minutes')"
@@ -72,7 +70,6 @@
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationSeconds', 'seconds')"
-                                       @focus="focusMe('seconds')"
                                        @keydown.up="increment('durationSeconds', 'seconds')" ref="seconds"
                                        inputmode="numeric" pattern="[0-9]*" v-model="durationSeconds"/>
                             </label>
@@ -416,6 +413,7 @@
                 localStorage.speedFormat = this.speedFormat
             },
             focusMe(field) {
+                console.log(field);
                 // if field clicked eq "distance", shows the preset distances
                 this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
                 // exception in 3 fields mode : on clic on box, focus on hours
