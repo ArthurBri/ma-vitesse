@@ -419,7 +419,7 @@
                 // exception in 3 fields mode : on clic on box, focus on hours
                 if (!this.oneFieldMode && field !== 'duration') {
                     this.$refs[field].focus();
-                } else return false
+                } else this.$refs[field].focus('hours')
             },
             updateCursor(ref, event) {
                 // to left management (backspace OR left arrow)
