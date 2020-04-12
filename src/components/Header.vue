@@ -10,12 +10,24 @@
                     </h1>
                 </div>
             </div>
-
+            <div class="header-middle">
+                <div class="text-center lg:px-4 rounded-lg">
+                    <div class="hidden xl:flex items-center text-indigo-100 leading-tight rounded-full" role="alert"
+                         v-if="showUpdatesAlert">
+                        <span class="flex rounded-full bg-indigo-700 uppercase px-2 py-1 text-xs font-bold mr-2">{{ $t('updates_alert.new_badge')}}</span>
+                        <div class="flex flex-col mr-4">
+                            <span class="font-semibold text-left flex-auto">{{ $t('updates_alert.message_l1')}}</span>
+                            <span class="text-left flex-auto">{{ $t('updates_alert.message_l2')}}</span>
+                        </div>
+                        <img @click="hideUpdatesAlert" class="h-3 cursor-pointer" src="../assets/icons/cancel.svg"/>
+                    </div>
+                </div>
+            </div>
             <div class="header-end flex flex-row mr-8">
-            <img @click="showModal('settings')" alt=""
-                 class="icon settings-icon noselect-nodrag"
-                 src="../assets/icons/settings.svg"
-                 title="Réglages"/>
+                <img @click="showModal('settings')" alt=""
+                     class="icon settings-icon noselect-nodrag"
+                     src="../assets/icons/settings.svg"
+                     title="Réglages"/>
                 <img @click="showModal('about')" alt=""
                      class="icon about-icon noselect-nodrag"
                      src="../assets/icons/question.svg"
@@ -35,6 +47,7 @@
     import About from '@/components/About'
     import Settings from '@/components/Settings'
     import AllMA from '@/components/AllMA'
+    import {mapState, mapMutations} from 'vuex'
 
     export default {
         name: "Header",
@@ -78,7 +91,11 @@
                 document.body.style.position = '';
                 document.body.style.top = '';
                 window.scrollTo(0, parseInt(scrollY || '0') * -1);
-            }
+            },
+            ...mapMutations(['hideUpdatesAlert'])
+        },
+        computed: {
+            ...mapState(['showUpdatesAlert'])
         }
     }
 </script>

@@ -14,7 +14,7 @@
                 <Calculator class="mt-12"/>
                 <div class="w-full flex xs:flex-col sm:flex-col md:flex-col justify-center">
                     <transition name="fade">
-                        <div class="tabs-menu w-3/4 mt-5 xs:mt-0 xs:w-full sm:w-full md:w-full" v-if="showTabMenu">
+                        <div class="tabs-menu w-full mt-5 xs:mt-0" v-if="showTabMenu">
                             <div class="tabs flex flex-col xs:flex-row md:flex-row xs:overflow-x-auto overflow-x-auto xl:h-24">
                                 <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
                                              @click.native="setTabActive('laptime')"
@@ -235,10 +235,13 @@
         @apply rounded-b-lg shadow-xl;
         background-color: rgba($ma-primary, 0.8);
         backdrop-filter: blur(2px);
+        z-index: 0;
     }
 
     .tabs-menu {
         @apply flex;
+        z-index: 0;
+
     }
 
     @screen xs {

@@ -140,6 +140,10 @@
         .drawer-header {
             @apply px-3 py-4;
         }
+
+        .drawer {
+            min-width: 260px;
+        }
     }
 
 </style>

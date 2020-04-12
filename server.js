@@ -7,7 +7,7 @@ let cors = require('cors');
 let compression = require('compression');
 let mongoose = require('mongoose');
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 

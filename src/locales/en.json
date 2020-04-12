@@ -125,5 +125,10 @@
   },
   "share_ma": {
     "last_workouts": "Last workouts"
+  },
+  "updates_alert": {
+    "new_badge": "new",
+    "message_l1": "You can now share your workouts to the whole world !",
+    "message_l2": "7 lasts are shown, more options soon."
   }
 }

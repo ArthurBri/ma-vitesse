@@ -1,9 +1,9 @@
 <template>
     <div class="flex xs:flex-col sm:flex-col md:flex-col justify-center items-center mx-10 xs:mx-0 sm:mx-2 md:mx-4 lg:mx-2">
-        <div v-if="calculatedField">
+        <div v-if="calculatedField && lastWorkouts.length">
             <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4 xs:mb-2 sm:mb-2 md:mb-2">
                 <span>{{ $t('common.share') }}</span>
-                <img class="chevron transform self-center ml-2 -rotate-90 xs:rotate-0 sm:rotate-0 md:rotate-0"
+                <img class="chevron animated self-center ml-2"
                      src="../assets/icons/chevron.svg"/>
             </span>
         </div>
@@ -14,11 +14,9 @@
                     {{ $t('common.live') | capitalize }}</p>
             </div>
             <div class="flex items-center justify-center">
-                <table class="z-10 text-white show-workouts border-gray-200 text-sm">
+                <table class="text-white show-workouts border-gray-200 text-sm">
                     <div :class="[showAllWorkouts ? 'rounded-t-lg rounded-r-lg bg-white border text-primary' :'rounded-lg border']"
-                         @click="showMoreWorkouts"
-                         @mouseleave="showChevron = false" @mouseover="showChevron = true"
-                         class="animate flex justify-center shadow-lg cursor-pointer"
+                         @click="showMoreWorkouts" class="animate flex justify-center shadow-lg cursor-pointer z-10"
                          title="Dernières courses">
                         <tr>
                             <td class="align-middle">
@@ -62,9 +60,9 @@
                                  class="chevron noselect-nodrag" src="../assets/icons/chevron.svg"/>
                         </div>
                     </div>
-                    <div class="z-10 bg-white shadow-lg" v-if="lastWorkouts.length > 1">
+                    <div class="bg-white shadow-lg" v-if="lastWorkouts.length > 1">
                         <tbody :class="[showAllWorkouts ? 'h-48 opacity-100' : 'h-0 opacity-25']"
-                               class="more-workouts show-workouts xs:text-xs">
+                               class="more-workouts show-workouts xs:text-xs z-10">
                         <tr v-for="(lastWorkout, index) in lastWorkouts" v-if="index > 0">
                             <td><span :class="'flag-icon-' + lastWorkout.country_code"
                                       class="h-5 flag-icon"/></td>
@@ -128,7 +126,6 @@
         data() {
             return {
                 showAllWorkouts: false,
-                showChevron: false,
                 lastWorkouts: [],
                 userCountry: ''
             }
@@ -211,7 +208,7 @@
     }
 
     .more-workouts {
-        @apply absolute z-10 rounded-b-lg text-primary overflow-hidden;
+        @apply absolute rounded-b-lg text-primary overflow-hidden;
         background-color: rgba(white, 0.8);
         backdrop-filter: blur(5px);
         transition: all 400ms linear;
@@ -255,4 +252,64 @@
     .white-icon {
         filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
     }
+
+    @keyframes move-right {
+        0% {
+            transform: translateX(0px) rotate(-90deg);
+        }
+        50% {
+            transform: translateX(5px) rotate(-90deg);
+        }
+        100% {
+            transform: translateX(0px) rotate(-90deg);
+        }
+    }
+
+    @keyframes move-bottom {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(5px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @screen xs {
+        .chevron.animated {
+            @apply rotate-0 transform;
+            animation: move-bottom 2000ms infinite;
+        }
+    }
+
+    @screen sm {
+        .chevron.animated {
+            @apply rotate-0 transform;
+            animation: move-bottom 2000ms infinite;
+        }
+    }
+
+    @screen md {
+        .chevron.animated {
+            @apply rotate-0 transform;
+            animation: move-bottom 2000ms infinite;
+        }
+    }
+
+    @screen lg {
+        .chevron.animated {
+            @apply -rotate-90 transform;
+            animation: move-right 2000ms infinite;
+        }
+    }
+
+    @screen xl {
+        .chevron.animated {
+            @apply -rotate-90 transform;
+            animation: move-right 2000ms infinite;
+        }
+    }
+
 </style>

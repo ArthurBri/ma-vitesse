@@ -124,5 +124,10 @@
   },
   "share_ma": {
     "last_workouts": "Dernières courses"
+  },
+  "updates_alert": {
+    "new_badge": "nouveau",
+    "message_l1": "Vous pouvez désormais partager vos course au monde entier\n",
+    "message_l2": "Les 7 dernières sont affichées, plus d'options très bientôt !"
   }
 }

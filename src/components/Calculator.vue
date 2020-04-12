@@ -116,10 +116,10 @@
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
                                @keydown.down="decrement('distance')" @keydown.up="increment('distance')"
-                               inputmode="numeric" pattern="[0-9]*"
+                               inputmode="numeric" pattern="[0-9,.]*"
                                ref="distance" v-model="distance"/>
                         <select @change="unitChange('distance', $event.target.value)"
-                                class="self-center text-right cursor-pointer" v-model="distanceUnit">
+                                class="self-center text-right cursor-pointer" tabindex="-1" v-model="distanceUnit">
                             <option :value="item.short" v-for="item in distanceUnits">{{ item.short }}</option>
                         </select>
                     </div>
@@ -159,11 +159,11 @@
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
-                                   id="speed" inputmode="numeric" name="speed" pattern="[0-9]*" ref="speed"
+                                   id="speed" inputmode="numeric" name="speed" pattern="[0-9,.]*" ref="speed"
                                    @keydown.down="decrement('speed')" @keydown.up="increment('speed')"
                                    v-model="speed"/>
                             <select @change="unitChange('speed', $event.target.value)"
-                                    class="self-center text-right cursor-pointer" v-model="speedUnit">
+                                    class="self-center text-right cursor-pointer" tabindex="-1" v-model="speedUnit">
                                 <option :key="item.type" :value="item.short" v-for="item in speedUnits">
                                     {{ item.short }}
                                 </option>
@@ -176,7 +176,7 @@
                                    class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
                                    ref="speed" v-model="pace"/>
                             <select @change="unitChange('pace', $event.target.value)"
-                                    class="self-center text-right cursor-pointer" v-model="paceUnit">
+                                    class="self-center text-right cursor-pointer" tabindex="-1" v-model="paceUnit">
                                 <option :value="item.short" v-for="item in paceUnits">{{ item.short }}</option>
                             </select>
                         </div>
@@ -968,7 +968,7 @@
         @apply font-bold text-xl bg-transparent;
 
         &::placeholder {
-            @apply font-light text-base;
+            @apply font-light;
         }
     }
 
