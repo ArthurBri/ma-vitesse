@@ -29,8 +29,8 @@
             <!-- DURATION -->
             <div class="flex flex-col h-24 noselect-nodrag ">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('duration')" class="box self-stretch justify-between shadow-md">
-                    <label for="duration">{{ $t('calculator.duration') }}</label>
+                     class="box self-stretch justify-between shadow-md">
+                    <label @click="focusMe('duration')" for="duration">{{ $t('calculator.duration') }}</label>
                     <div class="w-40">
                         <!-- ONE FIELD mode -->
                         <div class="one-field-mode flex justify-end" v-if="oneFieldMode">
@@ -49,6 +49,7 @@
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
+                                       @focus="focusMe('hours')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationHours', 'hours')"
@@ -58,6 +59,7 @@
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
+                                       @focus="focusMe('minutes')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationMinutes', 'minutes')"
@@ -70,6 +72,7 @@
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                        @keydown.down="decrement('durationSeconds', 'seconds')"
+                                       @focus="focusMe('seconds')"
                                        @keydown.up="increment('durationSeconds', 'seconds')" ref="seconds"
                                        inputmode="numeric" pattern="[0-9]*" v-model="durationSeconds"/>
                             </label>
@@ -415,9 +418,10 @@
             focusMe(field) {
                 // if field clicked eq "distance", shows the preset distances
                 this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
-
-                // exception for threeFieldsMode
-                if (!this.oneFieldMode) {
+                // exception in 3 fields mode : on clic on box, focus on hours
+                if (!this.oneFieldMode && field === 'duration') {
+                    this.$refs['hours'].focus();
+                } else {
                     this.$refs[field].focus();
                 }
             },
