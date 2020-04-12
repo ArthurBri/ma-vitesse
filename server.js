@@ -6,7 +6,10 @@ let cors = require('cors');
 
 let compression = require('compression');
 let mongoose = require('mongoose');
-require('dotenv').config();
+
+if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config();
+}
 
 let app = express();
 
