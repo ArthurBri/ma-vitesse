@@ -113,8 +113,6 @@ export const store = new Vuex.Store({
                 } else {
                     state.showUpdatesAlert = false
                 }
-                console.log(JSON.parse(localStorage.getItem('updatesAlertHidden')));
-                console.log(state.currentUpdateAlert)
             }
 
             if (localStorage.getItem('defaultDistances')) {

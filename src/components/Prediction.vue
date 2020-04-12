@@ -17,7 +17,7 @@
                     {{ $t('common.none')}}
                 </div>
             </div>
-            <p class="ml-2 text-center xs:mt-2 xs:text-xs">{{ formulaList.filter(formula => formula.name ===
+            <p class="ml-2 text-center mt-2 xl:mt-0 xs:text-xs">{{ formulaList.filter(formula => formula.name ===
                 formulaSelected)[0].description }}</p>
         </div>
         <div class="flex items-stretch justify-center"
@@ -44,6 +44,7 @@
 
 <script>
     import {mapState} from 'vuex'
+    import {prettyDuration} from '../utils/formatData'
 
     export default {
         name: "Prediction",
@@ -64,11 +65,11 @@
                 let predictions = JSON.parse(JSON.stringify(this.defaultDistances));
                 predictions.forEach(element => {
                     if (this.formulaSelected === 'Riegel') {
-                        element.duration = this.prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06))
+                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06))
                     } else if (this.formulaSelected === 'Williams') {
-                        element.duration = this.prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.15))
+                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.15))
                     } else {
-                        element.duration = this.prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.'))))
+                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.'))))
 
                     }
                 });
@@ -76,36 +77,21 @@
             },
             defaultDistances() {
                 return this.$store.state.defaultDistances
+            },
+            localeChange() {
+                return this.$i18n.locale
             }
         },
-        methods: {
-            prettyDuration(duration) {
-                let prettyDuration = '';
-                let hours = duration | 0;
-                let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
-                let seconds = (((duration % 1) * 60) % 1) * 60;
-
-                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds >= 1 ? seconds.toFixed(1) : 0;
-                if (seconds === 60) {
-                    minutes++, seconds = 0
-                }
-                if (minutes === 60) {
-                    hours++, minutes = 0
-                }
-
-                if (this.oneFieldMode) {
-                    prettyDuration += hours && hours < 10 ? '0' + hours + 'h' : hours ? hours + 'h' : '';
-                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
-                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
-                } else {
-                    prettyDuration += hours && hours < 10 ? '0' + hours + ':' : hours ? hours + ':' : '00:';
-                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + ':' : minutes < 10 ? '0' + minutes + ':' : minutes ? minutes + ':' : '00:';
-                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds : seconds ? seconds : '00';
-                }
-
-                return prettyDuration
+        watch: {
+            localeChange() {
+                this.formulaList = [
+                    {name: 'Riegel', description: this.$i18n.t('predictions.riegel_desc')},
+                    {name: 'Williams', description: this.$i18n.t('predictions.williams_desc')},
+                    {name: 'None', description: this.$i18n.t('predictions.none_desc')}
+                ]
             }
         }
+
     }
 </script>
 

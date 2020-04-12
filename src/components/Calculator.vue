@@ -116,7 +116,7 @@
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
                                @keydown.down="decrement('distance')" @keydown.up="increment('distance')"
-                               inputmode="numeric" pattern="[0-9,.]*"
+                               inputmode="decimal" pattern="[0-9,.]*"
                                ref="distance" v-model="distance"/>
                         <select @change="unitChange('distance', $event.target.value)"
                                 class="self-center text-right cursor-pointer" tabindex="-1" v-model="distanceUnit">
@@ -159,7 +159,7 @@
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
-                                   id="speed" inputmode="numeric" name="speed" pattern="[0-9,.]*" ref="speed"
+                                   id="speed" inputmode="decimal" name="speed" pattern="[0-9,.]*" ref="speed"
                                    @keydown.down="decrement('speed')" @keydown.up="increment('speed')"
                                    v-model="speed"/>
                             <select @change="unitChange('speed', $event.target.value)"

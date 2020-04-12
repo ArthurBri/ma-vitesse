@@ -58,7 +58,7 @@
     "estimated_duration": "Durée estimée",
     "riegel_desc": "Formule de Riegel (ingénieur), ratio de 6%",
     "williams_desc": "Formule de Ian Williams (coureur), ratio de 15%",
-    "none_desc": "Aucune formule n'est appliqué, projections faite sans ajustement de vitesse"
+    "none_desc": "Sans formule, projections faites sans ajustement de vitesse"
   },
   "laptime": {
     "title": "Temps de passage",
@@ -127,7 +127,7 @@
   },
   "updates_alert": {
     "new_badge": "nouveau",
-    "message_l1": "Vous pouvez désormais partager vos course au monde entier\n",
+    "message_l1": "Vous pouvez désormais partager vos courses au monde entier\n",
     "message_l2": "Les 7 dernières sont affichées, plus d'options très bientôt !"
   }
 }
