@@ -1,14 +1,34 @@
 <template>
     <div class="box">
+        <div class="flex items-center mb-4 xs:flex-col lg:flex-col"
+             v-if="distance && duration && defaultDistances.length">
+            <div class="flex cursor-pointer shadow-lg rounded-lg ">
+                <div :class="[formulaSelected === 'Riegel' ? 'text-primary bg-white font-bold' : '']"
+                     @click="formulaSelected = 'Riegel'" class="px-2 py-1 rounded-l-lg border-gray-100 border">
+                    Riegel
+                </div>
+                <div :class="[formulaSelected === 'Williams' ? 'text-primary bg-white font-bold' : '']"
+                     @click="formulaSelected = 'Williams'"
+                     class="px-2 py-1 border-gray-100 border-r border-l-lg border-gray-100 border">
+                    Williams
+                </div>
+                <div :class="[formulaSelected === 'None' ? 'text-primary bg-white font-bold' : '']"
+                     @click="formulaSelected = 'None'" class="px-2 py-1 rounded-r-lg border-gray-100 border">
+                    {{ $t('common.none')}}
+                </div>
+            </div>
+            <p class="ml-2 text-center mt-2 xl:mt-0 xs:text-xs">{{ formulaList.filter(formula => formula.name ===
+                formulaSelected)[0].description }}</p>
+        </div>
         <div class="flex items-stretch justify-center"
              v-if="distance && duration && defaultDistances.length">
-            <table>
+            <table class="w-full">
                 <tr>
                     <th>{{ $t('calculator.distance') }}</th>
                     <th>{{ $t('predictions.estimated_duration') }}</th>
                 </tr>
                 <tr :key="item.label" v-for="(item) in updatedPredictions">
-                    <td>{{item.label}}</td>
+                    <td class="text-center">{{item.label}}</td>
                     <td class="text-center">{{item.duration}}</td>
                 </tr>
             </table>
@@ -24,48 +44,54 @@
 
 <script>
     import {mapState} from 'vuex'
+    import {prettyDuration} from '../utils/formatData'
+
     export default {
         name: "Prediction",
         data() {
-            return {}
+            return {
+                formulaSelected: 'Riegel',
+                formulaList: [
+                    {name: 'Riegel', description: this.$i18n.t('predictions.riegel_desc')},
+                    {name: 'Williams', description: this.$i18n.t('predictions.williams_desc')},
+                    {name: 'None', description: this.$i18n.t('predictions.none_desc')}
+                ]
+
+            }
         },
         computed: {
-            ...mapState(["defaultDistances", "distance", "duration", "oneFieldMode"]),
+            ...mapState(["distance", "duration", "oneFieldMode"]),
             updatedPredictions() {
-                this.defaultDistances.forEach(element => {
-                    element.duration = this.prettyDuration((this.duration * 3600 * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06) / 3600)
+                let predictions = JSON.parse(JSON.stringify(this.defaultDistances));
+                predictions.forEach(element => {
+                    if (this.formulaSelected === 'Riegel') {
+                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06))
+                    } else if (this.formulaSelected === 'Williams') {
+                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.15))
+                    } else {
+                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.'))))
+
+                    }
                 });
-                return this.defaultDistances.filter(i => (i.distance !== this.distance))
+                return predictions.filter(i => (i.distance !== this.distance))
+            },
+            defaultDistances() {
+                return this.$store.state.defaultDistances
+            },
+            localeChange() {
+                return this.$i18n.locale
             }
         },
-        methods: {
-            prettyDuration: function (duration) {
-                let prettyDuration = '';
-                let hours = duration | 0;
-                let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
-                let seconds = (((duration % 1) * 60) % 1) * 60;
-
-                seconds = !hours && !minutes && seconds >= 1 ? parseFloat((seconds).toFixed(1)) : hours || minutes && seconds >= 1 ? Math.round(seconds) : seconds >= 1 ? seconds.toFixed(1) : 0;
-                if (seconds === 60) {
-                    minutes++, seconds = 0
-                }
-                if (minutes === 60) {
-                    hours++, minutes = 0
-                }
-
-                if (this.oneFieldMode) {
-                    prettyDuration += hours && hours < 10 ? '0' + hours + 'h' : hours ? hours + 'h' : '';
-                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + 'm' : minutes ? minutes + 'm' : '';
-                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds + 's' : seconds ? seconds + 's' : '';
-                } else {
-                    prettyDuration += hours && hours < 10 ? '0' + hours + ':' : hours ? hours + ':' : '00:';
-                    prettyDuration += hours && minutes && minutes < 10 ? '0' + minutes + ':' : minutes < 10 ? '0' + minutes + ':' : minutes ? minutes + ':' : '00:';
-                    prettyDuration += (hours || minutes) && seconds && seconds < 10 ? '0' + seconds : seconds ? seconds : '00';
-                }
-
-                return prettyDuration
+        watch: {
+            localeChange() {
+                this.formulaList = [
+                    {name: 'Riegel', description: this.$i18n.t('predictions.riegel_desc')},
+                    {name: 'Williams', description: this.$i18n.t('predictions.williams_desc')},
+                    {name: 'None', description: this.$i18n.t('predictions.none_desc')}
+                ]
             }
         }
+
     }
 </script>
 
@@ -103,13 +129,12 @@
 
 
     table, th, td {
-        border-collapse: collapse;
-        padding: 5px 5px 5px 5px;
-        @apply border-gray-500;
+        @apply border-gray-500 border-collapse;
     }
 
     th {
-        @apply bg-white text-primary text-left px-3;
+        @apply text-primary text-center text-white border-b-2 px-3 py-1;
+        background-color: rgba(white, 0.2);
     }
 
     table tr:first-child th:first-child {
@@ -123,7 +148,7 @@
     tr {
         @apply border-b;
 
-        &:hover {
+        &:hover :not(th) {
             @apply cursor-default;
             background-color: rgba(#edf2f7, 0.2);
         }

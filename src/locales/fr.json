@@ -1,7 +1,7 @@
 {
   "global": {
     "app_name": "MA Vitesse",
-    "app_subname": "Assistant d'entraînement pour course à pied",
+    "app_subname": "Assistant d'entraînement pour",
     "app_meta_title": "Calcul intelligent de vitesse, durée, distance"
   },
   "common": {
@@ -24,7 +24,12 @@
     "kilometersPerHour": "Kilomètres par heure",
     "milesPerHour": "Miles par heure",
     "minutesPerKm": "Minutes par kilomètre",
-    "minutesPerMile": "Minutes par mile"
+    "minutesPerMile": "Minutes par mile",
+    "live": "direct",
+    "in": "en",
+    "at": "à",
+    "share": "Partager",
+    "none": "Aucune"
   },
   "add_preset": {
     "title": "Ajouter une distance",
@@ -50,11 +55,15 @@
     "title": "Prédictions de course",
     "label_no_calculation": "Effectuer un calcul pour voir les prédictions de course",
     "label_no_distances": "Ajouter une distance via 'Mes distances' pour voir les prédictions de course",
-    "estimated_duration": "Durée estimée"
+    "estimated_duration": "Durée estimée",
+    "riegel_desc": "Formule de Riegel (ingénieur), ratio de 6%",
+    "williams_desc": "Formule de Ian Williams (coureur), ratio de 15%",
+    "none_desc": "Sans formule, projections faites sans ajustement de vitesse"
   },
   "laptime": {
     "title": "Temps de passage",
     "label_no_calculation": "Effectuer un calcul pour voir les temps de passage",
+    "label_max_distance_exceeded": "Oups ! La distance est trop élevée pour faire un calcul.",
     "distance": "@:common.distance",
     "duration": "@:common.duration",
     "traveled_distance": "Distance parcourue",
@@ -112,5 +121,13 @@
   },
   "all_ma": {
     "title": "Toutes nos applications"
+  },
+  "share_ma": {
+    "last_workouts": "Dernières courses"
+  },
+  "updates_alert": {
+    "new_badge": "nouveau",
+    "message_l1": "Vous pouvez désormais partager vos courses au monde entier\n",
+    "message_l2": "Les 7 dernières sont affichées, plus d'options très bientôt !"
   }
 }

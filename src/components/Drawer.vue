@@ -1,11 +1,11 @@
 <template>
-    <transition name="drawer-fade">
-        <div @click="handleClick($event.target)" class="drawer-backdrop z-10" role="dialog">
-            <div class="drawer xl:w-1/3 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
-                <header class="drawer-header text-xl text-white font-bold bg-primary">
+    <transition name="slide-up">
+        <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
+            <div class="drawer xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
+                <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
-                            class="btn noselect-nodrag outline-none" type="button">
+                            class="mv-btn-inverted text-sm" type="button">
                         {{ $t('common.close')}}
                     </button>
                 </header>
@@ -47,25 +47,24 @@
         right: 0;
         display: flex;
         justify-content: center;
-        -webkit-backdrop-filter: blur(3px);
-        backdrop-filter: blur(3px);
         align-items: flex-end;
+        transition: none;
     }
 
     .drawer {
-        @apply shadow-2xl bg-white absolute overflow-x-auto flex flex-col z-10 right-0 h-screen;
+        @apply bg-transparent absolute overflow-x-auto flex flex-col z-40 right-0 h-screen;
+        box-shadow: 0 0 5px rgba(white, 0.8)
     }
 
     .drawer-header {
-        @apply flex p-4 justify-between items-center outline-none;
-    }
-
-    .drawer-footer {
-        border-top: 1px solid #eeeeee;
-        justify-content: flex-end;
+        @apply flex justify-between items-center outline-none;
+        background-color: rgba($ma-primary, 0.4);
+        background-image: linear-gradient(to right, rgba($ma-primary, 0), rgba($ma-primary, 1) 72%);
+        backdrop-filter: blur(1rem);
     }
 
     .drawer-body {
+        @apply bg-white relative h-full;
         position: relative;
         padding: 20px 10px;
         overflow-x: auto;
@@ -86,26 +85,65 @@
     }
 
     .slide-up-enter-active {
-        transition: all .2s ease;
+        transition: 300ms;
     }
 
     .slide-up-leave-active {
-        transition: all 2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        transition: 200ms;
     }
 
-    .slide-up-enter, .slide-fade-leave-to {
-        transform: translateY(100vh);
-        opacity: 0;
+    @screen xs {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(100vw);
+        }
+
+        .drawer-header {
+            @apply px-3 py-2;
+        }
     }
 
-    .drawer-fade-enter,
-    .drawer-fade-leave-active {
-        opacity: 0;
+    @screen sm {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(25vw);
+        }
+
+        .drawer-header {
+            @apply p-3;
+        }
     }
 
-    .drawer-fade-enter-active,
-    .drawer-fade-leave-active {
-        transition: opacity 0.5s ease;
+    @screen md {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(50vw);
+        }
+
+        .drawer-header {
+            @apply p-3;
+        }
+    }
+
+    @screen lg {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(33.3vw);
+        }
+
+        .drawer-header {
+            @apply px-3 py-4;
+        }
+    }
+
+    @screen xl {
+        .slide-up-enter, .slide-up-leave-to {
+            transform: translateX(20vw);
+        }
+
+        .drawer-header {
+            @apply px-3 py-4;
+        }
+
+        .drawer {
+            min-width: 260px;
+        }
     }
 
 </style>

@@ -1,31 +1,36 @@
 <template>
     <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="calculatedField === ''">
-            <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">{{
-                $t('calculator.description')}}</h2>
+            <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">
+                {{ $t('calculator.description')}}</h2>
         </div>
-        <div class="flex h-8 mb-2" v-else>
-            <img alt=" " class="w-8 sm:ml-4 xs:ml-4" src="../assets/icons/timer.svg"/>
-            <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
-                <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">{{ $t('calculator.calculation_label')}}<span
-                        class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
-                </h2>
-                <h2 class="xl:text-xl" v-else> <span
-                        class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
-                    {{ $t('calculator.calculation_label')}}
-                </h2>
-                <span><img @click="clearFields" alt="clear field button"
-                           class="h-3 noselect-nodrag clear-fields-button"
-                           src="../assets/icons/cancel.svg"/></span>
+        <div class="flex justify-between h-8 mb-2" v-else>
+            <div class="flex">
+                <img alt=" " class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
+                <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
+                    <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">{{ $t('calculator.calculation_label')}}<span
+                            class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
+                    </h2>
+                    <h2 class="xl:text-xl" v-else> <span
+                            class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
+                        {{ $t('calculator.calculation_label')}}
+                    </h2>
+                    <span><img @click="clearFields" alt="clear field button"
+                               class="h-2 noselect-nodrag clear-fields-button"
+                               src="../assets/icons/cancel.svg"/></span>
+                </div>
+            </div>
+            <div class="xs:mr-2">
+                <share-social/>
             </div>
         </div>
         <div class="wrapper" style="min-height:3rem;">
             <!-- DURATION -->
             <div class="flex flex-col h-24 noselect-nodrag ">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     @click="focusMe('duration')" class="box self-stretch justify-between shadow-md">
-                    <label for="duration">{{ $t('calculator.duration') }}</label>
+                     class="box self-stretch justify-between shadow-md">
+                    <label @click="focusMe('duration')" for="duration">{{ $t('calculator.duration') }}</label>
                     <div class="w-40">
                         <!-- ONE FIELD mode -->
                         <div class="one-field-mode flex justify-end" v-if="oneFieldMode">
@@ -44,32 +49,29 @@
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
-                                       @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="tel"
-                                       ref="hours"
-                                       v-model="durationHours"/>
+                                       @keydown.down="decrement('durationHours', 'hours')"
+                                       @keydown.up="increment('durationHours', 'hours')" inputmode="numeric"
+                                       pattern="[0-9]*" ref="hours" v-model="durationHours"/>
                                 <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
-                                       @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="tel"
-                                       ref="minutes"
-                                       v-model="durationMinutes"/>
+                                       @keydown.down="decrement('durationMinutes', 'minutes')"
+                                       @keydown.up="increment('durationMinutes', 'minutes')" inputmode="numeric"
+                                       pattern="[0-9]*" ref="minutes" v-model="durationMinutes"/>
                                 <span class="noselect-nodrag self-center">:</span>
                                 <input :disabled="calculatedField === 'duration'"
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
-                                       @focus="focusMe('duration')"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
                                        @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       type="tel"
-                                       ref="seconds"
-                                       v-model="durationSeconds"/>
+                                       @keydown.down="decrement('durationSeconds', 'seconds')"
+                                       @keydown.up="increment('durationSeconds', 'seconds')" inputmode="numeric"
+                                       pattern="[0-9]*" ref="seconds" v-model="durationSeconds"/>
                             </label>
                         </div>
                     </div>
@@ -111,10 +113,10 @@
                                @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
                                @keydown.down="decrement('distance')" @keydown.up="increment('distance')"
-                               inputmode="numeric" pattern="[0-9]*"
+                               inputmode="decimal" pattern="[0-9,.]*"
                                ref="distance" v-model="distance"/>
                         <select @change="unitChange('distance', $event.target.value)"
-                                class="self-center text-right cursor-pointer" v-model="distanceUnit">
+                                class="self-center text-right cursor-pointer" tabindex="-1" v-model="distanceUnit">
                             <option :value="item.short" v-for="item in distanceUnits">{{ item.short }}</option>
                         </select>
                     </div>
@@ -140,10 +142,12 @@
             <div class="flex flex-col h-24">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      class="box speed self-stretch justify-between shadow-md">
-                    <label @click="focusMe('speed')" class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">
+                    <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="speed"
+                           v-if="speedFormat === 'speed'">
                         {{ $t('calculator.speed') }}
                     </label>
-                    <label @click="focusMe('speed')" class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">
+                    <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="pace"
+                           v-if="speedFormat === 'pace'">
                         {{ $t('calculator.pace') }}
                     </label>
                     <div class="flex w-48" style="flex: 0 0 50px">
@@ -152,13 +156,13 @@
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
-                                   id="speed" inputmode="numeric" name="speed" pattern="[0-9]*" ref="speed"
+                                   id="speed" inputmode="decimal" name="speed" pattern="[0-9,.]*" ref="speed"
                                    @keydown.down="decrement('speed')" @keydown.up="increment('speed')"
                                    v-model="speed"/>
                             <select @change="unitChange('speed', $event.target.value)"
-                                    class="self-center text-right cursor-pointer" v-model="speedUnit">
-                                <option :key="item.type" :value="item.short" v-for="item in speedUnits">{{ item.short
-                                    }}
+                                    class="self-center text-right cursor-pointer" tabindex="-1" v-model="speedUnit">
+                                <option :key="item.type" :value="item.short" v-for="item in speedUnits">
+                                    {{ item.short }}
                                 </option>
                             </select>
                         </div>
@@ -169,7 +173,7 @@
                                    class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
                                    ref="speed" v-model="pace"/>
                             <select @change="unitChange('pace', $event.target.value)"
-                                    class="self-center text-right cursor-pointer" v-model="paceUnit">
+                                    class="self-center text-right cursor-pointer" tabindex="-1" v-model="paceUnit">
                                 <option :value="item.short" v-for="item in paceUnits">{{ item.short }}</option>
                             </select>
                         </div>
@@ -186,8 +190,8 @@
                     <span v-if="speedFormat === 'pace'">{{ $t('calculator.speed') }}</span>
                 </div>
             </div>
-
         </div>
+        <share-m-a class="mt-4"/>
         <AddPresetDistance @close="closeAddDistance" v-show="addDistance"/>
         <RemovePresetDistance @close="closeRemoveDistance" v-show="removeDistance"/>
     </div>
@@ -197,11 +201,14 @@
 <script>
     import AddPresetDistance from '@/components/AddPresetDistance'
     import RemovePresetDistance from '@/components/RemovePresetDistance'
+    import ShareMA from "@/components/ShareMA"
+    import ShareSocial from "@/components/ShareSocial"
+
     import {mapState} from 'vuex';
 
     export default {
         name: "Calculator",
-        components: {AddPresetDistance, RemovePresetDistance},
+        components: {ShareMA, AddPresetDistance, RemovePresetDistance, ShareSocial},
         data() {
             return {
                 /* duration */
@@ -405,16 +412,16 @@
                 }
                 localStorage.speedFormat = this.speedFormat
             },
-            focusMe: function (field) {
+            focusMe(field) {
                 // if field clicked eq "distance", shows the preset distances
                 this.showPresetDistances = field === 'distance' && this.calculatedField !== 'distance';
 
-                // exception for threeFieldsMode
-                if (this.oneFieldMode || field !== 'duration') {
+                // exception in 3 fields mode : on clic on box, focus on hours
+                if (!this.oneFieldMode && field !== 'duration') {
                     this.$refs[field].focus();
-                }
+                } else this.$refs[field].focus('hours')
             },
-            updateCursor: function (ref, event) {
+            updateCursor(ref, event) {
                 // to left management (backspace OR left arrow)
                 if (event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft") {
                     if (ref === "minutes" && (this.durationMinutes === "" || this.$refs['minutes'].selectionStart === 0)) {
@@ -432,7 +439,7 @@
                         }
                     }
                     // to right management
-                } else {
+                } else if (event.key === "ArrowRight") {
                     if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
                         event.preventDefault();
                         this.$refs['minutes'].setSelectionRange(0, 0);
@@ -444,8 +451,8 @@
                     }
                 }
             },
-            paceToSpeed: function (pace) {
-                if (pace !== "") {
+            paceToSpeed(pace) {
+                if (pace) {
                     let minutes = 0;
                     let seconds = 0;
                     if (pace.match(/(^\d{1,2})[:]?/g)) {
@@ -478,7 +485,7 @@
                 this.removeDistance = false;
                 this.presetDistances = ""
             },
-            increment(field) {
+            increment(field, ref = null) {
                 if (this[field]) {
                     if (typeof this[field] === 'string') {
                         this[field] = String(parseFloat(this[field].replace(",", ".")) + 1).replace(/[,.]/g, this.separator);
@@ -488,9 +495,14 @@
                 } else {
                     this[field] = "1"
                 }
+                if (ref) {
+                    this.$nextTick(() => {
+                        this.$refs[ref].focus()
+                    });
+                }
                 this.checkFields()
             },
-            decrement(field) {
+            decrement(field, ref = null) {
                 if (this[field] && this[field] >= 1) {
                     if (typeof this[field] === 'string') {
                         this[field] = String(parseFloat(this[field].replace(",", ".")) - 1).replace(/[,.]/g, this.separator);
@@ -499,6 +511,11 @@
                     }
                 } else {
                     this[field] = "0"
+                }
+                if (ref) {
+                    this.$nextTick(() => {
+                        this.$refs[ref].focus()
+                    });
                 }
                 this.checkFields()
             },
@@ -514,9 +531,9 @@
             }
         },
         watch: {
-            duration: function (newVal, oldVal) {
+            duration(newVal, oldVal) {
                 this.duration = String(this.duration);
-                if (this.duration === '') {
+                if (!this.duration) {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
                         this.pace = '';
@@ -555,7 +572,7 @@
                                 this.duration = this.duration.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
                                 this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
                                 this.$nextTick(() => {
-                                    if (this.duration) {
+                                    if (this.duration && this.oneFieldMode) {
                                         this.$refs['duration'].setSelectionRange(0, 0);
                                     }
                                 });
@@ -563,7 +580,7 @@
                             } else if (this.duration.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {
                                 this.duration = this.duration.replace(/([h]?)([0-5]?[0-9])([0-5][0-9](s|$))/g, '$1$3' + this.durationDisplayedUnit);
                                 this.$nextTick(() => {
-                                    if (this.duration.includes('h')) {
+                                    if (this.duration.includes('h') && this.oneFieldMode) {
                                         this.$refs['duration'].setSelectionRange(this.duration.indexOf('h') + 1, this.duration.indexOf('h') + 1);
                                     } else this.$refs['duration'].setSelectionRange(0, 0)
                                 });
@@ -699,7 +716,8 @@
                 this.$store.commit('setSpeed', this.speed);
             },
             pace(newVal, oldVal) {
-                if (this.pace === '') {
+                this.pace = String(this.pace);
+                if (!this.pace) {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
                         this.pace = '';
@@ -731,7 +749,7 @@
                     this.speed = this.paceToSpeed(this.pace)
                 }
             },
-            presetDistances: function (newVal) {
+            presetDistances(newVal) {
                 if (newVal === "addDistance") {
                     this.addDistance = true;
                     this.presetDistances = ""
@@ -746,9 +764,11 @@
                     this.checkFields()
                 }
             },
-            durationHours: function (newVal, oldVal) {
+            durationHours(newVal, oldVal) {
+                this.durationHours = String(this.durationHours);
+
                 // check a durationHours change only if it's not the calculated fields
-                if (this.durationHours !== '' && this.calculatedField !== 'duration') {
+                if (this.durationHours && this.calculatedField !== 'duration') {
                     if (this.durationHours.match(/([0-9]?[0-9])/g)) {
                         // if not exactly match
                         if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
@@ -767,7 +787,8 @@
                 this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
-            durationMinutes: function (newVal, oldVal) {
+            durationMinutes(newVal, oldVal) {
+                this.durationMinutes = String(this.durationMinutes);
                 // check a durationMinutes change only if it's not the calculated fields
                 if (this.durationMinutes !== '' && this.calculatedField !== 'duration') {
                     if (this.durationMinutes.match(/([0-5]?[0-9])/g)) {
@@ -790,7 +811,8 @@
                 this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
-            durationSeconds: function (newVal, oldVal) {
+            durationSeconds(newVal, oldVal) {
+                this.durationSeconds = String(this.durationSeconds);
                 // check a durationSeconds change only if it's not the calculated fields
                 if (this.durationSeconds !== '' && this.calculatedField !== 'duration') {
                     if (this.durationSeconds.match(/([0-5]?[0-9])/g)) {
@@ -842,7 +864,7 @@
         .main-box {
             @apply rounded-none mt-2 w-full;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
@@ -850,7 +872,7 @@
         .main-box {
             @apply rounded-none mt-2 mb-2 w-full;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
@@ -858,7 +880,7 @@
         .main-box {
             @apply rounded-lg m-2;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
@@ -866,14 +888,14 @@
         .main-box {
             @apply rounded-lg my-4 shadow-xl;
             background-color: rgba($ma-secondary, 0.8);
-            backdrop-filter: blur(2px);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
 
     @screen xl {
         .main-box {
             @apply rounded-lg my-4 shadow-xl;
-            background-color: rgba($ma-secondary, 0.8);
+            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
         }
     }
     .main-box {
@@ -943,7 +965,7 @@
         @apply font-bold text-xl bg-transparent;
 
         &::placeholder {
-            @apply font-light text-base;
+            @apply font-light;
         }
     }
 

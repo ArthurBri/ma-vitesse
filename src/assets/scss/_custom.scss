@@ -1,5 +1,5 @@
 .mv-btn {
-  @apply text-primary border rounded-lg p-2 shadow cursor-pointer;
+  @apply text-primary border rounded-lg px-2 py-1 shadow cursor-pointer;
   transition: all 100ms ease;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -10,5 +10,23 @@
 
   &:hover {
     @apply shadow-lg;
+  }
+}
+
+.mv-btn-inverted {
+  @apply text-white border rounded-lg px-2 py-1 shadow cursor-pointer shadow;
+  box-shadow: 0 1px 3px 0px rgba(white, 0.5);
+
+
+  transition: all 100ms ease;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  -webkit-user-drag: none;
+
+  &:hover {
+    box-shadow: 0 5px 15px -3px rgba(white, 0.5);
   }
 }

@@ -1,6 +1,6 @@
 <template>
     <transition name="modal-fade">
-        <div class="allma-modal z-10 fixed left-0 top-0 w-full h-full flex flex-col justify-center content-center"
+        <div class="allma-modal z-50 fixed left-0 top-0 w-full h-full flex flex-col justify-center content-center"
              v-show="isModalVisible">
             <div class="header flex justify-between items-stretch">
                 <div class="header-start"/>
@@ -98,7 +98,7 @@
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
         transition: all 200ms;
-        @apply flex justify-center;
+        @apply flex justify-center z-40;
     }
 
 

@@ -4,15 +4,17 @@
         <div class="bg-gray-200 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
-            <h1 class="text-white leading-tight flex flex-col text-center text-3xl ml-10 mr-10 xs:text-lg xs:m-4 xs:mb-0 sm:text-xl sm:m-3 sm:mb-0 md:text-xl md:mt-2 lg:text-2xl">
-                <span><b>{{ $t('global.app_name') }}</b></span>
+            <h1 class="app-description">
                 <span>{{ $t('global.app_subname') }}</span>
+                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/run.svg"/>
+                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/bike.svg"/>
+                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/hiking.svg"/>
             </h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
                 <Calculator class="mt-12"/>
                 <div class="w-full flex xs:flex-col sm:flex-col md:flex-col justify-center">
                     <transition name="fade">
-                        <div class="tabs-menu w-3/4 mt-5 xs:mt-0 xs:w-full sm:w-full md:w-full" v-if="showTabMenu">
+                        <div class="tabs-menu w-3/4 sm:w-full xs:w-full mt-5 xs:mt-0" v-if="showTabMenu">
                             <div class="tabs flex flex-col xs:flex-row md:flex-row xs:overflow-x-auto overflow-x-auto xl:h-24">
                                 <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
                                              @click.native="setTabActive('laptime')"
@@ -32,7 +34,6 @@
                         </div>
                         <!-- FIN TABS -->
                     </transition>
-                    <Share/>
                 </div>
             </div>
             <Footer/>
@@ -48,11 +49,11 @@
     import Settings from '@/components/Settings'
     import Preloader from '@/components/Preloader'
     import TabMenuItem from '@/components/TabMenuItem'
-    import Share from '@/components/Share'
+    import ShareSocial from '@/components/ShareSocial'
 
     export default {
         name: 'app',
-        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, Share},
+        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial},
         data() {
             return {
                 showPreloader: true,
@@ -60,43 +61,51 @@
             }
         },
         mounted() {
+            // Récupération de la langue de l'app
             this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
             document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             setTimeout(() => {
                 this.showPreloader = false;
             }, 300);
-            this.tabActive = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
+
+            // Définition de l'onglet / tab actif
+            if (localStorage.getItem('activeTab')) {
+                this.tabActive = localStorage.getItem('activeTab')
+            } else {
+                this.tabActive = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
+            }
         },
         computed: {
             showPredictions: {
-                get: function () {
+                get() {
                     return this.$store.state.showPredictions
-                }, set: function (newVal) {
+                }, set(newVal) {
                     this.$store.commit('showPredictions', newVal)
                 }
             },
             showLapTime: {
-                get: function () {
+                get() {
                     return this.$store.state.showLapTime
-                }, set: function (newVal) {
+                }, set(newVal) {
                     this.$store.commit('showLapTime', newVal)
                 }
             },
-            showTabMenu: function () {
+            showTabMenu() {
                 return this.showPredictions || this.showLapTime
             }
         },
         watch: {
-            showPredictions: function () {
+            showPredictions() {
                 this.tabActive = this.showPredictions ? 'predictions' : 'laptime'
             },
-            showLapTime: function () {
+            showLapTime() {
                 this.tabActive = this.showLapTime ? 'laptime' : 'predictions'
             }
         },
         methods: {
-            setTabActive: function (tabToActivate) {
-                this.tabActive = tabToActivate
+            setTabActive(tabToActivate) {
+                this.tabActive = tabToActivate;
+                localStorage.setItem('activeTab', tabToActivate)
             }
         }
     }
@@ -128,19 +137,32 @@
         @apply flex flex-grow flex-wrap ml-0 mb-8 justify-center overflow-auto w-4/6 items-start content-start ;
     }
 
+    .app-description {
+        @apply text-white flex items-center text-center text-3xl mx-5;
+    }
+
     @screen xs {
         .body {
             @apply w-full mb-0;
         }
+
+        .app-description {
+            @apply mt-16 text-base;
+        }
+
     }
 
     @screen sm {
         .body {
-            @apply w-full m-0;
+            @apply w-full;
         }
 
         .tabs-content {
             @apply rounded-r-none;
+        }
+
+        .app-description {
+            @apply mt-20 text-lg;
         }
     }
 
@@ -148,11 +170,25 @@
         .tabs-menu {
             @apply flex-col;
         }
+
+        .app-description {
+            @apply mt-20 text-xl;
+        }
     }
 
     @screen lg {
         .body {
             @apply w-5/6;
+        }
+
+        .app-description {
+            @apply text-2xl mt-20;
+        }
+    }
+
+    @screen xl {
+        .app-description {
+            @apply text-3xl mt-24;
         }
     }
 
@@ -199,10 +235,13 @@
         @apply rounded-b-lg shadow-xl;
         background-color: rgba($ma-primary, 0.8);
         backdrop-filter: blur(2px);
+        z-index: 0;
     }
 
     .tabs-menu {
         @apply flex;
+        z-index: 0;
+
     }
 
     @screen xs {
@@ -213,5 +252,9 @@
         .tabs-content {
             @apply rounded-none rounded-r-none;
         }
+    }
+
+    .white-icon {
+        filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
     }
 </style>

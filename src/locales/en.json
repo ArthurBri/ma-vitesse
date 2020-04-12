@@ -1,7 +1,7 @@
 {
   "global": {
     "app_name": "MA Vitesse",
-    "app_subname": "Training assistant for running",
+    "app_subname": "Training assistant for",
     "app_meta_title": "Smart calculation tool of speed, duration, distance"
   },
   "common": {
@@ -24,7 +24,12 @@
     "kilometersPerHour": "Kilometers per hour",
     "milesPerHour": "Miles per hour",
     "minutesPerKm": "Minutes per kilometer",
-    "minutesPerMile": "Minutes per mile"
+    "minutesPerMile": "Minutes per mile",
+    "live": "live",
+    "in": "in",
+    "at": "at",
+    "share": "Share",
+    "none": "None"
   },
   "add_preset": {
     "title": "Add a distance",
@@ -47,15 +52,19 @@
     "my_distances": "My distances"
   },
   "predictions": {
-    "title": "Running predictions",
-    "label_no_calculation": "Do a calculation to see running predictions",
-    "label_no_distances": "Add a distance via 'My distances' to see running predictions",
+    "title": "Workout predictions",
+    "label_no_calculation": "Do a calculation to see workouts predictions",
+    "label_no_distances": "Add a distance via 'My distances' to see workouts predictions",
     "duration": "@:common.duration",
-    "estimated_duration": "Estimated duration"
+    "estimated_duration": "Estimated duration",
+    "riegel_desc": "Riegel's formula (engineer), 6% ratio",
+    "williams_desc": "Ian Williams' formula (runner), 15% ratio",
+    "none_desc": "No formula is applied, projection with same speed"
   },
   "laptime": {
     "title": "Laptime",
     "label_no_calculation": "Do a calculation to see laptime",
+    "label_max_distance_exceeded": "Oops ! Distance is too high to show laptimes.",
     "distance": "@:common.distance",
     "duration": "@:common.duration",
     "traveled_distance": "Traveled distance",
@@ -85,7 +94,7 @@
     }
   },
   "suggest_feature": {
-    "title": "Proposer une fonctionnalité",
+    "title": "Suggest a feature",
     "description": "MA Vitesse is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
     "suggest_label": "In MA Vitesse, I would like to......",
     "suggest_label_placeholder": "keep a history of my workouts.",
@@ -113,5 +122,13 @@
   },
   "all_ma": {
     "title": "All our apps"
+  },
+  "share_ma": {
+    "last_workouts": "Last workouts"
+  },
+  "updates_alert": {
+    "new_badge": "new",
+    "message_l1": "You can now share your workouts to the whole world !",
+    "message_l2": "7 lasts are shown, more options soon."
   }
 }

@@ -39,6 +39,8 @@ export const store = new Vuex.Store({
         /* Settings */
         showPredictions: true,
         showLapTime: true,
+        showUpdatesAlert: true,
+        currentUpdateAlert: 1,
         oneFieldMode: false,
         lang: 'fr'
     },
@@ -63,6 +65,10 @@ export const store = new Vuex.Store({
         showLapTime(state, show) {
             state.showLapTime = show;
             localStorage.showLapTime = state.showLapTime;
+        },
+        hideUpdatesAlert(state) {
+            state.showUpdatesAlert = false;
+            localStorage.setItem('updatesAlertHidden', JSON.stringify(state.currentUpdateAlert))
         },
         addPresetDistance(state, newPreset) {
             state.defaultDistances.push(newPreset);
@@ -99,6 +105,14 @@ export const store = new Vuex.Store({
 
             if (localStorage.getItem('showLapTime')) {
                 state.showLapTime = JSON.parse(localStorage.getItem('showLapTime'));
+            }
+
+            if (localStorage.getItem('updatesAlertHidden')) {
+                if (JSON.parse(localStorage.getItem('updatesAlertHidden')) !== state.currentUpdateAlert) {
+                    state.showUpdatesAlert = true
+                } else {
+                    state.showUpdatesAlert = false
+                }
             }
 
             if (localStorage.getItem('defaultDistances')) {
