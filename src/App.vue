@@ -54,6 +54,7 @@
     import TabMenuItem from '@/components/TabMenuItem'
     import ShareSocial from '@/components/ShareSocial'
 
+
     export default {
         name: 'app',
         components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial},

@@ -4,6 +4,8 @@ import {store} from './store/store'
 import "@/assets/scss";
 import './registerServiceWorker'
 import i18n from './i18n'
+import 'flag-icon-css/css/flag-icon.css'
+
 
 Vue.config.productionTip = false;
 
