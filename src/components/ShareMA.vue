@@ -10,7 +10,7 @@
         <div class="flex xs:flex-col md:flex-col sm:flex-col lg:flex-col items-center" v-if="lastWorkouts.length">
             <div class="flex xs:mb-2 md:mb-2 sm:mb-2 lg:mb-1" v-if="!calculatedField">
                 <p>{{ $t('share_ma.last_workouts')}}</p>
-                <p class="blink bg-red-600 text-white text-xs rounded-sm px-1 mx-2 self-center">
+                <p class="blink bg-red-700 text-white text-xs rounded-sm px-1 mx-2 self-center">
                     {{ $t('common.live') | capitalize }}</p>
             </div>
             <div class="flex items-center justify-center">
@@ -101,8 +101,6 @@
 <script>
     import {mapState} from 'vuex'
     import {prettyDuration} from '@/utils/formatData'
-    import 'flag-icon-css/css/flag-icon.css'
-
     let moment = require('moment');
 
     export default {

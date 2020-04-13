@@ -1,7 +1,7 @@
 <template>
     <div>
         <preloader v-if="showPreloader"/>
-        <div class="bg-gray-200 background"></div>
+        <div :class="[isSafari ? 'bg-safari' : '']" class="bg-gray-800 background"></div>
         <div id="app" v-if="!showPreloader">
             <Header/>
             <h1 class="app-description">
@@ -60,10 +60,13 @@
         data() {
             return {
                 showPreloader: true,
-                tabActive: ''
+                tabActive: '',
+                isSafari: false
             }
         },
         mounted() {
+            this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
             // Récupération de la langue de l'app
             this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
             document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
@@ -134,6 +137,10 @@
         width: 100vw;
         top: 0;
         height: 100vh;
+    }
+
+    .bg-safari {
+        background: url('assets/wallpp.jpg');
     }
 
     .body {
