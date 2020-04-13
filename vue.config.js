@@ -13,7 +13,8 @@ module.exports = {
             sass: {
                 prependData: `@import "@/assets/scss/_variables.scss";`
             }
-        }
+        },
+        extract: false
     },
 
     pluginOptions: {

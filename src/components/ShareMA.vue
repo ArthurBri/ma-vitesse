@@ -101,7 +101,7 @@
 <script>
     import {mapState} from 'vuex'
     import {prettyDuration} from '@/utils/formatData'
-    import 'flag-icon-css/css/flag-icon.css'
+    require('flag-icon-css/css/flag-icon.css');
 
     let moment = require('moment');
 
