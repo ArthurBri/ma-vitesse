@@ -1,5 +1,5 @@
 <template>
-    <center-modal :footer='false' @close="close" v-show="isModalVisible">
+    <center-modal :footer='false' @close="close" margin_top="30vh" v-show="isModalVisible">
         <template v-slot:header>
             <h2 class="noselect-nodrag">{{ $t('delete_preset.title')}}</h2>
         </template>

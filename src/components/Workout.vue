@@ -1,35 +1,29 @@
 <template>
-    <center-modal :footer='false' @close="close" margin_top="30vh" v-show="isModalVisible">
-        <template v-slot:header>
-            <h2 class="noselect-nodrag">{{ $t('add_preset.title')}}</h2>
-        </template>
+    <center-modal :footer='false' @close="close" v-show="isModalVisible">
+        <template v-slot:header>Activité</template>
         <template class="flex justify-center content-center" v-slot:body>
-            <div class="bg-primary p-2 rounded-l-lg rounded-t-lg flex justify-between">
-                <label class="pr-2 text-white" for="distanceLabel">{{ $t('add_preset.label')}}</label>
-                <input class="pl-4 text-right bg-transparent outline-none text-white" id="distanceLabel"
-                       :placeholder="$t('add_preset.label_eg')" v-model="label"/>
-            </div>
-            <div class="bg-primary p-2 mt-2 rounded-l-lg rounded-t-lg flex justify-between">
-                <label class="pr-2 text-white" for="distanceValue">{{ $t('add_preset.distance')}}</label>
-                <div>
-                    <input class="pl-4 text-right bg-transparent outline-none text-white" id="distanceValue"
-                           placeholder="12.5" v-model="distance"/>
-                    <span class="pl-2 text-white">km</span>
+            <div class="flex flex-col">
+                <div class="flex leading-tight justify-center items-center mb-5">
+                    <span>Ajoutée le <b>16/06/2020</b> en</span>
+                    <span class="ml-2 text-xl flag-icon flag-icon-fr"/>
                 </div>
-
+                <div class="flex">
+                    <div>
+                        <p class="text-xl mx-8 font-light">Durée</p>
+                        <p class="text-3xl mx-8">00:10:10</p>
+                    </div>
+                    <div>
+                        <p class="text-xl mx-8 font-light">Distance</p>
+                        <p class="text-3xl mx-8">10,5km</p>
+                    </div>
+                    <div>
+                        <p class="text-xl mx-8 font-light">Vitesse</p>
+                        <p class="text-3xl mx-8">10,5kmh</p>
+                    </div>
+                </div>
             </div>
-            <div class="flex justify-center" v-if="newDistance && newLabel && distance !=='' && label !== ''">
-                <button @click="addDistance" aria-label="Add distance"
-                        class="btn noselect-nodrag outline-none focus:outline-none rounded-lg mt-2 pl-2 pr-2 pt-1 pb-1 border-primary border"
-                        type="button">
-                    Ajouter
-                </button>
-            </div>
-            <div v-else-if="matchDistanceLabel !== ''">
-                <p class="text-center pt-1 mt-2">Cette distance existe, sous le nom <b>{{matchDistanceLabel}}</b></p>
-            </div>
-            <div v-else-if="matchDistanceValue !== ''">
-                <p class="text-center pt-1 mt-2">Ce nom existe, associé à <b>{{matchDistanceValue}}km</b></p>
+            <div class="flex justify-center my-4">
+                <span class="mv-btn">Utiliser ce workout</span>
             </div>
         </template>
     </center-modal>

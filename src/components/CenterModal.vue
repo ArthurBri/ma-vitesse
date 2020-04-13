@@ -1,7 +1,7 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop" role="dialog">
-            <div class="modal" ref="modal">
+            <div :style="{marginTop : margin_top}" class="modal" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
                     <span @click="close" class="pl-2 icon"><img alt="delete a distance"
@@ -35,6 +35,9 @@
         props: {
             footer: {
                 default: true
+            },
+            margin_top: {
+                default: '10vh'
             }
         }
     }
@@ -83,8 +86,7 @@
         overflow-x: auto;
         display: flex;
         flex-direction: column;
-        align-self: center;
-        justify-self: center;
+        align-self: start;
         z-index: 3;
         border-radius: 13px;
     }
