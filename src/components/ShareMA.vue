@@ -3,7 +3,7 @@
         <div v-if="calculatedField && lastWorkouts.length">
             <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4 xs:mb-2 sm:mb-2 md:mb-2">
                 <span>{{ $t('common.share') }}</span>
-                <img class="chevron animated self-center ml-2"
+                <img alt="Chevron to show more workouts" class="chevron animated self-center ml-2"
                      src="../assets/icons/chevron.svg"/>
             </span>
         </div>
@@ -31,23 +31,23 @@
                             <td class="align-middle">
                                 <img :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
                                      class="primary-icon h-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/rocket.svg"
+                                     alt="Rocket icon" src="../assets/icons/rocket.svg"
                                      v-if="lastWorkouts[0].speed > 140"/>
                                 <img :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
                                      class="primary-icon h-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/bike.svg"
+                                     alt="Bike icon" src="../assets/icons/bike.svg"
                                      v-if="lastWorkouts[0].speed > 20 && lastWorkouts[0].speed <= 40"/>
                                 <img :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
                                      class="primary-icon h-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/car.svg"
+                                     alt="Car icon" src="../assets/icons/car.svg"
                                      v-if="lastWorkouts[0].speed > 40 && lastWorkouts[0].speed < 140"/>
                                 <img :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
                                      class="primary-icon h-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/run.svg"
+                                     alt="Run icon" src="../assets/icons/run.svg"
                                      v-if="lastWorkouts[0].speed > 7 && lastWorkouts[0].speed <= 20"/>
                                 <img :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
                                      class="primary-icon h-4 text-center align-middle"
-                                     src="../assets/icons/walk.svg"
+                                     alt="Walk icon" src="../assets/icons/walk.svg"
                                      v-if="lastWorkouts[0].speed <= 7"/>
                             </td>
                             <td class="xs:hidden sm:hidden md:hidden text-sm align-middle noselect-nodrag">{{
@@ -57,7 +57,7 @@
                         <div class="flex items-center self-center justify-center h-4 opacity-100 px-2"
                              v-if="lastWorkouts.length > 1">
                             <img :class="[!showAllWorkouts ? '' : 'primary-chevron transform rotate-180']"
-                                 class="chevron noselect-nodrag" src="../assets/icons/chevron.svg"/>
+                                 alt="Chevron" class="chevron noselect-nodrag" src="../assets/icons/chevron.svg"/>
                         </div>
                     </div>
                     <div class="bg-white shadow-lg" v-if="lastWorkouts.length > 1">
@@ -72,18 +72,18 @@
                                     {{lastWorkout.speed_unit}}</b></td>
                             <td class="align-middle">
                                 <img class="primary-icon h-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/rocket.svg" v-if="lastWorkout.speed > 140"/>
+                                     alt="Rocket icon" src="../assets/icons/rocket.svg" v-if="lastWorkout.speed > 140"/>
                                 <img class="primary-icon h-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/bike.svg"
+                                     alt="Bike icon" src="../assets/icons/bike.svg"
                                      v-if="lastWorkout.speed > 20 && lastWorkout.speed <= 40"/>
                                 <img class="primary-icon w-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/car.svg"
+                                     alt="Car icon" src="../assets/icons/car.svg"
                                      v-if="lastWorkout.speed > 40 && lastWorkout.speed < 140"/>
                                 <img class="primary-icon w-4 text-center align-middle noselect-nodrag"
-                                     src="../assets/icons/run.svg"
+                                     alt="Run icon" src="../assets/icons/run.svg"
                                      v-if="lastWorkout.speed > 7 && lastWorkout.speed <= 20"/>
                                 <img class="primary-icon w-4 text-center vert align-middle noselect-nodrag"
-                                     src="../assets/icons/walk.svg" v-if="lastWorkout.speed <= 7"/>
+                                     alt="Walk icon" src="../assets/icons/walk.svg" v-if="lastWorkout.speed <= 7"/>
                             </td>
                             <td class="text-center noselect-nodrag xs:hidden sm:hidden md:hidden">{{
                                 lastWorkout.created_date | moment }}
@@ -103,21 +103,12 @@
     import {prettyDuration} from '@/utils/formatData'
     import 'flag-icon-css/css/flag-icon.css'
 
-
     let moment = require('moment');
-    const axios = require('axios');
 
     export default {
         name: "ShareMA",
         mounted() {
             moment.locale(this.$i18n.locale); // 'fr'
-            axios.get('http://ip-api.com/json')
-                .then((response) => {
-                    this.userCountry = response.data.countryCode;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
             this.loadWorkouts();
             setInterval(() => {
                 this.loadWorkouts()
@@ -139,33 +130,48 @@
             shareWorkout() {
                 const axios = require('axios');
                 // Make a request for a user with a given ID
-                axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL;
-                const ax = axios.create();
-                ax.post('/publicworkouts', {
-                    country_code: this.userCountry.toLowerCase(),
-                    distance: parseFloat(this.distance).toFixed(2),
-                    distance_unit: this.distanceUnit,
-                    duration: prettyDuration(this.duration, true),
-                    speed: parseFloat(this.speed).toFixed(2),
-                    speed_unit: this.speedUnit,
-                    created_date: Date.now()
-                }, {
-                    'headers': {'Content-Type': 'application/json'}
-                })
+                const ax = axios.create({
+                    baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
+                });
+
+                let API_KEY = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_IP_GEOLOC_API_KEY : process.env.IP_GEOLOC_API_KEY;
+
+
+                ax.get('https://api.ipgeolocation.io/ipgeo?apiKey=' + API_KEY)
                     .then((response) => {
-                        if (response.status === 201) {
-                            console.log('Workout saved!')
-                        }
+                        this.userCountry = response.data.country_code2 ? response.data.country_code2 : '';
+                        ax.post('/publicworkouts', {
+                            country_code: this.userCountry.toLowerCase(),
+                            distance: parseFloat(this.distance).toFixed(2),
+                            distance_unit: this.distanceUnit,
+                            duration: prettyDuration(this.duration, true),
+                            speed: parseFloat(this.speed).toFixed(2),
+                            speed_unit: this.speedUnit,
+                            created_date: Date.now()
+                        }, {
+                            'headers': {'Content-Type': 'application/json'}
+                        }).then((response) => {
+                            console.log(response);
+                            if (response.status === 201) {
+                                console.log('Workout saved!')
+                            }
+                        })
+                            .catch((error) => {
+                                console.error(error)
+                            })
                     })
                     .catch((error) => {
-                        console.err(error)
+                        console.log(error);
                     });
+
+
             },
             loadWorkouts() {
                 const axios = require('axios');
                 // Make a request for a user with a given ID
-                axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL;
-                const ax = axios.create();
+                const ax = axios.create({
+                    baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
+                });
                 ax.get('/publicworkouts')
                     .then(response => {
                         this.lastWorkouts = response.data;

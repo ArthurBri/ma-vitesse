@@ -161,35 +161,7 @@
         }
     }
 
-    @screen xs {
-        .btn-reset {
-            @apply bg-white text-primary;
-        }
-    }
 
-    @screen sm {
-        .btn-reset {
-            @apply bg-white text-primary;
-        }
-    }
-
-    @screen md {
-        .btn-reset {
-            @apply bg-white text-primary;
-        }
-    }
-
-    @screen lg {
-        .btn-reset {
-            @apply bg-white text-primary;
-        }
-    }
-
-    @screen xl {
-        .btn-reset {
-            @apply bg-white text-primary;
-        }
-    }
 
     .switch {
         position: relative;
@@ -197,7 +169,6 @@
         width: 40px;
         height: 20px;
     }
-
 
     .slider {
         position: absolute;

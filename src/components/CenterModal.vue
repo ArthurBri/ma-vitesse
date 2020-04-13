@@ -113,16 +113,6 @@
         max-height: 40vh;
     }
 
-    .btn-close {
-        border: none;
-        font-size: 20px;
-        padding: 20px;
-        cursor: pointer;
-        font-weight: bold;
-        color: #4aae9b;
-        background: transparent;
-    }
-
     .btn {
         color: white;
         background: $ma-primary;

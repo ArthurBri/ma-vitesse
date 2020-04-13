@@ -153,9 +153,4 @@
             background-color: rgba(#edf2f7, 0.2);
         }
     }
-
-    .close-icon:hover {
-        transform: scale(1.1);
-        cursor: pointer;
-    }
 </style>

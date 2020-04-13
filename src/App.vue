@@ -6,9 +6,12 @@
             <Header/>
             <h1 class="app-description">
                 <span>{{ $t('global.app_subname') }}</span>
-                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/run.svg"/>
-                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/bike.svg"/>
-                <img class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon" src="./assets/icons/hiking.svg"/>
+                <img alt="Run icon" class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon"
+                     src="./assets/icons/run.svg"/>
+                <img alt="Bike icon" class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon"
+                     src="./assets/icons/bike.svg"/>
+                <img alt="Hiking icon" class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon"
+                     src="./assets/icons/hiking.svg"/>
             </h1>
             <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
                 <Calculator class="mt-12"/>
@@ -124,7 +127,7 @@
     }
 
     .background {
-        background: url('assets/wallpp.jpg');
+        background: url('assets/wallpp.webp');
         background-size: cover;
         z-index: -999;
         position: fixed;
@@ -201,32 +204,6 @@
 
         > span {
             cursor: pointer;
-        }
-    }
-
-    .prediction-icon {
-        background-image: url("assets/icons/predictions.svg");
-        background-size: cover;
-        transition: all 200ms;
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background-image: url('./assets/icons/cancel.svg');
-                transform: scale(0.6)
-            }
-        }
-    }
-
-    .laptime-icon {
-        background-image: url("./assets/icons/laptime.svg");
-        background-size: cover;
-        transition: all 200ms;
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background-image: url('./assets/icons/cancel.svg');
-                transform: scale(0.6)
-            }
         }
     }
 

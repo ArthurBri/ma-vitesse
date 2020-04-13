@@ -5,23 +5,27 @@
             <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
                 <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg rounded-lg noselect-nodrag cursor-pointer">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'distance'" class="px-2 py-1 rounded-t-lg border-gray-100 border">
+                         @click="laptime_type = 'distance'"
+                         class="px-2 py-1 text-center rounded-t-lg border-gray-100 border">
                         {{ $t('laptime.distance')}}
                     </div>
                     <div :class="[laptime_type === 'duration' ? 'text-primary bg-white font-bold' : '']"
-                         @click="laptime_type = 'duration'" class="px-2 py-1 rounded-b-lg border-gray-100 border ">
+                         @click="laptime_type = 'duration'"
+                         class="px-2 py-1 text-center rounded-b-lg border-gray-100 border ">
                         {{ $t('laptime.duration')}}
                     </div>
                 </div>
                 <div class="laptime-end flex content-center border border-gray-200  mt-6 xs:mt-0 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 shadow-lg">
+                    <label aria-label="Switch between distance steps" for="distance-step"/>
                     <select class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
-                            v-if="laptime_type === 'distance'" v-model="selected_distance_step">
+                            id="distance-step" v-if="laptime_type === 'distance'" v-model="selected_distance_step">
                         <option :key="step.label" :value="step.value" v-for="step in distance_steps">
                             <b>{{ step.label }}</b>
                         </option>
                     </select>
+                    <label aria-label="Switch between duration steps" for="duration-steps"/>
                     <select class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
-                            v-if="laptime_type === 'duration'" v-model="selected_duration_step">
+                            id="duration-steps" v-if="laptime_type === 'duration'" v-model="selected_duration_step">
                         <option :value="step.value" v-for="step in time_steps">
                             {{ step.label }}
                         </option>
@@ -29,8 +33,8 @@
                 </div>
                 <div @click="switchLaptimeSort"
                      class="shadow-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 mt-6 xs:mt-0 sm:mt-0 md:mt-0 px-2 py-1 border border-gray-200 rounded-lg flex justify-center cursor-pointer noselect-nodrag">
-                    <img class="h-6" src="../assets/icons/sort-asc.svg" v-if="laptime_sort === 'desc'">
-                    <img class="h-6" src="../assets/icons/sort-desc.svg" v-else>
+                    <img alt="Sort asc" class="h-6" src="../assets/icons/sort-asc.svg" v-if="laptime_sort === 'desc'">
+                    <img alt="Sort desc" class="h-6" src="../assets/icons/sort-desc.svg" v-else>
                 </div>
             </div>
             <div class="w-full">
