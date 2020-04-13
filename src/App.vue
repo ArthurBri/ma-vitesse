@@ -127,7 +127,7 @@
     }
 
     .background {
-        background: url('assets/wallpp.jpg');
+        background: url('assets/wallpp.webp');
         background-size: cover;
         z-index: -999;
         position: fixed;
