@@ -70,16 +70,4 @@
         transition: all 100ms;
         transform: scale(1.20);
     }
-
-    @screen xs {
-        .share-box {
-            @apply rounded-none;
-        }
-    }
-
-    @screen sm {
-        .share-box {
-            @apply rounded-none;
-        }
-    }
 </style>

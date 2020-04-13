@@ -19,7 +19,8 @@
                             <span class="font-semibold text-left flex-auto">{{ $t('updates_alert.message_l1')}}</span>
                             <span class="text-left flex-auto">{{ $t('updates_alert.message_l2')}}</span>
                         </div>
-                        <img @click="hideUpdatesAlert" class="h-3 cursor-pointer" src="../assets/icons/cancel.svg"/>
+                        <img @click="hideUpdatesAlert" alt="Cancel icon" class="h-3 cursor-pointer"
+                             src="../assets/icons/cancel.svg"/>
                     </div>
                 </div>
             </div>

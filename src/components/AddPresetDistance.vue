@@ -130,13 +130,4 @@
         }
     }
 
-    .close-icon {
-        transition: all 200ms;
-        cursor: pointer;
-
-        &:hover {
-            transform: scale(1.2);
-        }
-    }
-
 </style>

@@ -115,7 +115,8 @@
                                @keydown.down="decrement('distance')" @keydown.up="increment('distance')"
                                inputmode="decimal" pattern="[0-9,.]*"
                                ref="distance" v-model="distance"/>
-                        <select @change="unitChange('distance', $event.target.value)"
+                        <label aria-label="Switch between distance units" for="distance-unit"/>
+                        <select @change="unitChange('distance', $event.target.value)" id="distance-unit"
                                 class="self-center text-right cursor-pointer" tabindex="-1" v-model="distanceUnit">
                             <option :value="item.short" v-for="item in distanceUnits">{{ item.short }}</option>
                         </select>
@@ -159,7 +160,8 @@
                                    id="speed" inputmode="decimal" name="speed" pattern="[0-9,.]*" ref="speed"
                                    @keydown.down="decrement('speed')" @keydown.up="increment('speed')"
                                    v-model="speed"/>
-                            <select @change="unitChange('speed', $event.target.value)"
+                            <label aria-label="Switch between speed units" for="speed-unit"/>
+                            <select @change="unitChange('speed', $event.target.value)" id="speed-unit"
                                     class="self-center text-right cursor-pointer" tabindex="-1" v-model="speedUnit">
                                 <option :key="item.type" :value="item.short" v-for="item in speedUnits">
                                     {{ item.short }}
@@ -172,7 +174,8 @@
                                    @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
                                    ref="speed" v-model="pace"/>
-                            <select @change="unitChange('pace', $event.target.value)"
+                            <label aria-label="Switch between pace units" for="pace-unit"/>
+                            <select @change="unitChange('pace', $event.target.value)" id="pace-unit"
                                     class="self-center text-right cursor-pointer" tabindex="-1" v-model="paceUnit">
                                 <option :value="item.short" v-for="item in paceUnits">{{ item.short }}</option>
                             </select>
@@ -937,12 +940,6 @@
 
     .box:hover(:not(calculated)) {
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    }
-
-    .footer {
-        height: 5vh;
-        margin-top: auto;
-        text-align: center;
     }
 
     .icon {

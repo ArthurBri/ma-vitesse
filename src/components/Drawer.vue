@@ -1,5 +1,5 @@
 <template>
-    <transition name="slide-up">
+    <transition name="slide-left">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
             <div class="drawer xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
                 <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
@@ -35,10 +35,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .btn {
-        @apply px-2 py-1 rounded-lg text-base cursor-pointer;
-    }
-
     .drawer-backdrop {
         position: fixed;
         top: 0;
@@ -70,30 +66,16 @@
         overflow-x: auto;
     }
 
-    .btn-close {
-        border: none;
-        font-size: 20px;
-        padding: 20px;
-        cursor: pointer;
-        font-weight: bold;
-        color: #4aae9b;
-        background: transparent;
-    }
-
-    .btn {
-        @apply text-white bg-primary border border-white rounded;
-    }
-
-    .slide-up-enter-active {
+    .slide-left-enter-active {
         transition: 300ms;
     }
 
-    .slide-up-leave-active {
+    .slide-left-leave-active {
         transition: 200ms;
     }
 
     @screen xs {
-        .slide-up-enter, .slide-up-leave-to {
+        .slide-left-enter, .slide-left-leave-to {
             transform: translateX(100vw);
         }
 
@@ -103,7 +85,7 @@
     }
 
     @screen sm {
-        .slide-up-enter, .slide-up-leave-to {
+        .slide-left-enter, .slide-left-leave-to {
             transform: translateX(25vw);
         }
 
@@ -113,7 +95,7 @@
     }
 
     @screen md {
-        .slide-up-enter, .slide-up-leave-to {
+        .slide-left-enter, .slide-left-leave-to {
             transform: translateX(50vw);
         }
 
@@ -123,7 +105,7 @@
     }
 
     @screen lg {
-        .slide-up-enter, .slide-up-leave-to {
+        .slide-left-enter, .slide-left-leave-to {
             transform: translateX(33.3vw);
         }
 
@@ -133,7 +115,7 @@
     }
 
     @screen xl {
-        .slide-up-enter, .slide-up-leave-to {
+        .slide-left-enter, .slide-left-leave-to {
             transform: translateX(20vw);
         }
 

@@ -16,7 +16,7 @@
                     <span @click="isModalSuggestFeature = true" class="mv-btn">{{ $t('about.btn_feature') }}</span>
 
                 </div>
-                <a class="mt-2" href="https://www.patreon.com/bePatron?u=27939606" target="_blank">
+                <a class="mt-2" href="https://www.patreon.com/bePatron?u=27939606" rel="noreferrer" target="_blank">
                     <span class="mv-btn">{{ $t('about.btn_support') }}</span>
                 </a>
 
@@ -25,9 +25,8 @@
 
             </p>
             <p class="ml-5 mr-5 mt-5 text-base text-center">
-      <span class="text-primary h-6 sm:hidden xs:hidden">v{{ version }} - {{ $t('about.initiated_by') }} <a class="link"
-                                                                                                            href="https://www.linkedin.com/in/arthur-bri%C3%A8re/"
-                                                                                                            target="_blank">Arthur Brière</a></span>
+      <span class="text-primary h-6 sm:hidden xs:hidden">v{{ version }} - {{ $t('about.initiated_by') }}
+          <a class="link" href="https://www.linkedin.com/in/arthur-bri%C3%A8re/" rel="noreferrer" target="_blank">Arthur Brière</a></span>
             </p>
             <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature"/>
         </template>
