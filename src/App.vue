@@ -66,7 +66,6 @@
         },
         mounted() {
             this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            console.log(this.isSafari);
 
             // Récupération de la langue de l'app
             this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
