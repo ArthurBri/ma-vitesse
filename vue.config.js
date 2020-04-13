@@ -1,5 +1,3 @@
-import "~flag-icon-css/css/flag-icon.min.css";
-
 module.exports = {
     chainWebpack: config => {
         if (process.env.NODE_ENV === 'development') {
@@ -13,7 +11,7 @@ module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                prependData: `@import "@/assets/scss/_variables.scss";`
+                prependData: `@import "@/assets/scss/_variables.scss";`,
             }
         }
     },

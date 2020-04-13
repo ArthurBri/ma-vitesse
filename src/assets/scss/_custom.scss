@@ -1,3 +1,7 @@
+/* purgecss start ignore */
+@import "~flag-icon-css/css/flag-icon.min.css";
+/* purgecss end ignore */
+
 .mv-btn {
   @apply text-primary border rounded-lg px-2 py-1 shadow cursor-pointer;
   transition: all 100ms ease;
