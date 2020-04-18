@@ -5,7 +5,11 @@ const PublicWorkout = require('../models/publicworkout');
 // Getting all Public Workouts
 router.get('/', async (req, res) => {
     try {
-        const publicworkout = await PublicWorkout.find();
+        let publicworkout = await PublicWorkout.find();
+        if (req.query.limit) {
+            publicworkout.sort((a, b) => b.created_date - a.created_date);
+            publicworkout = publicworkout.slice(0, req.query.limit);
+        }
         res.json(publicworkout)
     } catch (err) {
         res.status(500).json({message: err.message})

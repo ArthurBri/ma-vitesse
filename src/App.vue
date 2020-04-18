@@ -39,9 +39,9 @@
                     </transition>
                 </div>
             </div>
+            <router-view/>
             <Footer/>
         </div>
-        <workout v-show="false"/>
     </div>
 </template>
 
@@ -54,11 +54,9 @@
     import Preloader from '@/components/Preloader'
     import TabMenuItem from '@/components/TabMenuItem'
     import ShareSocial from '@/components/ShareSocial'
-    import Workout from '@/components/Workout'
-
     export default {
         name: 'app',
-        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial, Workout},
+        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial},
         data() {
             return {
                 showPreloader: true,

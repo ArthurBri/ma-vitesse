@@ -128,7 +128,17 @@
   },
   "updates_alert": {
     "new_badge": "new",
-    "message_l1": "You can now share your workouts to the whole world !",
-    "message_l2": "7 lasts are shown, more options soon."
+    "message_l1": "You can now share your workouts with a link.",
+    "message_l2": "Share your performances to your relatives or your fans !"
+  },
+  "workout": {
+    "activity_resume": "Activity Resume",
+    "added_on": "Added on",
+    "in": "in",
+    "edit_this_workout": "Edit this workout",
+    "add_workout": "Add a workout",
+    "no_workout_1": "Oops, this link doesn't seem to match with a workout.",
+    "no_workout_2": "Not a problem,",
+    "add_one": "add one now !"
   }
 }

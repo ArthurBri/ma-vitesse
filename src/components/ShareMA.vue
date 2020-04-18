@@ -21,7 +21,7 @@
                         <tr>
                             <td class="align-middle">
                                  <span :class="'flag-icon-' + lastWorkouts[0].country_code"
-                                       class="h-4 flag-icon" v-if="lastWorkouts[0].country_code"/></td>
+                                       class="flag-icon" v-if="lastWorkouts[0].country_code"/></td>
                             <td class="noselect-nodrag xs:text-xs align-middle text-sm">
                                 <b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].distance_unit }}</b>
                                 {{ $t('common.in') }} <b>
@@ -56,7 +56,7 @@
                         </tr>
                         <div class="flex items-center self-center justify-center h-4 opacity-100 px-2"
                              v-if="lastWorkouts.length > 1">
-                            <img :class="[!showAllWorkouts ? '' : 'primary-chevron transform rotate-180']"
+                            <img :class="[!showAllWorkouts ? 'transform -rotate-90' : 'primary-chevron']"
                                  alt="Chevron" class="chevron noselect-nodrag" src="../assets/icons/chevron.svg"/>
                         </div>
                     </div>
@@ -100,7 +100,6 @@
 
 <script>
     import {mapState} from 'vuex'
-    import {prettyDuration} from '@/utils/formatData'
     let moment = require('moment');
 
     export default {
@@ -133,8 +132,6 @@
                 });
 
                 let API_KEY = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_IP_GEOLOC_API_KEY : process.env.IP_GEOLOC_API_KEY;
-
-
                 ax.get('https://api.ipgeolocation.io/ipgeo?apiKey=' + API_KEY)
                     .then((response) => {
                         this.userCountry = response.data.country_code2 ? response.data.country_code2 : '';
@@ -142,7 +139,7 @@
                             country_code: this.userCountry.toLowerCase(),
                             distance: parseFloat(this.distance).toFixed(2),
                             distance_unit: this.distanceUnit,
-                            duration: prettyDuration(this.duration, true),
+                            duration: this.duration,
                             speed: parseFloat(this.speed).toFixed(2),
                             speed_unit: this.speedUnit,
                             created_date: Date.now()
@@ -170,10 +167,9 @@
                 const ax = axios.create({
                     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
                 });
-                ax.get('/publicworkouts')
+                ax.get('/publicworkouts?limit=7')
                     .then(response => {
                         this.lastWorkouts = response.data;
-                        this.lastWorkouts.sort((a, b) => b.created_date - a.created_date)
                     })
                     .catch((error) => {
                         console.log(error);
@@ -240,7 +236,7 @@
     }
 
     .chevron {
-        transition: all 300ms linear;
+        transition: transform 200ms ease-in-out;
         cursor: pointer;
         @apply h-4;
     }
@@ -304,14 +300,14 @@
 
     @screen lg {
         .chevron.animated {
-            @apply -rotate-90 transform;
+            @apply rotate-90 transform;
             animation: move-right 2000ms infinite;
         }
     }
 
     @screen xl {
         .chevron.animated {
-            @apply -rotate-90 transform;
+            @apply rotate-90 transform;
             animation: move-right 2000ms infinite;
         }
     }

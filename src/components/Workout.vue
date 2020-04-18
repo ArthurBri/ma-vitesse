@@ -1,29 +1,53 @@
 <template>
     <center-modal :footer='false' @close="close" v-show="isModalVisible">
-        <template v-slot:header>Activité</template>
+        <template v-slot:header>
+            <div class="flex flex-col items-left leading-tight">
+                {{ $t('workout.activity_resume') }}
+                <span class="text-xs font-light text-gray-600">{{ $route.params.id }}</span>
+            </div>
+        </template>
         <template class="flex justify-center content-center" v-slot:body>
-            <div class="flex flex-col">
-                <div class="flex leading-tight justify-center items-center mb-5">
-                    <span>Ajoutée le <b>16/06/2020</b> en</span>
-                    <span class="ml-2 text-xl flag-icon flag-icon-fr"/>
-                </div>
-                <div class="flex">
-                    <div>
-                        <p class="text-xl mx-8 font-light">Durée</p>
-                        <p class="text-3xl mx-8">00:10:10</p>
+            <div v-if="workout">
+                <div class="flex flex-col">
+                    <div class="flex mb-10 xs:mb-0 xs:flex-col xs:justify-center xs:items-center sm:flex-wrap sm:justify-center">
+                        <div class="xs:mb-5">
+                            <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
+                                $t('common.duration') }}</p>
+                            <p class="text-3xl mx-8 xs:mx-0 xs:text-3xl">{{ workout.duration }}</p>
+                        </div>
+                        <div class="xs:mb-5">
+                            <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
+                                $t('common.distance') }}</p>
+                            <p class="text-3xl mx-8">{{ workout.distance }} {{ workout.distance_unit}}</p>
+                        </div>
+                        <div class="xs:mb-5">
+                            <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
+                                $t('common.speed')}}</p>
+                            <p class="text-3xl mx-8">{{ workout.speed }} {{ workout.speed_unit}}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-xl mx-8 font-light">Distance</p>
-                        <p class="text-3xl mx-8">10,5km</p>
-                    </div>
-                    <div>
-                        <p class="text-xl mx-8 font-light">Vitesse</p>
-                        <p class="text-3xl mx-8">10,5kmh</p>
+                    <div class="flex leading-tight justify-center items-center">
+                        <span class="xs:text-sm">{{ $t('workout.added_on') }}
+                            <b>{{ workout.created_date }}</b> {{ $t('workout.in') }}</span>
+                        <span :class="'flag-icon-' + workout.country_code" class="ml-2 text-xl flag-icon"/>
                     </div>
                 </div>
             </div>
+            <div class="flex flex-col items-center m-4 mb-8" v-else>
+                <span>{{ $t('workout.no_workout_1') }}</span>
+                <span>{{ $t('workout.no_workout_2') }}<b> {{ $t('workout.add_one') }}</b></span>
+            </div>
             <div class="flex justify-center my-4">
-                <span class="mv-btn">Utiliser ce workout</span>
+                <div @click="useWorkout" class="mv-btn">
+                    <div class="flex items-center" v-if="workout">
+                        <img class="h-4 mr-2 px-1 primary-icon" src="../assets/icons/edit.svg"/>
+                        <span>{{ $t('workout.edit_this_workout') }}</span>
+                    </div>
+                    <div class="flex items-center" v-else>
+                        <img class="h-4 mr-2 px-1 primary-icon" src="../assets/icons/run.svg"/>
+                        <span>{{ $t('workout.add_workout') }}</span>
+                    </div>
+                </div>
             </div>
         </template>
     </center-modal>
@@ -31,85 +55,51 @@
 
 <script>
     import CenterModal from '@/components/CenterModal'
+    import {prettyDuration} from '@/utils/formatData'
+    import {mapState} from 'vuex'
 
     export default {
-        name: "Settings",
+        name: "Workout",
         data() {
             return {
                 isModalVisible: true,
-                label: '',
-                distance: '',
-                newDistance: true,
-                newLabel: true,
-                matchDistanceLabel: '',
-                matchDistanceValue: ''
+                workout: {}
             }
         },
         components: {CenterModal},
         mounted() {
+            const axios = require('axios');
+            const moment = require('moment');
+            // Make a request for a user with a given ID
+            const ax = axios.create({
+                baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
+            });
+            ax.get('/publicworkouts/' + this.$route.params.id)
+                .then(response => {
+                    this.workout = response.data;
+                    this.workout.created_date = moment(this.workout.created_date.format).format('L');
+                    this.workout.duration = prettyDuration(this.workout.duration, this.oneFieldMode)
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.workout = ''
+                })
         },
         methods: {
             close() {
+                this.isModalVisible = false;
                 this.$emit('close');
             },
-            addDistance() {
-                this.$store.commit('addPresetDistance', {label: this.label, distance: this.distance});
-                this.label = '';
-                this.distance = '';
-                this.close();
+            useWorkout() {
+                if (this.workout) {
+                    this.$store.commit('setSpeed', this.workout.speed);
+                    this.$store.commit('setDistance', this.workout.distance);
+                }
+                // this.$store.commit('setDuration','1');
+                this.close()
             }
         },
-        watch: {
-            label: function (newVal, oldVal) {
-                this.label = newVal.length > 30 ? oldVal : newVal;
-
-                if (this.$store.state.defaultDistances.find(defaultDist =>
-                    defaultDist.label === this.label)) {
-                    this.newDistance = false;
-                    this.matchDistanceValue = this.$store.state.defaultDistances.find(defaultDist =>
-                        defaultDist.label === this.label).distance;
-                    console.log(this.matchDistanceValue)
-                } else {
-                    this.newDistance = true;
-                    this.matchDistanceValue = '';
-                }
-
-            },
-            distance: function (newVal, oldVal) {
-                if (this.distance !== '') {
-                    // check leading zero is followed by zero or , / .
-                    if (this.distance.match(/^0{2,}(?![.,])/g)) {
-                        // if yes : cancelling the input
-                        this.distance = oldVal
-                    }
-                    // removing all others leading zeros by
-                    this.distance = this.distance.replace(/^0([0-9]+)/g, '$1');
-
-                    // if distance matches at least partially with the pattern ?
-                    if (this.distance.match(/\d{0,9}([.,]\d{0,4})?/g)) {
-                        // if not exactly match
-                        if (this.distance.match(/\d{0,9}([.,]\d{0,4})?/g)[0] !== this.distance) {
-                            // cancelling the input
-                            this.distance = oldVal
-                        }
-                        // else : cancelling the input
-                    } else {
-                        this.distance = oldVal;
-                        this.matchDistanceLabel = '';
-
-                    }
-                }
-                if (this.$store.state.defaultDistances.find(defaultDist =>
-                    defaultDist.distance === this.distance)) {
-                    this.newLabel = false;
-                    this.matchDistanceLabel = this.$store.state.defaultDistances.find(defaultDist =>
-                        defaultDist.distance === this.distance).label;
-                } else {
-                    this.newLabel = true;
-                    this.matchDistanceLabel = '';
-                }
-            }
-        }
+        computed: mapState(['oneFieldMode'])
     }
 </script>
 

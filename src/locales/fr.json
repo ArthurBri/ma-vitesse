@@ -127,7 +127,17 @@
   },
   "updates_alert": {
     "new_badge": "nouveau",
-    "message_l1": "Vous pouvez désormais partager vos courses au monde entier\n",
-    "message_l2": "Les 7 dernières sont affichées, plus d'options très bientôt !"
+    "message_l1": "Vous pouvez désormais partager vos courses via un lien.",
+    "message_l2": "Partagez vos exploits à votre entourage ou vos fans !"
+  },
+  "workout": {
+    "activity_resume": "Résumé d'activité",
+    "added_on": "Ajoutée le",
+    "in": "en",
+    "edit_this_workout": "Editer cette course",
+    "add_workout": "Ajouter une course",
+    "no_workout_1": "Oups, ce lien n'a pas l'air d'être associé à une course.",
+    "no_workout_2": "Aucun souci,",
+    "add_one": "ajoutez en une maintenant !"
   }
 }

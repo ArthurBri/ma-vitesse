@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
+const shortid = require('shortid');
 
 const publicWorkoutSchema = new mongoose.Schema({
+    _id: {
+        type: String,
+        default: shortid.generate
+    },
     country_code: {
         type: String,
         required: true

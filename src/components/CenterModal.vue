@@ -1,12 +1,12 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop" role="dialog">
-            <div :style="{marginTop : margin_top}" class="modal" ref="modal">
+            <div :style="{marginTop : margin_top}" class="modal xs:w-full sm:w-full" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
-                    <span @click="close" class="pl-2 icon"><img alt="delete a distance"
-                                                                class="icon-close w-4 noselect-nodrag"
-                                                                src="../assets/icons/cancel.svg"/></span>
+                    <span @click="close" class="pl-2 icon self-start m-1"><img alt="delete a distance"
+                                                                               class="icon-close w-4 noselect-nodrag"
+                                                                               src="../assets/icons/cancel.svg"/></span>
                 </header>
                 <section class="modal-body text-primary">
                     <slot name="body"/>
@@ -112,7 +112,7 @@
         position: relative;
         padding: 20px 10px;
         overflow-x: auto;
-        max-height: 40vh;
+        max-height: 400px;
     }
 
     .btn {

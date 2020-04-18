@@ -30,16 +30,15 @@
             <div class="flex flex-col h-24 noselect-nodrag ">
                 <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
                      class="box self-stretch justify-between shadow-md">
-                    <label @click="focusMe('duration')" for="duration">{{ $t('calculator.duration') }}</label>
+                    <label @click="focusMe('duration')" for="durationString">{{ $t('calculator.duration') }}</label>
                     <div class="w-40">
                         <!-- ONE FIELD mode -->
                         <div class="one-field-mode flex justify-end" v-if="oneFieldMode">
                             <!-- Field for 1 field mode -->
-                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('duration')"
-                                   @keyup="checkFields($event)"
+                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('durationString')"
                                    autocomplete="off"
-                                   class="w-28 text-right pr-1" id="duration" ref="duration"
-                                   v-model="duration"/>
+                                   class="w-28 text-right pr-1" id="durationString" ref="durationString"
+                                   v-model="durationString"/>
                             <span class="noselect-nodrag self-center">{{ durationDisplayedUnit }}</span>
                         </div>
                         <!-- THREE FIELDS mode -->
@@ -50,8 +49,7 @@
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
                                        @keydown.delete.left.right="updateCursor('hours',$event)"
-                                       @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
-                                       @keydown.down="decrement('durationHours', 'hours')"
+                                       @keydown.down="decrement('durationHours', 'hours')" autocomplete="off"
                                        @keydown.up="increment('durationHours', 'hours')" ref="hours"
                                        inputmode="numeric" pattern="[0-9]*" v-model="durationHours"/>
                                 <span class="noselect-nodrag self-center">:</span>
@@ -59,7 +57,7 @@
                                        class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
                                        @keydown.delete.left.right="updateCursor('minutes',$event)"
-                                       @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                                       autocomplete="off"
                                        @keydown.down="decrement('durationMinutes', 'minutes')"
                                        @keydown.up="increment('durationMinutes', 'minutes')" ref="minutes"
                                        inputmode="numeric" pattern="[0-9]*" v-model="durationMinutes"/>
@@ -68,7 +66,7 @@
                                        class="w-10 pl-1 pr-1 text-center number-input"
                                        :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
                                        @keydown.delete.left.right="updateCursor('seconds',$event)"
-                                       @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                                       autocomplete="off"
                                        @keydown.down="decrement('durationSeconds', 'seconds')"
                                        @keydown.up="increment('durationSeconds', 'seconds')" ref="seconds"
                                        inputmode="numeric" pattern="[0-9]*" v-model="durationSeconds"/>
@@ -110,7 +108,7 @@
                     <label @click="focusMe('distance')" for="distance">{{ $t('calculator.distance') }}</label>
                     <div class="flex">
                         <input :disabled="calculatedField === 'distance'" @focus="showPresetDistances = true"
-                               @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                               autocomplete="off"
                                class="text-right pr-1 number-input w-32" id="distance" name="distance" onblur=""
                                @keydown.down="decrement('distance')" @keydown.up="increment('distance')"
                                inputmode="decimal" pattern="[0-9,.]*"
@@ -124,7 +122,7 @@
                 </div>
                 <label class="box-option preset-distances noselect-nodrag"
                        v-show="showPresetDistances">
-                    <select @change="checkFields" class="cursor-pointer" tabindex="-1" v-model="presetDistances">
+                    <select class="cursor-pointer" tabindex="-1" v-model="presetDistances">
                         <option disabled value="">{{ $t('calculator.my_distances')}}</option>
                         <option v-bind:value="preset.label" v-for="preset in $store.state.defaultDistances">
                             {{ preset.label }}
@@ -155,7 +153,7 @@
                         <!-- Speed display -->
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                                   @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                                   autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32 number-input"
                                    id="speed" inputmode="decimal" name="speed" pattern="[0-9,.]*" ref="speed"
                                    @keydown.down="decrement('speed')" @keydown.up="increment('speed')"
@@ -171,7 +169,7 @@
                         <!-- Pace display -->
                         <div class="flex items-stretch justify-end" v-if="speedFormat === 'pace'">
                             <input :disabled="calculatedField === 'speed'" @focus="showPresetDistances = false"
-                                   @change="checkFields($event)" @keyup="checkFields($event)" autocomplete="off"
+                                   autocomplete="off"
                                    class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
                                    ref="speed" v-model="pace"/>
                             <label aria-label="Switch between pace units" for="pace-unit"/>
@@ -215,7 +213,7 @@
         data() {
             return {
                 /* duration */
-                duration: '',
+                durationString: '',
                 durationDisplayed: '',
                 durationDisplayedUnit: 'h',
                 oneFieldMode: false,
@@ -223,11 +221,9 @@
                 durationMinutes: '',
                 durationSeconds: '',
                 /* distance */
-                distance: '',
                 presetDistances: '',
                 showPresetDistances: false,
                 /* speed */
-                speed: '',
                 pace: '',
                 speedFormat: 'speed',
                 calculatedField: '',
@@ -238,6 +234,33 @@
         },
         computed: {
             ...mapState(["unitMode", "unitMultipliers", "distanceUnit", "distanceUnits", "speedUnit", "speedUnits", "paceUnit", "paceUnits"]),
+            speed: {
+                get() {
+                    return this.$store.state.speed
+                },
+                set(val) {
+                    this.$store.commit('setSpeed', val)
+
+                }
+            },
+            distance: {
+                get() {
+                    return this.$store.state.distance
+                },
+                set(val) {
+                    this.$store.commit('setDistance', val)
+
+                }
+            },
+            duration: {
+                get() {
+                    return this.$store.state.duration
+                },
+                set(val) {
+                    this.$store.commit('setDuration', val)
+
+                }
+            },
             speedUnit: {
                 get() {
                     return this.$store.state.speedUnit
@@ -258,15 +281,13 @@
                 },
                 set() {
                 }
+            },
+            handleCheckField() {
+                return [this.distance, this.duration, this.speed, this.durationHours, this.durationMinutes, this.durationSeconds, this.pace].join('')
             }
         },
         methods: {
-            checkFields(event) {
-                if (event) {
-                    if (event.key === 'Shift') {
-                        return
-                    }
-                }
+            checkFields() {
                 // separator set depending the one used in input
                 if (this.calculatedField === 'distance') {
                     this.separator = this.speed.includes(",") ? "," : this.speed.includes(".") ? "." : this.separator;
@@ -274,28 +295,29 @@
                     this.separator = this.distance.includes(",") ? "," : this.distance.includes(".") ? "." : this.separator;
                 }
 
+                let dis = !!this.distance;
+                let dur = !!this.duration || (!!this.durationHours || !!this.durationSeconds || !!this.durationMinutes);
+                let spe = !!this.speed || !!this.pace;
+
                 // SPEED calculation
-                if (this.duration && this.distance && ((!this.speed && !this.pace) || this.calculatedField === 'speed')) {
+                if (dur && dis && (!spe || (spe && this.calculatedField === 'speed'))) {
                     this.calculatedField = 'speed';
-                    this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.duration))
+                    this.speed = (this.formatDistance(this.distance) / this.formatDuration(this.durationString))
                         .toFixed(4)
                         .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
                     this.speed = this.speed === '' ? '< 0.001' : this.speed;
                     this.pace = this.speedToPace(this.speed)
                     // DURATION calculation
-                } else if (this.distance && (this.speed || this.pace) && (!this.duration || this.calculatedField === 'duration')) {
+                } else if (dis && spe && (!dur || (dur && this.calculatedField === 'duration'))) {
                     this.calculatedField = 'duration';
-                    this.duration = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
+                    this.durationString = this.prettyDuration((this.formatDistance(this.distance) / this.formatSpeed(this.speed))
                         .toFixed(4)
                         .replace(/\.?0+$/, ''));
-                    this.duration = !this.duration ? '< 1sec' : this.duration;
-                    this.durationHours = String(this.formatDuration(this.duration, 3).hours);
-                    this.durationMinutes = String(this.formatDuration(this.duration, 3).minutes);
-                    this.durationSeconds = String(this.formatDuration(this.duration, 3).seconds);
+                    this.durationString = !this.durationString ? '< 1sec' : this.durationString;
                     // DISTANCE calculation
-                } else if ((this.speed || this.pace) && this.duration && (!this.distance || this.calculatedField === 'distance')) {
+                } else if (spe && dur && (!dis || (dis && this.calculatedField === 'distance'))) {
                     this.calculatedField = 'distance';
-                    this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.duration))
+                    this.distance = (this.formatSpeed(this.speed) * this.formatDuration(this.durationString))
                         .toFixed(4)
                         .replace(/\.?0+$/, '').replace(/[.,]/, this.separator);
                     this.distance = !this.distance ? '< 0.001' : this.distance;
@@ -304,7 +326,7 @@
                 }
             },
             clearFields() {
-                this.duration = '';
+                this.durationString = '';
                 this.durationHours = '';
                 this.durationMinutes = '';
                 this.durationSeconds = '';
@@ -322,7 +344,7 @@
                 return String(distance).replace(',', '.');
             },
             // nbFields == 1 : hour format, nbFields == 3 : hours, minutes, seconds
-            formatDuration: function (duration, nbReturnedFields = 1) {
+            formatDuration(duration, nbReturnedFields = 1) {
                 // hours only
                 if (/^\d+$/.test(duration) || duration === "") {
                     if (nbReturnedFields !== 3) {
@@ -336,38 +358,38 @@
                     let minutes = 0;
                     let seconds = 0;
 
-                    let nbFields = (this.duration.match(/[:mhs]/g) || []).length + 1;
+                    let nbFields = (this.durationString.match(/[:mhs]/g) || []).length + 1;
                     // dans ce cas, on a des h, des m, des s OU h / m, m / s
                     if (nbFields >= 3) {
-                        if (this.duration.match(/(^\d*)[h:]/g)) {
-                            hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '') || 0;
+                        if (this.durationString.match(/(^\d*)[h:]/g)) {
+                            hours = this.durationString.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '') || 0;
                         }
-                        if (this.duration.match(/[:h]?(\d*)[m:]/g)) {
-                            minutes = this.duration.match(/[:h]?(\d*)[m:]/g)[0].replace(/[hm:]*/g, '') || 0;
+                        if (this.durationString.match(/[:h]?(\d*)[m:]/g)) {
+                            minutes = this.durationString.match(/[:h]?(\d*)[m:]/g)[0].replace(/[hm:]*/g, '') || 0;
                         }
-                        if (this.duration.match(/[:mh](\d*)s?$/g)) {
-                            seconds = this.duration.match(/[:mh](\d*)s?$/g)[0].replace(/[hms:]*/g, '') || 0;
+                        if (this.durationString.match(/[:mh](\d*)s?$/g)) {
+                            seconds = this.durationString.match(/[:mh](\d*)s?$/g)[0].replace(/[hms:]*/g, '') || 0;
                         }
                     } else if (nbFields === 2) {
                         // si un h ou un : && !s > calcul h / m
-                        if ((this.duration.match(/[:h]/g) || []).length === 1 && (this.duration.match(/[s]/g) || []).length === 0) {
-                            hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
-                            minutes = this.duration.match(/[:h](\d*)[m:]?/g)[0].replace(/[hm:]*/g, '') || 0;
+                        if ((this.durationString.match(/[:h]/g) || []).length === 1 && (this.durationString.match(/[s]/g) || []).length === 0) {
+                            hours = this.durationString.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
+                            minutes = this.durationString.match(/[:h](\d*)[m:]?/g)[0].replace(/[hm:]*/g, '') || 0;
                             // si un h ou un : && s > calcul h / s
-                        } else if ((this.duration.match(/[:h]/g) || []).length === 1 && (this.duration.match(/[s]/g) || []).length === 1) {
+                        } else if ((this.durationString.match(/[:h]/g) || []).length === 1 && (this.durationString.match(/[s]/g) || []).length === 1) {
 
-                            hours = this.duration.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
-                            seconds = this.duration.match(/[:h](\d*)[s:]/g)[0].replace(/[hs:]*/g, '') || 0;
+                            hours = this.durationString.match(/(^\d*)[h:]/g)[0].replace(/[h:]*/g, '');
+                            seconds = this.durationString.match(/[:h](\d*)[s:]/g)[0].replace(/[hs:]*/g, '') || 0;
                             // sinon > calcul m / s
-                        } else if ((this.duration.match(/[m]/g) || []).length === 1) {
-                            minutes = this.duration.match(/(^\d*)[m:]/g)[0].replace(/[hm:]*/g, '');
-                            seconds = this.duration.match(/[:m](\d*)[s:]?/g)[0].replace(/[ms:]*/g, '') || 0;
+                        } else if ((this.durationString.match(/[m]/g) || []).length === 1) {
+                            minutes = this.durationString.match(/(^\d*)[m:]/g)[0].replace(/[hm:]*/g, '');
+                            seconds = this.durationString.match(/[:m](\d*)[s:]?/g)[0].replace(/[ms:]*/g, '') || 0;
                         } else {
-                            seconds = this.duration.match(/(\d*)[s:]?/g)[0].replace(/s*/g, '') || 0;
+                            seconds = this.durationString.match(/(\d*)[s:]?/g)[0].replace(/s*/g, '') || 0;
                         }
 
                     } else if (nbFields === 1) {
-                        hours = this.duration.replace('h', '');
+                        hours = this.durationString.replace('h', '');
                     }
 
                     if (nbReturnedFields === 1) {
@@ -382,7 +404,7 @@
 
                 }
             },
-            prettyDuration: function (duration) {
+            prettyDuration(duration) {
                 let hours = duration | 0;
                 let minutes = ((duration % 1) * 60) | 0 >= 1 ? parseInt((duration % 1) * 60) : 0;
                 let seconds = Math.round((((duration % 1) * 60) % 1) * 60);
@@ -422,7 +444,7 @@
                 // exception in 3 fields mode : on clic on box, focus on hours
                 if (!this.oneFieldMode && field !== 'duration') {
                     this.$refs[field].focus();
-                } else this.$refs[field].focus('hours')
+                } else this.$refs["durationString"].focus()
             },
             updateCursor(ref, event) {
                 // to left management (backspace OR left arrow)
@@ -430,14 +452,12 @@
                     if (ref === "minutes" && (this.durationMinutes === "" || this.$refs['minutes'].selectionStart === 0)) {
                         if (this.$refs['minutes'].selectionStart === this.$refs['minutes'].selectionEnd) {
                             event.preventDefault();
-                            // this.$refs['hours'].setSelectionRange(this.durationHours.length, this.durationHours.length);
                             this.$refs['hours'].focus();
                         }
                     }
                     if (ref === "seconds" && (this.durationSeconds === "" || this.$refs['seconds'].selectionStart === 0)) {
                         if (this.$refs['seconds'].selectionStart === this.$refs['seconds'].selectionEnd) {
                             event.preventDefault();
-                            // this.$refs['minutes'].setSelectionRange(this.durationMinutes.length, this.durationMinutes.length);
                             this.$refs['minutes'].focus();
                         }
                     }
@@ -534,9 +554,9 @@
             }
         },
         watch: {
-            duration(newVal, oldVal) {
-                this.duration = String(this.duration);
-                if (!this.duration) {
+            durationString(newVal, oldVal) {
+                this.durationString = String(this.durationString);
+                if (!this.durationString) {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
                         this.pace = '';
@@ -545,9 +565,9 @@
                     }
                 } else if (this.calculatedField !== 'duration') {
                     // removing faulty characters
-                    this.duration = this.duration.replace(/[^0-9,.:hms]/g, '');
+                    this.durationString = this.durationString.replace(/[^0-9,.:hms]/g, '');
                     // removing leading zero(s)
-                    this.duration = this.duration.replace(/^0*([1-9]*)/g, '$1');
+                    this.durationString = this.durationString.replace(/^0*([1-9]*)/g, '$1');
                     // PATTERN DESCRIPTION
                     // ([0-9]?[0-9]([h:]|[h:]?$))?
                     // => hours between 0 and 99, followed by h, : or nothing, but following character required if not the end of input
@@ -555,59 +575,61 @@
                     // => minutes between 0 and 59, followed by m, : or nothing, but following character required if not the end of input
                     // ([0-5]?[0-9]([s]?$))?
                     // => seconds between 0 and 59, followed by s or nothing
-                    if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)) {
+                    if (this.durationString.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)) {
                         // if not exactly match
-                        if (this.duration.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)[0] !== this.duration) {
+                        if (this.durationString.match(/([0-9]?[0-9]([h:]|[h:]?$))?([0-5]?[0-9]([m:]|[m:]?$))?([0-5]?[0-9]([s]?$))?/g)[0] !== this.durationString) {
                             // check if a new unit h or m is added : 3 digits in string and newVal length > oldVal
-                            if (this.duration.match(/[0-9][0-5][0-9][m|s].*/g) && newVal.length > oldVal.length) {
+                            if (this.durationString.match(/[0-9][0-5][0-9][m|s].*/g) && newVal.length > oldVal.length) {
                                 let newCaracter;
-                                if (this.duration.includes('m') && !this.duration.includes('h')) {
+                                if (this.durationString.includes('m') && !this.durationString.includes('h')) {
                                     newCaracter = 'h'
                                 } else newCaracter = 'm';
                                 // hours or minute adding
-                                this.duration = this.duration.replace(/([0-9])([0-5][0-9][m|s].*)/g, '$1' + newCaracter + '$2');
+                                this.durationString = this.durationString.replace(/([0-9])([0-5][0-9][m|s].*)/g, '$1' + newCaracter + '$2');
 
                                 this.$nextTick(() => {
-                                    this.$refs['duration'].setSelectionRange(this.duration.indexOf(newCaracter), this.duration.indexOf(newCaracter));
+                                    this.$refs['durationString'].setSelectionRange(this.durationString.indexOf(newCaracter), this.durationString.indexOf(newCaracter));
                                 });
                                 // check if a starting unit is deleted
-                            } else if (this.duration.match(/^[hms][0-5]?[0-9](.*|$)/g)) {
-                                this.duration = this.duration.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
+                            } else if (this.durationString.match(/^[hms][0-5]?[0-9](.*|$)/g)) {
+                                this.durationString = this.durationString.replace(/([hms])([0-5]?[0-9](.*|$))/g, '$2');
                                 this.durationDisplayedUnit = oldVal.includes('h') ? 'm' : oldVal.includes('m') ? 's' : '';
                                 this.$nextTick(() => {
-                                    if (this.duration && this.oneFieldMode) {
-                                        this.$refs['duration'].setSelectionRange(0, 0);
+                                    if (this.durationString && this.oneFieldMode) {
+                                        this.$refs['durationString'].setSelectionRange(0, 0);
                                     }
                                 });
                                 // check if minutes are deleted by deleting 'm' : 3 / 4 digits followed by s or end of string
-                            } else if (this.duration.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {
-                                this.duration = this.duration.replace(/([h]?)([0-5]?[0-9])([0-5][0-9](s|$))/g, '$1$3' + this.durationDisplayedUnit);
+                            } else if (this.durationString.match(/[h]?[0-5]?[0-9][0-5][0-9](s|$)/g) && oldVal.includes('m') && !newVal.includes('m')) {
+                                this.durationString = this.durationString.replace(/([h]?)([0-5]?[0-9])([0-5][0-9](s|$))/g, '$1$3' + this.durationDisplayedUnit);
                                 this.$nextTick(() => {
-                                    if (this.duration.includes('h') && this.oneFieldMode) {
-                                        this.$refs['duration'].setSelectionRange(this.duration.indexOf('h') + 1, this.duration.indexOf('h') + 1);
-                                    } else this.$refs['duration'].setSelectionRange(0, 0)
+                                    if (this.durationString.includes('h') && this.oneFieldMode) {
+                                        this.$refs['durationString'].setSelectionRange(this.durationString.indexOf('h') + 1, this.durationString.indexOf('h') + 1);
+                                    } else {
+                                        this.$refs['durationString'].setSelectionRange(0, 0)
+                                    }
                                 });
                                 // check if minutes are deleted by deleting digits : 'hm' or 'hs
-                            } else if (this.duration.match(/hm|ms/g) && newVal.length < oldVal.length) {
-                                this.duration = this.duration.replace(/hm/, 'h');
-                                this.duration = this.duration.replace(/ms/, 'm');
+                            } else if (this.durationString.match(/hm|ms/g) && newVal.length < oldVal.length) {
+                                this.durationString = this.durationString.replace(/hm/, 'h');
+                                this.durationString = this.durationString.replace(/ms/, 'm');
                                 // check if hours are deleted
-                            } else if (this.duration.match(/[[0-9]?[0-9][0-5][0-9](m|s|$)/g) && oldVal.includes('h')) {
-                                this.duration = this.duration.replace(/([0-9]?[0-9])([0-5][0-9](m|s|$))/g, '$2');
-                                this.duration = this.duration.match(/[m|s]$/g) ? this.duration : this.duration + this.durationDisplayedUnit
-                            } else if (this.duration.match(/^[hms]$/g)) {
-                                this.duration = '';
+                            } else if (this.durationString.match(/[[0-9]?[0-9][0-5][0-9](m|s|$)/g) && oldVal.includes('h')) {
+                                this.durationString = this.durationString.replace(/([0-9]?[0-9])([0-5][0-9](m|s|$))/g, '$2');
+                                this.durationString = this.durationString.match(/[m|s]$/g) ? this.durationString : this.durationString + this.durationDisplayedUnit
+                            } else if (this.durationString.match(/^[hms]$/g)) {
+                                this.durationString = '';
                                 this.durationDisplayedUnit = 'h'
                             } else {
-                                this.duration = oldVal
+                                this.durationString = oldVal
                             }
                         } else {
                             // formatting character for display
-                            if ((this.duration.match(/[h:]/g) || []).length === 1 && (this.duration.match(/[ms]/g) || []).length === 0) {
+                            if ((this.durationString.match(/[h:]/g) || []).length === 1 && (this.durationString.match(/[ms]/g) || []).length === 0) {
                                 this.durationDisplayedUnit = 'm'
-                            } else if ((this.duration.match(/[s]/g) || []).length === 1) {
+                            } else if ((this.durationString.match(/[s]/g) || []).length === 1) {
                                 this.durationDisplayedUnit = ''
-                            } else if ((this.duration.match(/[hm:]/g) || []).length >= 1) {
+                            } else if ((this.durationString.match(/[hm:]/g) || []).length >= 1) {
                                 this.durationDisplayedUnit = 's'
                             } else {
                                 this.durationDisplayedUnit = 'h'
@@ -615,14 +637,88 @@
                         }
                         // else cancelling the input
                     } else {
-                        this.duration = ''
+                        this.durationString = ''
                     }
                 } else if (this.calculatedField === 'duration') {
                     // formatting character for display
                     this.durationDisplayedUnit = ''
                 }
-                let durationInHours = this.formatDuration(this.duration);
-                this.$store.commit('setDuration', durationInHours);
+                if (this.durationString) {
+                    this.durationHours = this.formatDuration(this.prettyDuration(this.durationString), 3).hours;
+                    this.durationMinutes = this.formatDuration(this.prettyDuration(this.durationString), 3).minutes;
+                    this.durationSeconds = this.formatDuration(this.prettyDuration(this.durationString), 3).seconds;
+                }
+                this.duration = this.formatDuration(this.durationString);
+            },
+            durationHours(newVal, oldVal) {
+                this.durationHours = String(this.durationHours);
+
+                // check a durationHours change only if it's not the calculated fields
+                if (this.durationHours && this.calculatedField !== 'duration') {
+                    if (this.durationHours.match(/([0-9]?[0-9])/g)) {
+                        // if not exactly match
+                        if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
+                            // cancelling the input
+                            this.durationHours = oldVal
+                        } else if (this.durationHours.match(/([0-9][0-9])/g) && this.$refs['minutes']) {
+                            this.$refs['minutes'].focus();
+                        }
+                    }
+                    // else : cancelling the input
+                    else {
+                        this.durationHours = oldVal
+                    }
+                }
+                this.durationString = this.durationHours ? this.durationHours + 'h' : '';
+                this.durationString += this.durationMinutes ? this.durationMinutes + 'm' : '';
+                this.durationString += this.durationSeconds ? this.durationSeconds + 's' : '';
+                this.duration = this.formatDuration(this.durationString);
+            },
+            durationMinutes(newVal, oldVal) {
+                this.durationMinutes = String(this.durationMinutes);
+                // check a durationMinutes change only if it's not the calculated fields
+                if (this.durationMinutes !== '' && this.calculatedField !== 'duration') {
+                    if (this.durationMinutes.match(/([0-5]?[0-9])/g)) {
+                        // if not exactly match
+                        if (this.durationMinutes.match(/([0-5]?[0-9])/g)[0] !== this.durationMinutes) {
+                            // cancelling the input
+                            this.durationMinutes = oldVal
+                        } else if (this.durationMinutes.match(/([0-5][0-9])/g)) {
+                            if (!this.oneFieldMode && this.$refs['seconds']) {
+                                this.$refs['seconds'].focus();
+                            }
+                        }
+                    }
+                    // else : cancelling the input
+                    else {
+                        this.durationMinutes = oldVal
+                    }
+                }
+                this.durationString = this.durationHours ? this.durationHours + 'h' : '';
+                this.durationString += this.durationMinutes ? this.durationMinutes + 'm' : '';
+                this.durationString += this.durationSeconds ? this.durationSeconds + 's' : '';
+                this.duration = this.formatDuration(this.durationString);
+            },
+            durationSeconds(newVal, oldVal) {
+                this.durationSeconds = String(this.durationSeconds);
+                // check a durationSeconds change only if it's not the calculated fields
+                if (this.durationSeconds !== '' && this.calculatedField !== 'duration') {
+                    if (this.durationSeconds.match(/([0-5]?[0-9])/g)) {
+                        // if not exactly match
+                        if (this.durationSeconds.match(/([0-5]?[0-9])/g)[0] !== this.durationSeconds) {
+                            // cancelling the input
+                            this.durationSeconds = oldVal
+                        }
+                    }
+                    // else : cancelling the input
+                    else {
+                        this.durationSeconds = oldVal
+                    }
+                }
+                this.durationString = this.durationHours ? this.durationHours + 'h' : '';
+                this.durationString += this.durationMinutes ? this.durationMinutes + 'm' : '';
+                this.durationString += this.durationSeconds ? this.durationSeconds + 's' : '';
+                this.duration = this.formatDuration(this.durationString);
             },
             distance(newVal, oldVal) {
                 this.distance = String(this.distance);
@@ -634,12 +730,12 @@
                     this.presetDistances = ""
                 }
 
-                if (this.distance === '') {
+                if (!this.distance) {
                     if (this.calculatedField === 'speed') {
                         this.speed = '';
                         this.pace = ''
                     } else if (this.calculatedField === 'duration') {
-                        this.duration = '';
+                        this.durationString = '';
                         this.durationHours = '';
                         this.durationMinutes = '';
                         this.durationSeconds = '';
@@ -673,14 +769,13 @@
                         this.distance = oldVal
                     }
                 }
-                this.$store.commit('setDistance', this.distance);
             },
             speed(newVal, oldVal) {
                 this.speed = String(this.speed);
                 if (!this.speed) {
                     this.pace = '';
                     if (this.calculatedField === 'duration') {
-                        this.duration = '';
+                        this.durationString = '';
                         this.durationHours = '';
                         this.durationMinutes = '';
                         this.durationSeconds = '';
@@ -716,7 +811,6 @@
                         this.speed = oldVal
                     }
                 }
-                this.$store.commit('setSpeed', this.speed);
             },
             pace(newVal, oldVal) {
                 this.pace = String(this.pace);
@@ -725,7 +819,7 @@
                         this.speed = '';
                         this.pace = '';
                     } else if (this.calculatedField === 'duration') {
-                        this.duration = ''
+                        this.durationString = ''
                     } else if (this.calculatedField === 'distance') {
                         this.distance = ''
                     }
@@ -764,92 +858,28 @@
                 if (this.calculatedField !== 'distance' && this.presetDistances !== '') {
                     this.distance = this.$store.state.defaultDistances.find(defaultDist =>
                         defaultDist.label === this.presetDistances).distance || 0;
-                    this.checkFields()
                 }
-            },
-            durationHours(newVal, oldVal) {
-                this.durationHours = String(this.durationHours);
-
-                // check a durationHours change only if it's not the calculated fields
-                if (this.durationHours && this.calculatedField !== 'duration') {
-                    if (this.durationHours.match(/([0-9]?[0-9])/g)) {
-                        // if not exactly match
-                        if (this.durationHours.match(/([0-9]?[0-9])/g)[0] !== this.durationHours) {
-                            // cancelling the input
-                            this.durationHours = oldVal
-                        } else if (this.durationHours.match(/([0-9][0-9])/g) && this.$refs['minutes']) {
-                            this.$refs['minutes'].focus();
-                        }
-                    }
-                    // else : cancelling the input
-                    else {
-                        this.durationHours = oldVal
-                    }
-                }
-                this.duration = this.durationHours ? this.durationHours + 'h' : '';
-                this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
-                this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
-            },
-            durationMinutes(newVal, oldVal) {
-                this.durationMinutes = String(this.durationMinutes);
-                // check a durationMinutes change only if it's not the calculated fields
-                if (this.durationMinutes !== '' && this.calculatedField !== 'duration') {
-                    if (this.durationMinutes.match(/([0-5]?[0-9])/g)) {
-                        // if not exactly match
-                        if (this.durationMinutes.match(/([0-5]?[0-9])/g)[0] !== this.durationMinutes) {
-                            // cancelling the input
-                            this.durationMinutes = oldVal
-                        } else if (this.durationMinutes.match(/([0-5][0-9])/g)) {
-                            if (!this.oneFieldMode && this.$refs['seconds']) {
-                                this.$refs['seconds'].focus();
-                            }
-                        }
-                    }
-                    // else : cancelling the input
-                    else {
-                        this.durationMinutes = oldVal
-                    }
-                }
-                this.duration = this.durationHours ? this.durationHours + 'h' : '';
-                this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
-                this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
-            },
-            durationSeconds(newVal, oldVal) {
-                this.durationSeconds = String(this.durationSeconds);
-                // check a durationSeconds change only if it's not the calculated fields
-                if (this.durationSeconds !== '' && this.calculatedField !== 'duration') {
-                    if (this.durationSeconds.match(/([0-5]?[0-9])/g)) {
-                        // if not exactly match
-                        if (this.durationSeconds.match(/([0-5]?[0-9])/g)[0] !== this.durationSeconds) {
-                            // cancelling the input
-                            this.durationSeconds = oldVal
-                        }
-                    }
-                    // else : cancelling the input
-                    else {
-                        this.durationSeconds = oldVal
-                    }
-                }
-                this.duration = this.durationHours ? this.durationHours + 'h' : '';
-                this.duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
-                this.duration += this.durationSeconds ? this.durationSeconds + 's' : '';
             },
             oneFieldMode() {
-                if (this.oneFieldMode) {
-                    this.duration = parseInt(this.durationHours) ? this.durationHours + 'h' : '';
-                    this.duration += parseInt(this.durationMinutes) ? this.durationMinutes + 'm' : '';
-                    this.duration += parseInt(this.durationSeconds) ? this.durationSeconds + 's' : '';
-                } else {
-                    this.durationHours = this.formatDuration(this.duration, 3).hours;
-                    this.durationMinutes = this.formatDuration(this.duration, 3).minutes;
-                    this.durationSeconds = this.formatDuration(this.duration, 3).seconds;
-                }
                 this.$store.commit('setOneFieldMode', this.oneFieldMode);
-
             },
-            separator: (newVal) => {
+            separator(newVal) {
                 localStorage.separator = newVal;
             },
+            duration() {
+                if (!this.oneFieldMode) {
+                    this.durationString = parseInt(this.durationHours) ? this.durationHours + 'h' : '';
+                    this.durationString += parseInt(this.durationMinutes) ? this.durationMinutes + 'm' : '';
+                    this.durationString += parseInt(this.durationSeconds) ? this.durationSeconds + 's' : '';
+                } else {
+                    this.durationHours = this.formatDuration(this.prettyDuration(this.durationString), 3).hours;
+                    this.durationMinutes = this.formatDuration(this.prettyDuration(this.durationString), 3).minutes;
+                    this.durationSeconds = this.formatDuration(this.prettyDuration(this.durationString), 3).seconds;
+                }
+            },
+            handleCheckField() {
+                this.checkFields()
+            }
         },
         mounted() {
             this.separator = localStorage.separator ? localStorage.separator : '.';
