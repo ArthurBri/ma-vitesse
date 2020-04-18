@@ -133,6 +133,7 @@
                 });
 
                 let API_KEY = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_IP_GEOLOC_API_KEY : process.env.IP_GEOLOC_API_KEY;
+                console.log(process.env);
 
 
                 ax.get('https://api.ipgeolocation.io/ipgeo?apiKey=' + API_KEY)
