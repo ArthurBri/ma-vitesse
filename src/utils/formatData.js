@@ -24,3 +24,16 @@ export function prettyDuration(duration, humanize = false) {
     return prettyDuration
 }
 
+export function formatSpeed(speed, mode) {
+    if (speed) {
+        if (mode === 'pace') {
+            let pace = 60 / speed.replace(",", ".");
+            let minutes = pace | 0;
+            let seconds = Math.round(((pace % 1) * 60) | 0);
+            seconds = seconds < 10 && seconds ? '0' + seconds : seconds;
+            seconds = !seconds ? "00" : seconds;
+            return minutes + ":" + seconds
+        } else return speed
+    } else return "";
+}
+

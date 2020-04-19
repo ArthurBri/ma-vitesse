@@ -9,7 +9,7 @@ const routes = [
         path: '*',
     },
     {
-        path: '/publicworkouts/:id',
+        path: '/workouts/:id',
         alias: '/w/:id',
         component: Workout,
         name: 'publicWorkouts'

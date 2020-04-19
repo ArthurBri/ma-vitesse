@@ -17,7 +17,7 @@
                 <Calculator class="mt-12"/>
                 <div class="w-full flex xs:flex-col sm:flex-col md:flex-col justify-center">
                     <transition name="fade">
-                        <div class="tabs-menu w-3/4 sm:w-full xs:w-full mt-5 xs:mt-0" v-if="showTabMenu">
+                        <div class="tabs-menu sm:w-full xs:w-full mt-5 xs:mt-0" v-if="showTabMenu">
                             <div class="tabs flex flex-col xs:flex-row md:flex-row xs:overflow-x-auto overflow-x-auto xl:h-24">
                                 <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
                                              @click.native="setTabActive('laptime')"

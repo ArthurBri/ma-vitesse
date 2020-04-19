@@ -9,7 +9,7 @@
                 </div>
                 <div :class="[formulaSelected === 'Williams' ? 'text-primary bg-white font-bold' : '']"
                      @click="formulaSelected = 'Williams'"
-                     class="px-2 py-1 border-gray-100 border-r border-l-lg border-gray-100 border">
+                     class="px-2 py-1 border-b border-t border-gray-100">
                     Williams
                 </div>
                 <div :class="[formulaSelected === 'None' ? 'text-primary bg-white font-bold' : '']"

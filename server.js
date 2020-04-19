@@ -54,11 +54,11 @@ const port = process.env.PORT || 80;
 // All API routes
 const meanappsRoute = require('./routes/meanapps');
 const featuresuggestRoute = require('./routes/featuresuggests');
-const publicworkoutsRoute = require('./routes/publicworkouts');
+const workoutsRoute = require('./routes/workouts');
 
 app.use('/meanapps', meanappsRoute);
 app.use('/featuresuggests', apiLimiter1day, featuresuggestRoute);
-app.use('/publicworkouts', apiLimiter1hour, publicworkoutsRoute);
+app.use('/workouts', apiLimiter1hour, workoutsRoute);
 
 app.listen(port, '0.0.0.0');
 

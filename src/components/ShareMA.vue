@@ -1,14 +1,14 @@
 <template>
     <div class="flex xs:flex-col sm:flex-col md:flex-col justify-center items-center mx-10 xs:mx-0 sm:mx-2 md:mx-4 lg:mx-2">
-        <div v-if="calculatedField && lastWorkouts.length">
+        <div v-if="calculatedField && timeLimitOk">
             <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4 xs:mb-2 sm:mb-2 md:mb-2">
                 <span>{{ $t('common.share') }}</span>
                 <img alt="Chevron to show more workouts" class="chevron animated self-center ml-2"
                      src="../assets/icons/chevron.svg"/>
             </span>
         </div>
-        <div class="flex xs:flex-col md:flex-col sm:flex-col lg:flex-col items-center" v-if="lastWorkouts.length">
-            <div class="flex xs:mb-2 md:mb-2 sm:mb-2 lg:mb-1" v-if="!calculatedField">
+        <div class="flex flex-col items-center" v-if="lastWorkouts.length">
+            <div class="flex xs:mb-2 md:mb-2 sm:mb-2 lg:mb-1 xl:mb-1" v-if="!calculatedField || !timeLimitOk">
                 <p>{{ $t('share_ma.last_workouts')}}</p>
                 <p class="blink bg-red-700 text-white text-xs rounded-sm px-1 mx-2 self-center">
                     {{ $t('common.live') | capitalize }}</p>
@@ -17,7 +17,7 @@
                 <table class="text-white show-workouts border-gray-200 text-sm">
                     <div :class="[showAllWorkouts ? 'rounded-t-lg rounded-r-lg bg-white border text-primary' :'rounded-lg border']"
                          @click="showMoreWorkouts" class="animate flex justify-center shadow-lg cursor-pointer z-10"
-                         title="Dernières courses">
+                         :title="$t('share_ma.last_workouts')">
                         <tr>
                             <td class="align-middle">
                                  <span :class="'flag-icon-' + lastWorkouts[0].country_code"
@@ -25,8 +25,12 @@
                             <td class="noselect-nodrag xs:text-xs align-middle text-sm">
                                 <b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].distance_unit }}</b>
                                 {{ $t('common.in') }} <b>
-                                {{ lastWorkouts[0].duration }}</b> {{ $t('common.at') }} <b>
-                                {{ lastWorkouts[0].speed }} {{ lastWorkouts[0].speed_unit }}</b>
+                                {{ lastWorkouts[0].duration | prettyDuration(oneFieldMode) }}</b> {{ $t('common.at') }}
+                                <b>
+                                    {{ lastWorkouts[0].speed | formatSpeed(speedFormat) }}
+                                    <span v-if="speedFormat === 'pace'">min/{{ lastWorkouts[0].distance_unit }}</span>
+                                    <span v-else>{{ lastWorkouts[0].distance_unit }}/h</span>
+                                </b>
                             </td>
                             <td class="align-middle">
                                 <img :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
@@ -68,8 +72,11 @@
                                       class="h-5 flag-icon"/></td>
                             <td class="noselect-nodrag"><b>{{lastWorkout.distance}} {{lastWorkout.distance_unit}}</b> {{
                                 $t('common.in') }}
-                                <b>{{lastWorkout.duration}}</b> {{ $t('common.at') }} <b> {{lastWorkout.speed}}
-                                    {{lastWorkout.speed_unit}}</b></td>
+                                <b>{{lastWorkout.duration | prettyDuration(oneFieldMode)}}</b> {{ $t('common.at') }}
+                                <b> {{lastWorkout.speed | formatSpeed(speedFormat) }}
+                                    <span v-if="speedFormat === 'pace'">min/{{ lastWorkouts[0].distance_unit }}</span>
+                                    <span v-else>{{ lastWorkouts[0].distance_unit }}/h</span>
+                                </b></td>
                             <td class="align-middle">
                                 <img class="primary-icon h-4 text-center align-middle noselect-nodrag"
                                      alt="Rocket icon" src="../assets/icons/rocket.svg" v-if="lastWorkout.speed > 140"/>
@@ -100,22 +107,34 @@
 
 <script>
     import {mapState} from 'vuex'
+
     let moment = require('moment');
+    let {prettyDuration, formatSpeed} = require('../utils/formatData');
+    const axios = require('axios');
 
     export default {
         name: "ShareMA",
         mounted() {
             moment.locale(this.$i18n.locale); // 'fr'
             this.loadWorkouts();
+            if (localStorage.getItem('lastSharedWorkout')) {
+                this.lastSharedWorkout = localStorage.getItem('lastSharedWorkout');
+            }
+            this.timeLimitOk = (Date.now() - parseFloat(this.lastSharedWorkout)) / 60000 > 60;
             setInterval(() => {
-                this.loadWorkouts()
-            }, 5000);
+                this.loadWorkouts();
+                // Activation du bouton share après
+                this.timeLimitOk = (Date.now() - parseFloat(this.lastSharedWorkout)) / 60000 > 60;
+            }, 10000);
+
+
         },
         data() {
             return {
                 showAllWorkouts: false,
                 lastWorkouts: [],
-                userCountry: ''
+                lastSharedWorkout: '',
+                timeLimitOk: true
             }
         },
         methods: {
@@ -131,53 +150,41 @@
                     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
                 });
 
-                let API_KEY = process.env.NODE_ENV === 'development' ? process.env.VUE_APP_IP_GEOLOC_API_KEY : process.env.IP_GEOLOC_API_KEY;
-                ax.get('https://api.ipgeolocation.io/ipgeo?apiKey=' + API_KEY)
-                    .then((response) => {
-                        this.userCountry = response.data.country_code2 ? response.data.country_code2 : '';
-                        ax.post('/publicworkouts', {
-                            country_code: this.userCountry.toLowerCase(),
-                            distance: parseFloat(this.distance).toFixed(2),
-                            distance_unit: this.distanceUnit,
-                            duration: this.duration,
-                            speed: parseFloat(this.speed).toFixed(2),
-                            speed_unit: this.speedUnit,
-                            created_date: Date.now()
-                        }, {
-                            'headers': {'Content-Type': 'application/json'}
-                        }).then((response) => {
-                            console.log(response);
-                            if (response.status === 201) {
-                                console.log('Workout saved!')
-                            }
-                        })
-                            .catch((error) => {
-                                console.error(error)
-                            })
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-
-
+                ax.post('/workouts', {
+                    distance: this.distance,
+                    distance_unit: this.distanceUnit,
+                    duration: this.duration,
+                    speed: this.speed,
+                    speed_unit: this.speedUnit,
+                    calculated_field: this.calculatedField,
+                    created_date: Date.now(),
+                    type: 'public'
+                }).then((response) => {
+                    console.log(response);
+                    if (response.status === 201) {
+                        localStorage.setItem('lastSharedWorkout', Date.now());
+                        this.lastSharedWorkout = Date.now();
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                });
             },
             loadWorkouts() {
-                const axios = require('axios');
                 // Make a request for a user with a given ID
                 const ax = axios.create({
                     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
                 });
-                ax.get('/publicworkouts?limit=7')
+                ax.get('/workouts?limit=7&type=public')
                     .then(response => {
                         this.lastWorkouts = response.data;
                     })
                     .catch((error) => {
                         console.log(error);
                     })
-            }
+            },
         },
         computed: {
-            ...mapState(["distance", "speed", "duration", "distanceUnit", "speedUnit"]),
+            ...mapState(["distance", "speed", "duration", "distanceUnit", "speedUnit", "oneFieldMode", "calculatedField", "speedFormat"]),
             calculatedField() {
                 return this.distance && this.speed && this.duration
             },
@@ -197,6 +204,15 @@
             capitalize(value) {
                 if (!value) return '';
                 return value.toString().toUpperCase()
+            },
+            prettyDuration(value, oneFieldMode) {
+                if (!value) return '';
+                return prettyDuration(value, oneFieldMode)
+            },
+            formatSpeed(value, speedFormat) {
+
+                if (!value) return '';
+                return formatSpeed(value, speedFormat)
             }
         },
     }

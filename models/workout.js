@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const shortid = require('shortid');
 
-const publicWorkoutSchema = new mongoose.Schema({
+const WorkoutSchema = new mongoose.Schema({
     _id: {
         type: String,
         default: shortid.generate
@@ -30,10 +30,18 @@ const publicWorkoutSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    calculated_field: {
+        type: String,
+        required: true
+    },
     created_date: {
+        type: String,
+        required: true
+    },
+    type: {
         type: String,
         required: true
     }
 });
 
-module.exports = mongoose.model('PublicWorkout', publicWorkoutSchema, 'publicworkouts');
+module.exports = mongoose.model('Workout', WorkoutSchema, 'workouts');

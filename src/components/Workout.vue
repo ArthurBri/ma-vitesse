@@ -10,20 +10,26 @@
             <div v-if="workout">
                 <div class="flex flex-col">
                     <div class="flex mb-10 xs:mb-0 xs:flex-col xs:justify-center xs:items-center sm:flex-wrap sm:justify-center">
-                        <div class="xs:mb-5">
+                        <div :title="workout.calculated_field === 'duration' ? $t('workout.calculated_field') : ''"
+                             class="xs:mb-5">
                             <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
                                 $t('common.duration') }}</p>
-                            <p class="text-3xl mx-8 xs:mx-0 xs:text-3xl">{{ workout.duration }}</p>
+                            <p :class="workout.calculated_field === 'duration' ? 'calculated-field' : ''"
+                               class="text-3xl mx-8 xs:mx-0 xs:text-3xl">{{ workout.duration }}</p>
                         </div>
-                        <div class="xs:mb-5">
+                        <div :title="workout.calculated_field === 'distance' ? $t('workout.calculated_field') : ''"
+                             class="xs:mb-5">
                             <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
                                 $t('common.distance') }}</p>
-                            <p class="text-3xl mx-8">{{ workout.distance }} {{ workout.distance_unit}}</p>
+                            <p :class="workout.calculated_field === 'distance' ? 'calculated-field' : ''"
+                               class="text-3xl mx-8">{{ workout.distance }} {{ workout.distance_unit}}</p>
                         </div>
-                        <div class="xs:mb-5">
+                        <div :title="workout.calculated_field === 'speed' ? $t('workout.calculated_field') : ''"
+                             class="xs:mb-5">
                             <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
                                 $t('common.speed')}}</p>
-                            <p class="text-3xl mx-8">{{ workout.speed }} {{ workout.speed_unit}}</p>
+                            <p :class="workout.calculated_field === 'speed' ? 'calculated-field' : ''"
+                               class="text-3xl mx-8">{{ workout.speed }} {{ workout.speed_unit}}</p>
                         </div>
                     </div>
                     <div class="flex leading-tight justify-center items-center">
@@ -74,7 +80,7 @@
             const ax = axios.create({
                 baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
             });
-            ax.get('/publicworkouts/' + this.$route.params.id)
+            ax.get('/workouts/' + this.$route.params.id)
                 .then(response => {
                     this.workout = response.data;
                     this.workout.created_date = moment(this.workout.created_date.format).format('L');
@@ -92,10 +98,17 @@
             },
             useWorkout() {
                 if (this.workout) {
-                    this.$store.commit('setSpeed', this.workout.speed);
-                    this.$store.commit('setDistance', this.workout.distance);
+                    if (this.workout.calculated_field === 'speed') {
+                        this.$store.commit('setDuration', this.workout.duration);
+                        this.$store.commit('setDistance', this.workout.distance);
+                    } else if (this.workout.calculated_field === 'duration') {
+                        this.$store.commit('setSpeed', this.workout.speed);
+                        this.$store.commit('setDistance', this.workout.distance);
+                    } else if (this.workout.calculated_field === 'distance') {
+                        this.$store.commit('setDuration', this.workout.duration);
+                        this.$store.commit('setSpeed', this.workout.speed);
+                    }
                 }
-                // this.$store.commit('setDuration','1');
                 this.close()
             }
         },
@@ -112,6 +125,11 @@
         &:hover {
             text-decoration-color: $ma-primary;
         }
+    }
+
+    .calculated-field {
+        @apply border-b-2 border-secondary;
+        padding-bottom: 0.1rem,
     }
 
 </style>

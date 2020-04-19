@@ -139,6 +139,7 @@
     "add_workout": "Add a workout",
     "no_workout_1": "Oops, this link doesn't seem to match with a workout.",
     "no_workout_2": "Not a problem,",
-    "add_one": "add one now !"
+    "add_one": "add one now !",
+    "calculated_field": "Calculated field"
   }
 }

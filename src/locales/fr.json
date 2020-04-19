@@ -138,6 +138,7 @@
     "add_workout": "Ajouter une course",
     "no_workout_1": "Oups, ce lien n'a pas l'air d'être associé à une course.",
     "no_workout_2": "Aucun souci,",
-    "add_one": "ajoutez en une maintenant !"
+    "add_one": "ajoutez en une maintenant !",
+    "calculated_field": "Champ calculé"
   }
 }
