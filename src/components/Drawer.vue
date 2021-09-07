@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-left">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
-            <div class="drawer xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
+            <div class="drawer rounded-lg xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
                 <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
@@ -48,26 +48,26 @@
     }
 
     .drawer {
-        @apply bg-transparent absolute overflow-x-auto flex flex-col z-40 right-0 h-screen;
-        box-shadow: 0 0 5px rgba(white, 0.8)
+        @apply bg-white absolute overflow-x-auto flex flex-col z-40 top-0 right-0 mt-2 mr-4 shadow-xl;
+        max-height: 80vh;
     }
 
     .drawer-header {
         @apply flex justify-between items-center outline-none;
-        background-color: rgba($ma-primary, 0.4);
-        background-image: linear-gradient(to right, rgba($ma-primary, 0), rgba($ma-primary, 1) 72%);
+        background-color: rgba($ma-primary, 0.8);
         backdrop-filter: blur(1rem);
     }
 
     .drawer-body {
-        @apply bg-white relative h-full;
+        @apply relative h-full;
         position: relative;
         padding: 20px 10px;
         overflow-x: auto;
     }
 
     .slide-left-enter-active {
-        transition: 300ms;
+        transition: 200ms;
+        opacity: 0;
     }
 
     .slide-left-leave-active {

@@ -1,8 +1,8 @@
 <template>
     <div class="relative w-full">
-        <div class="header fixed shadow-lg ">
+        <div class="header fixed">
             <div class="header-start flex flex-row">
-                <div class="logo flex justify-start items-center">
+                <div class="logo flex fixed left-1/2 transform -translate-x-1/2 bottom-8 justify-center items-center px-2 py-1">
                     <img alt="logo" class="noselect-nodrag xs:w-6 sm:w-8 md:w-8 lg:w-12 xl:w-12 cursor-pointer"
                          src="../assets/logo.svg"/>
                     <h1 class="flex flex-col text-center xs:text-base xs:ml-1 xs:font-bold sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
@@ -24,17 +24,18 @@
                     </div>
                 </div>
             </div>
-            <div class="header-end flex flex-row mr-8">
+            <div class="header-end flex flex-row justify-end gap-2">
+              <SettingsIcon />
                 <img @click="showModal('settings')" alt=""
-                     class="icon settings-icon noselect-nodrag"
+                     class="mv-btn bg-primary h-10 p-2"
                      src="../assets/icons/settings.svg"
                      title="Réglages"/>
                 <img @click="showModal('about')" alt=""
-                     class="icon about-icon noselect-nodrag"
+                     class="mv-btn bg-primary h-10 p-2"
                      src="../assets/icons/question.svg"
                      title="A propos"/>
                 <img @click="showModal('all-MA')" alt=""
-                     class="icon icon-orange all-ma-icon noselect-nodrag"
+                     class="mv-btn bg-secondary h-10 w-10 p-2"
                      src="../assets/icons/menu.svg" title="Toutes les applications"/>
             </div>
         </div>
@@ -49,10 +50,11 @@
     import Settings from '@/components/Settings'
     import AllMA from '@/components/AllMA'
     import {mapState, mapMutations} from 'vuex'
+    import SettingsIcon from '@/assets/icons/settings.svg'
 
     export default {
         name: "Header",
-        components: {About, Settings, AllMA},
+        components: {About, Settings, AllMA, SettingsIcon},
         data() {
             return {
                 isModalAbout: false,
@@ -103,9 +105,6 @@
 
 <style lang="scss" scoped>
     .icon {
-        background: rgba($ma-primary, 0.7);
-        backdrop-filter: blur(2px);
-
         &.icon-orange {
             background: rgba($ma-secondary, 0.9);
 
@@ -125,17 +124,9 @@
     /* <= 379px */
     @screen xs {
         .header {
-            @apply px-3 text-primary;
+            @apply px-3;
             background-color: rgba(white, 0.8);
             backdrop-filter: blur(2px);
-        }
-
-        .icon {
-            @apply py-2 px-1 h-8 m-1 rounded shadow-lg;
-
-            &.icon-orange {
-                @apply mr-3;
-            }
         }
     }
 
@@ -146,14 +137,6 @@
             background-color: rgba(white, 0.8);
             backdrop-filter: blur(2px);
         }
-
-        .icon {
-            @apply py-2 px-1 m-1 h-8 rounded shadow-lg;
-
-            &.icon-orange {
-                @apply mr-3;
-            }
-        }
     }
 
     /* 640px < width > 767px */
@@ -162,14 +145,6 @@
             @apply px-4 py-2;
             background-color: rgba(white, 0.6);
             backdrop-filter: blur(2px);
-        }
-
-        .icon {
-            @apply p-2 h-8 m-1 rounded shadow-lg;
-
-            &.icon-orange {
-                @apply mr-2;
-            }
         }
     }
 
@@ -180,26 +155,12 @@
             background-color: rgba(white, 0.4);
             backdrop-filter: blur(2px);
         }
-
-        .icon {
-            @apply p-2 h-10 m-1 rounded shadow-lg;
-
-            &.icon-orange {
-                @apply mr-2;
-            }
-        }
     }
 
     /* > 1024px */
     @screen xl {
         .header {
             @apply px-6 py-2 text-white;
-            background-color: rgba(white, 0.3);
-            backdrop-filter: blur(2px);
-        }
-
-        .icon {
-            @apply p-2 h-10 m-1 rounded shadow-lg;
         }
     }
 

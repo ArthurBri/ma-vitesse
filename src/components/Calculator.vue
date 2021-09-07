@@ -906,46 +906,11 @@
 </script>
 
 <style lang="scss" scoped>
-    @screen xs {
-        .main-box {
-            @apply rounded-none mt-2 w-full;
-            background-color: rgba($ma-secondary, 0.8);
-            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
-        }
-    }
-
-    @screen sm {
-        .main-box {
-            @apply rounded-none mt-2 mb-2 w-full;
-            background-color: rgba($ma-secondary, 0.8);
-            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
-        }
-    }
-
-    @screen md {
-        .main-box {
-            @apply rounded-lg m-2;
-            background-color: rgba($ma-secondary, 0.8);
-            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
-        }
-    }
-
-    @screen lg {
-        .main-box {
-            @apply rounded-lg my-4 shadow-xl;
-            background-color: rgba($ma-secondary, 0.8);
-            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
-        }
-    }
-
-    @screen xl {
-        .main-box {
-            @apply rounded-lg my-4 shadow-xl;
-            background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 1) 78.6%);
-        }
-    }
     .main-box {
-        transition: all 0.5s;
+      @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4 lg:shadow-xl xl:rounded-lg xl:my-4 xl:shadow-xl filter backdrop-filter	backdrop-blur-md ;
+      transition: all 0.5s;
+      background-color: rgba($ma-secondary, 0.2);
+      background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 0.8) 78.6%);
     }
 
     @media screen and (max-width: 950px) {
