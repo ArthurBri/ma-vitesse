@@ -27,79 +27,9 @@
         </div>
         <div class="wrapper" style="min-height:3rem;">
             <!-- DURATION -->
-            <div class="flex flex-col h-24 noselect-nodrag ">
-                <div :class="calculatedField === 'duration' ? 'calculated noselect-nodrag' : ''"
-                     class="box self-stretch justify-between shadow-md">
-                    <label @click="focusMe('duration')" for="durationString">{{ $t('calculator.duration') }}</label>
-                    <div class="w-40">
-                        <!-- ONE FIELD mode -->
-                        <div class="one-field-mode flex justify-end" v-if="oneFieldMode">
-                            <!-- Field for 1 field mode -->
-                            <input :disabled="calculatedField === 'duration'" @focus="focusMe('durationString')"
-                                   autocomplete="off"
-                                   class="w-28 text-right pr-1" id="durationString" ref="durationString"
-                                   v-model="durationString"/>
-                            <span class="noselect-nodrag self-center">{{ durationDisplayedUnit }}</span>
-                        </div>
-                        <!-- THREE FIELDS mode -->
-                        <div class="flex justify-end" v-else>
-                            <label>
-                                <!-- Fields for 3 fields mode -->
-                                <input :disabled="calculatedField === 'duration'"
-                                       class="w-10 pl-1 pr-1 text-center number-input"
-                                       :placeholder="[calculatedField === 'duration' ? '' : 'hh']"
-                                       @keydown.delete.left.right="updateCursor('hours',$event)"
-                                       @keydown.down="decrement('durationHours', 'hours')" autocomplete="off"
-                                       @keydown.up="increment('durationHours', 'hours')" ref="hours"
-                                       inputmode="numeric" pattern="[0-9]*" v-model="durationHours"/>
-                                <span class="noselect-nodrag self-center">:</span>
-                                <input :disabled="calculatedField === 'duration'"
-                                       class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
-                                       :placeholder="[calculatedField === 'duration' ? '' : 'mm']"
-                                       @keydown.delete.left.right="updateCursor('minutes',$event)"
-                                       autocomplete="off"
-                                       @keydown.down="decrement('durationMinutes', 'minutes')"
-                                       @keydown.up="increment('durationMinutes', 'minutes')" ref="minutes"
-                                       inputmode="numeric" pattern="[0-9]*" v-model="durationMinutes"/>
-                                <span class="noselect-nodrag self-center">:</span>
-                                <input :disabled="calculatedField === 'duration'"
-                                       class="w-10 pl-1 pr-1 text-center number-input"
-                                       :placeholder="[calculatedField === 'duration' ? '' : 'ss']"
-                                       @keydown.delete.left.right="updateCursor('seconds',$event)"
-                                       autocomplete="off"
-                                       @keydown.down="decrement('durationSeconds', 'seconds')"
-                                       @keydown.up="increment('durationSeconds', 'seconds')" ref="seconds"
-                                       inputmode="numeric" pattern="[0-9]*" v-model="durationSeconds"/>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <!-- SWITCH 1 field / 3 fields -->
-                <div @click="oneFieldMode = !oneFieldMode"
-                     :class="calculatedField === 'duration' ? 'noselect-nodrag active' : ''"
-                     class="box-option relative w-12 noselect-nodrag">
-                    <div class="h-6">
-                        <svg :class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']" class="mt-2">
-                            <rect :style="calculatedField === 'duration' ? 'fill:#2C629D' : 'fill:white'" height="5"
-                                  rx="2" ry="2" width="5"
-                                  x="0"
-                                  y="0"/>
-                        </svg>
-                        <svg :class="[oneFieldMode ? 'dot' : 'dot']" class="mt-2">
-                            <rect :style="calculatedField === 'duration' ? 'fill:#2C629D' : 'fill:white'" height="5"
-                                  rx="2" ry="2" width="5"
-                                  x="0"
-                                  y="0"/>
-                        </svg>
-                        <svg :class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']" class="mt-2">
-                            <rect :style="calculatedField === 'duration' ? 'fill:#2C629D' : 'fill:white'" height="5"
-                                  rx="2" ry="2" width="5"
-                                  x="0"
-                                  y="0"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+            <duration-field 
+                :isCalculated="calculatedField === 'duration'"/>
+        
 
             <!-- DISTANCE -->
             <div class="flex flex-col h-24 noselect-nodrag">
@@ -138,7 +68,7 @@
             </div>
 
             <!-- SPEED -->
-            <div class="flex flex-col h-24">
+            <div class="flex flex-col h-24 h-">
                 <div :class="calculatedField === 'speed' ? 'calculated noselect-nodrag' : ''"
                      class="box speed self-stretch justify-between shadow-md">
                     <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="speed"
@@ -204,23 +134,16 @@
     import RemovePresetDistance from '@/components/RemovePresetDistance'
     import ShareMA from "@/components/ShareMA"
     import ShareSocial from "@/components/ShareSocial"
-    import {prettyDuration} from "@/utils/formatData";
+    import {prettyDuration} from "@/utils/formatData"
+import DurationField from './atoms/DurationField.vue'
 
     import {mapState} from 'vuex';
 
     export default {
         name: "Calculator",
-        components: {ShareMA, AddPresetDistance, RemovePresetDistance, ShareSocial},
+        components: {ShareMA, AddPresetDistance, RemovePresetDistance, ShareSocial, DurationField},
         data() {
             return {
-                /* duration */
-                durationString: '',
-                durationDisplayed: '',
-                durationDisplayedUnit: 'h',
-                oneFieldMode: false,
-                durationHours: '',
-                durationMinutes: '',
-                durationSeconds: '',
                 /* distance */
                 presetDistances: '',
                 showPresetDistances: false,
@@ -232,7 +155,7 @@
             };
         },
         computed: {
-            ...mapState(["unitMode", "unitMultipliers", "distanceUnit", "distanceUnits", "speedUnit", "speedUnits", "paceUnit", "paceUnits"]),
+            ...mapState(["unitMode", "unitMultipliers", "distanceUnit", "distanceUnits", "speedUnit", "speedUnits", "paceUnit", "paceUnits", "duration"]),
             speed: {
                 get() {
                     return this.$store.state.speed
@@ -255,14 +178,6 @@
                 },
                 set(val) {
                     this.$store.commit('setDistance', val)
-                }
-            },
-            duration: {
-                get() {
-                    return this.$store.state.duration
-                },
-                set(val) {
-                    this.$store.commit('setDuration', val)
                 }
             },
             calculatedField: {
@@ -322,7 +237,7 @@
                     // DURATION calculation
                 } else if (dis && spe && (!dur || (dur && this.calculatedField === 'duration'))) {
                     this.calculatedField = 'duration';
-                    this.duration = this.formatDistance(this.distance) / this.formatSpeed(this.speed);
+                    this.$store.commit('setDuration', this.formatDistance(this.distance) / this.formatSpeed(this.speed));
                     // DISTANCE calculation
                 } else if (spe && dur && (!dis || (dis && this.calculatedField === 'distance'))) {
                     this.calculatedField = 'distance';
@@ -335,7 +250,7 @@
                 }
             },
             clearFields() {
-                this.duration = '';
+                this.$store.commit('setDuration', '');
                 this.durationHours = '';
                 this.durationMinutes = '';
                 this.durationSeconds = '';
@@ -448,7 +363,7 @@
                             this.$refs['minutes'].focus();
                         }
                     }
-                    // to right management
+                // to right management
                 } else if (event.key === "ArrowRight") {
                     if (ref === 'hours' && this.$refs[ref].selectionStart === this.durationHours.length) {
                         event.preventDefault();
@@ -631,7 +546,7 @@
                     this.durationDisplayedUnit = ''
                 }
                 if (this.calculatedField !== 'duration') {
-                    this.duration = this.formatDuration(this.durationString);
+                    this.$store.commit('setDuration', this.formatDuration(this.durationString))
                 }
             },
             durationHours(newVal, oldVal) {
@@ -657,7 +572,7 @@
                 duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 duration += this.durationSeconds ? this.durationSeconds + 's' : '';
                 if (this.calculatedField !== 'duration') {
-                    this.duration = this.formatDuration(duration, 1);
+                    this.$store.commit('setDuration', this.formatDuration(duration, 1))
                 }
             },
             durationMinutes(newVal, oldVal) {
@@ -684,7 +599,7 @@
                 duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 duration += this.durationSeconds ? this.durationSeconds + 's' : '';
                 if (this.calculatedField !== 'duration') {
-                    this.duration = this.formatDuration(duration, 1);
+                    this.$store.commit('setDuration', (duration, 1))
                 }
             },
             durationSeconds(newVal, oldVal) {
@@ -707,7 +622,7 @@
                 duration += this.durationMinutes ? this.durationMinutes + 'm' : '';
                 duration += this.durationSeconds ? this.durationSeconds + 's' : '';
                 if (this.calculatedField !== 'duration') {
-                    this.duration = this.formatDuration(duration, 1);
+                    this.$store.commit('setDuration', (duration, 1));
                 }
             },
             distance(newVal, oldVal) {
@@ -725,7 +640,7 @@
                         this.speed = '';
                         this.pace = ''
                     } else if (this.calculatedField === 'duration') {
-                        this.duration = '';
+                        this.$store.commit('setDuration', '')
                     }
 
                 } else if (this.calculatedField !== 'distance') {
@@ -762,7 +677,7 @@
                 if (!this.speed) {
                     this.pace = '';
                     if (this.calculatedField === 'duration') {
-                        this.duration = '';
+                        this.$store.commit('setDuration', '')
                     } else if (this.calculatedField === 'distance') {
                         this.distance = ''
                     }
@@ -862,40 +777,12 @@
             separator(newVal) {
                 localStorage.separator = newVal;
             },
-            duration() {
-                // if a field is calculated, dispatch duration value to other fields
-                if (this.calculatedField) {
-                    if (!this.oneFieldMode) {
-                        this.durationHours = this.formatDuration(prettyDuration(this.duration, 3), 3).hours;
-                        this.durationMinutes = this.formatDuration(prettyDuration(this.duration, 3), 3).minutes;
-                        this.durationSeconds = this.formatDuration(prettyDuration(this.duration, 3), 3).seconds;
-                    } else {
-                        console.log('not one field mode');
-                        this.durationString = prettyDuration(this.duration, true);
-                        console.log(this.durationString)
-                    }
-                    if (this.calculatedField === 'duration') {
-                        this.durationHours = parseFloat(this.durationHours) ? parseFloat(this.durationHours) < 10 ? '0' + this.durationHours : parseFloat(this.durationHours) : '00';
-                        this.durationMinutes = parseFloat(this.durationMinutes) ? parseFloat(this.durationMinutes) < 10 ? '0' + this.durationMinutes : parseFloat(this.durationMinutes) : '00';
-                        this.durationSeconds = parseFloat(this.durationSeconds) ? parseFloat(this.durationSeconds) < 10 ? '0' + this.durationSeconds : parseFloat(this.durationSeconds) : '00';
-                    }
-                } else {
-                    // one field mode : dispatch to 3 other fields
-                    if (this.oneFieldMode) {
-                        this.durationHours = this.formatDuration(this.durationString, 3).hours || '';
-                        this.durationMinutes = this.formatDuration(this.durationString, 3).minutes || '';
-                        this.durationSeconds = this.formatDuration(this.durationString, 3).seconds || '';
-                    } else {
-                        this.durationString = prettyDuration(this.duration, true);
-                    }
-                }
-            },
             handleCheckFields() {
                 this.checkFields()
             }
         },
         mounted() {
-            this.separator = localStorage.separator ? localStorage.separator : '.';
+            this.separator = localStorage.separator || '.';
             this.oneFieldMode = localStorage.oneFieldMode ? JSON.parse(localStorage.oneFieldMode) : false;
 
             if (localStorage.speedFormat) {

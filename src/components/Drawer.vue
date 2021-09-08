@@ -67,7 +67,6 @@
 
     .slide-left-enter-active {
         transition: 200ms;
-        opacity: 0;
     }
 
     .slide-left-leave-active {
