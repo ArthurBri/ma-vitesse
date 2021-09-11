@@ -68,7 +68,6 @@
     .link {
         text-decoration: underline;
         text-decoration-color: $ma-secondary;
-        transition: all 500ms;
 
         &:hover {
             text-decoration-color: $ma-primary;

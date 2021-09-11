@@ -1,6 +1,5 @@
 .mv-btn {
   @apply text-primary border rounded-lg px-2 py-1 shadow cursor-pointer;
-  transition: all 100ms ease;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Old versions of Firefox */
@@ -18,7 +17,6 @@
   box-shadow: 0 1px 3px 0 rgba(white, 0.5);
 
 
-  transition: all 100ms ease;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Old versions of Firefox */

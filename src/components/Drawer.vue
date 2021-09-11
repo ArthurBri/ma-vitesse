@@ -73,14 +73,12 @@
         transition: 200ms;
     }
 
-    @screen xs {
-        .slide-left-enter, .slide-left-leave-to {
-            transform: translateX(100vw);
-        }
+    .slide-left-enter, .slide-left-leave-to {
+        transform: translateX(100vw);
+    }
 
-        .drawer-header {
-            @apply px-3 py-2;
-        }
+    .drawer-header {
+        @apply px-3 py-2;
     }
 
     @screen sm {

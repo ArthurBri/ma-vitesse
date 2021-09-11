@@ -1,21 +1,20 @@
 <template>
     <div>
         <preloader v-if="showPreloader"/>
-        <div :class="[isSafari ? 'bg-safari' : '']" class="bg-gray-800"></div>
+        <div class="bg-gray-800"></div>
         <div id="app" v-if="!showPreloader">
-            <Header/>
             <h1 class="app-description">
-                <span class="font-semibold text-4xl">{{ $t('global.app_subname') }}</span>
+                <span class="text-4xl">{{ $t('global.app_subname') }}</span>
                 <span class="mv-icon mv-icon-run ml-2 fill-current text-primary"/>
                 <span class="mv-icon mv-icon-bike ml-2 "/>
                 <span class="mv-icon mv-icon-hiking ml-2"/>
             </h1>
-            <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
-                <Calculator class="mt-12"/>
-                <div class="w-full flex xs:flex-col sm:flex-col md:flex-col justify-center">
+            <div class="body">
+                <Calculator/>
+                <div class="w-3/4 flex justify-center">
                     <transition name="fade">
-                        <div class="tabs-menu sm:w-full xs:w-full mt-5 xs:mt-0" v-if="showTabMenu">
-                            <div class="tabs flex flex-col xs:flex-row md:flex-row xs:overflow-x-auto overflow-x-auto xl:h-24">
+                        <div class="tabs-menu" v-if="showTabMenu">
+                            <div class="tabs">
                                 <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
                                              @click.native="setTabActive('laptime')"
                                              :label="$t('laptime.title')" component="laptime"/>
@@ -23,8 +22,7 @@
                                              @click.native="setTabActive('predictions')"
                                              :label="$t('predictions.title')" component="predictions"/>
                             </div>
-                            <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:w-full sm:w-full
-                                lg:rounded-b-lg md:rounded-b-lg rounded-r-lg sm:rounded-r-none xs:rounded-none w-full justify-center"
+                            <div class="tabs-content"
                                  v-if="showTabMenu">
                                 <div class="p-6">
                                     <LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>
@@ -37,6 +35,7 @@
                 </div>
             </div>
             <router-view/>
+            <Header/>
             <Footer/>
         </div>
     </div>
@@ -58,19 +57,17 @@
         data() {
             return {
                 showPreloader: true,
-                tabActive: '',
-                isSafari: false
+                tabActive: ''
             }
         },
         mounted() {
-            this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-            // Récupération de la langue de l'app
-            this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
-            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
             setTimeout(() => {
                 this.showPreloader = false;
-            }, 300);
+            }, 200);
+
+            this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
+            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
+       
 
             // Définition de l'onglet / tab actif
             if (localStorage.getItem('activeTab')) {
@@ -132,62 +129,24 @@
     }
 
     .body {
-        @apply flex flex-grow flex-wrap ml-0 mb-8 justify-center overflow-auto w-4/6 items-start content-start;
+        @apply flex flex-grow flex-wrap ml-0 justify-center w-1/2 items-start content-start
+        pt-8 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden;
     }
 
     .app-description {
-        @apply text-primary flex items-center text-center text-3xl mx-5;
+        @apply mt-16 sm:mt-20 sm:text-lg md:text-xl lg:text-xl xl:my-24 text-xl;
     }
 
-    @screen xs {
-        .body {
-            @apply w-full mb-0;
-        }
-
-        .app-description {
-            @apply mt-16 text-base;
-        }
-
+    .tabs {
+        @apply flex flex-col;
     }
 
-    @screen sm {
-        .body {
-            @apply w-full;
-        }
-
-        .tabs-content {
-            @apply rounded-r-none;
-        }
-
-        .app-description {
-            @apply mt-20 text-lg;
-        }
+    .tabs-content {
+        @apply rounded-lg rounded-tl-none;
     }
 
-    @screen md {
-        .tabs-menu {
-            @apply flex-col;
-        }
-
-        .app-description {
-            @apply mt-20 text-xl;
-        }
-    }
-
-    @screen lg {
-        .body {
-            @apply w-5/6;
-        }
-
-        .app-description {
-            @apply text-2xl mt-20;
-        }
-    }
-
-    @screen xl {
-        .app-description {
-            @apply text-3xl mt-24;
-        }
+    .tabs-menu {
+        @apply flex sm:w-full;
     }
 
     h2, h1, p {
@@ -196,10 +155,6 @@
 
     .tab {
         cursor: pointer;
-
-        > span {
-            cursor: pointer;
-        }
     }
 
     .tabs-content {
@@ -214,15 +169,5 @@
         @apply flex;
         z-index: 0;
 
-    }
-
-    @screen xs {
-        .tabs-menu {
-            @apply flex-col;
-        }
-
-        .tabs-content {
-            @apply rounded-none rounded-r-none;
-        }
     }
 </style>

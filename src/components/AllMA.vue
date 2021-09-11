@@ -16,7 +16,7 @@
             </div>
             <div class="body flex self-center">
                 <div class="flex items-stretch justify-center flex-wrap">
-                    <div class="row" v-for="(item) in meanAppsList">
+                    <div class="row" v-for="(item) in meanAppsList" :key="item.name">
                         <div @click="openLink(item.url)"
                              :style="[isHovering !== item ? { 'box-shadow' : '0 5px 1px' + item.colors.secondary,
                                        'color' : item.colors.primary} : { 'box-shadow' : 'none', 'color' : item.colors.primary}]"
@@ -24,7 +24,6 @@
                              @mouseover="isHovering = item"
                              class="app-box pl-1 pr-1 flex flex-col bg-white rounded-lg flex justify-center items-center m-3">
                             <div class="flex items-center mt-4">
-                                <!--suppress HtmlUnknownTarget -->
                                 <img :src="item.logo" alt="Mean App logo" class="h-24 sm:h-12 xs:h-8"/>
                                 <span class="text-2xl sm:text-base xs:text-base">{{ item.name}}</span>
                             </div>
@@ -86,7 +85,6 @@
     .icon-close {
         right: 0;
         filter: grayscale(100%);
-        transition: all 100ms;
 
         &:hover {
             cursor: pointer;
@@ -97,14 +95,12 @@
     .allma-modal {
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
-        transition: all 200ms;
         @apply flex justify-center z-40;
     }
 
 
     .app-box {
         cursor: pointer;
-        transition: all 200ms;
         margin-bottom: 15px;
 
         &:hover {
@@ -123,39 +119,10 @@
         transition: opacity 0.5s ease;
     }
 
-    /* <= 379px */
-    @screen xs {
-        .header {
-            @apply h-8 p-3 mt-2;
-        }
-    }
-
-    /* 380px < width > 639px  */
-    @screen sm {
-        .header {
-            @apply h-8 p-3 mt-2;
-        }
-    }
-
-    /* 640px < width > 767px */
-    @screen md {
-        .header {
-            @apply h-8 p-4 mt-3;
-        }
-    }
-
-    /* 768px < width > 1023px */
-    @screen lg {
-        .header {
-            @apply h-8 p-4 mt-3;
-        }
-    }
-
-    /* > 1024px */
-    @screen xl {
-        .header {
-            @apply h-16 p-4 pl-6 pr-6 mt-2;
-        }
+    .header {
+        @apply h-8 p-3 mt-2;
+        @apply sm:p-4 sm:mt-3;
+        @apply xl:h-16 xl:pl-6 xl:pr-6 xl:mt-2;
     }
 
     .header {

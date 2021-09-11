@@ -1,8 +1,8 @@
 <template>
     <div class="relative w-full">
-        <div class="header fixed">
+        <div class="header">
             <div class="header-start flex flex-row">
-                <div class="logo flex fixed left-1/2 transform -translate-x-1/2 bottom-8 justify-center items-center px-2 py-1">
+                <div class="logo">
                     <img alt="logo" class="noselect-nodrag xs:w-6 sm:w-8 md:w-8 lg:w-12 xl:w-12 cursor-pointer"
                          src="../assets/logo.svg"/>
                     <h1 class="flex flex-col text-center xs:text-base xs:ml-1 xs:font-bold sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
@@ -113,7 +113,6 @@
 
     .logo, .about-icon, .settings-icon, .all-ma-icon {
         cursor: pointer;
-        transition: all 200ms;
 
         &:hover {
             transform: scale(1.05);
@@ -121,50 +120,12 @@
         }
     }
 
-    /* <= 379px */
-    @screen xs {
-        .header {
-            @apply px-3;
-            background-color: rgba(white, 0.8);
-            backdrop-filter: blur(2px);
-        }
-    }
-
-    /* 380px < width > 639px  */
-    @screen sm {
-        .header {
-            @apply px-3 py-2;
-            background-color: rgba(white, 0.8);
-            backdrop-filter: blur(2px);
-        }
-    }
-
-    /* 640px < width > 767px */
-    @screen md {
-        .header {
-            @apply px-4 py-2;
-            background-color: rgba(white, 0.6);
-            backdrop-filter: blur(2px);
-        }
-    }
-
-    /* 768px < width > 1023px */
-    @screen lg {
-        .header {
-            @apply px-4 py-2;
-            background-color: rgba(white, 0.4);
-            backdrop-filter: blur(2px);
-        }
-    }
-
-    /* > 1024px */
-    @screen xl {
-        .header {
-            @apply px-6 py-2 text-white;
-        }
-    }
-
     .header {
-        @apply flex flex-row items-center justify-between w-full z-30;
+        @apply flex flex-row items-center justify-between w-full z-30 p-3 text-white;
+        backdrop-filter: blur(2px);
+    }
+
+    .logo {
+        @apply flex fixed left-1/2 transform -translate-x-1/2 bottom-8 justify-center items-center px-2 py-1;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
-    <div class="box">
-        <div class="flex items-center mb-4 xs:flex-col lg:flex-col"
+    <div class="box flex-col">
+        <div class="flex items-center mb-4 xs:flex-col"
              v-if="distance && duration && defaultDistances.length">
             <div class="flex cursor-pointer shadow-lg rounded-lg ">
                 <div :class="[formulaSelected === 'Riegel' ? 'text-primary bg-white font-bold' : '']"
@@ -65,11 +65,11 @@
                 let predictions = JSON.parse(JSON.stringify(this.defaultDistances));
                 predictions.forEach(element => {
                     if (this.formulaSelected === 'Riegel') {
-                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.06))
+                        element.duration = prettyDuration((this.duration * (element.distance / this.distance) * 1.06))
                     } else if (this.formulaSelected === 'Williams') {
-                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.')) * 1.15))
+                        element.duration = prettyDuration((this.duration * (element.distance / this.distance) * 1.15))
                     } else {
-                        element.duration = prettyDuration((this.duration * (element.distance.replace(',', '.') / this.distance.replace(',', '.'))))
+                        element.duration = prettyDuration((this.duration * (element.distance / this.distance)))
 
                     }
                 });
@@ -96,10 +96,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @screen xs {
-        .box {
-            @apply mt-4 rounded-none;
-        }
+    .box {
+        @apply mt-4 rounded-none;
     }
 
     @screen sm {

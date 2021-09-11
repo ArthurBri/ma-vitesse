@@ -1,20 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import i18n from './../i18n';
+import i18n from './../i18n'
+import { version } from '../../package.json'
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     strict: true,
     state: {
-        speed: '',
+        speed: 0,
         speedFormat: 'speed',
-        distance: '',
-        duration: '',
+        distance: 0,
+        duration: 0,
         defaultDistances: [
-            {label: i18n.t('common.marathon'), distance: "42.195"},
-            {label: i18n.t('common.half_marathon'), distance: "21.0975"},
-            {label: "10km", distance: "10"},
+            {label: i18n.t('common.marathon'), distance: 42.195},
+            {label: i18n.t('common.half_marathon'), distance: 21.0975},
+            {label: "10km", distance: 10},
         ],
         unitMode: 'km',
         /* unit of reference is km */
@@ -41,20 +42,22 @@ export const store = new Vuex.Store({
         showPredictions: true,
         showLapTime: true,
         showUpdatesAlert: true,
-        currentUpdateAlert: 1,
+        currentUpdateAlert: version,
         oneFieldMode: false,
         lang: 'fr',
         calculatedField: ''
     },
     mutations: {
         setSpeed(state, speed) {
-            state.speed = String(speed).replace(",", ".")
+            state.speed = speed
         },
         setSpeedFormat(state, speedFormat) {
             state.speedFormat = speedFormat
+            localStorage.setItem('speedFormat', state.speedFormat)
         },
         setDistance(state, distance) {
-            state.distance = String(distance).replace(",", ".")
+            console.log(typeof distance)
+            state.distance = distance
         },
         setDuration(state, duration) {
             state.duration = duration
@@ -63,16 +66,16 @@ export const store = new Vuex.Store({
             state.calculatedField = calculatedField
         },
         setOneFieldMode(state, oneFieldMode) {
-            state.oneFieldMode = oneFieldMode;
-            localStorage.oneFieldMode = state.oneFieldMode;
+            state.oneFieldMode = oneFieldMode
+            localStorage.setItem('oneFieldMode', state.oneFieldMode)
         },
         showPredictions(state, show) {
             state.showPredictions = show;
-            localStorage.showPredictions = state.showPredictions;
+            localStorage.setItem('showPredictions', state.showPredictions)
         },
         showLapTime(state, show) {
             state.showLapTime = show;
-            localStorage.showLapTime = state.showLapTime;
+            localStorage.setItem('showLapTime', state.showLapTime)
         },
         hideUpdatesAlert(state) {
             state.showUpdatesAlert = false;
@@ -104,6 +107,13 @@ export const store = new Vuex.Store({
             state.distanceUnit = state.distanceUnits.filter(distanceUnit => distanceUnit.type === state.unitMode)[0].type;
             state.speedUnit = state.speedUnits.filter(speedUnit => speedUnit.type === state.unitMode)[0].type;
             state.paceUnit = state.paceUnits.filter(paceUnit => paceUnit.type === state.unitMode)[0].type;
+
+            const currentMultplier = state.unitMultipliers.filter(unitMultiplier => unitMultiplier.type === state.unitMode)[0].multiplier || 1
+            const newMultiplier = state.unitMultipliers.filter(unitMultiplier => unitMultiplier.type === state.unitMode)[0].multiplier || 1
+
+            state.speed = this.speed * newMultiplier / currentMultplier || 0
+            state.distance = this.distance * newMultiplier / currentMultplier || 0
+
             localStorage.setItem('unitMode', state.unitMode);
         },
         initializeStore(state) {
@@ -116,19 +126,24 @@ export const store = new Vuex.Store({
             }
 
             if (localStorage.getItem('updatesAlertHidden')) {
-                if (JSON.parse(localStorage.getItem('updatesAlertHidden')) !== state.currentUpdateAlert) {
-                    state.showUpdatesAlert = true
-                } else {
-                    state.showUpdatesAlert = false
-                }
+                state.showUpdatesAlert = JSON.parse(localStorage.getItem('updatesAlertHidden')) !== state.currentUpdateAlert
             }
 
             if (localStorage.getItem('defaultDistances')) {
-                state.defaultDistances = JSON.parse(localStorage.getItem('defaultDistances'));
+                state.defaultDistances = JSON.parse(localStorage.getItem('defaultDistances'))
+                    .map(defaultDistance => ({ 
+                        ...defaultDistance, 
+                        distance: parseFloat(defaultDistance.distance) 
+                    })
+                )
             }
 
             if (localStorage.getItem('oneFieldMode')) {
                 state.oneFieldMode = JSON.parse(localStorage.getItem('oneFieldMode'));
+            }
+
+            if (localStorage.getItem('speedFormat')) {
+                state.speedFormat = localStorage.getItem('speedFormat')
             }
 
             if (localStorage.getItem('unitMode')) {

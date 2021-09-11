@@ -67,7 +67,7 @@
                     <div class="bg-white shadow-lg" v-if="lastWorkouts.length > 1">
                         <tbody :class="[showAllWorkouts ? 'h-48 opacity-100' : 'h-0 opacity-25']"
                                class="more-workouts show-workouts xs:text-xs z-10">
-                        <tr v-for="(lastWorkout, index) in lastWorkouts" v-if="index > 0">
+                        <tr v-for="(lastWorkout, index) in lastWorkouts" :key="index.value">
                             <td><span :class="'flag-icon-' + lastWorkout.country_code"
                                       class="h-5 flag-icon"/></td>
                             <td class="noselect-nodrag"><b>{{lastWorkout.distance}} {{lastWorkout.distance_unit}}</b> {{
@@ -110,7 +110,7 @@
 
     let moment = require('moment');
     let {prettyDuration, formatSpeed} = require('../utils/formatData');
-    const axios = require('axios');
+    // const axios = require('axios');
 
     export default {
         name: "ShareMA",
@@ -144,43 +144,43 @@
                 }
             },
             shareWorkout() {
-                const axios = require('axios');
+                // const axios = require('axios');
                 // Make a request for a user with a given ID
-                const ax = axios.create({
-                    baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
-                });
+                // const ax = axios.create({
+                //     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
+                // });
 
-                ax.post('/workouts', {
-                    distance: this.distance,
-                    distance_unit: this.distanceUnit,
-                    duration: this.duration,
-                    speed: this.speed,
-                    speed_unit: this.speedUnit,
-                    calculated_field: this.calculatedField,
-                    created_date: Date.now(),
-                    type: 'public'
-                }).then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                        localStorage.setItem('lastSharedWorkout', Date.now());
-                        this.lastSharedWorkout = Date.now();
-                    }
-                }).catch((error) => {
-                    console.log(error)
-                });
+                // ax.post('/workouts', {
+                //     distance: this.distance,
+                //     distance_unit: this.distanceUnit,
+                //     duration: this.duration,
+                //     speed: this.speed,
+                //     speed_unit: this.speedUnit,
+                //     calculated_field: this.calculatedField,
+                //     created_date: Date.now(),
+                //     type: 'public'
+                // }).then((response) => {
+                //     console.log(response);
+                //     if (response.status === 201) {
+                //         localStorage.setItem('lastSharedWorkout', Date.now());
+                //         this.lastSharedWorkout = Date.now();
+                //     }
+                // }).catch((error) => {
+                //     console.log(error)
+                // });
             },
             loadWorkouts() {
                 // Make a request for a user with a given ID
-                const ax = axios.create({
-                    baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
-                });
-                ax.get('/workouts?limit=7&type=public')
-                    .then(response => {
-                        this.lastWorkouts = response.data;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
+                // const ax = axios.create({
+                //     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
+                // });
+                // ax.get('/workouts?limit=7&type=public')
+                //     .then(response => {
+                //         this.lastWorkouts = response.data;
+                //     })
+                //     .catch((error) => {
+                //         console.log(error);
+                //     })
             },
         },
         computed: {
@@ -293,11 +293,9 @@
         }
     }
 
-    @screen xs {
-        .chevron.animated {
-            @apply rotate-0 transform;
-            animation: move-bottom 2000ms infinite;
-        }
+    .chevron.animated {
+        @apply rotate-0 transform;
+        animation: move-bottom 2000ms infinite;
     }
 
     @screen sm {

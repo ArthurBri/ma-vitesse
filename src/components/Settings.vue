@@ -11,7 +11,7 @@
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
                     <div class="ml-2 flex mb-2">
                         <div class="flex">
-                            <div class="flex flex-col noselect-nodrag mx-2" v-for="language in langList">
+                            <div class="flex flex-col noselect-nodrag mx-2" v-for="language in langList" :key="language.lang_code">
                                 <span :class="'flag-icon-' + language.country_code"
                                       @click="lang = language.lang_code"
                                       class="flag-icon text-3xl cursor-pointer noselect-nodrag px-1 pb-3 mb-2"/>
@@ -57,7 +57,7 @@
                     <div class="mt-2">
                         <div class="flex">
                             <label class="switch">
-                                <<input class="appearance-none" type="checkbox" v-model="showLapTime">
+                                <input class="appearance-none" type="checkbox" v-model="showLapTime">
                                 <span class="slider round shadow-lg"/>
                             </label>
                             <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
@@ -154,7 +154,6 @@
     .link {
         text-decoration: underline;
         text-decoration-color: $ma-secondary;
-        transition: all 500ms;
 
         &:hover {
             text-decoration-color: $ma-primary;

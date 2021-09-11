@@ -49,7 +49,6 @@
         border-radius: 3px;
         font-size: 14px;
         cursor: pointer;
-        transition: all 200ms;
 
         &:hover {
             transform: scale(1.1);
@@ -58,7 +57,6 @@
     }
 
     .icon-close {
-        transition: all 200ms;
         cursor: pointer;
 
         &:hover {

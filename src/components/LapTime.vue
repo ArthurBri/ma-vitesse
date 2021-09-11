@@ -26,7 +26,7 @@
                     <label aria-label="Switch between duration steps" for="duration-steps"/>
                     <select class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                             id="duration-steps" v-if="laptime_type === 'duration'" v-model="selected_duration_step">
-                        <option :value="step.value" v-for="step in time_steps">
+                        <option :value="step.value" :key="step.value" v-for="step in time_steps">
                             {{ step.label }}
                         </option>
                     </select>
@@ -146,8 +146,8 @@
             dataChange: {
                 handler() {
                     if (this.distance > 1000) return false;
-                    let remaining_distance = parseFloat(this.distance.replace(",", "."));
-                    let remaining_duration = parseFloat(this.duration.toString());
+                    let remaining_distance = this.distance;
+                    let remaining_duration = this.duration;
 
                     // DISTANCE - Laptime steps
                     if (this.laptime_type === 'distance') {
@@ -160,7 +160,7 @@
                                 duration = (remaining_distance * this.duration) / this.distance;
                             }
                             this.laptime_distance_steps.push({
-                                remaining_distance: parseFloat(remaining_distance.toFixed(2)),
+                                remaining_distance: parseFloat(remaining_distance),
                                 duration: prettyDuration(duration, this.oneFieldMode),
                                 remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
                             });

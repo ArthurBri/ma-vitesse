@@ -61,7 +61,7 @@
 
 <script>
     import CenterModal from '@/components/CenterModal'
-    import {prettyDuration} from '@/utils/formatData'
+    // import {prettyDuration} from '@/utils/formatData'
     import {mapState} from 'vuex'
 
     export default {
@@ -74,22 +74,22 @@
         },
         components: {CenterModal},
         mounted() {
-            const axios = require('axios');
-            const moment = require('moment');
-            // Make a request for a user with a given ID
-            const ax = axios.create({
-                baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
-            });
-            ax.get('/workouts/' + this.$route.params.id)
-                .then(response => {
-                    this.workout = response.data;
-                    this.workout.created_date = moment(this.workout.created_date.format).format('L');
-                    this.workout.duration = prettyDuration(this.workout.duration, this.oneFieldMode)
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.workout = ''
-                })
+            // const axios = require('axios');
+            // const moment = require('moment');
+            // // Make a request for a user with a given ID
+            // const ax = axios.create({
+            //     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:80' : process.env.BASE_URL
+            // });
+            // ax.get('/workouts/' + this.$route.params.id)
+            //     .then(response => {
+            //         this.workout = response.data;
+            //         this.workout.created_date = moment(this.workout.created_date.format).format('L');
+            //         this.workout.duration = prettyDuration(this.workout.duration, this.oneFieldMode)
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //         this.workout = ''
+            //     })
         },
         methods: {
             close() {
