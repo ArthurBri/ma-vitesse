@@ -43,9 +43,11 @@
 import { mapState } from 'vuex'
 import AddPresetDistance from '@/components/AddPresetDistance'
 import RemovePresetDistance from '@/components/RemovePresetDistance'
+import fieldOperations from '../../mixins/fieldOperations'
 
 export default {
     name: "DistanceField",
+    mixins: [fieldOperations],
     components: { AddPresetDistance, RemovePresetDistance },
     data () {
         return {
@@ -68,116 +70,78 @@ export default {
         ...mapState(["unitMultipliers", "unitMode", "distanceUnit", "distanceUnits"]),
         distanceAsString: {
             get() {
-                return this.value.toString()
+                return this.value !== 0 ? this.value.toString() : ''
             },
             set(val) {
-                this.$emit('input', parseFloat(val))
+                this.$emit('input', parseFloat(val.replace(",", ".")))
             }
         }
     },
     methods: {
-        increment(field, ref = null) {
-            if (this[field]) {
-                if (typeof this[field] === 'string') {
-                    this[field] = String(parseFloat(this[field].replace(",", ".")) + 1);
-                } else {
-                    this[field] = String(this[field]++)
-                }
-            } else {
-                this[field] = "1"
-            }
-            if (ref) {
-                this.$nextTick(() => {
-                    this.$refs[ref].focus()
-                });
-            }
-        },
-        decrement(field, ref = null) {
-            if (this[field] > 0) {
-                if (typeof this[field] === 'string') {
-                    this[field] = String(parseFloat(this[field].replace(",", ".")) - 1);
-                } else {
-                    this[field] = String(this[field]--)
-                }
-            } else {
-                this[field] = "0"
-            }
-            if (ref) {
-                this.$nextTick(() => {
-                    this.$refs[ref].focus()
-                });
-            }
-        },
         unitChange(fieldType, unit) {
             this.$store.commit('changeUnitMode', {
                 fieldType, 
                 unit
-            });
+            })
         },
         closeAddDistance() {
             this.addDistance = false
-            this.presetDistances = ""
+            this.presetDistances = ''
         },
         closeRemoveDistance() {
-            this.removeDistance = false;
-            this.presetDistances = ""
+            this.removeDistance = false
+            this.presetDistances = ''
         },
     },
     watch: {
         distanceAsString (newVal, oldVal) {
-            if (this.$store.state.defaultDistances.find(defaultDist =>
-                defaultDist.distance === this.value )) {
-                this.presetDistances = this.$store.state.defaultDistances.find(defaultDist =>
-                    defaultDist.distance === this.value ).label;
+            if (this.$store.state.defaultDistances.find(defaultDist => defaultDist.distance === this.value )) {
+                this.presetDistances = this.$store.state.defaultDistances
+                    .find(defaultDist =>defaultDist.distance === this.value ).label
             } else {
                 this.presetDistances = ""
             }
 
-            if (!this.value ) {
-                if (this.isCalculated) {
-                    this.speed = '';
-                    this.pace = ''
-                } else if (!this.isCalculated) {
+            if (!this.isCalculated) {
                     // check leading zero is followed by zero or , / .
-                    if (this.value.match(/^0{2,}(?![.,])/g)) {
+                    if (this.distanceAsString.match(/^0{2,}(?![.,])/g)) {
                         // if yes : cancelling the input
-                        this.$emit('input', oldVal)
+                        this. distanceAsString = oldVal
                     }
                     // removing all others leading zeros by
-                    this.$emit('input', this.value.replace(/^0([0-9]+)/g, '$1'))
+                    this.distanceAsString = this.distanceAsString.replace(/^0([0-9]+)/g, '$1')
 
                     // if distance matches at least partially with the pattern ?
-                    if (this.value .match(/\d{0,9}([.,]\d{0,4})?/g)) {
+                    if (this.distanceAsString.match(/\d{0,9}([.,]\d{0,4})?/g)) {
                         // if not exactly match
-                        if (this.value .match(/\d{0,9}([.,]\d{0,4})?/g)[0] !== this.value ) {
+                        if (this.distanceAsString.match(/\d{0,9}([.,]\d{0,4})?/g)[0] !== this.distanceAsString ) {
                             // if too much decimals
-                            if (this.value .match(/\d+([.,]\d*)?/g)) {
-                                this.$emit('input', String(parseFloat(parseFloat(this.value ).toFixed(4))))
+                            if (this.distanceAsString.match(/\d+([.,]\d*)?/g)) {
+                                this.distanceAsString = parseFloat(this.distanceAsString)
                                 // else cancelling the input
                             } else {
                                 // cancelling the input
-                                this.$emit('input', oldVal)
+                                this.distanceAsString = oldVal
                             }
                         }  
                         // else : cancelling the input
                     } else {
-                        this.$emit('input', oldVal)
+                        this.distanceAsString = oldVal
                     }
-                }
             }
         },
         presetDistances(newVal) {
             if (newVal === "addDistance") {
-                this.addDistance = true;
+                this.addDistance = true
                 this.presetDistances = ""
             }
             if (newVal === "removeDistance") {
-                this.removeDistance = true;
+                this.removeDistance = true
                 this.presetDistances = ""
             }
             if (!this.calculated && this.presetDistances) {
-                this.$emit('input', this.$store.state.defaultDistances.find(defaultDist =>
-                    defaultDist.label === this.presetDistances).distance || 0)
+                this.$emit('input', this.$store.state.defaultDistances
+                    .find(defaultDist => defaultDist.label === this.presetDistances).distance || 0)
             }
         },
     }

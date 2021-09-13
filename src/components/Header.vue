@@ -25,7 +25,6 @@
                 </div>
             </div>
             <div class="header-end flex flex-row justify-end gap-2">
-              <SettingsIcon />
                 <img @click="showModal('settings')" alt=""
                      class="mv-btn bg-primary h-10 p-2"
                      src="../assets/icons/settings.svg"
@@ -50,11 +49,10 @@
     import Settings from '@/components/Settings'
     import AllMA from '@/components/AllMA'
     import {mapState, mapMutations} from 'vuex'
-    import SettingsIcon from '@/assets/icons/settings.svg'
 
     export default {
         name: "Header",
-        components: {About, Settings, AllMA, SettingsIcon},
+        components: {About, Settings, AllMA},
         data() {
             return {
                 isModalAbout: false,
@@ -126,6 +124,6 @@
     }
 
     .logo {
-        @apply flex fixed left-1/2 transform -translate-x-1/2 bottom-8 justify-center items-center px-2 py-1;
+        @apply flex fixed left-8 bottom-8 justify-center items-center px-2;
     }
 </style>

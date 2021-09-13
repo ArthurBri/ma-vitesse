@@ -106,7 +106,7 @@ export default {
             this.duration = 0
             this.distance = 0
             this.speed = 0;
-            this.calculatedField = '';
+            this.calculatedField = ''
         },
     },
     watch: {
@@ -118,110 +118,108 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .main-box {
-      @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4 lg:shadow-xl xl:rounded-lg xl:my-4 xl:shadow-xl filter backdrop-filter	backdrop-blur-md;
-      background-color: rgba($ma-secondary, 0.2);
-      background-image: linear-gradient(171.8deg, rgba($ma-secondary, .8) 13.5%, rgba(#D17E00, 0.8) 78.6%);
+.main-box {
+    @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4 lg:shadow-xl xl:rounded-lg xl:my-4 xl:shadow-xl;
+    background-color: rgba($ma-secondary, 0.8);
+}
+
+.wrapper {
+    @apply flex flex-wrap flex-row items-center justify-center;
+}
+
+.box {
+    @apply flex justify-between items-center text-primary bg-white mt-2 ml-3 mr-3 p-3;
+    border-radius: 7px 7px 0 7px;
+    font-size: 1.1em;
+    min-height: 40px;
+}
+
+.box:hover(:not(calculated)) {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.icon {
+    width: 20px;
+    align-self: flex-start;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.calculated {
+    @apply ml-3 mt-2 shadow-lg bg-primary text-white;
+    font-weight: 800;
+}
+
+input {
+    @apply font-bold text-xl bg-transparent outline-none;
+
+    &::placeholder {
+        @apply font-light;
     }
+}
 
-    .wrapper {
-        @apply flex flex-wrap flex-row items-center justify-center;
-    }
+select {
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+    font-size: 1em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 
-    .box {
-        @apply flex justify-between items-center text-primary bg-white mt-2 ml-3 mr-3 p-3;
-        border-radius: 7px 7px 0 7px;
-        font-size: 1.1em;
-        min-height: 40px;
-    }
-
-    .box:hover(:not(calculated)) {
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    }
-
-    .icon {
-        width: 20px;
-        align-self: flex-start;
-        padding-right: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-
-    .calculated {
-        @apply ml-3 mt-2 shadow-lg bg-primary text-white;
-        font-weight: 800;
-    }
-
-    input {
-        @apply font-bold text-xl bg-transparent outline-none;
-
-        &::placeholder {
-            @apply font-light;
-        }
-    }
-    
-    select {
-        background-color: rgba(0, 0, 0, 0.0);
-        text-align: center;
-        font-size: 1em;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        text-indent: 1px;
-        text-overflow: '';
-
-        > option {
-            color: $ma-primary;
-            text-align: center;
-        }
-    }
-
-    select:focus {
-        outline: none;
-    }
-
-    h1 {
-        font-size: 2.5em;
-        text-align: center;
-    }
-
-    .clear-fields-button {
-        cursor: pointer;
-
-        &:hover {
-            transform: scale(1.05);
-        }
-    }
-
-    .calculated-label {
+    > option {
         color: $ma-primary;
+        text-align: center;
+    }
+}
+
+select:focus {
+    outline: none;
+}
+
+h1 {
+    font-size: 2.5em;
+    text-align: center;
+}
+
+.clear-fields-button {
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+.calculated-label {
+    color: $ma-primary;
+}
+
+
+.number-input {
+    &::-webkit-inner-spin-button {
+        display: none;
+    }
+    -moz-appearance: textfield;
+}
+
+.box-option {
+    @apply mr-3 px-2 self-end items-center rounded-b-lg shadow-lg flex cursor-pointer;
+
+    &:not(active) {
+        @apply bg-primary;
     }
 
-
-    .number-input {
-        &::-webkit-inner-spin-button {
-            display: none;
-        }
-        -moz-appearance: textfield;
+    &.active {
+        @apply bg-white text-primary;
     }
 
-    .box-option {
-        @apply mr-3 px-2 self-end items-center rounded-b-lg shadow-lg flex cursor-pointer;
-
-        &:not(active) {
-            @apply bg-primary;
-        }
-
-        &.active {
-            @apply bg-white text-primary;
-        }
-
-        &:hover {
-            padding-top: 5px;
-        }
+    &:hover {
+        padding-top: 5px;
     }
+}
 
-    .icon-active {
-        filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
-    }
-
+.icon-active {
+    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
+}
 </style>

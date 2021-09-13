@@ -48,7 +48,7 @@
             addDistance() {
                 this.$store.commit('addPresetDistance', {label: this.label, distance: this.distance});
                 this.label = '';
-                this.distance = '';
+                this.distance = 0;
                 this.close();
             },
             delPresetDistance(label) {

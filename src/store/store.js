@@ -18,7 +18,6 @@ export const store = new Vuex.Store({
             {label: "10km", distance: 10},
         ],
         unitMode: 'km',
-        /* unit of reference is km */
         unitMultipliers: [
             {type: 'km', label: i18n.t('common.kilometers'), multiplier: 1},
             {type: 'mi', label: i18n.t('common.kilometers'), multiplier: 0.62137119224}
@@ -38,7 +37,6 @@ export const store = new Vuex.Store({
             {type: 'km', short: "min/km", label: i18n.t('common.minutesPerKm')},
             {type: 'mi', short: "min/mi", label: i18n.t('common.minutesPerMile')}
         ],
-        /* Settings */
         showPredictions: true,
         showLapTime: true,
         showUpdatesAlert: true,
@@ -56,7 +54,6 @@ export const store = new Vuex.Store({
             localStorage.setItem('speedFormat', state.speedFormat)
         },
         setDistance(state, distance) {
-            console.log(typeof distance)
             state.distance = distance
         },
         setDuration(state, duration) {
@@ -91,10 +88,8 @@ export const store = new Vuex.Store({
             localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances));
         },
         changeUnitMode(state, newMode) {
-            // new unit mode is sent like it have to do
             if (typeof newMode === 'string') {
                 state.unitMode = newMode
-                // new unit mode déduit à partir du select des champs vitesses / distance / rythme
             } else {
                 if (newMode.fieldType === 'speed') {
                     state.unitMode = state.speedUnits.filter(speedUnit => speedUnit.type === newMode.unit)[0].type;

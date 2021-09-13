@@ -18,17 +18,17 @@
                 </div>
 
             </div>
-            <div class="flex justify-center" v-if="newDistance && newLabel && distance !=='' && label !== ''">
+            <div class="flex justify-center" v-if="newDistance && newLabel && distance && label">
                 <button @click="addDistance" aria-label="Add distance"
                         class="btn noselect-nodrag outline-none focus:outline-none rounded-lg mt-2 pl-2 pr-2 pt-1 pb-1 border-primary border"
                         type="button">
                     Ajouter
                 </button>
             </div>
-            <div v-else-if="matchDistanceLabel !== ''">
+            <div v-else-if="matchDistanceLabel">
                 <p class="text-center pt-1 mt-2">Cette distance existe, sous le nom <b>{{matchDistanceLabel}}</b></p>
             </div>
-            <div v-else-if="matchDistanceValue !== ''">
+            <div v-else-if="matchDistanceValue">
                 <p class="text-center pt-1 mt-2">Ce nom existe, associé à <b>{{matchDistanceValue}}km</b></p>
             </div>
         </template>
@@ -61,12 +61,12 @@
             addDistance() {
                 this.$store.commit('addPresetDistance', {label: this.label, distance: this.distance});
                 this.label = '';
-                this.distance = '';
+                this.distance = 0;
                 this.close();
             }
         },
         watch: {
-            label: function (newVal, oldVal) {
+            label (newVal, oldVal) {
                 this.label = newVal.length > 30 ? oldVal : newVal;
 
                 if (this.$store.state.defaultDistances.find(defaultDist =>
@@ -81,8 +81,8 @@
                 }
 
             },
-            distance: function (newVal, oldVal) {
-                if (this.distance !== '') {
+            distance (newVal, oldVal) {
+                if (this.distance) {
                     // check leading zero is followed by zero or , / .
                     if (this.distance.match(/^0{2,}(?![.,])/g)) {
                         // if yes : cancelling the input
