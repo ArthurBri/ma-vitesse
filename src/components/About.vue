@@ -4,8 +4,8 @@
             <h2>{{ $t('about.title')}}</h2>
         </template>
         <template v-slot:body>
-            <p class="ml-5 mr-5 mb-5 xs:text-xs text-base text-justify">{{ $t('about.1st_section') }}</p>
-            <p class="ml-5 mr-5 xs:text-xs text-base text-justify">{{ $t('about.2nd_section') }}</p>
+            <p class="ml-5 mr-5 mb-5 text-base text-justify">{{ $t('about.1st_section') }}</p>
+            <p class="ml-5 mr-5 text-base text-justify">{{ $t('about.2nd_section') }}</p>
             <p class="ml-5 mr-5 mt-5 text-base text-center">
                 <b>{{ $t('about.dev_label')}} ? </b>
                 <a class="link" href="mailto:contact@ma-vitesse.app">{{ $t('about.dev_contact_us')}}</a>
@@ -25,8 +25,8 @@
 
             </p>
             <p class="ml-5 mr-5 mt-5 text-base text-center">
-      <span class="text-primary h-6 sm:hidden xs:hidden">v{{ version }} - {{ $t('about.initiated_by') }}
-          <a class="link" href="https://www.linkedin.com/in/arthur-bri%C3%A8re/" rel="noreferrer" target="_blank">Arthur Brière</a></span>
+                <span class="text-primary h-6 sm:hidden">{{ version }} - {{ $t('about.initiated_by') }}
+                <a class="link" href="https://www.linkedin.com/in/arthur-bri%C3%A8re/" rel="noreferrer" target="_blank">Arthur Brière</a></span>
             </p>
             <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature"/>
         </template>
@@ -34,34 +34,34 @@
 </template>
 
 <script>
-    import Drawer from '@/components/Drawer'
-    import About from '@/components/About'
-    import SuggestFeature from '@/components/SuggestFeature'
-    import {version} from '../../package.json';
+import Drawer from '@/components/Drawer'
+import About from '@/components/About'
+import SuggestFeature from '@/components/SuggestFeature'
+import { version } from '../../package.json'
 
-    export default {
-        name: "About",
-        data() {
-            return {
-                version: version,
-                isModalVisible: false,
-                isModalAbout: false,
-                isModalSuggestFeature: false
-            }
+export default {
+    name: "About",
+    data() {
+        return {
+            version: version,
+            isModalVisible: false,
+            isModalAbout: false,
+            isModalSuggestFeature: false
+        }
+    },
+    components: {SuggestFeature, About, Drawer},
+    methods: {
+        closeModal() {
+            this.isModalVisible = false;
         },
-        components: {SuggestFeature, About, Drawer},
-        methods: {
-            closeModal() {
-                this.isModalVisible = false;
-            },
-            close() {
-                this.$emit('close');
-            },
-            closeModalSuggestFeature() {
-                this.isModalSuggestFeature = false;
-            }
+        close() {
+            this.$emit('close');
+        },
+        closeModalSuggestFeature() {
+            this.isModalSuggestFeature = false;
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>

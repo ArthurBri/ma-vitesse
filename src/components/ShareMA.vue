@@ -1,14 +1,14 @@
 <template>
-    <div class="flex xs:flex-col sm:flex-col md:flex-col justify-center items-center mx-10 xs:mx-0 sm:mx-2 md:mx-4 lg:mx-2">
+    <div class="flex sm:flex-col md:flex-col justify-center items-center mx-10 sm:mx-2 md:mx-4 lg:mx-2">
         <div v-if="calculatedField && timeLimitOk">
-            <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4 xs:mb-2 sm:mb-2 md:mb-2">
+            <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4 sm:mb-2 md:mb-2">
                 <span>{{ $t('common.share') }}</span>
                 <img alt="Chevron to show more workouts" class="chevron animated self-center ml-2"
                      src="../assets/icons/chevron.svg"/>
             </span>
         </div>
         <div class="flex flex-col items-center" v-if="lastWorkouts.length">
-            <div class="flex xs:mb-2 md:mb-2 sm:mb-2 lg:mb-1 xl:mb-1" v-if="!calculatedField || !timeLimitOk">
+            <div class="flex md:mb-2 sm:mb-2 lg:mb-1 xl:mb-1" v-if="!calculatedField || !timeLimitOk">
                 <p>{{ $t('share_ma.last_workouts')}}</p>
                 <p class="blink bg-red-700 text-white text-xs rounded-sm px-1 mx-2 self-center">
                     {{ $t('common.live') | capitalize }}</p>
@@ -22,7 +22,7 @@
                             <td class="align-middle">
                                  <span :class="'flag-icon-' + lastWorkouts[0].country_code"
                                        class="flag-icon" v-if="lastWorkouts[0].country_code"/></td>
-                            <td class="noselect-nodrag xs:text-xs align-middle text-sm">
+                            <td class="noselect-nodrag align-middle text-sm">
                                 <b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].distance_unit }}</b>
                                 {{ $t('common.in') }} <b>
                                 {{ lastWorkouts[0].duration | prettyDuration(oneFieldMode) }}</b> {{ $t('common.at') }}
@@ -54,7 +54,7 @@
                                      alt="Walk icon" src="../assets/icons/walk.svg"
                                      v-if="lastWorkouts[0].speed <= 7"/>
                             </td>
-                            <td class="xs:hidden sm:hidden md:hidden text-sm align-middle noselect-nodrag">{{
+                            <td class="sm:hidden md:hidden text-sm align-middle noselect-nodrag">{{
                                 lastWorkouts[0].created_date | moment }}
                             </td>
                         </tr>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="bg-white shadow-lg" v-if="lastWorkouts.length > 1">
                         <tbody :class="[showAllWorkouts ? 'h-48 opacity-100' : 'h-0 opacity-25']"
-                               class="more-workouts show-workouts xs:text-xs z-10">
+                               class="more-workouts show-workouts z-10">
                         <tr v-for="(lastWorkout, index) in lastWorkouts" :key="index.value">
                             <td><span :class="'flag-icon-' + lastWorkout.country_code"
                                       class="h-5 flag-icon"/></td>
@@ -92,7 +92,7 @@
                                 <img class="primary-icon w-4 text-center vert align-middle noselect-nodrag"
                                      alt="Walk icon" src="../assets/icons/walk.svg" v-if="lastWorkout.speed <= 7"/>
                             </td>
-                            <td class="text-center noselect-nodrag xs:hidden sm:hidden md:hidden">{{
+                            <td class="text-center noselect-nodrag sm:hidden md:hidden">{{
                                 lastWorkout.created_date | moment }}
                             </td>
                         </tr>

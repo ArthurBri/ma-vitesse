@@ -1,6 +1,6 @@
 <template>
     <div :class="[active ? 'tab-active' : 'text-primary bg-white']"
-         class="tab pl-2 pr-2 py-1 shadow xs:text-center rounded-l-lg"
+         class="tab pl-2 pr-2 py-1 shadow rounded-l-lg"
          v-show="hidden === false">
         <div class="flex h-8 mt-1 ml-1 mr-1 pb-1 leading-none font-light">
             <img :class="[active ? '' : 'icon-inactive']" :src="require('../assets/icons/' + component + '.svg')"

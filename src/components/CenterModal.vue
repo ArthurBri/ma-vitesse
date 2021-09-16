@@ -1,7 +1,7 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop" role="dialog">
-            <div :style="{marginTop : margin_top}" class="modal xs:w-full sm:w-full" ref="modal">
+            <div :style="{marginTop : margin_top}" class="modal sm:w-full" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header"/>
                     <span @click="close" class="pl-2 icon self-start m-1"><img alt="delete a distance"

@@ -1,9 +1,9 @@
 <template>
     <div class="box">
-        <div class="flex w-full xs:flex-col sm:flex-col md:flex-col justify-start"
+        <div class="flex w-full sm:flex-col md:flex-col justify-start"
              v-if="distance <= 1000 && duration && speed">
-            <div class="flex flex-col xs:flex-row xs:mb-4 sm:mb-4 md:mb-4 xs:items-center xs:justify-between sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
-                <div class="laptime-start flex flex-col mr-8 xs:mr-0 sm:mr-0 shadow-lg rounded-lg noselect-nodrag cursor-pointer">
+            <div class="flex flex-col sm:mb-4 md:mb-4 sm:flex-row sm:items-center sm:justify-between md:flex-row md:items-center md:justify-between">
+                <div class="laptime-start flex flex-col mr-8 sm:mr-0 shadow-lg rounded-lg noselect-nodrag cursor-pointer">
                     <div :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
                          @click="laptime_type = 'distance'"
                          class="px-2 py-1 text-center rounded-t-lg border-gray-100 border">
@@ -15,7 +15,7 @@
                         {{ $t('laptime.duration')}}
                     </div>
                 </div>
-                <div class="laptime-end flex content-center border border-gray-200  mt-6 xs:mt-0 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 shadow-lg">
+                <div class="laptime-end flex content-center border border-gray-200  mt-6 sm:mt-0 md:mt-0 py-1 px-1 rounded-lg mr-8 sm:mr-0 md:mr-0 shadow-lg">
                     <label aria-label="Switch between distance steps" for="distance-step"/>
                     <select class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                             id="distance-step" v-if="laptime_type === 'distance'" v-model="selected_distance_step">
@@ -32,7 +32,7 @@
                     </select>
                 </div>
                 <div @click="switchLaptimeSort"
-                     class="shadow-lg mr-8 xs:mr-0 sm:mr-0 md:mr-0 mt-6 xs:mt-0 sm:mt-0 md:mt-0 px-2 py-1 border border-gray-200 rounded-lg flex justify-center cursor-pointer noselect-nodrag">
+                     class="shadow-lg mr-8 sm:mr-0 md:mr-0 mt-6 sm:mt-0 md:mt-0 px-2 py-1 border border-gray-200 rounded-lg flex justify-center cursor-pointer noselect-nodrag">
                     <img alt="Sort asc" class="h-6" src="../assets/icons/sort-asc.svg" v-if="laptime_sort === 'desc'">
                     <img alt="Sort desc" class="h-6" src="../assets/icons/sort-desc.svg" v-else>
                 </div>

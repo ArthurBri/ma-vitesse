@@ -3,9 +3,9 @@
         <div class="header">
             <div class="header-start flex flex-row">
                 <div class="logo">
-                    <img alt="logo" class="noselect-nodrag xs:w-6 sm:w-8 md:w-8 lg:w-12 xl:w-12 cursor-pointer"
+                    <img alt="logo" class="noselect-nodrag sm:w-8 md:w-8 lg:w-12 xl:w-12 cursor-pointer"
                          src="../assets/logo.svg"/>
-                    <h1 class="flex flex-col text-center xs:text-base xs:ml-1 xs:font-bold sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
+                    <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
                         <span>{{ $t('global.app_name') }}</span>
                     </h1>
                 </div>
@@ -26,11 +26,11 @@
             </div>
             <div class="header-end flex flex-row justify-end gap-2">
                 <img @click="showModal('settings')" alt=""
-                     class="mv-btn bg-primary h-10 p-2"
+                     class="mv-btn bg-white h-10 p-2"
                      src="../assets/icons/settings.svg"
                      title="Réglages"/>
                 <img @click="showModal('about')" alt=""
-                     class="mv-btn bg-primary h-10 p-2"
+                     class="mv-btn bg-white h-10 p-2"
                      src="../assets/icons/question.svg"
                      title="A propos"/>
                 <img @click="showModal('all-MA')" alt=""
@@ -102,28 +102,28 @@
 </script>
 
 <style lang="scss" scoped>
-    .icon {
-        &.icon-orange {
-            background: rgba($ma-secondary, 0.9);
+.icon {
+    &.icon-orange {
+        background: rgba($ma-secondary, 0.9);
 
-        }
     }
+}
 
-    .logo, .about-icon, .settings-icon, .all-ma-icon {
+.logo, .about-icon, .settings-icon, .all-ma-icon {
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.05);
         cursor: pointer;
-
-        &:hover {
-            transform: scale(1.05);
-            cursor: pointer;
-        }
     }
+}
 
-    .header {
-        @apply flex flex-row items-center justify-between w-full z-30 p-3 text-white;
-        backdrop-filter: blur(2px);
-    }
+.header {
+    @apply flex flex-row items-center fixed bottom-4 justify-between w-full z-30 p-3 text-white;
+    backdrop-filter: blur(2px);
+}
 
-    .logo {
-        @apply flex fixed left-8 bottom-8 justify-center items-center px-2;
-    }
+.logo {
+    @apply flex left-8 bottom-8 justify-center items-center px-2;
+}
 </style>

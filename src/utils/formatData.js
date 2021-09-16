@@ -44,6 +44,28 @@ export function formatSpeed(speed, mode) {
     } else return speed
 }
 
+export function paceToSpeed(pace) {
+    if (!pace) return
+
+    const minutes = pace.match(/(^\d{1,2})[:]?/g) ? pace.match(/(\d{1,2})[:]?/)[1] : 0
+    const seconds = pace.match(/[:](\d{1,2})/g) ? pace.match(/[:](\d{1,2})?/)[1] : 0
+
+    const speed = 60 / (parseInt(minutes) + parseInt(seconds) / 60)
+    return speed
+}
+
+export function speedToPace(speed) {
+    if (!speed) return
+
+    const pace = 60 / speed
+    const minutes = pace | 0
+
+    let seconds = Math.round(((pace % 1) * 60) | 0)
+    seconds = seconds < 10 && seconds ? '0' + seconds : seconds === 0 ? "00" : seconds
+    
+    return `${minutes}:${seconds}`
+}
+
 export function formatDuration(duration) {
     let hours = 0
     let minutes = 0

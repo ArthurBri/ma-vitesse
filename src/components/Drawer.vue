@@ -1,11 +1,11 @@
 <template>
     <transition name="slide-left">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
-            <div class="drawer rounded-lg xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4 xs:w-full" ref="drawer">
+            <div class="drawer rounded-lg xl:w-1/5 lg:w-1/3 md:w-1/2 sm:w-3/4" ref="drawer">
                 <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
                     <slot name="header"/>
                     <button @click="close" aria-label="Close drawer"
-                            class="mv-btn-inverted text-sm" type="button">
+                            class="mv-btn bg-white text-sm" type="button">
                         {{ $t('common.close')}}
                     </button>
                 </header>

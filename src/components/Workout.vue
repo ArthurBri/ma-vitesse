@@ -9,31 +9,31 @@
         <template class="flex justify-center content-center" v-slot:body>
             <div v-if="workout">
                 <div class="flex flex-col">
-                    <div class="flex mb-10 xs:mb-0 xs:flex-col xs:justify-center xs:items-center sm:flex-wrap sm:justify-center">
+                    <div class="flex mb-10 sm:flex-wrap sm:justify-center">
                         <div :title="workout.calculated_field === 'duration' ? $t('workout.calculated_field') : ''"
                              class="xs:mb-5">
-                            <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
+                            <p class="text-xl mx-8 sm:text-center font-light">{{
                                 $t('common.duration') }}</p>
                             <p :class="workout.calculated_field === 'duration' ? 'calculated-field' : ''"
-                               class="text-3xl mx-8 xs:mx-0 xs:text-3xl">{{ workout.duration }}</p>
+                               class="text-3xl mx-8">{{ workout.duration }}</p>
                         </div>
                         <div :title="workout.calculated_field === 'distance' ? $t('workout.calculated_field') : ''"
                              class="xs:mb-5">
-                            <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
+                            <p class="text-xl mx-8 sm:text-center font-light">{{
                                 $t('common.distance') }}</p>
                             <p :class="workout.calculated_field === 'distance' ? 'calculated-field' : ''"
                                class="text-3xl mx-8">{{ workout.distance }} {{ workout.distance_unit}}</p>
                         </div>
                         <div :title="workout.calculated_field === 'speed' ? $t('workout.calculated_field') : ''"
                              class="xs:mb-5">
-                            <p class="text-xl mx-8 xs:mx-0 xs:text-center sm:text-center xs:text-xl font-light">{{
+                            <p class="text-xl mx-8 sm:text-center font-light">{{
                                 $t('common.speed')}}</p>
                             <p :class="workout.calculated_field === 'speed' ? 'calculated-field' : ''"
                                class="text-3xl mx-8">{{ workout.speed }} {{ workout.speed_unit}}</p>
                         </div>
                     </div>
                     <div class="flex leading-tight justify-center items-center">
-                        <span class="xs:text-sm">{{ $t('workout.added_on') }}
+                        <span>{{ $t('workout.added_on') }}
                             <b>{{ workout.created_date }}</b> {{ $t('workout.in') }}</span>
                         <span :class="'flag-icon-' + workout.country_code" class="ml-2 text-xl flag-icon"/>
                     </div>

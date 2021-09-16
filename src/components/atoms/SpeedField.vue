@@ -14,7 +14,7 @@
                 <div class="flex items-stretch justify-end" v-if="speedFormat === 'speed'">
                     <input :disabled="isCalculated" @focus="showPresetDistances = false"
                             autocomplete="off"
-                            class="text-right pr-1 xs:w-20 w-32 number-input" data-form-type="text"
+                            class="text-right pr-1 w-32 number-input" data-form-type="text"
                             id="speed" inputmode="decimal" name="speed" pattern="[0-9,.]*" ref="speed"
                             @keydown.down="decrement('speedAsString')" @keydown.up="increment('speedAsString')"
                             v-model="speedAsString"/>
@@ -29,7 +29,7 @@
                 <div class="flex items-stretch justify-end" v-if="speedFormat === 'pace'">
                     <input :disabled="isCalculated" @focus="showPresetDistances = false"
                             autocomplete="off" data-form-type="text"
-                            class="text-right pr-1 xs:w-20 w-32" id="pace" name="speed"
+                            class="text-right pr-1 w-32" id="pace" name="speed"
                             ref="pace" v-model="pace"/>
                     <label aria-label="Switch between pace units" for="pace-unit"/>
                     <select @change="unitChange('pace', $event.target.value)" id="pace-unit"
@@ -53,8 +53,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { isValidSpeed, formatSpeed } from '../../utils/validateData'
-import fieldOperations from '../../mixins/fieldOperations'
+import fieldOperations from '@/mixins/fieldOperations'
+import { isValidSpeed, cleanSpeedInput, isValidPace } from '@/utils/validateData'
+import { paceToSpeed, speedToPace } from '@/utils/formatData'
 
 export default {
     name: "SpeedField",
@@ -74,9 +75,10 @@ export default {
         }
     },
     computed: {
-        ...mapState(["unitMultipliers", "unitMode", "speedUnit", "speedUnits", "paceUnit", "paceUnits"]),
+        ...mapState(["unitMultipliers", "unitMode", "speedUnit", "speedUnits", "paceUnits"]),
         speedAsString: {
             get() {
+                this.pace = speedToPace(this.value)
                 return this.value !== 0 ? this.value.toString() : ''
             },
             set(val) {
@@ -84,40 +86,26 @@ export default {
             }
         },
         speedFormat: {
-            get() {
-                return this.$store.state.speedFormat
-            },
-            set(val) {
-                this.$store.commit('setSpeedFormat', val)
-            }
+            get() { return this.$store.state.speedFormat },
+            set(val) { this.$store.commit('setSpeedFormat', val) }
+        },
+        paceUnit: {
+            get() { return this.$store.state.paceUnit },
+            set(val) { this.$store.commit('changeUnitMode', val) }
         },
     },
     methods: {
         changeSpeedFormat() {
             this.speedFormat = this.speedFormat === 'speed' ? 'pace' : 'speed'
+            if (this.speedFormat === 'pace') {
+                this.pace = speedToPace(this.value)
+            } else {
+                this.speedAsString = String(paceToSpeed(this.pace))
+            }
             this.$store.commit('setSpeedFormat', this.speedFormat)
         },
-        paceToSpeed(pace) {
-            if (!pace) return
-
-            const minutes = pace.match(/(^\d{1,2})[:]?/g) ? pace.match(/(\d{1,2})[:]?/)[1] : 0
-            const seconds = pace.match(/[:](\d{1,2})/g) ? pace.match(/[:](\d{1,2})?/)[1] : 0
-        
-            const speed = 60 / (parseInt(minutes) + parseInt(seconds) / 60);
-            return speed
-        },
-        speedToPace(speed) {
-            if (!speed) return
-
-            const pace = 60 / this.formatSpeed(speed)
-            const minutes = pace || 0;
-
-            let seconds = Math.round(((pace % 1) * 60) | 0)
-            seconds = seconds < 10 && seconds ? '0' + seconds : seconds === 0 ? "00" : seconds
-            
-            return `${minutes}:${seconds}`
-        },
         unitChange(fieldType, unit) {
+            this.pace = speedToPace(this.value)
             this.$store.commit('changeUnitMode', {
                 fieldType, 
                 unit
@@ -129,30 +117,14 @@ export default {
             if (isValidSpeed(newVal)) {
                 this.$emit('input', parseFloat(this.speedAsString.replace(",", ".")))
             } else {
-                this.speedAsString = formatSpeed(oldVal)
+                this.speedAsString = cleanSpeedInput(oldVal)
             }
         }, 
         pace(newVal, oldVal) {
-            if (this.pace && !this.isCalculated) {
-                // check leading zero is followed by zero, and not by =
-                if (this.pace.match(/^0{2,}(?![:])?/g)) {
-                    // if yes : cancelling the input
-                    this.pace = oldVal;
-                }
-                // if pace matches at least partially with the pattern ?
-                if (this.pace.match(/(\d{1,2}:(\d{1,2})?)|(:?\d{1,2})|:/g)) {
-                    // if not exactly match
-                    if (this.pace.match(/(\d{1,2}:(\d{1,2})?)|(:?\d{1,2})|:/g)[0] !== this.pace) {
-                        // cancelling the input
-                        this.pace = oldVal
-                    }
-                    // else : cancelling the input
-                } else {
-                    this.pace = oldVal
-                }
-                if (this.speedFormat === 'speed') {
-                    this.speed = this.paceToSpeed(this.pace)
-                }
+            if (isValidPace(newVal)) {
+                this.speedAsString = String(paceToSpeed(this.pace || 0))
+            } else {
+                this.pace = oldVal
             }
         }
     }

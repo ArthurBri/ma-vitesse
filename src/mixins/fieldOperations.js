@@ -1,26 +1,32 @@
 const operations = {
     methods: {
-        increment(field) {
-            if (!field || this[field] === undefined) return
+        increment(field, ref = null) {
             console.log(this[field])
+            if (!field || this[field] === undefined) return
 
-            if (typeof this[field] === 'string') {
-                this[field] = String(parseFloat(this[field].replace(",", ".") ||0) + 1);
-            } else {
-                this[field] = String(this[field]++)
-            }        
+            if (this[field] === '') {
+                this[field] = "1"
+                return
+            }
+
+            this[field] = String(parseFloat(this[field]) + 1)
+
+            ref && this.$nextTick(() => { this.$refs[ref].focus() })
         },
-        decrement(field) {
-            if (!field || this[field] === undefined) return
+        decrement(field, ref = null) {
             console.log(this[field])
+            if (!field || this[field] === undefined) return
 
-            if (typeof this[field] === 'string') {
-                this[field] = String(parseFloat(this[field].replace(",", ".") ||1) - 1);
-            } else {
-                this[field] = String(this[field]--)
-            }    
+            if (this[field] === '' || this[field] === "1") {
+                this[field] = "0"
+                return
+            }
+
+            this[field] = String(parseFloat(this[field]) - 1)
+
+            ref && this.$nextTick(() => { this.$refs[ref].focus() })
         }
     }
-  }
+}
   
-  export default operations
+export default operations

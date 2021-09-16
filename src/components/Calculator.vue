@@ -1,13 +1,13 @@
 <template>
-    <div class="main-box flex-grow-0 p-6 m-4 xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:m-0 xs:pl-0 xs:pr-0 xs:w-full sm:w-full text-white overflow-x-auto">
+    <div class="main-box flex-grow-0 p-6 m-4 sm:mr-0 sm:ml-0 sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="!calculatedField">
-            <img alt="calaculator icon" class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold xs:mr-4 sm:mr-4 xl:text-xl">
+            <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4 xl:text-xl">
                 {{ $t('calculator.description')}}</h2>
         </div>
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
-                <img alt="timer icon" class="w-8 sm:ml-4 xs:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
+                <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg"/>
                 <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
                     <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">
                         <span>{{ $t('calculator.calculation_label')}}</span>
@@ -50,12 +50,10 @@ import DurationField from './atoms/DurationField.vue'
 import DistanceField from './atoms/DistanceField.vue'
 import SpeedField from './atoms/SpeedField.vue'
 
-import { mapState } from 'vuex'
-
 function doubleBinding(propName, mutationName) {
     return {
         get() {
-                return this.$store.state[propName]
+            return this.$store.state[propName]
             },
         set(val) {
             this.$store.commit(mutationName, val)
@@ -67,7 +65,6 @@ export default {
     name: "Calculator",
     components: {ShareMA, ShareSocial, DurationField, DistanceField, SpeedField },
     computed: {
-        ...mapState(["paceUnit", "paceUnits"]),
         speed: doubleBinding('speed', 'setSpeed'),
         duration: doubleBinding('duration', 'setDuration'),
         speedFormat: doubleBinding('speedFormat', 'setSpeedFormat'),
@@ -79,9 +76,9 @@ export default {
     },
     methods: {
         checkFields() {
-            let isDistance = this.distance > 0
-            let isDuration = this.duration > 0
-            let isSpeed = this.speed > 0
+            const isDistance = this.distance > 0
+            const isDuration = this.duration > 0
+            const isSpeed = this.speed > 0
             
             if (this.calculatedField && [this.distance, this.duration, this.speed].includes(0)) {
                 this[this.calculatedField] = 0
@@ -105,7 +102,7 @@ export default {
         clearFields() {
             this.duration = 0
             this.distance = 0
-            this.speed = 0;
+            this.speed = 0
             this.calculatedField = ''
         },
     },
@@ -124,7 +121,7 @@ export default {
 }
 
 .wrapper {
-    @apply flex flex-wrap flex-row items-center justify-center;
+    @apply flex flex-wrap flex-row items-center justify-center my-6;
 }
 
 .box {
@@ -132,10 +129,6 @@ export default {
     border-radius: 7px 7px 0 7px;
     font-size: 1.1em;
     min-height: 40px;
-}
-
-.box:hover(:not(calculated)) {
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .icon {
@@ -148,7 +141,6 @@ export default {
 
 .calculated {
     @apply ml-3 mt-2 shadow-lg bg-primary text-white;
-    font-weight: 800;
 }
 
 input {

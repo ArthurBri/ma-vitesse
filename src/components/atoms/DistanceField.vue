@@ -1,6 +1,6 @@
 <template>
-<div>
-     <div class="flex flex-col h-24 noselect-nodrag">
+    <div>
+        <div class="flex flex-col h-24 noselect-nodrag">
                 <div :class="isCalculated && 'calculated noselect-nodrag'"
                      class="box distance self-stretch justify-between shadow-md">
                     <label @click="focusMe('distance')" for="distance">{{ $t('calculator.distance') }}</label>
@@ -36,14 +36,14 @@
             </div>
         <AddPresetDistance @close="closeAddDistance" v-show="addDistance"/>
         <RemovePresetDistance @close="closeRemoveDistance" v-show="removeDistance"/>
-            </div>
+    </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import AddPresetDistance from '@/components/AddPresetDistance'
 import RemovePresetDistance from '@/components/RemovePresetDistance'
-import fieldOperations from '../../mixins/fieldOperations'
+import fieldOperations from '@/mixins/fieldOperations'
 
 export default {
     name: "DistanceField",
@@ -67,13 +67,13 @@ export default {
         }
     },
     computed: {
-        ...mapState(["unitMultipliers", "unitMode", "distanceUnit", "distanceUnits"]),
+        ...mapState(["unitMultipliers", "unitMode", "distanceUnit", "distanceUnits", "defaultDistances"]),
         distanceAsString: {
             get() {
                 return this.value !== 0 ? this.value.toString() : ''
             },
             set(val) {
-                this.$emit('input', parseFloat(val.replace(",", ".")))
+                this.$emit('input', parseFloat(val))
             }
         }
     },
@@ -92,43 +92,14 @@ export default {
             this.removeDistance = false
             this.presetDistances = ''
         },
+        focusMe(field) {
+            this.$refs[field].focus()
+        },
     },
     watch: {
-        distanceAsString (newVal, oldVal) {
-            if (this.$store.state.defaultDistances.find(defaultDist => defaultDist.distance === this.value )) {
-                this.presetDistances = this.$store.state.defaultDistances
-                    .find(defaultDist =>defaultDist.distance === this.value ).label
-            } else {
-                this.presetDistances = ""
-            }
-
-            if (!this.isCalculated) {
-                    // check leading zero is followed by zero or , / .
-                    if (this.distanceAsString.match(/^0{2,}(?![.,])/g)) {
-                        // if yes : cancelling the input
-                        this. distanceAsString = oldVal
-                    }
-                    // removing all others leading zeros by
-                    this.distanceAsString = this.distanceAsString.replace(/^0([0-9]+)/g, '$1')
-
-                    // if distance matches at least partially with the pattern ?
-                    if (this.distanceAsString.match(/\d{0,9}([.,]\d{0,4})?/g)) {
-                        // if not exactly match
-                        if (this.distanceAsString.match(/\d{0,9}([.,]\d{0,4})?/g)[0] !== this.distanceAsString ) {
-                            // if too much decimals
-                            if (this.distanceAsString.match(/\d+([.,]\d*)?/g)) {
-                                this.distanceAsString = parseFloat(this.distanceAsString)
-                                // else cancelling the input
-                            } else {
-                                // cancelling the input
-                                this.distanceAsString = oldVal
-                            }
-                        }  
-                        // else : cancelling the input
-                    } else {
-                        this.distanceAsString = oldVal
-                    }
-            }
+        distanceAsString () {
+            const distanceInPresetsIndex = this.defaultDistances.findIndex(defaultDist => defaultDist.distance === this.value)
+            this.presetDistances = distanceInPresetsIndex > -1 ? this.defaultDistances[distanceInPresetsIndex].label : ''
         },
         presetDistances(newVal) {
             if (newVal === "addDistance") {
@@ -139,9 +110,9 @@ export default {
                 this.removeDistance = true
                 this.presetDistances = ""
             }
+            
             if (!this.calculated && this.presetDistances) {
-                this.$emit('input', this.$store.state.defaultDistances
-                    .find(defaultDist => defaultDist.label === this.presetDistances).distance || 0)
+                this.$emit('input', this.defaultDistances.find(defaultDist => defaultDist.label === this.presetDistances).distance || 0)
             }
         },
     }
@@ -149,45 +120,43 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    select {
-        background-color: rgba(0, 0, 0, 0.0);
-        text-align: center;
-        font-size: 1em;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        text-indent: 1px;
-        text-overflow: '';
+select {
+    background-color: rgba(0, 0, 0, 0.0);
+    text-align: center;
+    font-size: 1em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 
-        > option {
-            color: $ma-primary;
-            text-align: center;
-        }
-    }
-
-    .box-option {
-        @apply mr-3 px-2 self-end items-center rounded-b-lg shadow-lg
-        flex cursor-pointer;
-        transition: all 200ms ease-in;
-
-        &:not(active) {
-            @apply bg-primary;
-        }
-
-        &.active {
-            @apply bg-white text-primary;
-        }
-
-        &:hover {
-            padding-top: 5px;
-        }
-    }
-
-    .preset-distances {
-        transition: all 1s;
-    }
-
-        .calculated-label {
+    > option {
         color: $ma-primary;
+        text-align: center;
+    }
+}
+
+.box-option {
+    @apply mr-3 px-2 self-end items-center rounded-b-lg shadow-lg flex cursor-pointer;
+    transition: all 200ms ease-in;
+
+    &:not(active) {
+        @apply bg-primary;
     }
 
+    &.active {
+        @apply bg-white text-primary;
+    }
+
+    &:hover {
+        padding-top: 5px;
+    }
+}
+
+.preset-distances {
+    transition: all 1s;
+}
+
+.calculated-label {
+    color: $ma-primary;
+}
 </style>

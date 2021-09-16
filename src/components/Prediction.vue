@@ -17,7 +17,7 @@
                     {{ $t('common.none')}}
                 </div>
             </div>
-            <p class="ml-2 text-center mt-2 xl:mt-0 xs:text-xs">{{ formulaList.filter(formula => formula.name ===
+            <p class="ml-2 text-center mt-2 xl:mt-0">{{ formulaList.filter(formula => formula.name ===
                 formulaSelected)[0].description }}</p>
         </div>
         <div class="flex items-stretch justify-center"
