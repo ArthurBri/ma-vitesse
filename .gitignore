@@ -3,7 +3,7 @@ node_modules
 /dist
 
 # local env files
-.env
+webapp/.env
 .env.*.local
 
 # Log files
@@ -19,6 +19,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
-# REST file
-route.rest.http
