@@ -1,13 +1,13 @@
 <template>
-    <div class="flex flex-col h-24 noselect-nodrag ">
+    <div class="flex flex-col h-24 noselect-nodrag">
         <div :class="isCalculated && 'calculated noselect-nodrag'"
                 class="box self-stretch justify-between">
-            <label @click="focusMe('duration')" for="duration">{{ $t('calculator.duration') }}</label>
+            <label @click="focusMe('duration')" for="durationOneField">{{ $t('calculator.duration') }}</label>
             <div class="w-40">
                 <div v-if="oneFieldMode" class="one-field-mode flex justify-end">
-                    <input :disabled="isCalculated" @focus="focusMe('durationOneField')"
+                    <input :disabled="isCalculated" @focus="focusMe('duration')"
                             autocomplete="off"
-                            class="w-28 text-right pr-1" id="duration" ref="durationOneField"
+                            class="w-28 text-right pr-1" id="durationOneField" ref="durationOneField"
                             v-model="durationOneField" data-form-type="text"/>
                     <span class="noselect-nodrag self-center">{{ durationDisplayUnit }}</span>
                 </div>
@@ -19,7 +19,7 @@
                                 @keydown.delete.left.right="updateCursor('hours',$event)"
                                 @keydown.down="decrement('hours')" autocomplete="off" data-form-type="text"
                                 @keydown.up="increment('hours')" ref="hours"
-                                inputmode="numeric" pattern="[0-9]*" v-model="hours"/>
+                                inputmode="numeric" v-model="hours"/>
                         <span class="noselect-nodrag self-center">:</span>
                         <input :disabled="isCalculated"
                                 class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
@@ -28,7 +28,7 @@
                                 autocomplete="off"
                                 @keydown.down="decrement('minutes')"
                                 @keydown.up="increment('minutes')" ref="minutes" data-form-type="text"
-                                inputmode="numeric" pattern="[0-9]*" v-model="minutes"/>
+                                inputmode="numeric" v-model="minutes"/>
                         <span class="noselect-nodrag self-center">:</span>
                         <input :disabled="isCalculated"
                                 class="w-10 pl-1 pr-1 text-center number-input"
@@ -37,7 +37,7 @@
                                 autocomplete="off"
                                 @keydown.down="decrement('seconds', 'seconds')"
                                 @keydown.up="increment('seconds', 'seconds')" ref="seconds" data-form-type="text"
-                                inputmode="numeric" pattern="[0-9]*" v-model="seconds"/>
+                                inputmode="numeric" v-model="seconds"/>
                     </label>
                 </div>
             </div>
@@ -75,18 +75,19 @@ export default {
         return {
             oneFieldMode: false,
             durationDisplayUnit: 'h',
+            durationOneField: '',
             hours: '',
             minutes: '',
             seconds: '',
         }
     },
     computed: {
-        durationOneField: {
+        duration: {
             get() {
-                return prettyDuration(this.value.toString(), true)
+                return this.value
             },
             set(val) {
-                this.$emit('input', parseFloat(val.replace(",", ".")))
+                this.$emit('input', val.replace(",", "."))
             }
         }
     },
@@ -127,10 +128,10 @@ export default {
             }
         },  
         focusMe(field) {
-            this.oneFieldMode && field !== 'duration' && this.$refs.durationOneField.focus()
+            this.oneFieldMode && field !== 'duration' && this.$refs.duration.focus()
         },
         updateOneFieldDuration() {
-            this.durationOneField = `${this.hours}h${this.minutes}m${this.seconds}s`
+            this.duration = `${this.hours}h${this.minutes}m${this.seconds}s`
         },
         getDurationDisplayUnit(duration) {
             if ((duration.match(/[h:]/g) || []).length === 1 && (duration.match(/[ms]/g) || []).length === 0) {
@@ -148,13 +149,12 @@ export default {
         oneFieldMode() {
             this.$store.commit('setOneFieldMode', this.oneFieldMode)
         },
-        durationOneField(newVal, oldVal) {
-            isValidDuration(newVal)
-                ? this.$emit('input', parseFloat(this.durationOneField.replace(",", ".")))
-                : this.speedAsString = cleanDurationInput(oldVal)
-
-            // TODO: handle 'setSelectionRange' when duration field change
-            this.durationDisplayUnit = this.getDurationDisplayUnit(this.durationOneField)
+        duration(newVal, oldVal) {
+            this.durationOneField = prettyDuration(newVal, true)
+            this.durationDisplayUnit = this.getDurationDisplayUnit(this.duration)
+        },
+        durationOneField () {
+            // this.$emit('input', this.duration)
         },
         hours(newVal, oldVal) {
             if(!isValidHours(newVal)) {
@@ -184,7 +184,7 @@ export default {
             this.minutes = parseFloat(minutes) ? parseFloat(minutes) < 10 ? '0' + minutes : parseFloat(minutes) : '00'
             this.seconds = parseFloat(seconds) ? parseFloat(seconds) < 10 ? '0' + seconds : parseFloat(seconds) : '00'
             
-            this.durationOneField = prettyDuration(this.value, true)
+            this.duration = prettyDuration(this.value, true)
         },
     },
     mounted () {

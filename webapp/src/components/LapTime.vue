@@ -252,7 +252,7 @@
     }
 
     th {
-        @apply text-primary text-center text-white border-b-2 px-3 py-2;
+        @apply text-primary text-center border-b-2 px-3 py-2;
         background-color: rgba(white, 0.2);
     }
 

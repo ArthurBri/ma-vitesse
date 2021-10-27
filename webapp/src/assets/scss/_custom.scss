@@ -17,7 +17,7 @@
 }
 
 .box {
-  @apply flex items-center justify-center transition duration-300 text-lg text-primary bg-white mt-2 ml-3 mr-3 p-3;
+  @apply flex items-center justify-center transition duration-300 text-lg text-primary bg-white mt-2 ml-3 mr-3 p-3 border-gray-200 border;
   @apply rounded-l-lg rounded-tr-lg;
 }
 

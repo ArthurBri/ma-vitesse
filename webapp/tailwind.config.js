@@ -11,8 +11,8 @@ module.exports = {
         transparent: 'transparent',
         black: '#000',
         white: '#fff',
-        primary: '#2C629D',
-        secondary: '#FF9900',
+        primary: '#1D4E89',
+        secondary: '#fc814a',
       }
     }
   },

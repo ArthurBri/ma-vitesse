@@ -15,7 +15,7 @@
                     <input :disabled="isCalculated" @focus="showPresetDistances = false"
                             autocomplete="off"
                             class="text-right pr-1 w-32 number-input" data-form-type="text"
-                            id="speed" inputmode="decimal" name="speed" pattern="[0-9,.]*" ref="speed"
+                            id="speed" inputmode="decimal" name="speed" ref="speed"
                             @keydown.down="decrement('speedAsString')" @keydown.up="increment('speedAsString')"
                             v-model="speedAsString"/>
                     <label aria-label="Switch between speed units" for="speed-unit"/>
@@ -75,7 +75,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(["unitMultipliers", "unitMode", "speedUnit", "speedUnits", "paceUnits"]),
+        ...mapState(["unitMultipliers", "unitMode", "speedUnits", "paceUnits"]),
         speedAsString: {
             get() {
                 return this.value !== 0 ? this.value.toString() : ''
@@ -138,4 +138,12 @@ export default {
 .speed-unit-select {
     @apply self-center text-right cursor-pointer bg-transparent;
 } 
+
+.calculated {
+    background-color: $ma-primary;
+    color: white;
+    font-weight: 800;
+    transition: all 0.2s;
+    @apply ml-3 mt-2;
+}
 </style>

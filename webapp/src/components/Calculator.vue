@@ -1,8 +1,8 @@
 <template>
     <div class="main-box flex-grow-0 p-6 m-4 sm:mr-0 sm:ml-0 sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="!calculatedField">
-            <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag" src="../assets/icons/timer.svg"/>
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4 xl:text-xl">
+            <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg"/>
+            <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4 text-2xl text-secondary">
                 {{ $t('calculator.description')}}</h2>
         </div>
         <div class="flex justify-between h-8 mb-2" v-else>
@@ -76,6 +76,7 @@ export default {
     },
     methods: {
         checkFields() {
+            console.log('check fields', this.duration)
             const isDistance = this.distance > 0
             const isDuration = this.duration > 0
             const isSpeed = this.speed > 0
@@ -117,7 +118,6 @@ export default {
 <style lang="scss">
 .main-box {
     @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4 xl:my-4;
-    background-color: rgba($ma-secondary, 0.8);
 }
 
 .wrapper {

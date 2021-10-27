@@ -1,7 +1,6 @@
 <template>
     <div>
         <preloader v-if="showPreloader"/>
-        <div class="bg-gray-800"></div>
         <div id="app" v-if="!showPreloader">
             <h1 class="app-description">
                 <span class="text-4xl">{{ $t('global.app_subname') }}</span>
@@ -112,20 +111,17 @@ export default {
 @import './assets/scss/_variables';
 
 #app {
-    @apply flex flex-col items-center self-stretch min-h-screen min-w-full ;
+    @apply flex flex-col items-center self-stretch min-h-screen min-w-full bg-gray-100 ;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: $ma-primary;
     z-index: 0;
     position: relative;
-    background-repeat: no-repeat;
-    background-size: cover;
-    backdrop-filter: blur(4px);
 }
 
 .body {
-    @apply flex flex-grow flex-wrap ml-0 justify-center w-1/2 items-start content-start
+    @apply flex flex-grow flex-wrap ml-0 justify-center w-2/3 items-start content-start
     pt-8 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden;
 }
 

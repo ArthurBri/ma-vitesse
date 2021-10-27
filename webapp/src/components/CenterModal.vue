@@ -87,6 +87,8 @@
         align-self: start;
         z-index: 3;
         border-radius: 13px;
+        width: 20%;
+        min-width: 300px;
     }
 
     .modal-header,

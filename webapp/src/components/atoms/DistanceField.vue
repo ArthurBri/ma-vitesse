@@ -166,4 +166,12 @@ select {
 .calculated-label {
     color: $ma-primary;
 }
+
+.calculated {
+    background-color: $ma-primary;
+    color: white;
+    font-weight: 800;
+    transition: all 0.2s;
+    @apply ml-3 mt-2;
+}
 </style>
