@@ -1,23 +1,22 @@
 <template>
-    <div :class="[active ? 'tab-active' : 'text-primary bg-white']"
-         class="tab pl-2 pr-2 py-1 rounded-l-lg"
-         v-show="hidden === false">
+    <div :class="[active ? 'tab-active' : 'text-primary bg-white']" class="tab pl-2 pr-2 py-1 rounded-l-lg" v-show="hidden === false">
         <div class="flex h-8 mt-1 ml-1 mr-1 pb-1 leading-none font-light">
-            <img :class="[active ? '' : 'icon-inactive']" :src="icon"
-                 alt="Component icon" class="w-6 noselect-nodrag"/>
+            <img :class="[active ? '' : 'icon-inactive']" :src="icon" alt="Component icon" class="w-6 noselect-nodrag" />
             <h2 class="noselect-nodrag self-center pl-2 font-semibold cursor-pointer">
-                {{label}}</h2>
-            <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1"
-                  v-if="version">{{version}}</span>
+                {{ label }}
+            </h2>
+            <span class="self-top text-xxs border border-secondary text-primary inline rounded-full h-3 ml-1 pl-1 pr-1" v-if="version">{{
+                version
+            }}</span>
         </div>
     </div>
 </template>
 
 <script>
-const allIcons = import.meta.glob("../assets/icons/*.svg");
+const allIcons = import.meta.glob('../assets/icons/*.svg')
 
 export default {
-    name: "TabMenuItem",
+    name: 'TabMenuItem',
     props: {
         component: String,
         label: String,
@@ -31,9 +30,7 @@ export default {
         }
     },
     mounted() {
-        allIcons[`../assets/icons/${this.component}.svg`]().then(mod => 
-            this.icon = mod.default
-        )
+        allIcons[`../assets/icons/${this.component}.svg`]().then((mod) => (this.icon = mod.default))
     }
 }
 </script>

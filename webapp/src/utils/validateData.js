@@ -5,9 +5,8 @@ export function isValidSpeed(speed) {
 }
 
 export function cleanSpeedInput(speed) {
-    return speed.replace(/([.,]\d{4})\d*/, "$1")
+    return speed.replace(/([.,]\d{4})\d*/, '$1')
 }
-
 
 export function isValidDistance(distance) {
     const DISTANCE_PATTERN = /^\d{0,9}([.,]\d{0,4})?$/g
@@ -35,15 +34,15 @@ export function isValidDuration(duration) {
 
 export function isValidHours(hours) {
     const HOURS_PATTERN = /^([0-9]?[0-9])$/g
-     return HOURS_PATTERN.test(hours)
+    return HOURS_PATTERN.test(hours)
 }
 
 export function isValidMinutes(minutes) {
     const MINUTES_PATTERN = /^([0-5]?[0-9])$/g
-     return MINUTES_PATTERN.test(minutes)
+    return MINUTES_PATTERN.test(minutes)
 }
 
 export function isValidSeconds(seconds) {
     const SECONDS_PATTERN = /^([0-5]?[0-9])$/g
-     return SECONDS_PATTERN.test(seconds)
+    return SECONDS_PATTERN.test(seconds)
 }

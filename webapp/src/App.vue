@@ -1,40 +1,47 @@
 <template>
     <div>
-        <preloader v-if="showPreloader"/>
+        <preloader v-if="showPreloader" />
         <div id="app" v-if="!showPreloader">
             <h1 class="app-description">
                 <span class="text-4xl">{{ $t('global.app_subname') }}</span>
-                <span class="mv-icon mv-icon-run ml-2 fill-current text-primary"/>
-                <span class="mv-icon mv-icon-bike ml-2 "/>
-                <span class="mv-icon mv-icon-hiking ml-2"/>
+                <span class="mv-icon mv-icon-run ml-2 fill-current text-primary" />
+                <span class="mv-icon mv-icon-bike ml-2" />
+                <span class="mv-icon mv-icon-hiking ml-2" />
             </h1>
             <div class="body">
-                <Calculator/>
+                <Calculator />
                 <div class="flex justify-center">
                     <transition name="fade">
                         <div class="tabs-menu" v-if="showTabMenu">
                             <div class="tabs">
-                                <TabMenuItem :active="activeTab === 'laptime'" :hidden="!showLapTime"
-                                             @click.native="setactiveTab('laptime')"
-                                             :label="$t('laptime.title')" component="laptime"/>
-                                <TabMenuItem :active="activeTab === 'predictions'" :hidden="!showPredictions"
-                                             @click.native="setactiveTab('predictions')"
-                                             :label="$t('predictions.title')" component="predictions"/>
+                                <TabMenuItem
+                                    :active="activeTab === 'laptime'"
+                                    :hidden="!showLapTime"
+                                    @click.native="setactiveTab('laptime')"
+                                    :label="$t('laptime.title')"
+                                    component="laptime"
+                                />
+                                <TabMenuItem
+                                    :active="activeTab === 'predictions'"
+                                    :hidden="!showPredictions"
+                                    @click.native="setactiveTab('predictions')"
+                                    :label="$t('predictions.title')"
+                                    component="predictions"
+                                />
                             </div>
-                            <div class="tabs-content"
-                                 v-if="showTabMenu">
+                            <div class="tabs-content" v-if="showTabMenu">
                                 <div class="p-6">
                                     <LapTime v-show="showLapTime && activeTab === 'laptime'"></LapTime>
-                                    <Prediction v-show="showPredictions && activeTab === 'predictions'"/>
+                                    <Prediction v-show="showPredictions && activeTab === 'predictions'" />
                                 </div>
                             </div>
                         </div>
                     </transition>
                 </div>
             </div>
-            <router-view/>
-            <Header/>
-            <Footer/>
+            <router-view />
+            <Header />
+            <Footer />
         </div>
     </div>
 </template>
@@ -51,7 +58,16 @@ import ShareSocial from '@/components/ShareSocial.vue'
 
 export default {
     name: 'app',
-    components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial},
+    components: {
+        Prediction,
+        Calculator,
+        LapTime,
+        Settings,
+        Header,
+        Preloader,
+        TabMenuItem,
+        ShareSocial
+    },
     data() {
         return {
             showPreloader: true,
@@ -60,29 +76,30 @@ export default {
     },
     mounted() {
         setTimeout(() => {
-            this.showPreloader = false;
-        }, 200);
+            this.showPreloader = false
+        }, 200)
 
-        this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
-        document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
-    
+        this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale
+        document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title')
+
         this.activeTab = localStorage.getItem('activeTab')
             ? localStorage.getItem('activeTab')
-            : this.activeTab = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
-    
+            : (this.activeTab = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : '')
     },
     computed: {
         showPredictions: {
             get() {
                 return this.$store.state.showPredictions
-            }, set(newVal) {
+            },
+            set(newVal) {
                 this.$store.commit('showPredictions', newVal)
             }
         },
         showLapTime: {
             get() {
                 return this.$store.state.showLapTime
-            }, set(newVal) {
+            },
+            set(newVal) {
                 this.$store.commit('showLapTime', newVal)
             }
         },
@@ -100,7 +117,7 @@ export default {
     },
     methods: {
         setactiveTab(tabToActivate) {
-            this.activeTab = tabToActivate;
+            this.activeTab = tabToActivate
             localStorage.setItem('activeTab', tabToActivate)
         }
     }
@@ -111,7 +128,7 @@ export default {
 @import './assets/scss/_variables';
 
 #app {
-    @apply flex flex-col items-center self-stretch min-h-screen min-w-full bg-gray-100 ;
+    @apply flex flex-col items-center self-stretch min-h-screen min-w-full bg-gray-100;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -141,7 +158,9 @@ export default {
     @apply flex sm:w-full;
 }
 
-h2, h1, p {
+h2,
+h1,
+p {
     margin: 0;
 }
 

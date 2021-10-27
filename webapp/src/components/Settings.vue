@@ -2,22 +2,25 @@
     <drawer @close="close" v-show="isModalVisible">
         <template v-slot:header>
             <div>
-                <h2>{{ $t('settings.title')}}</h2>
+                <h2>{{ $t('settings.title') }}</h2>
             </div>
         </template>
         <template class="flex" v-slot:body>
             <div class="flex ml-5">
                 <div>
-                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.language_section.title') }}</h1>
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                        {{ $t('settings.language_section.title') }}
+                    </h1>
                     <div class="ml-2 flex mb-2">
                         <div class="flex">
                             <div class="flex flex-col noselect-nodrag mx-2" v-for="language in langList" :key="language.lang_code">
-                                <span :class="'flag-icon-' + language.country_code"
-                                      @click="lang = language.lang_code"
-                                      class="flag-icon text-3xl cursor-pointer noselect-nodrag px-1 pb-3 mb-2"/>
-                                <svg class="ml-2 w-4 h-4 self-center" style="fill:#2C629D"
-                                     v-if="lang === language.lang_code">
-                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0"/>
+                                <span
+                                    :class="'flag-icon-' + language.country_code"
+                                    @click="lang = language.lang_code"
+                                    class="flag-icon text-3xl cursor-pointer noselect-nodrag px-1 pb-3 mb-2"
+                                />
+                                <svg class="ml-2 w-4 h-4 self-center" style="fill: #2c629d" v-if="lang === language.lang_code">
+                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0" />
                                 </svg>
                             </div>
                         </div>
@@ -26,39 +29,48 @@
             </div>
             <div class="flex ml-5 mb-4">
                 <div>
-                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.unit_section.title') }}</h1>
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                        {{ $t('settings.unit_section.title') }}
+                    </h1>
                     <div class="ml-2 flex mb-2">
                         <div class="flex rounded-lg">
-                            <div :class="[unitMode === 'km' ? 'bg-primary text-white font-bold' : 'border border-primary']"
-                                 @click="unitMode = 'km'" class="flex rounded-l-lg px-4 py-1 cursor-pointer">
-                                {{ $t('common.kilometers')}}
+                            <div
+                                :class="[unitMode === 'km' ? 'bg-primary text-white font-bold' : 'border border-primary']"
+                                @click="unitMode = 'km'"
+                                class="flex rounded-l-lg px-4 py-1 cursor-pointer"
+                            >
+                                {{ $t('common.kilometers') }}
                             </div>
-                            <div :class="[unitMode === 'mi' ? 'bg-primary text-white font-bold' : 'border border-primary']"
-                                 @click="unitMode = 'mi'" class="flex rounded-r-lg px-4 py-1 cursor-pointer">
-                                {{ $t('common.miles')}}
+                            <div
+                                :class="[unitMode === 'mi' ? 'bg-primary text-white font-bold' : 'border border-primary']"
+                                @click="unitMode = 'mi'"
+                                class="flex rounded-r-lg px-4 py-1 cursor-pointer"
+                            >
+                                {{ $t('common.miles') }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col ml-5">
-                <h1 class="text-xl font-bold pb-2 noselect-nodrag">{{ $t('settings.component_section.title') }}</h1>
+                <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                    {{ $t('settings.component_section.title') }}
+                </h1>
                 <div class="ml-2">
                     <div class="flex">
                         <label class="switch">
-                            <input class="appearance-none" type="checkbox" v-model="showPredictions">
-                            <span class="slider round"/>
+                            <input class="appearance-none" type="checkbox" v-model="showPredictions" />
+                            <span class="slider round" />
                         </label>
-                        <div @click="showPredictions = !showPredictions"
-                             class="cursor-pointer ml-2 noselect-nodrag">
+                        <div @click="showPredictions = !showPredictions" class="cursor-pointer ml-2 noselect-nodrag">
                             {{ $t('settings.component_section.show_predictions') }}
                         </div>
                     </div>
                     <div class="mt-2">
                         <div class="flex">
                             <label class="switch">
-                                <input class="appearance-none" type="checkbox" v-model="showLapTime">
-                                <span class="slider round"/>
+                                <input class="appearance-none" type="checkbox" v-model="showLapTime" />
+                                <span class="slider round" />
                             </label>
                             <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
                                 {{ $t('settings.component_section.show_laptime') }}
@@ -68,10 +80,12 @@
                 </div>
             </div>
             <div class="flex flex-col ml-5 pt-6">
-                <h1 class="text-xl font-bold noselect-nodrag">{{ $t('settings.reset_section.title') }}</h1>
+                <h1 class="text-xl font-bold noselect-nodrag">
+                    {{ $t('settings.reset_section.title') }}
+                </h1>
                 <div class="pt-4 flex justify-center">
                     <button @click="resetApp" class="mv-btn" v-if="!appReseted">
-                        {{$t('settings.reset_section.reset_button')}}
+                        {{ $t('settings.reset_section.reset_button') }}
                     </button>
                     <div class="flex flex-row justify-center text-center">
                         <span v-if="appReseted">{{ $t('settings.reset_section.reset_message_success') }}</span>
@@ -79,7 +93,7 @@
                 </div>
             </div>
         </template>
-        <template @click="close" v-slot:footer/>
+        <template @click="close" v-slot:footer />
     </drawer>
 </template>
 
@@ -87,28 +101,28 @@
 import Drawer from '@/components/Drawer.vue'
 
 export default {
-    name: "Settings",
+    name: 'Settings',
     data() {
         return {
             isModalVisible: false,
             appReseted: false,
             lang: 'fr',
             langList: [
-                {lang_code: 'fr', country_code: 'fr'},
-                {lang_code: 'en', country_code: 'gb'}
+                { lang_code: 'fr', country_code: 'fr' },
+                { lang_code: 'en', country_code: 'gb' }
             ]
         }
     },
-    components: {Drawer},
+    components: { Drawer },
     mounted() {
         this.lang = this.$i18n.locale
     },
     methods: {
         close() {
-            this.$emit('close');
+            this.$emit('close')
         },
         resetApp() {
-            localStorage.clear();
+            localStorage.clear()
             this.appReseted = true
         }
     },
@@ -116,33 +130,33 @@ export default {
         showPredictions: {
             get() {
                 return this.$store.state.showPredictions
-            }, set(newVal) {
+            },
+            set(newVal) {
                 this.$store.commit('showPredictions', newVal)
             }
         },
         showLapTime: {
             get() {
                 return this.$store.state.showLapTime
-            }, 
-            set (newVal) {
+            },
+            set(newVal) {
                 this.$store.commit('showLapTime', newVal)
             }
         },
         unitMode: {
             get() {
                 return this.$store.state.unitMode
-            }, 
+            },
             set(newVal) {
                 this.$store.commit('changeUnitMode', newVal)
             }
         }
-
     },
     watch: {
         lang() {
-            this.$i18n.locale = this.lang;
-            localStorage.setItem('lang', this.lang);
-            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
+            this.$i18n.locale = this.lang
+            localStorage.setItem('lang', this.lang)
+            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title')
         }
     }
 }
@@ -176,20 +190,20 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 .slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 16px;
     width: 16px;
     top: 2px;
     left: 2px;
     @apply bg-white;
-    -webkit-transition: .2s;
-    transition: .2s;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
     border-radius: 50%;
 }
 

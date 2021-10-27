@@ -1,21 +1,21 @@
 {
-	"dir" : "ltr",
-	"lang" : "fr",
-	"name" : "MA Vitesse | Calcul intelligent de vitesse, durée, distance.",
-	"scope" : "/",
-	"display" : "standalone",
-	"start_url" : "./",
-	"short_name" : "MA Vitesse",
-	"description" : "",
-	"orientation" : "portrait",
+    "dir": "ltr",
+    "lang": "fr",
+    "name": "MA Vitesse | Calcul intelligent de vitesse, durée, distance.",
+    "scope": "/",
+    "display": "standalone",
+    "start_url": "./",
+    "short_name": "MA Vitesse",
+    "description": "",
+    "orientation": "portrait",
     "icons": [
         {
-            "src": "img\/icons\/android-chrome-192x192.png",
+            "src": "img/icons/android-chrome-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "img\/icons\/android-chrome-512x512.png",
+            "src": "img/icons/android-chrome-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }

@@ -1,51 +1,49 @@
 <template>
     <div class="main-box flex-grow-0 p-6 m-4 sm:mr-0 sm:ml-0 sm:w-full text-white overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="!calculatedField">
-            <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg"/>
+            <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
             <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4 text-2xl text-secondary">
-                {{ $t('calculator.description')}}</h2>
+                {{ $t('calculator.description') }}
+            </h2>
         </div>
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
-                <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg"/>
-                <div class="flex self-center pl-2 font-semibold sm:mr-4 ">
+                <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
+                <div class="flex self-center pl-2 font-semibold sm:mr-4">
                     <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">
-                        <span>{{ $t('calculator.calculation_label')}}</span>
+                        <span>{{ $t('calculator.calculation_label') }}</span>
                         <span class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
                     </h2>
-                    <h2 class="xl:text-xl" v-else> 
+                    <h2 class="xl:text-xl" v-else>
                         <span class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
-                        <span>{{ $t('calculator.calculation_label')}}</span>
+                        <span>{{ $t('calculator.calculation_label') }}</span>
                     </h2>
                     <span>
-                        <img @click="clearFields" alt="clear field button"
-                               class="h-2 noselect-nodrag clear-fields-button"
-                               src="../assets/icons/cancel.svg"/>
+                        <img
+                            @click="clearFields"
+                            alt="clear field button"
+                            class="h-2 noselect-nodrag clear-fields-button"
+                            src="../assets/icons/cancel.svg"
+                        />
                     </span>
                 </div>
             </div>
             <div class="xs:mr-2">
-                <share-social/>
+                <share-social />
             </div>
         </div>
         <div class="wrapper">
-            <duration-field 
-                v-model="duration"
-                :isCalculated="calculatedField === 'duration'" />
-            <distance-field
-                v-model="distance"
-                :isCalculated="calculatedField === 'distance'" />
-            <speed-field 
-                v-model="speed"
-                :isCalculated="calculatedField === 'speed'" />
+            <duration-field v-model="duration" :isCalculated="calculatedField === 'duration'" />
+            <distance-field v-model="distance" :isCalculated="calculatedField === 'distance'" />
+            <speed-field v-model="speed" :isCalculated="calculatedField === 'speed'" />
         </div>
-        <share-m-a class="mt-4"/>
+        <share-m-a class="mt-4" />
     </div>
 </template>
 
 <script>
-import ShareMA from "@/components/ShareMA.vue"
-import ShareSocial from "@/components/ShareSocial.vue"
+import ShareMA from '@/components/ShareMA.vue'
+import ShareSocial from '@/components/ShareSocial.vue'
 import DurationField from './atoms/DurationField.vue'
 import DistanceField from './atoms/DistanceField.vue'
 import SpeedField from './atoms/SpeedField.vue'
@@ -54,7 +52,7 @@ function doubleBinding(propName, mutationName) {
     return {
         get() {
             return this.$store.state[propName]
-            },
+        },
         set(val) {
             this.$store.commit(mutationName, val)
         }
@@ -62,8 +60,14 @@ function doubleBinding(propName, mutationName) {
 }
 
 export default {
-    name: "Calculator",
-    components: {ShareMA, ShareSocial, DurationField, DistanceField, SpeedField },
+    name: 'Calculator',
+    components: {
+        ShareMA,
+        ShareSocial,
+        DurationField,
+        DistanceField,
+        SpeedField
+    },
     computed: {
         speed: doubleBinding('speed', 'setSpeed'),
         duration: doubleBinding('duration', 'setDuration'),
@@ -76,11 +80,10 @@ export default {
     },
     methods: {
         checkFields() {
-            console.log('check fields', this.duration)
             const isDistance = this.distance > 0
             const isDuration = this.duration > 0
             const isSpeed = this.speed > 0
-            
+
             if (this.calculatedField && [this.distance, this.duration, this.speed].includes(0)) {
                 this[this.calculatedField] = 0
                 this.calculatedField = ''
@@ -105,13 +108,13 @@ export default {
             this.distance = 0
             this.speed = 0
             this.calculatedField = ''
-        },
+        }
     },
     watch: {
         handleCheckFields() {
             this.checkFields()
         }
-    },
+    }
 }
 </script>
 
@@ -145,7 +148,7 @@ input {
 }
 
 select {
-    background-color: rgba(0, 0, 0, 0.0);
+    background-color: rgba(0, 0, 0, 0);
     text-align: center;
     font-size: 1em;
     -webkit-appearance: none;
@@ -179,7 +182,6 @@ h1 {
 .calculated-label {
     color: $ma-primary;
 }
-
 
 .number-input {
     &::-webkit-inner-spin-button {
