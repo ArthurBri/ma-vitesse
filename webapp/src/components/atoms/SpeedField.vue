@@ -25,7 +25,6 @@
                     />
                     <label aria-label="Switch between speed units" for="speed-unit" />
                     <select
-                        @change="unitChange('speed', $event.target.value)"
                         id="speed-unit"
                         class="speed-unit-select"
                         tabindex="-1"
@@ -50,7 +49,6 @@
                     />
                     <label aria-label="Switch between pace units" for="pace-unit" />
                     <select
-                        @change="unitChange('pace', $event.target.value)"
                         id="pace-unit"
                         class="speed-unit-select"
                         tabindex="-1"
@@ -106,7 +104,7 @@ export default {
                 return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
             },
             set(val) {
-                this.$emit('input', parseFloat(val))
+                this.$emit('input', parseFloat(val || 0))
             }
         },
         speedFormat: {
@@ -140,29 +138,23 @@ export default {
             if (this.speedFormat === 'pace') {
                 this.pace = speedToPace(this.value)
             } else {
-                this.speedAsString = String(paceToSpeed(this.pace))
+                this.speedAsString = String(paceToSpeed(this.pace || 0))
             }
             this.$store.commit('setSpeedFormat', this.speedFormat)
-        },
-        unitChange(fieldType, unit) {
-            this.pace = speedToPace(this.value)
-            this.$store.commit('changeUnitMode', {
-                fieldType,
-                unit
-            })
         }
     },
     watch: {
         speedAsString(newVal, oldVal) {
-            if (!isValidSpeed(newVal)) {
+            this.speedAsString = cleanSpeedInput(newVal)
+            if (!isValidSpeed(this.speedAsString)) {
                 this.speedAsString = cleanSpeedInput(oldVal)
             }
         },
         pace(newVal, oldVal) {
-            if (isValidPace(newVal)) {
-                this.speedAsString = String(paceToSpeed(this.pace || 0))
-            } else {
+            if (!isValidPace(newVal)) {
                 this.pace = oldVal
+            } else {
+                this.speedAsString = String(paceToSpeed(this.pace || 0))
             }
         }
     }

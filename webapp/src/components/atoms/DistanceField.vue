@@ -88,7 +88,7 @@ export default {
                 return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
             },
             set(val) {
-                this.$emit('input', parseFloat(val))
+                this.$emit('input', parseFloat(val || 0))
             }
         },
         distanceUnit: {

@@ -5,7 +5,9 @@ export function isValidSpeed(speed) {
 }
 
 export function cleanSpeedInput(speed) {
-    return speed.replace(/([.,]\d{4})\d*/, '$1')
+    return speed
+        .replace(/([.,]\d{4})\d*/, '$1') // remove digits after the fourth
+        .replace(/[a-zA-Z]/g, '') // remove letters
 }
 
 export function isValidDistance(distance) {

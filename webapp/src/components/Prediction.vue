@@ -119,31 +119,7 @@ export default {
 
 <style lang="scss" scoped>
 .box {
-    @apply mt-4 rounded-none;
-}
-
-@screen sm {
-    .box {
-        @apply rounded-lg;
-    }
-}
-
-@screen md {
-    .box {
-        @apply rounded-b-lg rounded-r-lg;
-    }
-}
-
-@screen lg {
-    .box {
-        @apply rounded-b-lg rounded-r-lg;
-    }
-}
-
-@screen xl {
-    .box {
-        @apply rounded-b-lg rounded-r-lg;
-    }
+    @apply mt-4 rounded-lg md:rounded-b-lg rounded-r-lg;
 }
 
 table,
@@ -153,7 +129,7 @@ td {
 }
 
 th {
-    @apply text-primary text-center text-white border-b-2 px-3 py-1;
+    @apply text-primary text-center border-b-2 px-3 py-1;
     background-color: rgba(white, 0.2);
 }
 

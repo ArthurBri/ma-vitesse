@@ -67,13 +67,13 @@
         >
             <div class="h-6">
                 <svg :class="[oneFieldMode ? 'dot' : 'dot-1']" class="mt-2">
-                    <rect :style="{ fill: isCalculated ? 'white' :'#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                    <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
                 <svg :class="[oneFieldMode ? 'dot' : 'dot']" class="mt-2">
-                    <rect :style="{ fill: isCalculated ? 'white' :'#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                    <rect :style="{ fill: '#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
                 <svg :class="[oneFieldMode ? 'dot' : 'dot-3']" class="mt-2">
-                    <rect :style="{ fill: isCalculated ? 'white' :'#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                    <rect :style="{ fill: '#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
             </div>
         </div>
@@ -93,9 +93,9 @@ export default {
             oneFieldMode: false,
             durationDisplayUnit: 'h',
             durationOneField: '',
-            hours: 0,
-            minutes: 0,
-            seconds: 0
+            hours: '',
+            minutes: '',
+            seconds: ''
         }
     },
     computed: {
@@ -151,12 +151,12 @@ export default {
             this.durationOneField = `${this.hours}h${this.minutes}m${this.seconds}s`
             this.duration = toRawDuration(this.hours, this.minutes, this.seconds)
         },
-        getDurationDisplayUnit(duration) {
-            if ((duration.match(/[h:]/g) || []).length === 1 && (duration.match(/[ms]/g) || []).length === 0) {
+        getDurationDisplayUnit() {
+            if ((this.durationOneField.match(/[h:]/g) || []).length === 1 && (this.durationOneField.match(/[ms]/g) || []).length === 0) {
                 return 'm'
-            } else if ((duration.match(/[s]/g) || []).length === 1) {
+            } else if ((this.durationOneField.match(/[s]/g) || []).length === 1) {
                 return ''
-            } else if ((duration.match(/[hm:]/g) || []).length > 0) {
+            } else if ((this.durationOneField.match(/[hm:]/g) || []).length > 0) {
                 return 's'
             } else {
                 return 'h'
@@ -167,12 +167,8 @@ export default {
         oneFieldMode() {
             this.$store.commit('setOneFieldMode', this.oneFieldMode)
         },
-        duration(newVal, oldVal) {
-            //this.durationDisplayUnit = this.getDurationDisplayUnit(this.duration)
-            this.durationDisplayUnit = 'c'
-        },
-        durationOneField() {
-            // this.$emit('input', this.duration)
+        duration() {
+            this.durationDisplayUnit = this.getDurationDisplayUnit()
         },
         hours(newVal, oldVal) {
             if (!isValidHours(newVal)) {
