@@ -22,7 +22,6 @@
                     />
                     <label aria-label="Switch between distance units" for="distance-unit" />
                     <select
-                        @change="unitChange('distance', $event.target.value)"
                         id="distance-unit"
                         class="self-center text-right cursor-pointer"
                         tabindex="-1"
@@ -86,7 +85,7 @@ export default {
         ...mapState(['unitMultipliers', 'unitMode', 'distanceUnits', 'defaultDistances']),
         distanceAsString: {
             get() {
-                return this.value !== 0 ? this.value.toString() : ''
+                return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
             },
             set(val) {
                 this.$emit('input', parseFloat(val))
@@ -97,18 +96,11 @@ export default {
                 return this.$store.state.distanceUnit
             },
             set(val) {
-                console.log(val)
                 this.$store.commit('changeUnitMode', val)
             }
         }
     },
     methods: {
-        unitChange(fieldType, unit) {
-            this.$store.commit('changeUnitMode', {
-                fieldType,
-                unit
-            })
-        },
         closeAddDistance() {
             this.addDistance = false
             this.presetDistances = ''

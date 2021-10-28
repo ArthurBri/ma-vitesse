@@ -106,6 +106,8 @@ export const store = new Vuex.Store({
             localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances))
         },
         changeUnitMode(state, newMode) {
+            
+            const currentMode = state.unitMode
             if (typeof newMode === 'string') {
                 state.unitMode = newMode
             } else {
@@ -123,12 +125,12 @@ export const store = new Vuex.Store({
             state.paceUnit = state.paceUnits.filter((paceUnit) => paceUnit.type === state.unitMode)[0].type
 
             const currentMultplier =
-                state.unitMultipliers.filter((unitMultiplier) => unitMultiplier.type === state.unitMode)[0].multiplier || 1
+                state.unitMultipliers.filter((unitMultiplier) => unitMultiplier.type === currentMode)[0].multiplier || 1
             const newMultiplier =
                 state.unitMultipliers.filter((unitMultiplier) => unitMultiplier.type === state.unitMode)[0].multiplier || 1
 
-            state.speed = (this.speed * newMultiplier) / currentMultplier || 0
-            state.distance = (this.distance * newMultiplier) / currentMultplier || 0
+            state.speed = (state.speed * newMultiplier) / currentMultplier || 0
+            state.distance = (state.distance * newMultiplier) / currentMultplier || 0
 
             localStorage.setItem('unitMode', state.unitMode)
         },
