@@ -46,7 +46,7 @@ export default {
 }
 
 .drawer {
-    @apply bg-white absolute overflow-x-auto flex flex-col z-40 top-0 right-0 mt-2 mr-4 shadow-xl;
+    @apply bg-white absolute overflow-x-auto flex flex-col z-40 top-0 right-0 mt-2 mr-4 shadow;
     max-height: 80vh;
 }
 

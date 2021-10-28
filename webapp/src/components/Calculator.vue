@@ -1,5 +1,5 @@
 <template>
-    <div class="main-box flex-grow-0 p-6 m-4 sm:mr-0 sm:ml-0 sm:w-full text-white overflow-x-auto">
+    <div class="main-box flex-grow-0 p-6 m-4 sm:mr-0 sm:ml-0 sm:w-full overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="!calculatedField">
             <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
             <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4 text-2xl text-secondary">
@@ -9,12 +9,12 @@
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
                 <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
-                <div class="flex self-center pl-2 font-semibold sm:mr-4">
-                    <h2 class="xl:text-xl" v-if="$i18n.locale === 'fr'">
+                <div class="flex self-center pl-2 font-semibold sm:mr-4 xl:text-xl">
+                    <h2 v-if="$i18n.locale === 'fr'">
                         <span>{{ $t('calculator.calculation_label') }}</span>
                         <span class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
                     </h2>
-                    <h2 class="xl:text-xl" v-else>
+                    <h2 v-else>
                         <span class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
                         <span>{{ $t('calculator.calculation_label') }}</span>
                     </h2>
@@ -74,45 +74,81 @@ export default {
         speedFormat: doubleBinding('speedFormat', 'setSpeedFormat'),
         distance: doubleBinding('distance', 'setDistance'),
         calculatedField: doubleBinding('calculatedField', 'setCalculatedField'),
-        handleCheckFields() {
-            return [this.distance, this.duration, this.speed].join('')
+        isDistance() {
+            return this.distance > 0
+        },
+        isDuration() {
+            return this.duration > 0
+        },
+        isSpeed() {
+            return this.speed > 0
         }
     },
     methods: {
-        checkFields() {
-            const isDistance = this.distance > 0
-            const isDuration = this.duration > 0
-            const isSpeed = this.speed > 0
+        calculate(field) {
+            switch (field) {
+                case 'speed':
+                    this.speed = this.distance / this.duration
+                    this.calculatedField = 'speed'
+                    break
+                case 'duration':
+                    this.duration = this.distance / this.speed
+                    this.calculatedField = 'duration'
+                    break
+                case 'distance':
+                    this.distance = this.speed * this.duration
+                    this.calculatedField = 'distance'
+                    break
 
-            if (this.calculatedField && [this.distance, this.duration, this.speed].includes(0)) {
-                this[this.calculatedField] = 0
-                this.calculatedField = ''
-                return
             }
 
-            if (isDistance && isDuration && (!isSpeed || (isSpeed && this.calculatedField === 'speed'))) {
-                this.calculatedField = 'speed'
-                this.speed = this.distance / this.duration
-            } else if (isDistance && isSpeed && (!isDuration || (isDuration && this.calculatedField === 'duration'))) {
-                this.calculatedField = 'duration'
-                this.duration = this.distance / this.speed
-            } else if (isSpeed && isDuration && (!isDistance || (isDistance && this.calculatedField === 'distance'))) {
-                this.calculatedField = 'distance'
-                this.distance = this.speed * this.duration
-            } else {
-                this.calculatedField = ''
-            }
         },
         clearFields() {
             this.duration = 0
             this.distance = 0
             this.speed = 0
-            this.calculatedField = ''
+            this.calculatedField = null
         }
     },
     watch: {
-        handleCheckFields() {
-            this.checkFields()
+        speed(newSpeed) {
+            if (this.calculatedField === 'speed') {
+                return
+            }
+
+            if (newSpeed > 0) {
+                this.isDuration && this.calculatedField !== 'duration' && this.calculate('distance')
+                this.isDistance && this.calculatedField !== 'distance' && this.calculate('duration')
+            } else if (newSpeed === 0) {
+                this[this.calculatedField] = 0
+                this.calculatedField = null
+            }
+        },
+        distance(newDistance) {
+            if (this.calculatedField === 'distance') {
+                return
+            }
+
+            if (newDistance > 0) {
+                this.isDuration && this.calculatedField !== 'duration' && this.calculate('speed')
+                this.isSpeed && this.calculatedField !== 'speed' && this.calculate('duration')
+            } else if (newDistance === 0) {
+                this[this.calculatedField] = 0
+                this.calculatedField = null
+            }        
+        },
+        duration(newDuration) {
+            if (this.calculatedField === 'duration') {
+                return
+            }
+
+            if (newDuration > 0) {
+                this.isSpeed && this.calculatedField !== 'speed' && this.calculate('distance')
+                this.isDistance && this.calculatedField !== 'distance' && this.calculate('speed')
+            } else if (newDuration === 0) {
+                this[this.calculatedField] = 0
+                this.calculatedField = null
+            }        
         }
     }
 }
@@ -120,7 +156,7 @@ export default {
 
 <style lang="scss">
 .main-box {
-    @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4 xl:my-4;
+    @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4;
 }
 
 .wrapper {
@@ -133,10 +169,6 @@ export default {
     padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-}
-
-.calculated {
-    @apply ml-3 mt-2 bg-primary text-white;
 }
 
 input {
@@ -190,21 +222,6 @@ h1 {
     -moz-appearance: textfield;
 }
 
-.box-option {
-    @apply mr-3 px-2 self-end items-center rounded-b-lg flex cursor-pointer;
-
-    &:not(active) {
-        @apply bg-primary;
-    }
-
-    &.active {
-        @apply bg-white text-primary;
-    }
-
-    &:hover {
-        padding-top: 5px;
-    }
-}
 
 .icon-active {
     filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);

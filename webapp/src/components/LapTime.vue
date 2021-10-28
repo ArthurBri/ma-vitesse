@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="flex">
         <div class="flex w-full sm:flex-col md:flex-col justify-start" v-if="distance <= 1000 && duration && speed">
             <div
                 class="
@@ -160,7 +160,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { prettyDuration } from '@/utils/formatData'
+import { toPrettyDuration } from '@/utils/formatData'
 
 export default {
     name: 'LapTime',
@@ -222,8 +222,8 @@ export default {
                         }
                         this.laptime_distance_steps.push({
                             remaining_distance: parseFloat(remaining_distance),
-                            duration: prettyDuration(duration, this.oneFieldMode),
-                            remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
+                            duration: toPrettyDuration(duration, this.oneFieldMode),
+                            remaining_duration: toPrettyDuration(remaining_duration, this.oneFieldMode)
                         })
                         remaining_duration -= duration
                         remaining_distance -= this.selected_distance_step
@@ -244,7 +244,7 @@ export default {
                         this.laptime_duration_steps.push({
                             remaining_distance: parseFloat(remaining_distance.toFixed(2)),
                             distance: parseFloat(distance.toFixed(2)),
-                            remaining_duration: prettyDuration(remaining_duration, this.oneFieldMode)
+                            remaining_duration: toPrettyDuration(remaining_duration, this.oneFieldMode)
                         })
                         remaining_distance -= distance
                         remaining_duration -= this.selected_duration_step
@@ -286,14 +286,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box {
-    @apply flex;
-}
-
-table,
-td {
-}
-
 thead {
     @apply w-full;
 }

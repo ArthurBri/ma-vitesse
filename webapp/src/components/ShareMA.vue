@@ -32,7 +32,7 @@
                             <td class="noselect-nodrag align-middle text-sm">
                                 <b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].distance_unit }}</b>
                                 {{ $t('common.in') }}
-                                <b> {{ lastWorkouts[0].duration | prettyDuration(oneFieldMode) }}</b>
+                                <b> {{ lastWorkouts[0].duration | toPrettyDuration(oneFieldMode) }}</b>
                                 {{ $t('common.at') }}
                                 <b>
                                     {{ lastWorkouts[0].speed | formatSpeed(speedFormat) }}
@@ -99,7 +99,7 @@
                                 <td class="noselect-nodrag">
                                     <b>{{ lastWorkout.distance }} {{ lastWorkout.distance_unit }}</b>
                                     {{ $t('common.in') }}
-                                    <b>{{ lastWorkout.duration | prettyDuration(oneFieldMode) }}</b>
+                                    <b>{{ lastWorkout.duration | toPrettyDuration(oneFieldMode) }}</b>
                                     {{ $t('common.at') }}
                                     <b>
                                         {{ lastWorkout.speed | formatSpeed(speedFormat) }}
@@ -154,7 +154,7 @@
 <script>
 import { mapState } from 'vuex'
 import moment from 'moment'
-import { prettyDuration, formatSpeed } from '../utils/formatData'
+import { toPrettyDuration, formatSpeed } from '../utils/formatData'
 import axios from 'axios'
 
 export default {
@@ -190,7 +190,7 @@ export default {
                 baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
             })
 
-            ax.post('/workouts', {
+/*             ax.post('/workouts', {
                 distance: this.distance,
                 distance_unit: this.distanceUnit,
                 duration: this.duration,
@@ -208,20 +208,20 @@ export default {
                 })
                 .catch((error) => {
                     console.log(error)
-                })
+                }) */
         },
         loadWorkouts() {
             // Make a request for a user with a given ID
             const ax = axios.create({
                 baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
             })
-            ax.get('/workouts?limit=7&type=public')
+/*             ax.get('/workouts?limit=7&type=public')
                 .then((response) => {
                     this.lastWorkouts = response.data
                 })
                 .catch((error) => {
                     console.log(error)
-                })
+                }) */
         }
     },
     computed: {
@@ -246,9 +246,9 @@ export default {
             if (!value) return ''
             return value.toString().toUpperCase()
         },
-        prettyDuration(value, oneFieldMode) {
+        toPrettyDuration(value, oneFieldMode) {
             if (!value) return ''
-            return prettyDuration(value, oneFieldMode)
+            return toPrettyDuration(value, oneFieldMode)
         },
         formatSpeed(value, speedFormat) {
             if (!value) return ''

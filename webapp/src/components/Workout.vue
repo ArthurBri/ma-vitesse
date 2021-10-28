@@ -70,7 +70,7 @@
 
 <script>
 import CenterModal from '@/components/CenterModal.vue'
-// import {prettyDuration} from '@/utils/formatData'
+// import {toPrettyDuration} from '@/utils/formatData'
 import { mapState } from 'vuex'
 import axios from 'axios'
 import moment from 'moment'
@@ -89,16 +89,16 @@ export default {
         const ax = axios.create({
             baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
         })
-        ax.get('/workouts/' + this.$route.params.id)
+/*         ax.get('/workouts/' + this.$route.params.id)
             .then((response) => {
                 this.workout = response.data
                 this.workout.created_date = moment(this.workout.created_date.format).format('L')
-                this.workout.duration = prettyDuration(this.workout.duration, this.oneFieldMode)
+                this.workout.duration = toPrettyDuration(this.workout.duration, this.oneFieldMode)
             })
             .catch((error) => {
                 console.log(error)
                 this.workout = ''
-            })
+            }) */
     },
     methods: {
         close() {
@@ -106,6 +106,7 @@ export default {
             this.$emit('close')
         },
         useWorkout() {
+            console.log('workout')
             if (this.workout) {
                 if (this.workout.calculated_field === 'speed') {
                     this.$store.commit('setDuration', this.workout.duration)

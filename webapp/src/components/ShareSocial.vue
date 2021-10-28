@@ -27,7 +27,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { prettyDuration } from '@/utils/formatData'
+import { toPrettyDuration } from '@/utils/formatData'
 
 export default {
     name: 'Share',
@@ -42,7 +42,7 @@ export default {
             return this.duration && this.speed && this.distance
         },
         human_duration() {
-            return prettyDuration(this.duration)
+            return toPrettyDuration(this.duration)
         }
     },
     methods: {

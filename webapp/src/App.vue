@@ -3,7 +3,7 @@
         <preloader v-if="showPreloader" />
         <div id="app" v-if="!showPreloader">
             <h1 class="app-description">
-                <span class="text-4xl">{{ $t('global.app_subname') }}</span>
+                <span class="text-4xl font-bold">{{ $t('global.app_subname') }}</span>
                 <span class="mv-icon mv-icon-run ml-2 fill-current text-primary" />
                 <span class="mv-icon mv-icon-bike ml-2" />
                 <span class="mv-icon mv-icon-hiking ml-2" />
@@ -143,7 +143,7 @@ export default {
 }
 
 .app-description {
-    @apply sm:mt-20 sm:text-lg md:text-xl lg:text-xl xl:my-12 text-xl;
+    @apply flex items-center sm:mt-20 sm:text-lg md:text-xl lg:text-xl xl:my-12 text-xl;
 }
 
 .tabs {

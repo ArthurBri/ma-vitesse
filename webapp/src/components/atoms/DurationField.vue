@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-24 noselect-nodrag">
+    <div class="flex flex-col h-24 noselect-nodrag mt-2 ml-3 mr-3">
         <div :class="isCalculated && 'calculated noselect-nodrag'" class="box self-stretch justify-between">
             <label @click="focusMe('duration')" for="durationOneField">{{ $t('calculator.duration') }}</label>
             <div class="w-40">
@@ -17,7 +17,6 @@
                     <span class="noselect-nodrag self-center">{{ durationDisplayUnit }}</span>
                 </div>
                 <div v-else class="flex justify-end">
-                    <label>
                         <input
                             :disabled="isCalculated"
                             class="w-10 pl-1 pr-1 text-center number-input"
@@ -34,7 +33,7 @@
                         <span class="noselect-nodrag self-center">:</span>
                         <input
                             :disabled="isCalculated"
-                            class="w-10 pl-1 pr-1 ml-1 mr-1 text-center number-input"
+                            class="w-10 pl-1 pr-1 text-center number-input"
                             :placeholder="[isCalculated ? '' : 'mm']"
                             @keydown.delete.left.right="updateCursor('minutes', $event)"
                             autocomplete="off"
@@ -59,24 +58,22 @@
                             inputmode="numeric"
                             v-model="seconds"
                         />
-                    </label>
                 </div>
             </div>
         </div>
         <div
             @click="oneFieldMode = !oneFieldMode"
-            :class="isCalculated && 'noselect-nodrag active'"
-            class="box-option relative w-12 noselect-nodrag"
+            class="box-option relative w-12 mt-2"
         >
             <div class="h-6">
-                <svg :class="[oneFieldMode ? 'dot' : 'dot1threeFieldsMode']" class="mt-2">
-                    <rect :style="isCalculated ? 'fill:#2C629D' : 'fill:white'" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                <svg :class="[oneFieldMode ? 'dot' : 'dot-1']" class="mt-2">
+                    <rect :style="{ fill: isCalculated ? 'white' :'#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
                 <svg :class="[oneFieldMode ? 'dot' : 'dot']" class="mt-2">
-                    <rect :style="isCalculated ? 'fill:#2C629D' : 'fill:white'" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                    <rect :style="{ fill: isCalculated ? 'white' :'#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
-                <svg :class="[oneFieldMode ? 'dot' : 'dot3threeFieldsMode']" class="mt-2">
-                    <rect :style="isCalculated ? 'fill:#2C629D' : 'fill:white'" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                <svg :class="[oneFieldMode ? 'dot' : 'dot-3']" class="mt-2">
+                    <rect :style="{ fill: isCalculated ? 'white' :'#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
             </div>
         </div>
@@ -84,8 +81,8 @@
 </template>
 
 <script>
-import { prettyDuration, formatDuration } from '@/utils/formatData'
-import { cleanDurationInput, isValidDuration, isValidHours, isValidMinutes, isValidSeconds } from '@/utils/validateData'
+import { toPrettyDuration, toRawDuration, formatDuration } from '@/utils/formatData'
+import { isValidHours, isValidMinutes, isValidSeconds } from '@/utils/validateData'
 import fieldOperations from '../../mixins/fieldOperations'
 
 export default {
@@ -96,9 +93,9 @@ export default {
             oneFieldMode: false,
             durationDisplayUnit: 'h',
             durationOneField: '',
-            hours: '',
-            minutes: '',
-            seconds: ''
+            hours: 0,
+            minutes: 0,
+            seconds: 0
         }
     },
     computed: {
@@ -107,7 +104,7 @@ export default {
                 return this.value
             },
             set(val) {
-                this.$emit('input', val.replace(',', '.'))
+                this.$emit('input', val)
             }
         }
     },
@@ -151,7 +148,8 @@ export default {
             this.oneFieldMode && field !== 'duration' && this.$refs.duration.focus()
         },
         updateOneFieldDuration() {
-            this.duration = `${this.hours}h${this.minutes}m${this.seconds}s`
+            this.durationOneField = `${this.hours}h${this.minutes}m${this.seconds}s`
+            this.duration = toRawDuration(this.hours, this.minutes, this.seconds)
         },
         getDurationDisplayUnit(duration) {
             if ((duration.match(/[h:]/g) || []).length === 1 && (duration.match(/[ms]/g) || []).length === 0) {
@@ -170,8 +168,8 @@ export default {
             this.$store.commit('setOneFieldMode', this.oneFieldMode)
         },
         duration(newVal, oldVal) {
-            this.durationOneField = prettyDuration(newVal, true)
-            this.durationDisplayUnit = this.getDurationDisplayUnit(this.duration)
+            //this.durationDisplayUnit = this.getDurationDisplayUnit(this.duration)
+            this.durationDisplayUnit = 'c'
         },
         durationOneField() {
             // this.$emit('input', this.duration)
@@ -198,13 +196,11 @@ export default {
             this.updateOneFieldDuration()
         },
         value() {
-            const { hours, minutes, seconds } = formatDuration(prettyDuration(this.value, true))
+            const { hours, minutes, seconds } = formatDuration(toPrettyDuration(this.value, true))
 
             this.hours = parseFloat(hours) ? (parseFloat(hours) < 10 ? '0' + hours : parseFloat(hours)) : '00'
             this.minutes = parseFloat(minutes) ? (parseFloat(minutes) < 10 ? '0' + minutes : parseFloat(minutes)) : '00'
             this.seconds = parseFloat(seconds) ? (parseFloat(seconds) < 10 ? '0' + seconds : parseFloat(seconds)) : '00'
-
-            this.duration = prettyDuration(this.value, true)
         }
     },
     mounted() {
@@ -213,37 +209,20 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.box-option {
-    @apply mr-3 px-2 self-end items-center rounded-b-lg bg-primary flex cursor-pointer;
-    transition: all 200ms ease-in;
-
-    &.active {
-        @apply bg-white text-primary;
-    }
-}
-
+<style scoped lang="scss">
 .dot,
-.dot1threeFieldsMode,
-.dot3threeFieldsMode {
+.dot-1,
+.dot-3 {
     @apply absolute w-4 h-4 transition duration-300;
     left: calc(50% - 2.5px);
 }
 
-.dot1threeFieldsMode {
+.dot-1 {
     left: calc(20% - 2.5px);
 }
 
-.dot3threeFieldsMode {
+.dot-3 {
     left: calc(80% - 2.5px);
-}
-
-.calculated {
-    background-color: $ma-primary;
-    color: white;
-    font-weight: 800;
-    transition: all 0.2s;
-    @apply ml-3 mt-2;
 }
 
 input {

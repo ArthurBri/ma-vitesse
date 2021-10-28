@@ -87,7 +87,7 @@ export default {
 
         // Make a request for a user with a given ID
         const ax = axios.create()
-        ax.get('/meanapps')
+/*         ax.get('/meanapps')
             .then((response) => {
                 // handle success
                 this.meanAppsList = response.data
@@ -95,7 +95,7 @@ export default {
             .catch(function (error) {
                 // handle error
                 console.log(error)
-            })
+            }) */
     }
 }
 </script>

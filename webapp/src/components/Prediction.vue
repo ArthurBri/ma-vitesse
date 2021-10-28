@@ -51,7 +51,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { prettyDuration } from '../utils/formatData'
+import { toPrettyDuration } from '../utils/formatData'
 
 export default {
     name: 'Prediction',
@@ -80,11 +80,11 @@ export default {
             let predictions = JSON.parse(JSON.stringify(this.defaultDistances))
             predictions.forEach((element) => {
                 if (this.formulaSelected === 'Riegel') {
-                    element.duration = prettyDuration(this.duration * (element.distance / this.distance) * 1.06)
+                    element.duration = toPrettyDuration(this.duration * (element.distance / this.distance) * 1.06)
                 } else if (this.formulaSelected === 'Williams') {
-                    element.duration = prettyDuration(this.duration * (element.distance / this.distance) * 1.15)
+                    element.duration = toPrettyDuration(this.duration * (element.distance / this.distance) * 1.15)
                 } else {
-                    element.duration = prettyDuration(this.duration * (element.distance / this.distance))
+                    element.duration = toPrettyDuration(this.duration * (element.distance / this.distance))
                 }
             })
             return predictions.filter((i) => i.distance !== this.distance)

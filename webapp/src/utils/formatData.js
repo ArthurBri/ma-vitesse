@@ -1,4 +1,4 @@
-export function prettyDuration(duration, humanize = false) {
+export function toPrettyDuration(duration, humanize = false) {
     let prettyDuration = ''
     let hours = duration | 0
     let minutes = ((duration % 1) * 60) | (0 >= 1) ? parseInt((duration % 1) * 60) : 0
@@ -116,4 +116,8 @@ export function formatDuration(duration) {
             seconds: parseFloat(seconds) || 0
         }
     }
+}
+
+export function toRawDuration(hours, minutes, seconds) {
+    return +hours + +minutes / 60 +  +seconds / 3600
 }

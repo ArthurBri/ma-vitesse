@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-col h-24 noselect-nodrag">
+        <div class="flex flex-col h-24 noselect-nodrag mt-2 ml-3 mr-3">
             <div :class="isCalculated && 'calculated noselect-nodrag'" class="box distance self-stretch justify-between">
                 <label @click="focusMe('distance')" for="distance">{{ $t('calculator.distance') }}</label>
                 <div class="flex">
@@ -34,7 +34,7 @@
                     </select>
                 </div>
             </div>
-            <label class="box-option preset-distances noselect-nodrag" v-show="showPresetDistances">
+            <div class="box-option preset-distances mt-2" v-show="showPresetDistances">
                 <select class="cursor-pointer" tabindex="-1" v-model="presetDistances">
                     <option disabled value="">
                         {{ $t('calculator.my_distances') }}
@@ -47,7 +47,7 @@
                         - {{ $t('common.delete') }}
                     </option>
                 </select>
-            </label>
+            </div>
             <span class="h-8 pt-1 pb-1" v-show="!showPresetDistances"></span>
         </div>
         <AddPresetDistance @close="closeAddDistance" v-show="addDistance" />
@@ -160,36 +160,11 @@ select {
     }
 }
 
-.box-option {
-    @apply mr-3 px-2 self-end items-center rounded-b-lg flex cursor-pointer;
-    transition: all 200ms ease-in;
-
-    &:not(active) {
-        @apply bg-primary;
-    }
-
-    &.active {
-        @apply bg-white text-primary;
-    }
-
-    &:hover {
-        padding-top: 5px;
-    }
-}
-
 .preset-distances {
     transition: all 1s;
 }
 
 .calculated-label {
     color: $ma-primary;
-}
-
-.calculated {
-    background-color: $ma-primary;
-    color: white;
-    font-weight: 800;
-    transition: all 0.2s;
-    @apply ml-3 mt-2;
 }
 </style>

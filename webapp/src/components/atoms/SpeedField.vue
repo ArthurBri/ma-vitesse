@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-24">
+    <div class="flex flex-col h-24 mt-2 ml-3 mr-3">
         <div :class="isCalculated && 'calculated noselect-nodrag'" class="box speed self-stretch justify-between">
             <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="speed" v-if="speedFormat === 'speed'">
                 {{ $t('calculator.speed') }}
@@ -63,7 +63,7 @@
                 </div>
             </div>
         </div>
-        <div :class="isCalculated && 'active noselect-nodrag'" @click="changeSpeedFormat" class="box-option noselect-nodrag">
+        <div @click="changeSpeedFormat" class="box-option mt-2">
             <img
                 :class="isCalculated && 'icon-active'"
                 alt="switch between pace and speed"
@@ -103,7 +103,7 @@ export default {
         ...mapState(['unitMultipliers', 'unitMode', 'speedUnits', 'paceUnits']),
         speedAsString: {
             get() {
-                return this.value !== 0 ? this.value.toString() : ''
+                return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
             },
             set(val) {
                 this.$emit('input', parseFloat(val))
@@ -174,11 +174,4 @@ export default {
     @apply self-center text-right cursor-pointer bg-transparent;
 }
 
-.calculated {
-    background-color: $ma-primary;
-    color: white;
-    font-weight: 800;
-    transition: all 0.2s;
-    @apply ml-3 mt-2;
-}
 </style>
