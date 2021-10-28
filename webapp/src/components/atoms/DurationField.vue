@@ -197,6 +197,12 @@ export default {
             this.hours = parseFloat(hours) ? (parseFloat(hours) < 10 ? '0' + hours : parseFloat(hours)) : '00'
             this.minutes = parseFloat(minutes) ? (parseFloat(minutes) < 10 ? '0' + minutes : parseFloat(minutes)) : '00'
             this.seconds = parseFloat(seconds) ? (parseFloat(seconds) < 10 ? '0' + seconds : parseFloat(seconds)) : '00'
+        },
+        durationOneField(newVal) {
+            const { hours, minutes, seconds } = formatDuration(newVal)
+            this.hours = hours
+            this.minutes = minutes
+            this.seconds = seconds
         }
     },
     mounted() {
