@@ -14,25 +14,26 @@
                             <p class="text-xl mx-8 sm:text-center font-light">
                                 {{ $t('common.duration') }}
                             </p>
-                            <p :class="workout.calculated_field === 'duration' ? 'calculated-field' : ''" class="text-3xl mx-8">
+                            <p :class="workout.calculated_field === 'duration' && 'calculated-field'" class="text-3xl mx-8">
                                 {{ workout.duration }}
                             </p>
                         </div>
-                        <div :title="workout.calculated_field === 'distance' ? $t('workout.calculated_field') : ''" class="xs:mb-5">
+                        <div :title="workout.calculated_field === 'distance' && $t('workout.calculated_field')" class="xs:mb-5">
                             <p class="text-xl mx-8 sm:text-center font-light">
                                 {{ $t('common.distance') }}
                             </p>
-                            <p :class="workout.calculated_field === 'distance' ? 'calculated-field' : ''" class="text-3xl mx-8">
+                            <p :class="workout.calculated_field === 'distance' && 'calculated-field'" class="text-3xl mx-8">
                                 {{ workout.distance }}
                                 {{ workout.distance_unit }}
                             </p>
                         </div>
-                        <div :title="workout.calculated_field === 'speed' ? $t('workout.calculated_field') : ''" class="xs:mb-5">
+                        <div :title="workout.calculated_field === 'speed' && $t('workout.calculated_field')">
                             <p class="text-xl mx-8 sm:text-center font-light">
                                 {{ $t('common.speed') }}
                             </p>
-                            <p :class="workout.calculated_field === 'speed' ? 'calculated-field' : ''" class="text-3xl mx-8">
-                                {{ workout.speed }} {{ workout.speed_unit }}
+                            <p :class="workout.calculated_field === 'speed' && 'calculated-field'" class="text-3xl mx-8">
+                                {{ workout.speed }}
+                                {{ workout.speed_unit }}
                             </p>
                         </div>
                     </div>
@@ -89,7 +90,7 @@ export default {
         const ax = axios.create({
             baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
         })
-/*         ax.get('/workouts/' + this.$route.params.id)
+        /*         ax.get('/workouts/' + this.$route.params.id)
             .then((response) => {
                 this.workout = response.data
                 this.workout.created_date = moment(this.workout.created_date.format).format('L')
@@ -106,7 +107,6 @@ export default {
             this.$emit('close')
         },
         useWorkout() {
-            console.log('workout')
             if (this.workout) {
                 if (this.workout.calculated_field === 'speed') {
                     this.$store.commit('setDuration', this.workout.duration)

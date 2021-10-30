@@ -43,7 +43,8 @@
         "distance": "@:common.distance"
     },
     "calculator": {
-        "description": "Calcul de vitesse, de durée, de distance",
+        "description": "Calculateur",
+        "hint": "Compléter deux champs, le 3ème sera calculé.",
         "calculation_label": "Calcul de la ",
         "duration": "@:common.duration",
         "speed": "@:common.speed",

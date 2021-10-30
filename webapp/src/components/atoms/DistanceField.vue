@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex flex-col h-24 noselect-nodrag mt-2 ml-3 mr-3">
-            <div :class="isCalculated && 'calculated noselect-nodrag'" class="box distance self-stretch justify-between">
+            <div :class="isCalculated && 'calculated noselect-nodrag'" class="calculator-field distance">
                 <label @click="focusMe('distance')" for="distance">{{ $t('calculator.distance') }}</label>
                 <div class="flex">
                     <input
@@ -21,12 +21,7 @@
                         v-model="distanceAsString"
                     />
                     <label aria-label="Switch between distance units" for="distance-unit" />
-                    <select
-                        id="distance-unit"
-                        class="self-center text-right cursor-pointer"
-                        tabindex="-1"
-                        v-model="distanceUnit"
-                    >
+                    <select id="distance-unit" class="self-center text-right cursor-pointer" tabindex="-1" v-model="distanceUnit">
                         <option :key="item.type" :value="item.type" v-for="item in distanceUnits">
                             {{ item.type }}
                         </option>
@@ -136,27 +131,4 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-select {
-    background-color: rgba(0, 0, 0, 0);
-    text-align: center;
-    font-size: 1em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-
-    > option {
-        color: $ma-primary;
-        text-align: center;
-    }
-}
-
-.preset-distances {
-    transition: all 1s;
-}
-
-.calculated-label {
-    color: $ma-primary;
-}
-</style>
+<style scoped lang="scss"></style>

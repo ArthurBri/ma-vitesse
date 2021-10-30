@@ -190,7 +190,7 @@ export default {
                 baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
             })
 
-/*             ax.post('/workouts', {
+            /*             ax.post('/workouts', {
                 distance: this.distance,
                 distance_unit: this.distanceUnit,
                 duration: this.duration,
@@ -215,7 +215,7 @@ export default {
             const ax = axios.create({
                 baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
             })
-/*             ax.get('/workouts?limit=7&type=public')
+            /*             ax.get('/workouts?limit=7&type=public')
                 .then((response) => {
                     this.lastWorkouts = response.data
                 })

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-24 noselect-nodrag mt-2 ml-3 mr-3">
-        <div :class="isCalculated && 'calculated noselect-nodrag'" class="box self-stretch justify-between">
+        <div :class="isCalculated && 'calculated noselect-nodrag'" class="calculator-field self-stretch justify-between">
             <label @click="focusMe('duration')" for="durationOneField">{{ $t('calculator.duration') }}</label>
             <div class="w-40">
                 <div v-if="oneFieldMode" class="one-field-mode flex justify-end">
@@ -17,63 +17,60 @@
                     <span class="noselect-nodrag self-center">{{ durationDisplayUnit }}</span>
                 </div>
                 <div v-else class="flex justify-end">
-                        <input
-                            :disabled="isCalculated"
-                            class="w-10 pl-1 pr-1 text-center number-input"
-                            :placeholder="[isCalculated ? '' : 'hh']"
-                            @keydown.delete.left.right="updateCursor('hours', $event)"
-                            @keydown.down="decrement('hours')"
-                            autocomplete="off"
-                            data-form-type="text"
-                            @keydown.up="increment('hours')"
-                            ref="hours"
-                            inputmode="numeric"
-                            v-model="hours"
-                        />
-                        <span class="noselect-nodrag self-center">:</span>
-                        <input
-                            :disabled="isCalculated"
-                            class="w-10 pl-1 pr-1 text-center number-input"
-                            :placeholder="[isCalculated ? '' : 'mm']"
-                            @keydown.delete.left.right="updateCursor('minutes', $event)"
-                            autocomplete="off"
-                            @keydown.down="decrement('minutes')"
-                            @keydown.up="increment('minutes')"
-                            ref="minutes"
-                            data-form-type="text"
-                            inputmode="numeric"
-                            v-model="minutes"
-                        />
-                        <span class="noselect-nodrag self-center">:</span>
-                        <input
-                            :disabled="isCalculated"
-                            class="w-10 pl-1 pr-1 text-center number-input"
-                            :placeholder="[isCalculated ? '' : 'ss']"
-                            @keydown.delete.left.right="updateCursor('seconds', $event)"
-                            autocomplete="off"
-                            @keydown.down="decrement('seconds', 'seconds')"
-                            @keydown.up="increment('seconds', 'seconds')"
-                            ref="seconds"
-                            data-form-type="text"
-                            inputmode="numeric"
-                            v-model="seconds"
-                        />
+                    <input
+                        :disabled="isCalculated"
+                        class="w-10 pl-1 pr-1 text-center number-input"
+                        :placeholder="!isCalculated && 'hh'"
+                        @keydown.delete.left.right="updateCursor('hours', $event)"
+                        @keydown.down="decrement('hours')"
+                        autocomplete="off"
+                        data-form-type="text"
+                        @keydown.up="increment('hours')"
+                        ref="hours"
+                        inputmode="numeric"
+                        v-model="hours"
+                    />
+                    <span class="noselect-nodrag self-center">:</span>
+                    <input
+                        :disabled="isCalculated"
+                        class="w-10 pl-1 pr-1 text-center number-input"
+                        :placeholder="!isCalculated && 'mm'"
+                        @keydown.delete.left.right="updateCursor('minutes', $event)"
+                        autocomplete="off"
+                        @keydown.down="decrement('minutes')"
+                        @keydown.up="increment('minutes')"
+                        ref="minutes"
+                        data-form-type="text"
+                        inputmode="numeric"
+                        v-model="minutes"
+                    />
+                    <span class="noselect-nodrag self-center">:</span>
+                    <input
+                        :disabled="isCalculated"
+                        class="w-10 pl-1 pr-1 text-center number-input"
+                        :placeholder="!isCalculated && 'ss'"
+                        @keydown.delete.left.right="updateCursor('seconds', $event)"
+                        autocomplete="off"
+                        @keydown.down="decrement('seconds', 'seconds')"
+                        @keydown.up="increment('seconds', 'seconds')"
+                        ref="seconds"
+                        data-form-type="text"
+                        inputmode="numeric"
+                        v-model="seconds"
+                    />
                 </div>
             </div>
         </div>
-        <div
-            @click="oneFieldMode = !oneFieldMode"
-            class="box-option relative w-12 mt-2"
-        >
+        <div @click="oneFieldMode = !oneFieldMode" class="box-option relative w-12 mt-2">
             <div class="h-6">
                 <svg :class="[oneFieldMode ? 'dot' : 'dot-1']" class="mt-2">
                     <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
                 <svg :class="[oneFieldMode ? 'dot' : 'dot']" class="mt-2">
-                    <rect :style="{ fill: '#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                    <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
                 <svg :class="[oneFieldMode ? 'dot' : 'dot-3']" class="mt-2">
-                    <rect :style="{ fill: '#2C629D' }"  height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                    <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
                 </svg>
             </div>
         </div>
@@ -172,27 +169,27 @@ export default {
         },
         hours(newVal, oldVal) {
             if (!isValidHours(newVal)) {
-                this.hours = oldVal
+                this.hours = oldVal || ''
                 return
             }
             this.updateOneFieldDuration()
         },
         minutes(newVal, oldVal) {
             if (!isValidMinutes(newVal)) {
-                this.minutes = oldVal
+                this.minutes = oldVal || ''
                 return
             }
             this.updateOneFieldDuration()
         },
         seconds(newVal, oldVal) {
             if (!isValidSeconds(newVal)) {
-                this.seconds = oldVal
+                this.seconds = oldVal || ''
                 return
             }
             this.updateOneFieldDuration()
         },
         value() {
-            const { hours, minutes, seconds } = formatDuration(toPrettyDuration(this.value, true))
+            const { hours, minutes, seconds } = formatDuration(toPrettyDuration(this.duration, true))
 
             this.hours = parseFloat(hours) ? (parseFloat(hours) < 10 ? '0' + hours : parseFloat(hours)) : '00'
             this.minutes = parseFloat(minutes) ? (parseFloat(minutes) < 10 ? '0' + minutes : parseFloat(minutes)) : '00'
@@ -200,9 +197,9 @@ export default {
         },
         durationOneField(newVal) {
             const { hours, minutes, seconds } = formatDuration(newVal)
-            this.hours = hours
-            this.minutes = minutes
-            this.seconds = seconds
+            this.hours = hours || ''
+            this.minutes = minutes || ''
+            this.seconds = seconds || ''
         }
     },
     mounted() {

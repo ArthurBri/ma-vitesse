@@ -1,10 +1,13 @@
 <template>
-    <div class="main-box flex-grow-0 p-6 m-4 sm:mr-0 sm:ml-0 sm:w-full overflow-x-auto">
+    <div class="main-box flex-grow-0 p-3 lg:p-6 lg:m-4 sm:w-full overflow-x-auto">
         <div class="flex h-8 mb-2 items-center content-center" v-if="!calculatedField">
-            <img alt="calaculator icon" class="w-8 sm:ml-4 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold sm:mr-4 text-2xl text-secondary">
-                {{ $t('calculator.description') }}
-            </h2>
+            <img alt="calaculator icon" class="w-6 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
+            <div class="pl-2 leading-none">
+                <h2 class="noselect-nodrag self-center font-semibold text-lg lg:text-2xl text-secondary">
+                    {{ $t('calculator.description') }}
+                </h2>
+                <p class="text-xs">{{ $t('calculator.hint') }}</p>
+            </div>
         </div>
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
@@ -99,9 +102,7 @@ export default {
                     this.distance = this.speed * this.duration
                     this.calculatedField = 'distance'
                     break
-
             }
-
         },
         clearFields() {
             this.duration = 0
@@ -135,7 +136,7 @@ export default {
             } else if (newDistance === 0) {
                 this[this.calculatedField] = 0
                 this.calculatedField = null
-            }        
+            }
         },
         duration(newDuration) {
             if (this.calculatedField === 'duration') {
@@ -148,7 +149,7 @@ export default {
             } else if (newDuration === 0) {
                 this[this.calculatedField] = 0
                 this.calculatedField = null
-            }        
+            }
         }
     }
 }
@@ -161,14 +162,6 @@ export default {
 
 .wrapper {
     @apply flex flex-wrap flex-row items-center justify-center my-6;
-}
-
-.icon {
-    width: 20px;
-    align-self: flex-start;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 
 input {
@@ -220,10 +213,5 @@ h1 {
         display: none;
     }
     -moz-appearance: textfield;
-}
-
-
-.icon-active {
-    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
 }
 </style>

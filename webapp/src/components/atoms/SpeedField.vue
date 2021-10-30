@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-24 mt-2 ml-3 mr-3">
-        <div :class="isCalculated && 'calculated noselect-nodrag'" class="box speed self-stretch justify-between">
+        <div :class="isCalculated && 'calculated noselect-nodrag'" class="calculator-field speed self-stretch justify-between">
             <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="speed" v-if="speedFormat === 'speed'">
                 {{ $t('calculator.speed') }}
             </label>
@@ -24,12 +24,7 @@
                         v-model="speedAsString"
                     />
                     <label aria-label="Switch between speed units" for="speed-unit" />
-                    <select
-                        id="speed-unit"
-                        class="speed-unit-select"
-                        tabindex="-1"
-                        v-model="speedUnit"
-                    >
+                    <select id="speed-unit" class="speed-unit-select" tabindex="-1" v-model="speedUnit">
                         <option :key="item.type" :value="item.type" v-for="item in speedUnits">
                             {{ item.short }}
                         </option>
@@ -48,12 +43,7 @@
                         v-model="pace"
                     />
                     <label aria-label="Switch between pace units" for="pace-unit" />
-                    <select
-                        id="pace-unit"
-                        class="speed-unit-select"
-                        tabindex="-1"
-                        v-model="paceUnit"
-                    >
+                    <select id="pace-unit" class="speed-unit-select" tabindex="-1" v-model="paceUnit">
                         <option :key="item.type" :value="item.type" v-for="item in paceUnits">
                             {{ item.short }}
                         </option>
@@ -62,12 +52,22 @@
             </div>
         </div>
         <div @click="changeSpeedFormat" class="box-option mt-2">
-            <img
-                :class="isCalculated && 'icon-active'"
-                alt="switch between pace and speed"
-                class="w-4 h-6 mr-1 cursor-pointer noselect-nodrag"
-                src="../../assets/icons/arrows.svg"
-            />
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-switch-vertical w-4 h-4 mr-1"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#2c3e50"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <polyline points="3 8 7 4 11 8" />
+                <line x1="7" y1="4" x2="7" y2="13" />
+                <polyline points="13 16 17 20 21 16" />
+                <line x1="17" y1="10" x2="17" y2="20" />
+            </svg>
             <span v-if="speedFormat === 'speed'">{{ $t('calculator.pace') }}</span>
             <span v-if="speedFormat === 'pace'">{{ $t('calculator.speed') }}</span>
         </div>
@@ -104,7 +104,7 @@ export default {
                 return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
             },
             set(val) {
-                this.$emit('input', parseFloat(val || 0))
+                this.$emit('input', parseFloat(val || 0))
             }
         },
         speedFormat: {
@@ -138,7 +138,7 @@ export default {
             if (this.speedFormat === 'pace') {
                 this.pace = speedToPace(this.value)
             } else {
-                this.speedAsString = String(paceToSpeed(this.pace || 0))
+                this.speedAsString = String(paceToSpeed(this.pace || 0))
             }
             this.$store.commit('setSpeedFormat', this.speedFormat)
         }
@@ -154,7 +154,7 @@ export default {
             if (!isValidPace(newVal)) {
                 this.pace = oldVal
             } else {
-                this.speedAsString = String(paceToSpeed(this.pace || 0))
+                this.speedAsString = String(paceToSpeed(this.pace || 0))
             }
         }
     }
@@ -165,5 +165,4 @@ export default {
 .speed-unit-select {
     @apply self-center text-right cursor-pointer bg-transparent;
 }
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex h-full w-full items-center justify-center">
         <div class="flex w-full sm:flex-col md:flex-col justify-start" v-if="distance <= 1000 && duration && speed">
             <div
                 class="
@@ -69,9 +69,7 @@
                 <div
                     @click="switchLaptimeSort"
                     class="
-                        mr-8
-                        sm:mr-0
-                        md:mr-0
+                        lg:mr-8
                         mt-6
                         sm:mt-0
                         md:mt-0
@@ -149,10 +147,10 @@
                 </div>
             </div>
         </div>
-        <p class="m-auto h-full text-center" v-else-if="distance > 1000">
+        <p v-else-if="distance > 1000">
             {{ $t('laptime.label_max_distance_exceeded') }}
         </p>
-        <p class="m-auto h-full text-center" v-else>
+        <p v-else>
             {{ $t('laptime.label_no_calculation') }}
         </p>
     </div>
@@ -213,6 +211,7 @@ export default {
                 // DISTANCE - Laptime steps
                 if (this.laptime_type === 'distance') {
                     this.laptime_distance_steps = []
+
                     for (let i = 0; i < this.steps_count; i++) {
                         let duration
                         if (remaining_distance > this.selected_distance_step) {
@@ -256,7 +255,7 @@ export default {
             },
             immediate: true
         },
-        laptime_sort(oldVal, newVal) {
+        laptime_sort(newVal) {
             if (newVal === 'asc') {
                 this.laptime_distance_steps.sort((a, b) => a.remaining_distance - b.remaining_distance)
                 this.laptime_duration_steps.sort((a, b) => a.remaining_distance - b.remaining_distance)

@@ -1,11 +1,9 @@
 <template>
     <div v-if="calculOk">
         <div class="flex">
-            <!-- LINK -->
             <div class="cursor-pointer" @click="copyToClipboard(workout_link)">
                 <span class="social-icon mv-icon mv-icon-link white-icon text-xl" />
             </div>
-            <!-- TWITTER -->
             <a
                 :href="`https://twitter.com/intent/tweet?text=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
                 data-size="large"
@@ -13,7 +11,6 @@
             >
                 <img alt="Twitter share icon" class="social-icon h-6 ml-2" src="../assets/icons/social/twitter.svg" />
             </a>
-            <!-- FACEBOOK -->
             <a
                 :href="`https://www.facebook.com/sharer/sharer.php?u=https://ma-vitesse.app&quote=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
                 target="_blank"

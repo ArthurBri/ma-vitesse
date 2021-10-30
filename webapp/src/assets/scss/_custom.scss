@@ -1,26 +1,22 @@
 .mv-btn {
-    @apply text-primary rounded-lg px-2 py-1 border-gray-200 border cursor-pointer;
+    @apply text-primary rounded-lg px-2 py-1 border-gray-200 border cursor-pointer flex items-center justify-center hover:shadow;
+    transition: box-shadow 100ms ease-in;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Old versions of Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
     -webkit-user-drag: none;
-
-    &:hover {
-        @apply shadow-lg;
-    }
 }
 
 .mv-btn-inverted {
     @apply text-white rounded-lg px-2 py-1 cursor-pointer select-none;
 }
 
-.box {
-    @apply flex items-center justify-center transition duration-300 text-lg text-primary bg-white p-3 border-gray-200 border;
-    @apply rounded-l-xl rounded-tr-xl;
+.calculator-field {
+    @apply flex items-center justify-center text-lg text-primary bg-white p-3 border-gray-200 border hover:shadow rounded-l-xl rounded-tr-xl;
+    transition: box-shadow 200ms ease-in;
 }
-
 
 .box-option {
     @apply px-2 self-center items-center rounded-md flex cursor-pointer bg-white;
@@ -32,9 +28,7 @@
 }
 
 .calculated {
-    background-color: $ma-primary;
-    color: white;
-    font-weight: 800;
+    @apply bg-secondary text-white;
 }
 
 .primary-icon {
@@ -43,4 +37,19 @@
 
 .white-icon {
     filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
+}
+
+select {
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: 1em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+
+    > option {
+        color: $ma-primary;
+        text-align: center;
+    }
 }

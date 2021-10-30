@@ -1,32 +1,19 @@
 <template>
-    <div class="box flex-col">
-        <div class="flex items-center mb-4 xs:flex-col" v-if="distance && duration && defaultDistances.length">
-            <div class="flex cursor-pointer rounded-lg">
+    <div class="flex items-center justify-center h-full">
+        <div class="flex items-center justify-between mb-4 xs:flex-col" v-if="distance && duration && defaultDistances.length">
+            <div class="formula-switch">
                 <div
-                    :class="[formulaSelected === 'Riegel' ? 'text-primary bg-white font-bold' : '']"
-                    @click="formulaSelected = 'Riegel'"
-                    class="px-2 py-1 rounded-l-lg border-gray-100 border"
+                    v-for="formula in formulaList"
+                    :key="formula.name"
+                    @click="selectedFormulaName = formula.name"
+                    class="switch-item"
+                    :class="selectedFormulaName === formula.name && 'active'"
                 >
-                    Riegel
-                </div>
-                <div
-                    :class="[formulaSelected === 'Williams' ? 'text-primary bg-white font-bold' : '']"
-                    @click="formulaSelected = 'Williams'"
-                    class="px-2 py-1 border-b border-t border-gray-100"
-                >
-                    Williams
-                </div>
-                <div
-                    :class="[formulaSelected === 'None' ? 'text-primary bg-white font-bold' : '']"
-                    @click="formulaSelected = 'None'"
-                    class="px-2 py-1 rounded-r-lg border-gray-100 border"
-                >
-                    {{ $t('common.none') }}
+                    <span v-if="formula.name !== 'None'">{{ formula.name }}</span>
+                    <span v-else>{{ $t('common.none') }}</span>
                 </div>
             </div>
-            <p class="ml-2 text-center mt-2 xl:mt-0">
-                {{ formulaList.filter((formula) => formula.name === formulaSelected)[0].description }}
-            </p>
+            {{ selectedFormula.description }}
         </div>
         <div class="flex items-stretch justify-center" v-if="distance && duration && defaultDistances.length">
             <table class="w-full">
@@ -40,10 +27,10 @@
                 </tr>
             </table>
         </div>
-        <p class="m-auto text-center" v-else-if="defaultDistances.length">
+        <p class="text-center" v-else-if="defaultDistances.length">
             {{ $t('predictions.label_no_calculation') }}
         </p>
-        <p class="m-auto text-center" v-else>
+        <p class="text-center" v-else>
             {{ $t('predictions.label_no_distances') }}
         </p>
     </div>
@@ -57,21 +44,7 @@ export default {
     name: 'Prediction',
     data() {
         return {
-            formulaSelected: 'Riegel',
-            formulaList: [
-                {
-                    name: 'Riegel',
-                    description: this.$i18n.t('predictions.riegel_desc')
-                },
-                {
-                    name: 'Williams',
-                    description: this.$i18n.t('predictions.williams_desc')
-                },
-                {
-                    name: 'None',
-                    description: this.$i18n.t('predictions.none_desc')
-                }
-            ]
+            selectedFormulaName: 'Riegel'
         }
     },
     computed: {
@@ -79,49 +52,41 @@ export default {
         updatedPredictions() {
             let predictions = JSON.parse(JSON.stringify(this.defaultDistances))
             predictions.forEach((element) => {
-                if (this.formulaSelected === 'Riegel') {
-                    element.duration = toPrettyDuration(this.duration * (element.distance / this.distance) * 1.06)
-                } else if (this.formulaSelected === 'Williams') {
-                    element.duration = toPrettyDuration(this.duration * (element.distance / this.distance) * 1.15)
-                } else {
-                    element.duration = toPrettyDuration(this.duration * (element.distance / this.distance))
-                }
+                const ratio = this.formulaList.find((formula) => formula.name == this.selectedFormulaName)?.ratio || 1
+                element.duration = toPrettyDuration(this.duration * (element.distance / this.distance) * ratio)
             })
             return predictions.filter((i) => i.distance !== this.distance)
         },
         defaultDistances() {
             return this.$store.state.defaultDistances
         },
-        localeChange() {
-            return this.$i18n.locale
-        }
-    },
-    watch: {
-        localeChange() {
-            this.formulaList = [
+        formulaList() {
+            return [
                 {
                     name: 'Riegel',
-                    description: this.$i18n.t('predictions.riegel_desc')
+                    description: this.$i18n.t('predictions.riegel_desc'),
+                    ratio: 1.06
                 },
                 {
                     name: 'Williams',
-                    description: this.$i18n.t('predictions.williams_desc')
+                    description: this.$i18n.t('predictions.williams_desc'),
+                    ratio: 1.15
                 },
                 {
                     name: 'None',
-                    description: this.$i18n.t('predictions.none_desc')
+                    description: this.$i18n.t('predictions.none_desc'),
+                    ratio: 1
                 }
             ]
+        },
+        selectedFormula() {
+            return this.formulaList.find((formula) => formula.name === this.selectedFormulaName)
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.box {
-    @apply mt-4 rounded-lg md:rounded-b-lg rounded-r-lg;
-}
-
 table,
 th,
 td {
@@ -147,6 +112,26 @@ tr {
     &:hover :not(th) {
         @apply cursor-default;
         background-color: rgba(#edf2f7, 0.2);
+    }
+}
+
+.formula-switch {
+    @apply flex cursor-pointer rounded-lg;
+
+    :first-child {
+        @apply rounded-l-lg border-r-0;
+    }
+
+    :last-child {
+        @apply rounded-r-lg border-l-0;
+    }
+}
+
+.switch-item {
+    @apply px-2 py-1 border-gray-100 border;
+
+    &.active {
+        @apply text-white bg-secondary font-bold;
     }
 }
 </style>

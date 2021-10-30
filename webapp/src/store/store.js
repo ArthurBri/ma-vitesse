@@ -31,7 +31,7 @@ export const store = new Vuex.Store({
             { type: 'km', label: i18n.t('common.kilometers') },
             { type: 'mi', label: i18n.t('common.miles') }
         ],
-        speedUnit: 'km/h',
+        speedUnit: 'km',
         speedUnits: [
             {
                 type: 'km',
@@ -106,7 +106,6 @@ export const store = new Vuex.Store({
             localStorage.setItem('defaultDistances', JSON.stringify(state.defaultDistances))
         },
         changeUnitMode(state, newMode) {
-            
             const currentMode = state.unitMode
             if (typeof newMode === 'string') {
                 state.unitMode = newMode
