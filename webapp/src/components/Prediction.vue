@@ -1,6 +1,6 @@
 <template>
-    <div class="flex items-center justify-center h-full">
-        <div class="flex items-center justify-between mb-4 xs:flex-col" v-if="distance && duration && defaultDistances.length">
+    <div class="flex items-center h-full flex-col">
+        <div class="flex items-center justify-between xs:flex-col" v-if="distance && duration && defaultDistances.length">
             <div class="formula-switch">
                 <div
                     v-for="formula in formulaList"
@@ -27,12 +27,14 @@
                 </tr>
             </table>
         </div>
-        <p class="text-center" v-else-if="defaultDistances.length">
-            {{ $t('predictions.label_no_calculation') }}
-        </p>
-        <p class="text-center" v-else>
-            {{ $t('predictions.label_no_distances') }}
-        </p>
+        <div class="flex h-full items-center">
+            <p class="text-center" v-if="defaultDistances.length">
+                {{ $t('predictions.label_no_calculation') }}
+            </p>
+            <p class="text-center" v-else>
+                {{ $t('predictions.label_no_distances') }}
+            </p>
+        </div>
     </div>
 </template>
 

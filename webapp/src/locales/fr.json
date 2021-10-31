@@ -6,13 +6,9 @@
     },
     "common": {
         "duration": "Durée",
-        "duration_lc": "durée",
         "speed": "Vitesse",
-        "speed_lc": "vitesse",
         "pace": "Rythme",
-        "pace_lc": "rythme",
         "distance": "Distance",
-        "distance_lc": "distance",
         "close": "Fermer",
         "marathon": "Marathon",
         "half_marathon": "Semi-marathon",

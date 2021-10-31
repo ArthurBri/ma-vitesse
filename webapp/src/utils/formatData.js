@@ -71,6 +71,7 @@ export function speedToPace(speed) {
 }
 
 export function formatDuration(duration) {
+    console.log('input duration', duration)
     let hours = 0
     let minutes = 0
     let seconds = 0
@@ -111,9 +112,9 @@ export function formatDuration(duration) {
 
         return {
             oneField,
-            hours: parseFloat(hours) || 0,
-            minutes: parseFloat(minutes) || 0,
-            seconds: parseFloat(seconds) || 0
+            hours: parseFloat(hours || 0),
+            minutes: parseFloat(minutes || 0),
+            seconds: parseFloat(seconds || 0)
         }
     }
 }

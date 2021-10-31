@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-full w-full items-center justify-center">
+    <div class="flex h-full w-full">
         <div class="flex w-full sm:flex-col md:flex-col justify-start" v-if="distance <= 1000 && duration && speed">
             <div
                 class="

@@ -1,6 +1,6 @@
 <template>
     <div class="main-box flex-grow-0 p-3 lg:p-6 lg:m-4 sm:w-full overflow-x-auto">
-        <div class="flex h-8 mb-2 items-center content-center" v-if="!calculatedField">
+        <div class="flex h-8 items-center content-center" v-if="!calculatedField">
             <img alt="calaculator icon" class="w-6 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
             <div class="pl-2 leading-none">
                 <h2 class="noselect-nodrag self-center font-semibold text-lg lg:text-2xl text-secondary">
@@ -12,13 +12,9 @@
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
                 <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
-                <div class="flex self-center pl-2 font-semibold sm:mr-4 xl:text-xl">
-                    <h2 v-if="$i18n.locale === 'fr'">
-                        <span>{{ $t('calculator.calculation_label') }}</span>
-                        <span class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField + '_lc') }}</span>
-                    </h2>
-                    <h2 v-else>
-                        <span class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) }}</span>
+                <div class="flex self-center pl-2 font-semibold mr-4 xl:text-xl">
+                    <h2 :class="$i18n.locale === 'fr' && 'flex-row-reverse'">
+                        <span class="self-center font-semibold calculated-label pr-1">{{ $t('common.' + calculatedField) }}</span>
                         <span>{{ $t('calculator.calculation_label') }}</span>
                     </h2>
                     <span>
@@ -31,7 +27,7 @@
                     </span>
                 </div>
             </div>
-            <div class="xs:mr-2">
+            <div class="mr-2">
                 <share-social />
             </div>
         </div>
@@ -205,7 +201,7 @@ h1 {
 }
 
 .calculated-label {
-    color: $ma-primary;
+    @apply text-secondary;
 }
 
 .number-input {

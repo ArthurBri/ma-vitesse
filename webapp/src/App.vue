@@ -117,11 +117,10 @@ export default {
 @import './assets/scss/_variables';
 
 #app {
-    @apply flex flex-col items-center self-stretch min-h-screen min-w-full bg-gray-100;
+    @apply flex flex-col text-primary items-center self-stretch min-h-screen min-w-full bg-gray-100;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: $ma-primary;
     z-index: 0;
     position: relative;
 }
@@ -136,7 +135,7 @@ export default {
 }
 
 .tabs {
-    @apply flex flex-col mr-4 gap-2;
+    @apply flex flex-col mr-1 gap-1;
 }
 
 .tabs-menu {
@@ -150,6 +149,8 @@ p {
 }
 
 .tabs-content-wrapper {
-    @apply flex flex-col w-1/2 h-64 border-gray-200 border rounded-lg bg-white p-6;
+    @apply flex flex-col w-1/2 overflow-auto border-gray-200 border rounded-lg bg-white p-6;
+    min-height: 20rem;
+    max-height: 50vh;
 }
 </style>

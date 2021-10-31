@@ -6,13 +6,9 @@
     },
     "common": {
         "duration": "Duration",
-        "duration_lc": "duration",
         "speed": "Speed",
-        "speed_lc": "speed",
         "pace": "Pace",
-        "pace_lc": "pace",
         "distance": "Distance",
-        "distance_lc": "distance",
         "close": "Close",
         "marathon": "Marathon",
         "half_marathon": "Half-marathon",
@@ -45,6 +41,7 @@
     },
     "calculator": {
         "description": "Speed, duration, distance calculation",
+        "hint": "Fill 2 fields, the 3rd will be calculated.",
         "calculation_label": "calculation",
         "duration": "@:common.duration",
         "speed": "@:common.speed",

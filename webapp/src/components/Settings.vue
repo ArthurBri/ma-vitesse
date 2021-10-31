@@ -5,58 +5,63 @@
                 <h2>{{ $t('settings.title') }}</h2>
             </div>
         </template>
-        <template class="flex" v-slot:body>
-            <div class="flex ml-5">
-                <div>
+        <template v-slot:body>
+            <div class="px-4 flex flex-col gap-4">
+                <div class="flex flex-col items-start">
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">
                         {{ $t('settings.language_section.title') }}
                     </h1>
-                    <div class="ml-2 flex mb-2">
-                        <div class="flex">
-                            <div class="flex flex-col noselect-nodrag mx-2" v-for="language in langList" :key="language.lang_code">
-                                <span
-                                    :class="'flag-icon-' + language.country_code"
-                                    @click="lang = language.lang_code"
-                                    class="flag-icon text-3xl cursor-pointer noselect-nodrag px-1 pb-3 mb-2"
-                                />
-                                <svg class="ml-2 w-4 h-4 self-center" style="fill: #2c629d" v-if="lang === language.lang_code">
-                                    <rect height="6" rx="3" ry="3" width="6" x="0" y="0" />
-                                </svg>
-                            </div>
+                    <div class="flags-list flex">
+                        <div class="flex flex-col items-center noselect-nodrag pr-2" v-for="language in availableLanguages" :key="language.langCode">
+                            <span
+                                :class="`flag-icon-${language.countryCode}`"
+                                @click="selectedLanguage = language.langCode"
+                                class="flag-icon text-3xl cursor-pointer noselect-nodrag px-1 pb-3"
+                            />
+                            <svg
+                                v-if="selectedLanguage === language.langCode"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="dot"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="#2c3e50"
+                                fill="none"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path stroke="none" d="M0 0h12v12H0z" fill="none" />
+                                <circle cx="12" cy="12" r="4" />
+                            </svg>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex ml-5 mb-4">
-                <div>
+                <div class="flex flex-col items-start">
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">
                         {{ $t('settings.unit_section.title') }}
                     </h1>
-                    <div class="ml-2 flex mb-2">
-                        <div class="flex rounded-lg">
-                            <div
-                                :class="[unitMode === 'km' ? 'bg-primary text-white font-bold' : 'border border-primary']"
-                                @click="unitMode = 'km'"
-                                class="flex rounded-l-lg px-4 py-1 cursor-pointer"
-                            >
-                                {{ $t('common.kilometers') }}
-                            </div>
-                            <div
-                                :class="[unitMode === 'mi' ? 'bg-primary text-white font-bold' : 'border border-primary']"
-                                @click="unitMode = 'mi'"
-                                class="flex rounded-r-lg px-4 py-1 cursor-pointer"
-                            >
-                                {{ $t('common.miles') }}
-                            </div>
+                    <div class="flex rounded-lg">
+                        <div
+                            :class="[unitMode === 'km' ? 'bg-primary text-white font-bold' : 'border border-primary']"
+                            @click="unitMode = 'km'"
+                            class="flex rounded-l-lg px-4 py-1 cursor-pointer"
+                        >
+                            {{ $t('common.kilometers') }}
+                        </div>
+                        <div
+                            :class="[unitMode === 'mi' ? 'bg-primary text-white font-bold' : 'border border-primary']"
+                            @click="unitMode = 'mi'"
+                            class="flex rounded-r-lg px-4 py-1 cursor-pointer"
+                        >
+                            {{ $t('common.miles') }}
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-col ml-5">
-                <h1 class="text-xl font-bold pb-2 noselect-nodrag">
-                    {{ $t('settings.component_section.title') }}
-                </h1>
-                <div class="ml-2">
+                <div class="flex flex-col items-start">
+                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                        {{ $t('settings.component_section.title') }}
+                    </h1>
                     <div class="flex">
                         <label class="switch">
                             <input class="appearance-none" type="checkbox" v-model="showPredictions" />
@@ -66,29 +71,27 @@
                             {{ $t('settings.component_section.show_predictions') }}
                         </div>
                     </div>
-                    <div class="mt-2">
-                        <div class="flex">
-                            <label class="switch">
-                                <input class="appearance-none" type="checkbox" v-model="showLapTime" />
-                                <span class="slider round" />
-                            </label>
-                            <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
-                                {{ $t('settings.component_section.show_laptime') }}
-                            </div>
+                    <div class="flex">
+                        <label class="switch">
+                            <input class="appearance-none" type="checkbox" v-model="showLapTime" />
+                            <span class="slider round" />
+                        </label>
+                        <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
+                            {{ $t('settings.component_section.show_laptime') }}
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-col ml-5 pt-6">
-                <h1 class="text-xl font-bold noselect-nodrag">
-                    {{ $t('settings.reset_section.title') }}
-                </h1>
-                <div class="pt-4 flex justify-center">
-                    <button @click="resetApp" class="mv-btn" v-if="!appReseted">
-                        {{ $t('settings.reset_section.reset_button') }}
-                    </button>
-                    <div class="flex flex-row justify-center text-center">
-                        <span v-if="appReseted">{{ $t('settings.reset_section.reset_message_success') }}</span>
+                <div class="flex flex-col items-start">
+                    <h1 class="text-xl font-bold noselect-nodrag">
+                        {{ $t('settings.reset_section.title') }}
+                    </h1>
+                    <div class="pt-4 flex justify-center">
+                        <button @click="resetApp" class="mv-btn" v-if="!appReseted">
+                            {{ $t('settings.reset_section.reset_button') }}
+                        </button>
+                        <div v-else class="flex justify-center text-center">
+                            <span>{{ $t('settings.reset_section.reset_message_success') }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,16 +109,16 @@ export default {
         return {
             isModalVisible: false,
             appReseted: false,
-            lang: 'fr',
-            langList: [
-                { lang_code: 'fr', country_code: 'fr' },
-                { lang_code: 'en', country_code: 'gb' }
+            selectedLanguage: 'fr',
+            availableLanguages: [
+                { langCode: 'fr', countryCode: 'fr' },
+                { langCode: 'en', countryCode: 'gb' }
             ]
         }
     },
     components: { Drawer },
     mounted() {
-        this.lang = this.$i18n.locale
+        this.selectedLanguage = this.$i18n.locale
     },
     methods: {
         close() {
@@ -153,9 +156,9 @@ export default {
         }
     },
     watch: {
-        lang() {
-            this.$i18n.locale = this.lang
-            localStorage.setItem('lang', this.lang)
+        selectedLanguage() {
+            this.$i18n.locale = this.selectedLanguage
+            localStorage.setItem('language', this.selectedLanguage)
             document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title')
         }
     }
@@ -163,12 +166,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.body {
-    @apply bg-red-600;
-}
-
 .link {
-    text-decoration: underline;
+    @apply underline;
     text-decoration-color: $ma-secondary;
 
     &:hover {
@@ -195,16 +194,13 @@ export default {
 }
 
 .slider:before {
-    position: absolute;
+    @apply absolute rounded-md h-4 w-4;
     content: '';
-    height: 16px;
-    width: 16px;
     top: 2px;
     left: 2px;
     @apply bg-white;
     -webkit-transition: 0.2s;
     transition: 0.2s;
-    border-radius: 50%;
 }
 
 input:checked + .slider {
@@ -219,7 +215,6 @@ input:checked + .slider:before {
 
 /* Rounded sliders */
 .slider.round {
-    border-radius: 10px;
-    @apply bg-gray-400;
+    @apply rounded-lg bg-gray-400;
 }
 </style>

@@ -61,16 +61,19 @@
                 </div>
             </div>
         </div>
-        <div @click="oneFieldMode = !oneFieldMode" class="box-option relative w-12 mt-2">
-            <div class="h-6">
-                <svg :class="[oneFieldMode ? 'dot' : 'dot-1']" class="mt-2">
-                    <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+        <div @click="oneFieldMode = !oneFieldMode" class="box-option relative w-16 mt-2">
+            <div class="h-6 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" :stroke="!oneFieldMode && '#2c3e50'" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="4" />
                 </svg>
-                <svg :class="[oneFieldMode ? 'dot' : 'dot']" class="mt-2">
-                    <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="4" />
                 </svg>
-                <svg :class="[oneFieldMode ? 'dot' : 'dot-3']" class="mt-2">
-                    <rect :style="{ fill: '#2C629D' }" height="5" rx="2" ry="2" width="5" x="0" y="0" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" :stroke="!oneFieldMode && '#2c3e50'" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <circle cx="12" cy="12" r="4" />
                 </svg>
             </div>
         </div>
@@ -130,12 +133,11 @@ export default {
                     }
                 }
             } else if (event.key === 'ArrowRight') {
+                event.preventDefault()
                 if (ref === 'hours' && this.$refs[ref].selectionStart === this.hours.length) {
-                    event.preventDefault()
                     this.$refs.minutes.setSelectionRange(0, 0)
                     this.$refs.minutes.focus()
                 } else if (ref === 'minutes' && this.$refs[ref].selectionStart === this.minutes.length) {
-                    event.preventDefault()
                     this.$refs.seconds.setSelectionRange(0, 0)
                     this.$refs.seconds.focus()
                 }
@@ -145,7 +147,10 @@ export default {
             this.oneFieldMode && field !== 'duration' && this.$refs.duration.focus()
         },
         updateOneFieldDuration() {
-            this.durationOneField = `${this.hours}h${this.minutes}m${this.seconds}s`
+            this.durationOneField = 
+                (this.hours ? this.hours + 'h' : '') +
+                (this.minutes ? this.minutes + 'm' : '') +
+                (this.seconds ? this.seconds + 's' : '')
             this.duration = toRawDuration(this.hours, this.minutes, this.seconds)
         },
         getDurationDisplayUnit() {
@@ -197,6 +202,7 @@ export default {
         },
         durationOneField(newVal) {
             const { hours, minutes, seconds } = formatDuration(newVal)
+            console.log(hours, minutes, seconds)
             this.hours = hours || ''
             this.minutes = minutes || ''
             this.seconds = seconds || ''
@@ -212,16 +218,7 @@ export default {
 .dot,
 .dot-1,
 .dot-3 {
-    @apply absolute w-4 h-4 transition duration-300;
-    left: calc(50% - 2.5px);
-}
-
-.dot-1 {
-    left: calc(20% - 2.5px);
-}
-
-.dot-3 {
-    left: calc(80% - 2.5px);
+    @apply w-4 h-4 transition duration-300;
 }
 
 input {

@@ -33,13 +33,11 @@
                     <option disabled value="">
                         {{ $t('calculator.my_distances') }}
                     </option>
-                    <option :key="preset.label" :value="preset.label" v-for="preset in $store.state.defaultDistances">
+                    <option :key="preset.label" :value="preset.label" v-for="preset in defaultDistances">
                         {{ preset.label }}
                     </option>
-                    <option class="text-italic appearance-none" value="addDistance">+ {{ $t('common.add') }}</option>
-                    <option class="text-italic appearance-none" v-if="this.$store.state.defaultDistances.length > 0" value="removeDistance">
-                        - {{ $t('common.delete') }}
-                    </option>
+                    <option value="addDistance">+ {{ $t('common.add') }}</option>
+                    <option v-if="defaultDistances.length > 0" value="removeDistance">- {{ $t('common.delete') }}</option>
                 </select>
             </div>
             <span class="h-8 pt-1 pb-1" v-show="!showPresetDistances"></span>
@@ -80,7 +78,7 @@ export default {
         ...mapState(['unitMultipliers', 'unitMode', 'distanceUnits', 'defaultDistances']),
         distanceAsString: {
             get() {
-                return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
+                return this.value !== 0 ? this.value?.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
             },
             set(val) {
                 this.$emit('input', parseFloat(val || 0))

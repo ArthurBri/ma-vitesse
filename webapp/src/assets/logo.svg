@@ -8,10 +8,10 @@
     </defs>
     <g clip-path="url(#_clipPath_HDtelBEGm0KI9ITfjGRh59Ql4qHtwmWY)">
         <path d="M 500 133.115 L 500 133.115 C 535.874 133.115 565 164.201 565 202.489 L 565 639.626 C 565 677.914 535.874 709 500 709 L 500 709 C 464.126 709 435 677.914 435 639.626 L 435 202.489 C 435 164.201 464.126 133.115 500 133.115 Z"
-              style="stroke:none;fill:white;stroke-miterlimit:10;"/>
+              style="stroke:none;fill:#1D4E89;stroke-miterlimit:10;"/>
         <path d="M 794 229 L 794 229 C 829.874 229 859 261.713 859 302.007 L 859 793.763 C 859 834.057 829.874 866.77 794 866.77 L 794 866.77 C 758.126 866.77 729 834.057 729 793.763 L 729 302.007 C 729 261.713 758.126 229 794 229 Z"
-              style="stroke:none;fill:#FF9900;stroke-miterlimit:10;"/>
+              style="stroke:none;fill:#F58549;stroke-miterlimit:10;"/>
         <path d="M 215 229 L 215 229 C 250.874 229 280 261.713 280 302.007 L 280 793.763 C 280 834.057 250.874 866.77 215 866.77 L 215 866.77 C 179.126 866.77 150 834.057 150 793.763 L 150 302.007 C 150 261.713 179.126 229 215 229 Z"
-              style="stroke:none;fill:#FF9900;stroke-miterlimit:10;"/>
+              style="stroke:none;fill:#F58549;stroke-miterlimit:10;"/>
     </g>
 </svg>

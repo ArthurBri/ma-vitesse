@@ -1,8 +1,8 @@
 <template>
-    <div v-if="calculOk">
+    <div v-if="calculatedField">
         <div class="flex">
             <div class="cursor-pointer" @click="copyToClipboard(workout_link)">
-                <span class="social-icon mv-icon mv-icon-link white-icon text-xl" />
+                <span class="social-icon mv-icon mv-icon-link text-xl" />
             </div>
             <a
                 :href="`https://twitter.com/intent/tweet?text=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://ma-vitesse.app`"
@@ -34,10 +34,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['duration', 'speed', 'distance', 'oneFieldMode']),
-        calculOk() {
-            return this.duration && this.speed && this.distance
-        },
+        ...mapState(['calculatedField', 'oneFieldMode']),
         human_duration() {
             return toPrettyDuration(this.duration)
         }

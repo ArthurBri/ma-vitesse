@@ -4,15 +4,13 @@ import VueI18n from 'vue-i18n'
 Vue.use(VueI18n)
 
 function loadLocaleMessages() {
-    const locales = import.meta.glob('./locales/*.json')
+    const locales = import.meta.globEager('./locales/*.json')
     const messages = {}
     for (const path in locales) {
         const locale = path.match('^.*/(.*).json')?.[1]
-        locales[path]().then((fileLocale) => {
-            messages[locale] = fileLocale
-        })
+        messages[locale] = locales[path]
     }
-
+    console.log(messages)
     return messages
 }
 
