@@ -19,7 +19,7 @@
                 <div v-else class="flex justify-end">
                     <input
                         :disabled="isCalculated"
-                        class="w-10 pl-1 pr-1 text-center number-input"
+                        class="w-10 pl-1 pr-1 text-center"
                         :placeholder="!isCalculated ? 'hh' : '00'"
                         @keydown.delete.left.right="updateCursorThreeFields('hours', $event)"
                         @keydown.down="decrement('hours')"
@@ -33,7 +33,7 @@
                     <span class="noselect-nodrag self-center">:</span>
                     <input
                         :disabled="isCalculated"
-                        class="w-10 pl-1 pr-1 text-center number-input"
+                        class="w-10 pl-1 pr-1 text-center"
                         :placeholder="!isCalculated ? 'mm' : '00'"
                         @keydown.delete.left.right="updateCursorThreeFields('minutes', $event)"
                         autocomplete="off"
@@ -47,7 +47,7 @@
                     <span class="noselect-nodrag self-center">:</span>
                     <input
                         :disabled="isCalculated"
-                        class="w-10 pl-1 pr-1 text-center number-input"
+                        class="w-10 pl-1 pr-1 text-center"
                         :placeholder="!isCalculated ? 'ss' : '00'"
                         @keydown.delete.left.right="updateCursorThreeFields('seconds', $event)"
                         autocomplete="off"

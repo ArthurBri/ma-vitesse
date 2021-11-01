@@ -9,7 +9,7 @@
                         @focus="showPresetDistances = true"
                         autocomplete="off"
                         data-form-type="text"
-                        class="text-right pr-1 number-input w-32"
+                        class="text-right pr-1 w-32"
                         id="distance"
                         name="distance"
                         onblur=""

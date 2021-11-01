@@ -9,7 +9,7 @@
                 <p class="text-xs">{{ $t('calculator.hint') }}</p>
             </div>
         </div>
-        <div class="flex justify-between h-8 mb-2" v-else>
+        <div class="flex justify-between items-center h-8 mb-2" v-else>
             <div class="flex">
                 <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
                 <div class="flex items-center pl-2 font-semibold mr-4 xl:text-xl relative">
@@ -171,13 +171,7 @@ input {
 }
 
 select {
-    background-color: rgba(0, 0, 0, 0);
-    text-align: center;
-    font-size: 1em;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
+    @apply bg-transparent text-center appearance-none;
 
     > option {
         color: $ma-primary;
@@ -206,10 +200,4 @@ h1 {
     @apply text-secondary;
 }
 
-.number-input {
-    &::-webkit-inner-spin-button {
-        display: none;
-    }
-    -moz-appearance: textfield;
-}
 </style>

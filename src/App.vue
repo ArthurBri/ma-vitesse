@@ -4,6 +4,9 @@
         <div id="app" v-if="!showPreloader">
             <div class="body">
                 <Calculator />
+                <div class="flex xl:hidden mb-10">
+                    <shared-workouts />
+                </div>
                 <div class="flex justify-center w-full">
                     <transition name="fade">
                         <div class="tabs-menu" v-if="showTabMenu">
@@ -31,9 +34,8 @@
                     </transition>
                 </div>
             </div>
-            <router-view />
             <Footer />
-            <share-m-a class="fixed right-8 top-24" />
+            <shared-workouts class="fixed hidden xl:flex right-8 top-24" />
         </div>
     </div>
 </template>
@@ -47,7 +49,7 @@ import Settings from '@/components/Settings.vue'
 import Preloader from '@/components/Preloader.vue'
 import TabMenuItem from '@/components/TabMenuItem.vue'
 import ShareSocial from '@/components/ShareSocial.vue'
-import ShareMA from '@/components/ShareMA.vue'
+import SharedWorkouts from '@/components/SharedWorkouts.vue'
 
 export default {
     name: 'app',
@@ -60,7 +62,7 @@ export default {
         Preloader,
         TabMenuItem,
         ShareSocial,
-        ShareMA
+        SharedWorkouts
     },
     data() {
         return {
@@ -129,17 +131,13 @@ export default {
 }
 
 .body {
-    @apply flex flex-grow flex-wrap ml-0 justify-center w-full lg:w-2/3 items-start content-start
+    @apply flex flex-grow flex-wrap ml-0 justify-center w-full xl:w-2/3 items-start content-start
     lg:pt-8 sm:pt-3 md:pt-4 overflow-hidden;
     margin-bottom: $footer-height;
 }
 
-.app-description {
-    @apply hidden lg:flex items-center mt-10 sm:text-lg md:text-xl lg:text-xl xl:my-12 text-xl;
-}
-
 .tabs {
-    @apply flex lg:flex-col overflow-auto mb-1 lg:mr-1 gap-1;
+    @apply flex lg:flex-col overflow-auto lg:mb-1 lg:mr-1 lg:gap-1;
 }
 
 .tabs-menu {

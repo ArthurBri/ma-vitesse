@@ -25,7 +25,7 @@
         "live": "direct",
         "in": "en",
         "at": "à",
-        "share": "Partager",
+        "shareYours": "Partager le vôtre",
         "none": "Aucune"
     },
     "add_preset": {
@@ -121,7 +121,7 @@
         "title": "Toutes nos applications"
     },
     "share_ma": {
-        "last_workouts": "Dernières courses"
+        "yourSuccesses": "Vos exploits"
     },
     "updates_alert": {
         "new_badge": "nouveau",

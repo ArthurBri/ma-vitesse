@@ -13,7 +13,7 @@
                         :disabled="isCalculated"
                         @focus="showPresetDistances = false"
                         autocomplete="off"
-                        class="text-right pr-1 w-32 number-input"
+                        class="text-right pr-1 w-32"
                         data-form-type="text"
                         id="speed"
                         inputmode="decimal"

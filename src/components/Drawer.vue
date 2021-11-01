@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-left">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
-            <div class="drawer rounded-lg w-full xl:w-1/5 lg:w-1/3 md:w-1/2" ref="drawer">
+            <div class="drawer rounded-b xl:rounded-lg w-full xl:w-1/5 lg:w-1/3 md:w-1/2" ref="drawer">
                 <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
                     <slot name="header" />
                     <button @click="close" aria-label="Close drawer" class="mv-btn-rounded" type="button">
@@ -51,8 +51,16 @@ export default {
 
 .drawer {
     @apply absolute bg-white md:bg-opacity-80 backdrop-blur overflow-x-auto flex flex-col z-40 top-0 right-0 md:mt-2 md:mr-4 shadow;
-    max-height: calc(100vh - $footer-height);
     transition: transform 200ms;
+    height: calc(100vh - 4rem);
+
+}
+
+@screen lg {
+    .drawer {
+        height: auto;
+        max-height: calc(100vh - $footer-height);
+    }
 }
 
 .drawer-header {

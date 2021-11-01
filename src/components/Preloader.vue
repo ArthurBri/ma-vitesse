@@ -26,7 +26,7 @@ export default {
     position: absolute;
     z-index: 10;
     transition: all 0.8s;
-    @apply bg-gray-200;
+    @apply bg-gray-100;
 }
 
 .lds-ellipsis {
