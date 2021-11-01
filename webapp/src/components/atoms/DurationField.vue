@@ -155,9 +155,9 @@ export default {
         },
         updateOneFieldDuration() {
             this.durationOneField = 
-                (this.hours?.length > 1 ? this.hours + 'h' : '') +
-                (this.minutes ? this.minutes + 'm' : '') +
-                (this.seconds ? this.seconds + 's' : '')
+                (this.hours ? this.minutes || this.seconds ? this.hours + 'h' : this.hours : '') +
+                (this.minutes ? !this.hours || this.seconds ? this.minutes + 'm' : this.minutes : '') +
+                (this.seconds ? !this.minutes ? this.seconds + 's' : this.seconds : '')
             this.duration = toRawDuration(this.hours, this.minutes, this.seconds)
         },
         getDurationDisplayUnit() {
