@@ -43,7 +43,7 @@
                             <b>{{ workout.created_date }}</b>
                             {{ $t('workout.in') }}</span
                         >
-                        <span :class="'flag-icon-' + workout.country_code" class="ml-2 text-xl flag-icon" />
+                        <span :class="`flag-icon-${workout.country_code}`" class="ml-2 text-xl flag-icon" />
                     </div>
                 </div>
             </div>

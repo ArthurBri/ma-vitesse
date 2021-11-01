@@ -33,6 +33,7 @@
             </div>
             <router-view />
             <Footer />
+            <share-m-a class="fixed right-8 top-24" />
         </div>
     </div>
 </template>
@@ -46,6 +47,7 @@ import Settings from '@/components/Settings.vue'
 import Preloader from '@/components/Preloader.vue'
 import TabMenuItem from '@/components/TabMenuItem.vue'
 import ShareSocial from '@/components/ShareSocial.vue'
+import ShareMA from '@/components/ShareMA.vue'
 
 export default {
     name: 'app',
@@ -57,7 +59,8 @@ export default {
         Footer,
         Preloader,
         TabMenuItem,
-        ShareSocial
+        ShareSocial,
+        ShareMA
     },
     data() {
         return {

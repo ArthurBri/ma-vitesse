@@ -35,12 +35,10 @@
             <distance-field v-model="distance" :isCalculated="calculatedField === 'distance'" />
             <speed-field v-model="speed" :isCalculated="calculatedField === 'speed'" />
         </div>
-        <share-m-a class="mt-4" />
     </div>
 </template>
 
 <script>
-import ShareMA from '@/components/ShareMA.vue'
 import ShareSocial from '@/components/ShareSocial.vue'
 import DurationField from './atoms/DurationField.vue'
 import DistanceField from './atoms/DistanceField.vue'
@@ -60,7 +58,6 @@ function doubleBinding(propName, mutationName) {
 export default {
     name: 'Calculator',
     components: {
-        ShareMA,
         ShareSocial,
         DurationField,
         DistanceField,

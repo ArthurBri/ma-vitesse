@@ -1,10 +1,10 @@
 <template>
-    <div class="flex sm:flex-col md:flex-col justify-center items-center mx-10 sm:mx-2 md:mx-4 lg:mx-2">
+    <div class="flex flex-col justify-center items-center mx-10 sm:mx-2 md:mx-4 lg:mx-2">
         <div v-if="calculatedField && timeLimitOk">
-            <span @click="shareWorkout" class="mv-btn flex py-1 text-white mr-4 sm:mb-2 md:mb-2">
+            <button @click="shareWorkout" class="mv-btn flex py-1 mr-4 sm:mb-2 md:mb-2">
                 <span>{{ $t('common.share') }}</span>
                 <img alt="Chevron to show more workouts" class="chevron animated self-center ml-2" src="../assets/icons/chevron.svg" />
-            </span>
+            </button>
         </div>
         <div class="flex flex-col items-center" v-if="lastWorkouts.length">
             <div class="flex md:mb-2 sm:mb-2 lg:mb-1 xl:mb-1" v-if="!calculatedField || !timeLimitOk">
@@ -14,133 +14,127 @@
                 </p>
             </div>
             <div class="flex items-center justify-center">
-                <table class="text-white show-workouts border-gray-200 text-sm">
+                <table class="show-workouts border-gray-200 text-sm">
                     <div
                         :class="[showAllWorkouts ? 'rounded-t-lg rounded-r-lg bg-white border text-primary' : 'rounded-lg border']"
                         @click="showMoreWorkouts"
-                        class="animate flex justify-center cursor-pointer z-10"
+                        class="bg-white animate flex justify-center cursor-pointer z-10"
                         :title="$t('share_ma.last_workouts')"
                     >
                         <tr>
                             <td class="align-middle">
                                 <span
-                                    :class="'flag-icon-' + lastWorkouts[0].country_code"
-                                    class="flag-icon"
-                                    v-if="lastWorkouts[0].country_code"
+                                    :class="`flag-icon flag-icon-${lastWorkouts[0].country}`"
+                                    v-if="lastWorkouts[0].country"
                                 />
                             </td>
                             <td class="noselect-nodrag align-middle text-sm">
-                                <b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].distance_unit }}</b>
+                                <b>{{ lastWorkouts[0].distance }} {{ lastWorkouts[0].unit }}</b>
                                 {{ $t('common.in') }}
                                 <b> {{ lastWorkouts[0].duration | toPrettyDuration(oneFieldMode) }}</b>
                                 {{ $t('common.at') }}
                                 <b>
                                     {{ lastWorkouts[0].speed | formatSpeed(speedFormat) }}
-                                    <span v-if="speedFormat === 'pace'">min/{{ lastWorkouts[0].distance_unit }}</span>
-                                    <span v-else>{{ lastWorkouts[0].distance_unit }}/h</span>
+                                    <span v-if="speedFormat === 'pace'">min/{{ lastWorkouts[0].unit }}</span>
+                                    <span v-else>{{ lastWorkouts[0].unit }}/h</span>
                                 </b>
                             </td>
                             <td class="align-middle">
                                 <img
-                                    :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
-                                    class="primary-icon h-4 text-center align-middle noselect-nodrag"
+                                    class="h-4 text-center align-middle noselect-nodrag"
                                     alt="Rocket icon"
                                     src="../assets/icons/rocket.svg"
                                     v-if="lastWorkouts[0].speed > 140"
                                 />
                                 <img
-                                    :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
-                                    class="primary-icon h-4 text-center align-middle noselect-nodrag"
+                                    class="h-4 text-center align-middle noselect-nodrag"
                                     alt="Bike icon"
                                     src="../assets/icons/bike.svg"
                                     v-if="lastWorkouts[0].speed > 20 && lastWorkouts[0].speed <= 40"
                                 />
                                 <img
-                                    :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
-                                    class="primary-icon h-4 text-center align-middle noselect-nodrag"
+                                    class="h-4 text-center align-middle noselect-nodrag"
                                     alt="Car icon"
                                     src="../assets/icons/car.svg"
                                     v-if="lastWorkouts[0].speed > 40 && lastWorkouts[0].speed < 140"
                                 />
                                 <img
-                                    :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
-                                    class="primary-icon h-4 text-center align-middle noselect-nodrag"
+                                    class="h-4 text-center align-middle noselect-nodrag"
                                     alt="Run icon"
                                     src="../assets/icons/run.svg"
                                     v-if="lastWorkouts[0].speed > 7 && lastWorkouts[0].speed <= 20"
                                 />
                                 <img
-                                    :class="[showAllWorkouts ? 'primary-icon' : 'white-icon']"
-                                    class="primary-icon h-4 text-center align-middle"
+                                    class="h-4 text-center align-middle"
                                     alt="Walk icon"
                                     src="../assets/icons/walk.svg"
                                     v-if="lastWorkouts[0].speed <= 7"
                                 />
                             </td>
-                            <td class="sm:hidden md:hidden text-sm align-middle noselect-nodrag">
-                                {{ lastWorkouts[0].created_date | moment }}
+                            <td class="text-sm align-middle noselect-nodrag whitespace-nowrap">
+                                {{ lastWorkouts[0].creationDate | moment }}
                             </td>
                         </tr>
                         <div class="flex items-center self-center justify-center h-4 opacity-100 px-2" v-if="lastWorkouts.length > 1">
                             <img
-                                :class="[!showAllWorkouts ? 'transform -rotate-90' : 'primary-chevron']"
+                                :class="!showAllWorkouts && 'transform -rotate-90'"
                                 alt="Chevron"
                                 class="chevron noselect-nodrag"
                                 src="../assets/icons/chevron.svg"
                             />
                         </div>
                     </div>
-                    <div class="bg-white" v-if="lastWorkouts.length > 1">
+                    <div class="bg-primary" v-if="lastWorkouts.length > 1">
                         <tbody :class="[showAllWorkouts ? 'h-48 opacity-100' : 'h-0 opacity-25']" class="more-workouts show-workouts z-10">
                             <tr v-for="(lastWorkout, index) in lastWorkouts" :key="index.value">
                                 <td>
-                                    <span :class="'flag-icon-' + lastWorkout.country_code" class="h-5 flag-icon" />
+                                    <span :class="`flag-icon flag-icon-${lastWorkout.country}`" />
                                 </td>
                                 <td class="noselect-nodrag">
-                                    <b>{{ lastWorkout.distance }} {{ lastWorkout.distance_unit }}</b>
+                                    <b>{{ lastWorkout.distance | formatDistance }} {{ lastWorkout.unit }}</b>
                                     {{ $t('common.in') }}
                                     <b>{{ lastWorkout.duration | toPrettyDuration(oneFieldMode) }}</b>
                                     {{ $t('common.at') }}
                                     <b>
                                         {{ lastWorkout.speed | formatSpeed(speedFormat) }}
-                                        <span v-if="speedFormat === 'pace'">min/{{ lastWorkouts[0].distance_unit }}</span>
-                                        <span v-else>{{ lastWorkouts[0].distance_unit }}/h</span>
+                                        <span v-if="speedFormat === 'pace'">min/{{ lastWorkout.unit }}</span>
+                                        <span v-else>{{ lastWorkout.unit }}/h</span>
                                     </b>
                                 </td>
                                 <td class="align-middle">
                                     <img
-                                        class="primary-icon h-4 text-center align-middle noselect-nodrag"
+                                        class="h-4 text-center align-middle noselect-nodrag"
                                         alt="Rocket icon"
                                         src="../assets/icons/rocket.svg"
                                         v-if="lastWorkout.speed > 140"
                                     />
                                     <img
-                                        class="primary-icon h-4 text-center align-middle noselect-nodrag"
+                                        class="h-4 text-center align-middle noselect-nodrag"
                                         alt="Bike icon"
                                         src="../assets/icons/bike.svg"
                                         v-if="lastWorkout.speed > 20 && lastWorkout.speed <= 40"
                                     />
                                     <img
-                                        class="primary-icon w-4 text-center align-middle noselect-nodrag"
+                                        class="w-4 text-center align-middle noselect-nodrag"
                                         alt="Car icon"
                                         src="../assets/icons/car.svg"
-                                        v-if="lastWorkout.speed > 40 && lastWorkout.speed < 140"
+                                        v-if="lastWorkout.speed > 40 && lastWorkout.speed <= 140"
                                     />
                                     <img
-                                        class="primary-icon w-4 text-center align-middle noselect-nodrag"
+                                        class="w-4 text-center align-middle noselect-nodrag"
                                         alt="Run icon"
                                         src="../assets/icons/run.svg"
                                         v-if="lastWorkout.speed > 7 && lastWorkout.speed <= 20"
                                     />
                                     <img
-                                        class="primary-icon w-4 text-center vert align-middle noselect-nodrag"
+                                        class="w-4 text-center align-middle noselect-nodrag"
                                         alt="Walk icon"
                                         src="../assets/icons/walk.svg"
                                         v-if="lastWorkout.speed <= 7"
                                     />
                                 </td>
-                                <td class="text-center noselect-nodrag sm:hidden md:hidden">
-                                    {{ lastWorkout.created_date | moment }}
+                                <td class="text-center noselect-nodrag whitespace-nowrap">
+                                    {{ lastWorkout.creationDate | moment }}
                                 </td>
                             </tr>
                         </tbody>
@@ -155,21 +149,20 @@
 import { mapState } from 'vuex'
 import moment from 'moment'
 import { toPrettyDuration, formatSpeed } from '../utils/formatData'
-import axios from 'axios'
+import { nanoid } from 'nanoid'
+import { setDoc, doc, collection, getDocs, orderBy, limit, query } from 'firebase/firestore/lite'
+import { getUserCountry } from '../core/country'
 
 export default {
     name: 'ShareMA',
-    mounted() {
+    async mounted() {
         moment.locale(this.$i18n.locale)
         this.loadWorkouts()
         if (localStorage.getItem('lastSharedWorkout')) {
             this.lastSharedWorkout = localStorage.getItem('lastSharedWorkout')
         }
-        this.timeLimitOk = (Date.now() - parseFloat(this.lastSharedWorkout)) / 60000 > 60
-        setInterval(() => {
-            this.loadWorkouts()
-            this.timeLimitOk = (Date.now() - parseFloat(this.lastSharedWorkout)) / 60000 > 60
-        }, 10000)
+
+        // TODO : handle rate limit
     },
     data() {
         return {
@@ -185,50 +178,33 @@ export default {
                 this.showAllWorkouts = !this.showAllWorkouts
             }
         },
-        shareWorkout() {
-            const ax = axios.create({
-                baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
-            })
+        async shareWorkout() {
+            const id = nanoid()
+            const country = await getUserCountry()
 
-            /*             ax.post('/workouts', {
+            await setDoc(doc(this.$db, "workouts", id), {
+                country,
                 distance: this.distance,
-                distance_unit: this.distanceUnit,
+                unit: this.unitMode,
                 duration: this.duration,
                 speed: this.speed,
-                speed_unit: this.unitMode,
-                calculated_field: this.calculatedField,
-                created_date: Date.now(),
+                calculatedField: this.calculatedField,
+                creationDate: new Date().toISOString(),
                 type: 'public'
             })
-                .then((response) => {
-                    if (response.status === 201) {
-                        localStorage.setItem('lastSharedWorkout', Date.now())
-                        this.lastSharedWorkout = Date.now()
-                    }
-                })
-                .catch((error) => {
-                    console.log(error)
-                }) */
+            localStorage.setItem('lastSharedWorkout', Date.now())
+            await this.loadWorkouts()
         },
-        loadWorkouts() {
-            // Make a request for a user with a given ID
-            const ax = axios.create({
-                baseUrl: import.meta.NODE_ENV === 'development' ? 'http://localhost:80' : import.meta.BASE_URL
-            })
-            /*             ax.get('/workouts?limit=7&type=public')
-                .then((response) => {
-                    this.lastWorkouts = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                }) */
+        async loadWorkouts() {
+            const workoutsCollection = collection(this.$db, 'workouts')            
+            const q = query(workoutsCollection, orderBy("creationDate", "desc"), limit(7))
+            const workoutSnapshot = await getDocs(q)
+
+            this.lastWorkouts = workoutSnapshot.docs.map(doc => doc.data())
         }
     },
     computed: {
-        ...mapState(['distance', 'speed', 'duration', 'oneFieldMode', 'calculatedField', 'speedFormat']),
-        calculatedField() {
-            return this.distance && this.speed && this.duration
-        },
+        ...mapState(['distance', 'speed', 'duration', 'oneFieldMode', 'calculatedField', 'speedFormat', 'unitMode']),
         locale() {
             return this.$i18n.locale
         }
@@ -240,7 +216,7 @@ export default {
     },
     filters: {
         moment(date) {
-            return moment(parseInt(date)).fromNow()
+            return moment(date).fromNow()
         },
         capitalize(value) {
             if (!value) return ''
@@ -252,7 +228,11 @@ export default {
         },
         formatSpeed(value, speedFormat) {
             if (!value) return ''
-            return formatSpeed(value, speedFormat)
+            return formatSpeed(''+value, speedFormat)
+        },
+        formatDistance(value) {
+            if (!value) return ''
+            return value.toFixed(4).replace(/(\.0+|0+)$/, '')
         }
     }
 }
@@ -264,7 +244,7 @@ td {
 }
 
 .more-workouts {
-    @apply absolute rounded-b-lg text-primary overflow-hidden bg-white bg-opacity-80 backdrop-filter blur-sm;
+    @apply absolute rounded-b-lg text-primary overflow-hidden bg-white bg-opacity-80;
     transition: all 400ms linear;
 }
 
@@ -284,10 +264,6 @@ td {
     }
 }
 
-.primary-chevron {
-    cursor: pointer;
-    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
-}
 
 .chevron {
     @apply h-4 cursor-pointer transform duration-200 ease-in-out;
@@ -295,14 +271,6 @@ td {
 
 .show-workouts {
     width: auto;
-}
-
-.primary-icon {
-    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
-}
-
-.white-icon {
-    filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
 }
 
 @keyframes move-right {
