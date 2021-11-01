@@ -195,7 +195,7 @@ export default {
                 distance_unit: this.distanceUnit,
                 duration: this.duration,
                 speed: this.speed,
-                speed_unit: this.speedUnit,
+                speed_unit: this.unitMode,
                 calculated_field: this.calculatedField,
                 created_date: Date.now(),
                 type: 'public'
@@ -225,7 +225,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['distance', 'speed', 'duration', 'distanceUnit', 'speedUnit', 'oneFieldMode', 'calculatedField', 'speedFormat']),
+        ...mapState(['distance', 'speed', 'duration', 'oneFieldMode', 'calculatedField', 'speedFormat']),
         calculatedField() {
             return this.distance && this.speed && this.duration
         },

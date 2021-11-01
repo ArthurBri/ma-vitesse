@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Footer from '@/components/Footer.vue'
+import Footer from '@/components/organisms/Footer.vue'
 import Calculator from '@/components/Calculator.vue'
 import Prediction from '@/components/Prediction.vue'
 import LapTime from '@/components/LapTime.vue'
@@ -70,7 +70,7 @@ export default {
             this.showPreloader = false
         }, 200)
 
-        this.$i18n.locale = localStorage.getItem('lang') || this.$i18n.locale
+        this.$i18n.locale = localStorage.getItem('language') || this.$i18n.locale
         document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title')
 
         this.activeTab = localStorage.getItem('activeTab') || this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''

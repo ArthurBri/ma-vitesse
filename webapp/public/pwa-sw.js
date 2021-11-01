@@ -13,7 +13,7 @@ self.addEventListener('install', function (event) {
             // eslint-disable-next-line no-console
             console.log('[PWA Builder] Cached offline page during install')
             return cache.add(offlineFallbackPage)
-        })
+        }).catch(err => console.error(err))
     )
 })
 

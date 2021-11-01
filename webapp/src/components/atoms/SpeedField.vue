@@ -24,7 +24,7 @@
                         v-model="speedAsString"
                     />
                     <label aria-label="Switch between speed units" for="speed-unit" />
-                    <select id="speed-unit" class="speed-unit-select" tabindex="-1" v-model="speedUnit">
+                    <select id="speed-unit" class="speed-unit-select" tabindex="-1" v-model="unitMode">
                         <option :key="item.type" :value="item.type" v-for="item in speedUnits">
                             {{ item.short }}
                         </option>
@@ -43,7 +43,7 @@
                         v-model="pace"
                     />
                     <label aria-label="Switch between pace units" for="pace-unit" />
-                    <select id="pace-unit" class="speed-unit-select" tabindex="-1" v-model="paceUnit">
+                    <select id="pace-unit" class="speed-unit-select" tabindex="-1" v-model="unitMode">
                         <option :key="item.type" :value="item.type" v-for="item in paceUnits">
                             {{ item.short }}
                         </option>
@@ -115,32 +115,25 @@ export default {
                 this.$store.commit('setSpeedFormat', val)
             }
         },
-        paceUnit: {
+        unitMode: {
             get() {
-                return this.$store.state.paceUnit
+                return this.$store.state.unitMode
             },
             set(val) {
                 this.$store.commit('changeUnitMode', val)
             }
         },
-        speedUnit: {
-            get() {
-                return this.$store.state.speedUnit
-            },
-            set(val) {
-                this.$store.commit('changeUnitMode', val)
-            }
-        }
     },
     methods: {
         changeSpeedFormat() {
             this.speedFormat = this.speedFormat === 'speed' ? 'pace' : 'speed'
-            if (this.speedFormat === 'pace') {
-                this.pace = speedToPace(this.value)
-            } else {
-                this.speedAsString = String(paceToSpeed(this.pace || 0))
-            }
-            this.$store.commit('setSpeedFormat', this.speedFormat)
+            this.$nextTick(() => {
+                if (this.speedFormat === 'pace') {
+                    this.pace = speedToPace(this.value)
+                } else {
+                    this.speedAsString = String(paceToSpeed(this.pace || 0))
+                }
+            })
         }
     },
     watch: {

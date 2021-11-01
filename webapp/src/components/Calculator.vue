@@ -12,19 +12,18 @@
         <div class="flex justify-between h-8 mb-2" v-else>
             <div class="flex">
                 <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
-                <div class="flex self-center pl-2 font-semibold mr-4 xl:text-xl">
-                    <h2 :class="$i18n.locale === 'fr' && 'flex-row-reverse'">
-                        <span class="self-center font-semibold calculated-label pr-1">{{ $t('common.' + calculatedField) }}</span>
-                        <span>{{ $t('calculator.calculation_label') }}</span>
+                <div class="flex items-center pl-2 font-semibold mr-4 xl:text-xl relative">
+                    <h2 class="flex gap-1" :class="$i18n.locale === 'fr' && 'flex-row-reverse'">
+                        <div class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) | lowercase($i18n.locale === 'fr') }}</div>
+                        <div>{{ $t('calculator.calculation_label') }}</div>
                     </h2>
-                    <span>
+                    <button @click="clearFields" class="border-gray-200 border rounded-full bg-white ml-1 p-1">
                         <img
-                            @click="clearFields"
                             alt="clear field button"
-                            class="h-2 noselect-nodrag clear-fields-button"
+                            class="h-2 clear-fields-button"
                             src="../assets/icons/cancel.svg"
                         />
-                    </span>
+                    </button>
                 </div>
             </div>
             <div class="mr-2">
@@ -146,6 +145,12 @@ export default {
                 this[this.calculatedField] = 0
                 this.calculatedField = null
             }
+        }
+    },
+    filters: {
+        lowercase(value, apply) {
+            if (!apply) return value
+            return value.toLowerCase()
         }
     }
 }

@@ -34,7 +34,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['calculatedField', 'oneFieldMode']),
+        ...mapState(['speed', 'duration', 'distance', 'calculatedField', 'oneFieldMode']),
         human_duration() {
             return toPrettyDuration(this.duration)
         }

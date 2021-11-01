@@ -3,7 +3,7 @@
         <div class="footer">
             <div class="footer-start flex flex-row">
                 <div class="logo cursor-pointer">
-                    <img alt="logo" class=" w-8 lg:w-12 transform rotate-90" src="../assets/logo.svg" />
+                    <img alt="logo" class=" w-8 lg:w-12 transform rotate-90" src="../../assets/logo.svg" />
                     <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
                         <span>{{ $t('global.app_name') }}</span>
                     </h1>
@@ -23,7 +23,7 @@
                             <span class="font-semibold text-left flex-auto">{{ $t('updates_alert.message_l1') }}</span>
                             <span class="text-left flex-auto">{{ $t('updates_alert.message_l2') }}</span>
                         </div>
-                        <img @click="hideUpdatesAlert" alt="Cancel icon" class="h-3 cursor-pointer" src="../assets/icons/cancel.svg" />
+                        <img @click="hideUpdatesAlert" alt="Cancel icon" class="h-3 cursor-pointer" src="../../assets/icons/cancel.svg" />
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@ import AllMA from '@/components/AllMA.vue'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-    name: 'footer',
+    name: 'Footer',
     components: { About, Settings, AllMA },
     data() {
         return {

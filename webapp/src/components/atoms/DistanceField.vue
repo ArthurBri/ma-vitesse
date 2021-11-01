@@ -21,7 +21,7 @@
                         v-model="distanceAsString"
                     />
                     <label aria-label="Switch between distance units" for="distance-unit" />
-                    <select id="distance-unit" class="self-center text-right cursor-pointer" tabindex="-1" v-model="distanceUnit">
+                    <select id="distance-unit" class="self-center text-right cursor-pointer" tabindex="-1" v-model="unitMode">
                         <option :key="item.type" :value="item.type" v-for="item in distanceUnits">
                             {{ item.type }}
                         </option>
@@ -34,7 +34,7 @@
                         {{ $t('calculator.my_distances') }}
                     </option>
                     <option :key="preset.label" :value="preset.label" v-for="preset in defaultDistances">
-                        {{ preset.label }}
+                        {{ $t(preset.label) }}
                     </option>
                     <option value="addDistance">+ {{ $t('common.add') }}</option>
                     <option v-if="defaultDistances.length > 0" value="removeDistance">- {{ $t('common.delete') }}</option>
@@ -75,7 +75,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['unitMultipliers', 'unitMode', 'distanceUnits', 'defaultDistances']),
+        ...mapState(['unitMultipliers', 'distanceUnits', 'defaultDistances']),
         distanceAsString: {
             get() {
                 return this.value !== 0 ? this.value?.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
@@ -84,9 +84,9 @@ export default {
                 this.$emit('input', parseFloat(val || 0))
             }
         },
-        distanceUnit: {
+        unitMode: {
             get() {
-                return this.$store.state.distanceUnit
+                return this.$store.state.unitMode
             },
             set(val) {
                 this.$store.commit('changeUnitMode', val)

@@ -28,10 +28,10 @@
             </table>
         </div>
         <div class="flex h-full items-center">
-            <p class="text-center" v-if="defaultDistances.length">
+            <p class="text-center" v-if="!distance || !duration">
                 {{ $t('predictions.label_no_calculation') }}
             </p>
-            <p class="text-center" v-else>
+            <p class="text-center" v-if="!defaultDistances.length">
                 {{ $t('predictions.label_no_distances') }}
             </p>
         </div>

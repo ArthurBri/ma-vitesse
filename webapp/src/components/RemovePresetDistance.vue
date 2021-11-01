@@ -12,7 +12,7 @@
                         <th />
                     </tr>
                     <tr :key="item.label" v-for="item in $store.state.defaultDistances">
-                        <td>{{ item.label }}</td>
+                        <td>{{ $t(item.label) }}</td>
                         <td>{{ item.distance }}km</td>
                         <td @click="delPresetDistance(item.label)">
                             <img alt="delete a preset distance" class="icon w-3" src="../assets/icons/cancel.svg" />
@@ -26,6 +26,7 @@
 
 <script>
 import CenterModal from '@/components/CenterModal.vue'
+import { mapState } from 'vuex'
 
 export default {
     name: 'Settings',
@@ -33,14 +34,16 @@ export default {
         return {
             isModalVisible: true,
             label: '',
-            distance: '',
+            distance: 0,
             newDistance: false,
             matchDistanceLabel: '',
             matchDistanceValue: ''
         }
     },
     components: { CenterModal },
-    mounted() {},
+    computed: {
+        ...mapState(['defaultDistances'])
+    },
     methods: {
         close() {
             this.$emit('close')
@@ -56,7 +59,7 @@ export default {
         },
         delPresetDistance(label) {
             this.$store.commit('rmPresetDistance', label)
-            if (this.$store.state.defaultDistances.length < 1) {
+            if (this.defaultDistances.length < 1) {
                 this.close()
             }
         }
@@ -65,9 +68,9 @@ export default {
         label: function (newVal, oldVal) {
             this.label = newVal.length > 30 ? oldVal : newVal
 
-            if (this.$store.state.defaultDistances.find((defaultDist) => defaultDist.label === this.label)) {
+            if (this.defaultDistances.find((defaultDist) => defaultDist.label === this.label)) {
                 this.newDistance = false
-                this.matchDistanceValue = this.$store.state.defaultDistances.find(
+                this.matchDistanceValue = this.defaultDistances.find(
                     (defaultDist) => defaultDist.label === this.label
                 ).distance
             } else {
@@ -75,32 +78,25 @@ export default {
                 this.matchDistanceValue = ''
             }
         },
-        distance: function (newVal, oldVal) {
+        distance (newVal, oldVal) {
             if (this.distance) {
-                // check leading zero is followed by zero or , / .
                 if (this.distance.match(/^0{2,}(?![.,])/g)) {
-                    // if yes : cancelling the input
                     this.distance = oldVal
                 }
-                // removing all others leading zeros by
                 this.distance = this.distance.replace(/^0([0-9]+)/g, '$1')
 
-                // if distance matches at least partially with the pattern ?
                 if (this.distance.match(/\d{0,9}([.,]\d{0,4})?/g)) {
-                    // if not exactly match
                     if (this.distance.match(/\d{0,9}([.,]\d{0,4})?/g)[0] !== this.distance) {
-                        // cancelling the input
                         this.distance = oldVal
                     }
-                    // else : cancelling the input
                 } else {
                     this.distance = oldVal
                     this.matchDistanceLabel = ''
                 }
             }
-            if (this.$store.state.defaultDistances.find((defaultDist) => defaultDist.distance === this.distance)) {
+            if (this.defaultDistances.find((defaultDist) => defaultDist.distance === this.distance)) {
                 this.newDistance = false
-                this.matchDistanceLabel = this.$store.state.defaultDistances.find(
+                this.matchDistanceLabel = this.defaultDistances.find(
                     (defaultDist) => defaultDist.distance === this.distance
                 ).label
             } else {

@@ -5,33 +5,22 @@ import { version } from '../../package.json'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
-    strict: true,
-    state: {
+const getDefaultState = () => (
+    {
         speed: 0,
         speedFormat: 'speed',
         distance: 0,
         duration: 0,
         defaultDistances: [
-            { label: i18n.t('common.marathon'), distance: 42.195 },
-            { label: i18n.t('common.half_marathon'), distance: 21.0975 },
-            { label: i18n.t('common.10_km'), distance: 10 }
+            { label: 'common.marathon', distance: 42.195 },
+            { label: 'common.half_marathon', distance: 21.0975 },
+            { label: 'common.10_km', distance: 10 }
         ],
         unitMode: 'km',
-        unitMultipliers: [
-            { type: 'km', label: i18n.t('common.kilometers'), multiplier: 1 },
-            {
-                type: 'mi',
-                label: i18n.t('common.kilometers'),
-                multiplier: 0.62137119224
-            }
-        ],
-        distanceUnit: 'km',
         distanceUnits: [
-            { type: 'km', label: i18n.t('common.kilometers') },
-            { type: 'mi', label: i18n.t('common.miles') }
+            { type: 'km', label: i18n.t('common.kilometers'), multiplier: 1 },
+            { type: 'mi', label: i18n.t('common.miles'), multiplier: 0.62137119224 }
         ],
-        speedUnit: 'km',
         speedUnits: [
             {
                 type: 'km',
@@ -40,7 +29,6 @@ export const store = new Vuex.Store({
             },
             { type: 'mi', short: 'mph', label: i18n.t('common.milesPerHour') }
         ],
-        paceUnit: 'min/km',
         paceUnits: [
             {
                 type: 'km',
@@ -58,9 +46,13 @@ export const store = new Vuex.Store({
         showUpdatesAlert: true,
         currentUpdateAlert: version,
         oneFieldMode: false,
-        lang: 'fr',
         calculatedField: ''
-    },
+    }
+)
+
+export const store = new Vuex.Store({
+    strict: true,
+    state: getDefaultState(),
     mutations: {
         setSpeed(state, speed) {
             state.speed = speed
@@ -119,14 +111,10 @@ export const store = new Vuex.Store({
                 }
             }
 
-            state.distanceUnit = state.distanceUnits.filter((distanceUnit) => distanceUnit.type === state.unitMode)[0].type
-            state.speedUnit = state.speedUnits.filter((speedUnit) => speedUnit.type === state.unitMode)[0].type
-            state.paceUnit = state.paceUnits.filter((paceUnit) => paceUnit.type === state.unitMode)[0].type
-
             const currentMultplier =
-                state.unitMultipliers.filter((unitMultiplier) => unitMultiplier.type === currentMode)[0].multiplier || 1
+                state.distanceUnits.filter((unitMultiplier) => unitMultiplier.type === currentMode)[0].multiplier || 1
             const newMultiplier =
-                state.unitMultipliers.filter((unitMultiplier) => unitMultiplier.type === state.unitMode)[0].multiplier || 1
+                state.distanceUnits.filter((unitMultiplier) => unitMultiplier.type === state.unitMode)[0].multiplier || 1
 
             state.speed = (state.speed * newMultiplier) / currentMultplier || 0
             state.distance = (state.distance * newMultiplier) / currentMultplier || 0
@@ -163,10 +151,11 @@ export const store = new Vuex.Store({
 
             if (localStorage.getItem('unitMode')) {
                 state.unitMode = localStorage.getItem('unitMode')
-                state.distanceUnit = state.distanceUnits.filter((distanceUnit) => distanceUnit.type === state.unitMode)[0].type
-                state.speedUnit = state.speedUnits.filter((speedUnit) => speedUnit.type === state.unitMode)[0].type
-                state.paceUnit = state.paceUnits.filter((paceUnit) => paceUnit.type === state.unitMode)[0].type
             }
+        },
+        resetApp(state) {
+            localStorage.clear()
+            Object.assign(state, getDefaultState())
         }
     }
 })

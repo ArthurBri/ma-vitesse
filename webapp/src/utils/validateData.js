@@ -21,6 +21,7 @@ export function cleanDistanceInput(distance) {
 }
 
 export function isValidPace(pace) {
+    if (!pace) return true
     const PACE_PATTERN = /^(\d{1,2}:(\d{1,2})?)|^(:?\d{1,2})$|^:$/g
     return PACE_PATTERN.test(pace)
 }
@@ -35,16 +36,19 @@ export function isValidDuration(duration) {
 }
 
 export function isValidHours(hours) {
+    if (hours === undefined || hours === '') return true
     const HOURS_PATTERN = /^([0-9]?[0-9])$/g
     return HOURS_PATTERN.test(hours)
 }
 
 export function isValidMinutes(minutes) {
+    if (minutes === undefined || minutes === '') return true
     const MINUTES_PATTERN = /^([0-5]?[0-9])$/g
     return MINUTES_PATTERN.test(minutes)
 }
 
 export function isValidSeconds(seconds) {
+    if (seconds === undefined || seconds === '') return true
     const SECONDS_PATTERN = /^([0-5]?[0-9])$/g
     return SECONDS_PATTERN.test(seconds)
 }

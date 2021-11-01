@@ -10,7 +10,6 @@ function loadLocaleMessages() {
         const locale = path.match('^.*/(.*).json')?.[1]
         messages[locale] = locales[path]
     }
-    console.log(messages)
     return messages
 }
 

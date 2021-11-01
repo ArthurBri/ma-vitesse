@@ -20,8 +20,8 @@
                     <input
                         :disabled="isCalculated"
                         class="w-10 pl-1 pr-1 text-center number-input"
-                        :placeholder="!isCalculated && 'hh'"
-                        @keydown.delete.left.right="updateCursor('hours', $event)"
+                        :placeholder="!isCalculated ? 'hh' : '00'"
+                        @keydown.delete.left.right="updateCursorThreeFields('hours', $event)"
                         @keydown.down="decrement('hours')"
                         autocomplete="off"
                         data-form-type="text"
@@ -34,8 +34,8 @@
                     <input
                         :disabled="isCalculated"
                         class="w-10 pl-1 pr-1 text-center number-input"
-                        :placeholder="!isCalculated && 'mm'"
-                        @keydown.delete.left.right="updateCursor('minutes', $event)"
+                        :placeholder="!isCalculated ? 'mm' : '00'"
+                        @keydown.delete.left.right="updateCursorThreeFields('minutes', $event)"
                         autocomplete="off"
                         @keydown.down="decrement('minutes')"
                         @keydown.up="increment('minutes')"
@@ -48,8 +48,8 @@
                     <input
                         :disabled="isCalculated"
                         class="w-10 pl-1 pr-1 text-center number-input"
-                        :placeholder="!isCalculated && 'ss'"
-                        @keydown.delete.left.right="updateCursor('seconds', $event)"
+                        :placeholder="!isCalculated ? 'ss' : '00'"
+                        @keydown.delete.left.right="updateCursorThreeFields('seconds', $event)"
                         autocomplete="off"
                         @keydown.down="decrement('seconds', 'seconds')"
                         @keydown.up="increment('seconds', 'seconds')"
@@ -90,7 +90,6 @@ export default {
     mixins: [fieldOperations],
     data() {
         return {
-            oneFieldMode: false,
             durationDisplayUnit: 'h',
             durationOneField: '',
             hours: '',
@@ -106,6 +105,14 @@ export default {
             set(val) {
                 this.$emit('input', val)
             }
+        },
+        oneFieldMode: {
+            get() {
+                return this.$store.state.oneFieldMode
+            },
+            set(value) {
+                this.$store.commit('setOneFieldMode', value)
+            }
         }
     },
     props: {
@@ -118,7 +125,7 @@ export default {
         }
     },
     methods: {
-        updateCursor(ref, event) {
+        updateCursorThreeFields(ref, event) {
             if (['Backspace', 'Delete', 'ArrowLeft'].includes(event.key)) {
                 if (ref === 'minutes' && (this.minutes === '' || this.$refs.minutes.selectionStart === 0)) {
                     if (this.$refs.minutes.selectionStart === this.$refs.minutes.selectionEnd) {
@@ -144,11 +151,11 @@ export default {
             }
         },
         focusMe(field) {
-            this.oneFieldMode && field !== 'duration' && this.$refs.duration.focus()
+            this.oneFieldMode && field !== 'duration' && this.$refs.durationOneField.focus()
         },
         updateOneFieldDuration() {
             this.durationOneField = 
-                (this.hours ? this.hours + 'h' : '') +
+                (this.hours?.length > 1 ? this.hours + 'h' : '') +
                 (this.minutes ? this.minutes + 'm' : '') +
                 (this.seconds ? this.seconds + 's' : '')
             this.duration = toRawDuration(this.hours, this.minutes, this.seconds)
@@ -166,9 +173,6 @@ export default {
         }
     },
     watch: {
-        oneFieldMode() {
-            this.$store.commit('setOneFieldMode', this.oneFieldMode)
-        },
         duration() {
             this.durationDisplayUnit = this.getDurationDisplayUnit()
         },
@@ -196,13 +200,12 @@ export default {
         value() {
             const { hours, minutes, seconds } = formatDuration(toPrettyDuration(this.duration, true))
 
-            this.hours = parseFloat(hours) ? (parseFloat(hours) < 10 ? '0' + hours : parseFloat(hours)) : '00'
-            this.minutes = parseFloat(minutes) ? (parseFloat(minutes) < 10 ? '0' + minutes : parseFloat(minutes)) : '00'
-            this.seconds = parseFloat(seconds) ? (parseFloat(seconds) < 10 ? '0' + seconds : parseFloat(seconds)) : '00'
+            this.hours = parseFloat(hours) || ''
+            this.minutes = parseFloat(minutes) || ''
+            this.seconds = parseFloat(seconds) || ''
         },
         durationOneField(newVal) {
             const { hours, minutes, seconds } = formatDuration(newVal)
-            console.log(hours, minutes, seconds)
             this.hours = hours || ''
             this.minutes = minutes || ''
             this.seconds = seconds || ''
@@ -226,6 +229,12 @@ input {
 
     &::placeholder {
         @apply font-light;
+    }
+}
+
+.calculated {
+    input::placeholder {
+        @apply text-white font-bold;
     }
 }
 </style>

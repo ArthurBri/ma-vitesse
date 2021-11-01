@@ -86,12 +86,9 @@
                         {{ $t('settings.reset_section.title') }}
                     </h1>
                     <div class="pt-4 flex justify-center">
-                        <button @click="resetApp" class="mv-btn" v-if="!appReseted">
+                        <button @click="resetApp" class="mv-btn">
                             {{ $t('settings.reset_section.reset_button') }}
                         </button>
-                        <div v-else class="flex justify-center text-center">
-                            <span>{{ $t('settings.reset_section.reset_message_success') }}</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -102,13 +99,13 @@
 
 <script>
 import Drawer from '@/components/Drawer.vue'
+import { mapMutations } from 'vuex'
 
 export default {
     name: 'Settings',
     data() {
         return {
             isModalVisible: false,
-            appReseted: false,
             selectedLanguage: 'fr',
             availableLanguages: [
                 { langCode: 'fr', countryCode: 'fr' },
@@ -121,12 +118,9 @@ export default {
         this.selectedLanguage = this.$i18n.locale
     },
     methods: {
+        ...mapMutations(['resetApp']),
         close() {
             this.$emit('close')
-        },
-        resetApp() {
-            localStorage.clear()
-            this.appReseted = true
         }
     },
     computed: {
@@ -159,7 +153,7 @@ export default {
         selectedLanguage() {
             this.$i18n.locale = this.selectedLanguage
             localStorage.setItem('language', this.selectedLanguage)
-            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title')
+            document.title = `MA Vitesse | ${this.$i18n.t('global.app_meta_title')}`
         }
     }
 }

@@ -1,16 +1,8 @@
 <template>
     <div class="flex h-full w-full">
-        <div class="flex w-full sm:flex-col md:flex-col justify-start" v-if="distance <= 1000 && duration && speed">
-            <div
-                class="
-                    flex flex-col
-                    sm:mb-4
-                    md:mb-4
-                    sm:flex-row sm:items-center sm:justify-between
-                    md:flex-row md:items-center md:justify-between
-                "
-            >
-                <div class="laptime-start flex flex-col mr-8 sm:mr-0 rounded-lg noselect-nodrag cursor-pointer">
+        <div class="flex w-full flex-col justify-start" v-if="distance <= 1000 && duration && speed">
+            <div class="flex flex-col items-center justify-between mb-4">
+                <div class="laptime-start flex flex-col mr-8 rounded-lg noselect-nodrag cursor-pointer">
                     <div
                         :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
                         @click="laptime_type = 'distance'"
@@ -26,26 +18,10 @@
                         {{ $t('laptime.duration') }}
                     </div>
                 </div>
-                <div
-                    class="
-                        laptime-end
-                        flex
-                        content-center
-                        border border-gray-200
-                        mt-6
-                        sm:mt-0
-                        md:mt-0
-                        py-1
-                        px-1
-                        rounded-lg
-                        mr-8
-                        sm:mr-0
-                        md:mr-0
-                    "
-                >
+                <div class="laptime-end flex content-center border border-gray-200 mt-0 lg:mt-6 mr-0 lg:mr-8 py-1 px-1 rounded-lg">
                     <label aria-label="Switch between distance steps" for="distance-step" />
                     <select
-                        class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
+                        class="appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                         id="distance-step"
                         v-if="laptime_type === 'distance'"
                         v-model="selected_distance_step"
@@ -56,7 +32,7 @@
                     </select>
                     <label aria-label="Switch between duration steps" for="duration-steps" />
                     <select
-                        class="ml-5 appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
+                        class="appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                         id="duration-steps"
                         v-if="laptime_type === 'duration'"
                         v-model="selected_duration_step"
@@ -107,7 +83,7 @@
                             <tr :key="line.remaining_distance" class="border-b" v-for="line in laptime_distance_steps">
                                 <td>
                                     <b>{{ line.remaining_distance }}</b>
-                                    {{ distanceUnit }}
+                                    {{ unitMode }}
                                 </td>
                                 <td>{{ line.duration }}</td>
                                 <td>{{ line.remaining_duration }}</td>
@@ -135,11 +111,11 @@
                                 <td>{{ line.remaining_duration }}</td>
                                 <td>
                                     <b>{{ line.distance }}</b>
-                                    {{ distanceUnit }}
+                                    {{ unitMode }}
                                 </td>
                                 <td>
                                     <b>{{ line.remaining_distance }}</b>
-                                    {{ distanceUnit }}
+                                    {{ unitMode }}
                                 </td>
                             </tr>
                         </tbody>
@@ -182,14 +158,14 @@ export default {
     },
     mounted() {
         this.distance_steps = [
-            { label: '1 ' + this.distanceUnit, value: '1' },
-            { label: '2 ' + this.distanceUnit, value: '2' },
-            { label: '3 ' + this.distanceUnit, value: '3' },
-            { label: '5 ' + this.distanceUnit, value: '5' }
+            { label: '1 ' + this.unitMode, value: '1' },
+            { label: '2 ' + this.unitMode, value: '2' },
+            { label: '3 ' + this.unitMode, value: '3' },
+            { label: '5 ' + this.unitMode, value: '5' }
         ]
     },
     computed: {
-        ...mapState(['distance', 'duration', 'speed', 'oneFieldMode', 'distanceUnit', 'showLapTime']),
+        ...mapState(['distance', 'duration', 'speed', 'oneFieldMode', 'unitMode', 'showLapTime']),
         dataChange() {
             return [this.distance, this.duration, this.speed, this.steps_count, this.oneFieldMode, this.showLapTime].join('')
         },
@@ -264,12 +240,12 @@ export default {
                 this.laptime_duration_steps.sort((a, b) => b.remaining_distance - a.remaining_distance)
             }
         },
-        distanceUnit() {
+        unitMode() {
             this.distance_steps = [
-                { label: '1 ' + this.distanceUnit, value: '1' },
-                { label: '2 ' + this.distanceUnit, value: '2' },
-                { label: '3 ' + this.distanceUnit, value: '3' },
-                { label: '5 ' + this.distanceUnit, value: '5' }
+                { label: '1 ' + this.unitMode, value: '1' },
+                { label: '2 ' + this.unitMode, value: '2' },
+                { label: '3 ' + this.unitMode, value: '3' },
+                { label: '5 ' + this.unitMode, value: '5' }
             ]
             this.$nextTick(() => {
                 this.selected_distance_step = '1'
