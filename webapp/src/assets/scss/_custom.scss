@@ -1,5 +1,5 @@
 .mv-btn {
-    @apply text-primary rounded-lg px-2 py-1 border-gray-200 border cursor-pointer flex items-center justify-center hover:shadow ring-2 ring-red-500;
+    @apply text-primary rounded-lg px-2 py-1 border-gray-200 border cursor-pointer flex items-center justify-center hover:shadow bg-white;
     transition: box-shadow 100ms ease-in;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -7,6 +7,10 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
     -webkit-user-drag: none;
+}
+
+.mv-btn-rounded {
+    @apply border-gray-200 border rounded-full bg-white ml-1 p-1;
 }
 
 .mv-btn-inverted {
@@ -50,5 +54,33 @@ select {
     > option {
         color: $ma-primary;
         text-align: center;
+    }
+}
+
+table,
+th,
+td {
+    @apply border-gray-500 border-collapse;
+}
+
+th {
+    @apply text-primary text-center border-b border-primary px-3 py-1;
+    background-color: rgba(white, 0.2);
+}
+
+table tr:first-child th:first-child {
+    @apply rounded-tl-lg;
+}
+
+table tr:first-child th:last-child {
+    @apply rounded-tr-lg;
+}
+
+tr {
+    @apply border-b text-center;
+
+    &:hover :not(th) {
+        @apply cursor-default;
+        background-color: rgba(#edf2f7, 0.2);
     }
 }

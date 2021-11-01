@@ -9,6 +9,7 @@
                 <input
                     class="pl-4 text-right bg-transparent outline-none text-white"
                     id="distanceLabel"
+                    autocomplete="off" data-form-type="text"
                     :placeholder="$t('add_preset.label_eg')"
                     v-model="label"
                 />
@@ -22,6 +23,7 @@
                         placeholder="12.5"
                         type="number"
                         v-model="distance"
+                        autocomplete="off" data-form-type="text"
                     />
                     <span class="pl-2 text-white">km</span>
                 </div>

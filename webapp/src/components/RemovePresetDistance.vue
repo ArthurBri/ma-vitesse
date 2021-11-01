@@ -119,35 +119,6 @@ export default {
     }
 }
 
-table,
-th,
-td {
-    border-collapse: collapse;
-    padding: 5px 5px 5px 5px;
-    @apply text-primary border-gray-500;
-}
-
-th {
-    @apply bg-primary text-white text-center pl-3;
-}
-
-table tr:first-child th:first-child {
-    border-top-left-radius: 8px;
-}
-
-table tr:first-child th:last-child {
-    border-top-right-radius: 8px;
-}
-
-tr {
-    @apply border-b;
-
-    &:hover {
-        @apply cursor-default table-fixed;
-        background-color: rgba($ma-primary, 0.2);
-    }
-}
-
 .icon {
     filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
 }

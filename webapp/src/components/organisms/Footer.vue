@@ -4,7 +4,7 @@
             <div class="footer-start flex flex-row">
                 <div class="logo cursor-pointer">
                     <img alt="logo" class=" w-8 lg:w-12 transform rotate-90" src="../../assets/logo.svg" />
-                    <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl xl:text-2xl">
+                    <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl">
                         <span>{{ $t('global.app_name') }}</span>
                     </h1>
                 </div>
@@ -135,6 +135,7 @@ export default {
 <style lang="scss" scoped>
 .footer {
     @apply bg-white bg-opacity-80 backdrop-blur-md flex items-center fixed bottom-0 justify-between w-full z-30 p-3 text-xl font-bold border-t border-gray-200;
+    max-height: $footer-height;
 }
 
 .logo {

@@ -14,7 +14,7 @@
                             mr-10
                             sm:text-xl sm:m-3 sm:mb-0
                             md:text-xl md:mt-2
-                            lg:text-2xl
+                            lg:text-xl
                         "
                     >
                         {{ $t('all_ma.title') }}
@@ -50,7 +50,7 @@
                         >
                             <div class="flex items-center mt-4">
                                 <img :src="item.logo" alt="Mean App logo" class="h-24 sm:h-12 xs:h-8" />
-                                <span class="text-2xl sm:text-base">{{ item.name }}</span>
+                                <span class="text-xl sm:text-base">{{ item.name }}</span>
                             </div>
                             <span class="p-4 text-justify sm:text-xs">{{ item.description }}</span>
                         </div>

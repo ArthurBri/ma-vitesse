@@ -1,9 +1,9 @@
 <template>
     <div class="main-box flex-grow-0 p-3 lg:p-6 lg:m-4 sm:w-full overflow-x-auto">
-        <div class="flex h-8 items-center content-center" v-if="!calculatedField">
+        <div class="flex h-8 items-center content-center max-w-screen-sm" v-if="!calculatedField">
             <img alt="calaculator icon" class="w-6 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
-            <div class="pl-2 leading-none">
-                <h2 class="noselect-nodrag self-center font-semibold text-lg lg:text-2xl text-secondary">
+            <div class="pl-2 leading-none relative truncate">
+                <h2 class="font-semibold text-lg lg:text-xl text-secondary">
                     {{ $t('calculator.description') }}
                 </h2>
                 <p class="text-xs">{{ $t('calculator.hint') }}</p>
@@ -17,7 +17,7 @@
                         <div class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) | lowercase($i18n.locale === 'fr') }}</div>
                         <div>{{ $t('calculator.calculation_label') }}</div>
                     </h2>
-                    <button @click="clearFields" class="border-gray-200 border rounded-full bg-white ml-1 p-1">
+                    <button @click="clearFields" class="mv-btn-rounded">
                         <img
                             alt="clear field button"
                             class="h-2 clear-fields-button"

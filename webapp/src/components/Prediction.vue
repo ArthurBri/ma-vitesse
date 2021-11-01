@@ -1,6 +1,6 @@
 <template>
-    <div class="flex items-center h-full flex-col">
-        <div class="flex items-center justify-between xs:flex-col" v-if="distance && duration && defaultDistances.length">
+    <div class="flex items-center h-full flex-col gap-4">
+        <div class="flex items-center justify-between xs:flex-col w-full gap-2" v-if="distance && duration && defaultDistances.length">
             <div class="formula-switch">
                 <div
                     v-for="formula in formulaList"
@@ -13,26 +13,26 @@
                     <span v-else>{{ $t('common.none') }}</span>
                 </div>
             </div>
-            {{ selectedFormula.description }}
+            <span class="whitespace-nowrap">{{ selectedFormula.description }}</span>
         </div>
-        <div class="flex items-stretch justify-center" v-if="distance && duration && defaultDistances.length">
+        <div class="flex items-stretch justify-center w-full" v-if="distance && duration && defaultDistances.length">
             <table class="w-full">
                 <tr>
                     <th>{{ $t('calculator.distance') }}</th>
-                    <th>{{ $t('predictions.estimated_duration') }}</th>
+                    <th>{{ $t('predictions.estimatedDuration') }}</th>
                 </tr>
                 <tr :key="item.label" v-for="item in updatedPredictions">
-                    <td class="text-center">{{ item.label }}</td>
+                    <td class="text-center">{{ $t(item.label) }}</td>
                     <td class="text-center">{{ item.duration }}</td>
                 </tr>
             </table>
         </div>
         <div class="flex h-full items-center">
             <p class="text-center" v-if="!distance || !duration">
-                {{ $t('predictions.label_no_calculation') }}
+                {{ $t('predictions.noCalculation') }}
             </p>
             <p class="text-center" v-if="!defaultDistances.length">
-                {{ $t('predictions.label_no_distances') }}
+                {{ $t('predictions.noDistances') }}
             </p>
         </div>
     </div>
@@ -89,33 +89,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-table,
-th,
-td {
-    @apply border-gray-500 border-collapse;
-}
-
-th {
-    @apply text-primary text-center border-b-2 px-3 py-1;
-    background-color: rgba(white, 0.2);
-}
-
-table tr:first-child th:first-child {
-    @apply rounded-tl-lg;
-}
-
-table tr:first-child th:last-child {
-    @apply rounded-tr-lg;
-}
-
-tr {
-    @apply border-b;
-
-    &:hover :not(th) {
-        @apply cursor-default;
-        background-color: rgba(#edf2f7, 0.2);
-    }
-}
 
 .formula-switch {
     @apply flex cursor-pointer rounded-lg;

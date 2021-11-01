@@ -1,9 +1,7 @@
 <template>
     <drawer @close="close" v-show="isModalVisible">
         <template v-slot:header>
-            <div>
-                <h2>{{ $t('settings.title') }}</h2>
-            </div>
+            <h2>{{ $t('settings.title') }}</h2>
         </template>
         <template v-slot:body>
             <div class="px-4 flex flex-col gap-4">

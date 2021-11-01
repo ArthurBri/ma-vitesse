@@ -33,7 +33,7 @@ export default {
 
 <style lang="scss" scoped>
 .tab {
-    @apply pl-2 relative overflow-hidden rounded-lg bg-white border-gray-200 border cursor-pointer;
+    @apply pl-2 relative rounded-lg bg-white border-gray-200 border cursor-pointer;
 
     &.active {
         @apply bg-primary text-white;

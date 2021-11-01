@@ -128,6 +128,7 @@ export default {
 .body {
     @apply flex flex-grow flex-wrap ml-0 justify-center w-full lg:w-2/3 items-start content-start
     lg:pt-8 sm:pt-3 md:pt-4 overflow-hidden;
+    margin-bottom: $footer-height;
 }
 
 .app-description {
@@ -135,11 +136,11 @@ export default {
 }
 
 .tabs {
-    @apply flex flex-col mr-1 gap-1;
+    @apply flex lg:flex-col overflow-auto mb-1 lg:mr-1 gap-1;
 }
 
 .tabs-menu {
-    @apply flex w-full lg:w-full justify-center;
+    @apply flex flex-col lg:flex-row w-full lg:w-full justify-center;
 }
 
 h2,
@@ -149,7 +150,7 @@ p {
 }
 
 .tabs-content-wrapper {
-    @apply flex flex-col w-1/2 overflow-auto border-gray-200 border rounded-lg bg-white p-6;
+    @apply flex flex-col lg:w-2/3 xl:w-1/2 overflow-auto border-gray-200 border lg:rounded-lg bg-white p-6;
     min-height: 20rem;
     max-height: 50vh;
 }
