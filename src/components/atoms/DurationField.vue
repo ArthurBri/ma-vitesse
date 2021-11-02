@@ -63,16 +63,49 @@
         </div>
         <div @click="oneFieldMode = !oneFieldMode" class="box-option relative w-16 mt-2">
             <div class="h-6 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" :stroke="!oneFieldMode && '#2c3e50'" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="dot"
+                    width="44"
+                    height="44"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    :stroke="!oneFieldMode && '#2c3e50'"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <circle cx="12" cy="12" r="4" />
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="dot"
+                    width="44"
+                    height="44"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#2c3e50"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <circle cx="12" cy="12" r="4" />
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="dot" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" :stroke="!oneFieldMode && '#2c3e50'" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="dot"
+                    width="44"
+                    height="44"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    :stroke="!oneFieldMode && '#2c3e50'"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <circle cx="12" cy="12" r="4" />
                 </svg>
             </div>
@@ -154,10 +187,10 @@ export default {
             this.oneFieldMode && field !== 'duration' && this.$refs.durationOneField.focus()
         },
         updateOneFieldDuration() {
-            this.durationOneField = 
-                (this.hours ? this.minutes || this.seconds ? this.hours + 'h' : this.hours : '') +
-                (this.minutes ? !this.hours || this.seconds ? this.minutes + 'm' : this.minutes : '') +
-                (this.seconds ? !this.minutes ? this.seconds + 's' : this.seconds : '')
+            this.durationOneField =
+                (this.hours ? (this.minutes || this.seconds ? this.hours + 'h' : this.hours) : '') +
+                (this.minutes ? (!this.hours || this.seconds ? this.minutes + 'm' : this.minutes) : '') +
+                (this.seconds ? (!this.minutes ? this.seconds + 's' : this.seconds) : '')
             this.duration = toRawDuration(this.hours, this.minutes, this.seconds)
         },
         getDurationDisplayUnit() {

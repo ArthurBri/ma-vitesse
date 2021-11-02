@@ -9,11 +9,14 @@ self.addEventListener('install', function (event) {
     console.log('[PWA Builder] Install Event processing')
 
     event.waitUntil(
-        caches.open(CACHE).then(function (cache) {
-            // eslint-disable-next-line no-console
-            console.log('[PWA Builder] Cached offline page during install')
-            return cache.add(offlineFallbackPage)
-        }).catch(err => console.error(err))
+        caches
+            .open(CACHE)
+            .then(function (cache) {
+                // eslint-disable-next-line no-console
+                console.log('[PWA Builder] Cached offline page during install')
+                return cache.add(offlineFallbackPage)
+            })
+            .catch((err) => console.error(err))
     )
 })
 

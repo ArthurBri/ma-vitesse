@@ -10,12 +10,12 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore/lite'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDZtOkOz7gKl_3cLr6oDVHD5gwifH8NuIw",
-  authDomain: "ma-vitesse.firebaseapp.com",
-  projectId: "ma-vitesse",
-  storageBucket: "ma-vitesse.appspot.com",
-  messagingSenderId: "410838905826",
-  appId: "1:410838905826:web:7d2e0a9eb8052e90b13fbb"
+    apiKey: 'AIzaSyDZtOkOz7gKl_3cLr6oDVHD5gwifH8NuIw',
+    authDomain: 'ma-vitesse.firebaseapp.com',
+    projectId: 'ma-vitesse',
+    storageBucket: 'ma-vitesse.appspot.com',
+    messagingSenderId: '410838905826',
+    appId: '1:410838905826:web:7d2e0a9eb8052e90b13fbb'
 }
 
 Vue.config.productionTip = false

@@ -70,15 +70,13 @@ export default {
 
             if (this.defaultDistances.find((defaultDist) => defaultDist.label === this.label)) {
                 this.newDistance = false
-                this.matchDistanceValue = this.defaultDistances.find(
-                    (defaultDist) => defaultDist.label === this.label
-                ).distance
+                this.matchDistanceValue = this.defaultDistances.find((defaultDist) => defaultDist.label === this.label).distance
             } else {
                 this.newDistance = true
                 this.matchDistanceValue = ''
             }
         },
-        distance (newVal, oldVal) {
+        distance(newVal, oldVal) {
             if (this.distance) {
                 if (this.distance.match(/^0{2,}(?![.,])/g)) {
                     this.distance = oldVal
@@ -96,9 +94,7 @@ export default {
             }
             if (this.defaultDistances.find((defaultDist) => defaultDist.distance === this.distance)) {
                 this.newDistance = false
-                this.matchDistanceLabel = this.defaultDistances.find(
-                    (defaultDist) => defaultDist.distance === this.distance
-                ).label
+                this.matchDistanceLabel = this.defaultDistances.find((defaultDist) => defaultDist.distance === this.distance).label
             } else {
                 this.newDistance = true
                 this.matchDistanceLabel = ''

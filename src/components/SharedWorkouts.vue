@@ -8,7 +8,11 @@
                         {{ $t('common.live') | capitalize }}
                     </p>
                 </div>
-                <button v-if="calculatedField && timeLimitOk" @click="shareWorkout" class="mv-btn bg-secondary text-white flex py-1 mr-4 gap-2">
+                <button
+                    v-if="calculatedField && timeLimitOk"
+                    @click="shareWorkout"
+                    class="mv-btn bg-secondary text-white flex py-1 mr-4 gap-2"
+                >
                     <span>{{ $t('common.shareYours') }}</span>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

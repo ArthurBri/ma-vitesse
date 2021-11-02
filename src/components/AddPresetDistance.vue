@@ -9,7 +9,8 @@
                 <input
                     class="pl-4 text-right bg-transparent outline-none text-white"
                     id="distanceLabel"
-                    autocomplete="off" data-form-type="text"
+                    autocomplete="off"
+                    data-form-type="text"
                     :placeholder="$t('add_preset.label_eg')"
                     v-model="label"
                 />
@@ -23,7 +24,8 @@
                         placeholder="12.5"
                         type="number"
                         v-model="distance"
-                        autocomplete="off" data-form-type="text"
+                        autocomplete="off"
+                        data-form-type="text"
                     />
                     <span class="pl-2 text-white">km</span>
                 </div>
@@ -72,7 +74,7 @@ export default {
     },
     components: { CenterModal },
     computed: {
-        ...mapState(['defaultDistances']),
+        ...mapState(['defaultDistances'])
     },
     methods: {
         close() {
@@ -94,9 +96,7 @@ export default {
 
             if (this.defaultDistances.find((defaultDist) => defaultDist.label === this.label)) {
                 this.newDistance = false
-                this.matchDistanceValue = this.defaultDistances.find(
-                    (defaultDist) => defaultDist.label === this.label
-                ).distance
+                this.matchDistanceValue = this.defaultDistances.find((defaultDist) => defaultDist.label === this.label).distance
             } else {
                 this.newDistance = true
                 this.matchDistanceValue = ''
@@ -121,9 +121,7 @@ export default {
             }
             if (this.defaultDistances.find((defaultDist) => defaultDist.distance === this.distance)) {
                 this.newLabel = false
-                this.matchDistanceLabel = this.defaultDistances.find(
-                    (defaultDist) => defaultDist.distance === this.distance
-                ).label
+                this.matchDistanceLabel = this.defaultDistances.find((defaultDist) => defaultDist.distance === this.distance).label
             } else {
                 this.newLabel = true
                 this.matchDistanceLabel = ''

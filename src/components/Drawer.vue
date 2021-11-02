@@ -5,11 +5,7 @@
                 <header class="drawer-header text-xl text-white font-bold noselect-nodrag">
                     <slot name="header" />
                     <button @click="close" aria-label="Close drawer" class="mv-btn-rounded" type="button">
-                        <img
-                            alt="clear field button"
-                            class="h-2 clear-fields-button"
-                            src="../assets/icons/cancel.svg"
-                        />
+                        <img alt="clear field button" class="h-2 clear-fields-button" src="../assets/icons/cancel.svg" />
                     </button>
                 </header>
                 <section class="drawer-body">
@@ -53,7 +49,6 @@ export default {
     @apply absolute bg-white md:bg-opacity-80 backdrop-blur overflow-x-auto flex flex-col z-40 top-0 right-0 md:mt-2 md:mr-4 shadow;
     transition: transform 200ms;
     height: calc(100vh - 4rem);
-
 }
 
 @screen lg {
@@ -69,7 +64,7 @@ export default {
 }
 
 .drawer-body {
-    @apply relative h-full px-2 py-4 overflow-auto
+    @apply relative h-full px-2 py-4 overflow-auto;
 }
 
 .slide-left-enter-active {

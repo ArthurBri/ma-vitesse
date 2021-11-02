@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center h-full flex-col gap-4">
         <div class="flex items-center justify-between xs:flex-col w-full gap-2" v-if="distance && duration && defaultDistances.length">
-            <CheckboxButton :options="formulaList" v-model="selectedFormulaValue"/>
+            <CheckboxButton :options="formulaList" v-model="selectedFormulaValue" />
             <span class="whitespace-nowrap">{{ selectedFormula.description }}</span>
         </div>
         <div class="flex items-stretch justify-center w-full" v-if="distance && duration && defaultDistances.length">
@@ -33,7 +33,7 @@ import { toPrettyDuration } from '../utils/formatData'
 import CheckboxButton from '@/components/atoms/CheckboxButton.vue'
 
 export default {
-  components: { CheckboxButton },
+    components: { CheckboxButton },
     name: 'Prediction',
     data() {
         return {
@@ -82,6 +82,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

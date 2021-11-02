@@ -122,7 +122,7 @@ export default {
             set(val) {
                 this.$store.commit('changeUnitMode', val)
             }
-        },
+        }
     },
     methods: {
         changeSpeedFormat() {

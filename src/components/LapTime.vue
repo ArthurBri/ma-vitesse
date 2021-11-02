@@ -111,7 +111,7 @@
     </div>
     <div v-else class="flex items-center justify-center h-full">
         <p v-if="distance > 1000">
-                {{ $t('laptime.maxDistanceExceeded') }}
+            {{ $t('laptime.maxDistanceExceeded') }}
         </p>
         <p v-else>
             {{ $t('laptime.noCalculation') }}
@@ -165,14 +165,17 @@ export default {
                 return Math.ceil(this.duration / this.selected_duration_step)
             }
         },
-        laptimeTypeOptions () {
-            return [{
-                value: 'distance',
-                label: this.$t('common.distance')
-            }, {
-                value: 'duration',
-                label: this.$t('common.duration')
-            }]
+        laptimeTypeOptions() {
+            return [
+                {
+                    value: 'distance',
+                    label: this.$t('common.distance')
+                },
+                {
+                    value: 'duration',
+                    label: this.$t('common.duration')
+                }
+            ]
         }
     },
     watch: {

@@ -10,7 +10,11 @@
                         {{ $t('settings.language_section.title') }}
                     </h1>
                     <div class="flags-list flex">
-                        <div class="flex flex-col items-center noselect-nodrag pr-2" v-for="language in availableLanguages" :key="language.langCode">
+                        <div
+                            class="flex flex-col items-center noselect-nodrag pr-2"
+                            v-for="language in availableLanguages"
+                            :key="language.langCode"
+                        >
                             <span
                                 :class="`flag-icon-${language.countryCode}`"
                                 @click="selectedLanguage = language.langCode"
@@ -39,7 +43,7 @@
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">
                         {{ $t('settings.unit_section.title') }}
                     </h1>
-                    <CheckboxButton :options="unitChoices" v-model="unitMode"/>
+                    <CheckboxButton :options="unitChoices" v-model="unitMode" />
                 </div>
                 <div class="flex flex-col items-start">
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">
@@ -109,8 +113,8 @@ export default {
     },
     computed: {
         ...mapState(['distanceUnits']),
-        unitChoices() {
-            return this.distanceUnits.map(unit => ({
+        unitChoices() {
+            return this.distanceUnits.map((unit) => ({
                 label: unit.label,
                 value: unit.type
             }))

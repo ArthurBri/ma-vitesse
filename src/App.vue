@@ -35,6 +35,7 @@
                 </div>
             </div>
             <Footer />
+            <router-view />
             <shared-workouts class="fixed hidden xl:flex right-8 top-24" />
         </div>
     </div>

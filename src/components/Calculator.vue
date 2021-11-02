@@ -14,15 +14,13 @@
                 <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
                 <div class="flex items-center pl-2 font-semibold mr-4 xl:text-xl relative">
                     <h2 class="flex gap-1" :class="$i18n.locale === 'fr' && 'flex-row-reverse'">
-                        <div class="self-center font-semibold calculated-label">{{ $t('common.' + calculatedField) | lowercase($i18n.locale === 'fr') }}</div>
+                        <div class="self-center font-semibold calculated-label">
+                            {{ $t('common.' + calculatedField) | lowercase($i18n.locale === 'fr') }}
+                        </div>
                         <div>{{ $t('calculator.calculation_label') }}</div>
                     </h2>
                     <button @click="clearFields" class="mv-btn-rounded">
-                        <img
-                            alt="clear field button"
-                            class="h-2 clear-fields-button"
-                            src="../assets/icons/cancel.svg"
-                        />
+                        <img alt="clear field button" class="h-2 clear-fields-button" src="../assets/icons/cancel.svg" />
                     </button>
                 </div>
             </div>
@@ -199,5 +197,4 @@ h1 {
 .calculated-label {
     @apply text-secondary;
 }
-
 </style>

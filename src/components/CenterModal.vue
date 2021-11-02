@@ -86,7 +86,7 @@ export default {
     align-self: start;
     z-index: 3;
     border-radius: 13px;
-    width: 20%;
+    width: 30%;
     min-width: 300px;
 }
 

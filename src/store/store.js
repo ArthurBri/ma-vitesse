@@ -5,50 +5,48 @@ import { version } from '../../package.json'
 
 Vue.use(Vuex)
 
-const getDefaultState = () => (
-    {
-        speed: 0,
-        speedFormat: 'speed',
-        distance: 0,
-        duration: 0,
-        defaultDistances: [
-            { label: 'common.marathon', distance: 42.195 },
-            { label: 'common.half_marathon', distance: 21.0975 },
-            { label: 'common.10_km', distance: 10 }
-        ],
-        unitMode: 'km',
-        distanceUnits: [
-            { type: 'km', label: i18n.t('common.kilometers'), multiplier: 1 },
-            { type: 'mi', label: i18n.t('common.miles'), multiplier: 0.62137119224 }
-        ],
-        speedUnits: [
-            {
-                type: 'km',
-                short: 'km/h',
-                label: i18n.t('common.kilometersPerHour')
-            },
-            { type: 'mi', short: 'mph', label: i18n.t('common.milesPerHour') }
-        ],
-        paceUnits: [
-            {
-                type: 'km',
-                short: 'min/km',
-                label: i18n.t('common.minutesPerKm')
-            },
-            {
-                type: 'mi',
-                short: 'min/mi',
-                label: i18n.t('common.minutesPerMile')
-            }
-        ],
-        showPredictions: true,
-        showLapTime: true,
-        showUpdatesAlert: true,
-        currentUpdateAlert: version,
-        oneFieldMode: false,
-        calculatedField: ''
-    }
-)
+const getDefaultState = () => ({
+    speed: 0,
+    speedFormat: 'speed',
+    distance: 0,
+    duration: 0,
+    defaultDistances: [
+        { label: 'common.marathon', distance: 42.195 },
+        { label: 'common.half_marathon', distance: 21.0975 },
+        { label: 'common.10_km', distance: 10 }
+    ],
+    unitMode: 'km',
+    distanceUnits: [
+        { type: 'km', label: i18n.t('common.kilometers'), multiplier: 1 },
+        { type: 'mi', label: i18n.t('common.miles'), multiplier: 0.62137119224 }
+    ],
+    speedUnits: [
+        {
+            type: 'km',
+            short: 'km/h',
+            label: i18n.t('common.kilometersPerHour')
+        },
+        { type: 'mi', short: 'mph', label: i18n.t('common.milesPerHour') }
+    ],
+    paceUnits: [
+        {
+            type: 'km',
+            short: 'min/km',
+            label: i18n.t('common.minutesPerKm')
+        },
+        {
+            type: 'mi',
+            short: 'min/mi',
+            label: i18n.t('common.minutesPerMile')
+        }
+    ],
+    showPredictions: true,
+    showLapTime: true,
+    showUpdatesAlert: true,
+    currentUpdateAlert: version,
+    oneFieldMode: false,
+    calculatedField: ''
+})
 
 export const store = new Vuex.Store({
     strict: true,
@@ -111,10 +109,8 @@ export const store = new Vuex.Store({
                 }
             }
 
-            const currentMultplier =
-                state.distanceUnits.filter((unitMultiplier) => unitMultiplier.type === currentMode)[0].multiplier || 1
-            const newMultiplier =
-                state.distanceUnits.filter((unitMultiplier) => unitMultiplier.type === state.unitMode)[0].multiplier || 1
+            const currentMultplier = state.distanceUnits.filter((unitMultiplier) => unitMultiplier.type === currentMode)[0].multiplier || 1
+            const newMultiplier = state.distanceUnits.filter((unitMultiplier) => unitMultiplier.type === state.unitMode)[0].multiplier || 1
 
             state.speed = (state.speed * newMultiplier) / currentMultplier || 0
             state.distance = (state.distance * newMultiplier) / currentMultplier || 0
