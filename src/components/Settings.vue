@@ -39,22 +39,7 @@
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">
                         {{ $t('settings.unit_section.title') }}
                     </h1>
-                    <div class="flex rounded-lg">
-                        <div
-                            :class="[unitMode === 'km' ? 'bg-primary text-white font-bold' : 'border border-primary']"
-                            @click="unitMode = 'km'"
-                            class="flex rounded-l-lg px-4 py-1 cursor-pointer"
-                        >
-                            {{ $t('common.kilometers') }}
-                        </div>
-                        <div
-                            :class="[unitMode === 'mi' ? 'bg-primary text-white font-bold' : 'border border-primary']"
-                            @click="unitMode = 'mi'"
-                            class="flex rounded-r-lg px-4 py-1 cursor-pointer"
-                        >
-                            {{ $t('common.miles') }}
-                        </div>
-                    </div>
+                    <CheckboxButton :options="unitChoices" v-model="unitMode"/>
                 </div>
                 <div class="flex flex-col items-start">
                     <h1 class="text-xl font-bold pb-2 noselect-nodrag">
@@ -97,7 +82,8 @@
 
 <script>
 import Drawer from '@/components/Drawer.vue'
-import { mapMutations } from 'vuex'
+import CheckboxButton from '@/components/atoms/CheckboxButton.vue'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
     name: 'Settings',
@@ -111,7 +97,7 @@ export default {
             ]
         }
     },
-    components: { Drawer },
+    components: { Drawer, CheckboxButton },
     mounted() {
         this.selectedLanguage = this.$i18n.locale
     },
@@ -122,6 +108,13 @@ export default {
         }
     },
     computed: {
+        ...mapState(['distanceUnits']),
+        unitChoices() {
+            return this.distanceUnits.map(unit => ({
+                label: unit.label,
+                value: unit.type
+            }))
+        },
         showPredictions: {
             get() {
                 return this.$store.state.showPredictions

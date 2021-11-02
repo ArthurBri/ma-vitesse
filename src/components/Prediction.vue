@@ -1,18 +1,7 @@
 <template>
     <div class="flex items-center h-full flex-col gap-4">
         <div class="flex items-center justify-between xs:flex-col w-full gap-2" v-if="distance && duration && defaultDistances.length">
-            <div class="formula-switch">
-                <div
-                    v-for="formula in formulaList"
-                    :key="formula.name"
-                    @click="selectedFormulaName = formula.name"
-                    class="switch-item"
-                    :class="selectedFormulaName === formula.name && 'active'"
-                >
-                    <span v-if="formula.name !== 'None'">{{ formula.name }}</span>
-                    <span v-else>{{ $t('common.none') }}</span>
-                </div>
-            </div>
+            <CheckboxButton :options="formulaList" v-model="selectedFormulaValue"/>
             <span class="whitespace-nowrap">{{ selectedFormula.description }}</span>
         </div>
         <div class="flex items-stretch justify-center w-full" v-if="distance && duration && defaultDistances.length">
@@ -41,12 +30,14 @@
 <script>
 import { mapState } from 'vuex'
 import { toPrettyDuration } from '../utils/formatData'
+import CheckboxButton from '@/components/atoms/CheckboxButton.vue'
 
 export default {
+  components: { CheckboxButton },
     name: 'Prediction',
     data() {
         return {
-            selectedFormulaName: 'Riegel'
+            selectedFormulaValue: 'riegel'
         }
     },
     computed: {
@@ -54,7 +45,7 @@ export default {
         updatedPredictions() {
             let predictions = JSON.parse(JSON.stringify(this.defaultDistances))
             predictions.forEach((element) => {
-                const ratio = this.formulaList.find((formula) => formula.name == this.selectedFormulaName)?.ratio || 1
+                const ratio = this.formulaList.find((formula) => formula.label == this.selectedFormulaValue)?.ratio || 1
                 element.duration = toPrettyDuration(this.duration * (element.distance / this.distance) * ratio)
             })
             return predictions.filter((i) => i.distance !== this.distance)
@@ -65,24 +56,27 @@ export default {
         formulaList() {
             return [
                 {
-                    name: 'Riegel',
+                    label: 'Riegel',
+                    value: 'riegel',
                     description: this.$i18n.t('predictions.riegel_desc'),
                     ratio: 1.06
                 },
                 {
-                    name: 'Williams',
+                    label: 'Williams',
+                    value: 'williams',
                     description: this.$i18n.t('predictions.williams_desc'),
                     ratio: 1.15
                 },
                 {
-                    name: 'None',
+                    label: 'None',
+                    value: null,
                     description: this.$i18n.t('predictions.none_desc'),
                     ratio: 1
                 }
             ]
         },
         selectedFormula() {
-            return this.formulaList.find((formula) => formula.name === this.selectedFormulaName)
+            return this.formulaList.find((formula) => formula.value === this.selectedFormulaValue)
         }
     }
 }
@@ -90,23 +84,4 @@ export default {
 
 <style lang="scss" scoped>
 
-.formula-switch {
-    @apply flex cursor-pointer rounded-lg;
-
-    :first-child {
-        @apply rounded-l-lg border-r-0;
-    }
-
-    :last-child {
-        @apply rounded-r-lg border-l-0;
-    }
-}
-
-.switch-item {
-    @apply px-2 py-1 border-gray-100 border;
-
-    &.active {
-        @apply text-white bg-secondary font-bold;
-    }
-}
 </style>

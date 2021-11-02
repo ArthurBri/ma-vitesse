@@ -1,29 +1,14 @@
 <template>
     <div class="flex h-full w-full justify-center" v-if="distance <= 1000 && duration && speed">
         <div class="flex flex-col w-full justify-start">
-            <div class="flex items-center justify-between mb-4">
-                <div class="laptime-start flex flex-col mr-8 rounded-lg noselect-nodrag cursor-pointer">
-                    <div
-                        :class="[laptime_type === 'distance' ? 'text-primary bg-white font-bold' : '']"
-                        @click="laptime_type = 'distance'"
-                        class="px-2 py-1 text-center rounded-t-lg border-gray-100 border"
-                    >
-                        {{ $t('laptime.distance') }}
-                    </div>
-                    <div
-                        :class="[laptime_type === 'duration' ? 'text-primary bg-white font-bold' : '']"
-                        @click="laptime_type = 'duration'"
-                        class="px-2 py-1 text-center rounded-b-lg border-gray-100 border"
-                    >
-                        {{ $t('laptime.duration') }}
-                    </div>
-                </div>
-                <div class="laptime-end flex content-center border border-gray-200 mt-0 lg:mt-6 mr-0 lg:mr-8 py-1 px-1 rounded-lg">
+            <div class="flex justify-between items-center mb-4">
+                <CheckboxButton :options="laptimeTypeOptions" v-model="laptimeType" />
+                <div class="laptime-end flex content-center border border-gray-200 mr-0 lg:mr-8 py-1 px-1 rounded-lg">
                     <label aria-label="Switch between distance steps" for="distance-step" />
                     <select
                         class="appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                         id="distance-step"
-                        v-if="laptime_type === 'distance'"
+                        v-if="laptimeType === 'distance'"
                         v-model="selected_distance_step"
                     >
                         <option :key="step.label" :value="step.value" v-for="step in distance_steps">
@@ -34,7 +19,7 @@
                     <select
                         class="appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
                         id="duration-steps"
-                        v-if="laptime_type === 'duration'"
+                        v-if="laptimeType === 'duration'"
                         v-model="selected_duration_step"
                     >
                         <option :value="step.value" :key="step.value" v-for="step in time_steps">
@@ -64,7 +49,7 @@
                 </div>
             </div>
             <div class="w-full">
-                <div v-if="laptime_distance_steps.length && laptime_type === 'distance'">
+                <div v-if="laptime_distance_steps.length && laptimeType === 'distance'">
                     <table class="w-full">
                         <thead>
                             <tr class="leading-tight">
@@ -91,7 +76,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div v-if="laptime_duration_steps.length && laptime_type === 'duration'">
+                <div v-if="laptime_duration_steps.length && laptimeType === 'duration'">
                     <table class="w-full">
                         <thead>
                             <tr class="leading-tight">
@@ -137,12 +122,14 @@
 <script>
 import { mapState } from 'vuex'
 import { toPrettyDuration } from '@/utils/formatData'
+import CheckboxButton from '@/components/atoms/CheckboxButton.vue'
 
 export default {
     name: 'LapTime',
+    components: { CheckboxButton },
     data() {
         return {
-            laptime_type: 'distance',
+            laptimeType: 'distance',
             laptimeSort: 'asc',
             distance_steps: [],
             time_steps: [
@@ -167,16 +154,25 @@ export default {
         ]
     },
     computed: {
-        ...mapState(['distance', 'duration', 'speed', 'oneFieldMode', 'unitMode', 'showLapTime']),
+        ...mapState(['distance', 'duration', 'speed', 'oneFieldMode', 'unitMode', 'showLapTime', 'distanceUnits']),
         dataChange() {
             return [this.distance, this.duration, this.speed, this.steps_count, this.oneFieldMode, this.showLapTime].join('')
         },
         steps_count() {
-            if (this.laptime_type === 'distance') {
+            if (this.laptimeType === 'distance') {
                 return Math.ceil(this.distance / this.selected_distance_step)
-            } else if (this.laptime_type === 'duration') {
+            } else if (this.laptimeType === 'duration') {
                 return Math.ceil(this.duration / this.selected_duration_step)
             }
+        },
+        laptimeTypeOptions () {
+            return [{
+                value: 'distance',
+                label: this.$t('common.distance')
+            }, {
+                value: 'duration',
+                label: this.$t('common.duration')
+            }]
         }
     },
     watch: {
@@ -187,7 +183,7 @@ export default {
                 let remainingDuration = this.duration
 
                 // DISTANCE - Laptime steps
-                if (this.laptime_type === 'distance') {
+                if (this.laptimeType === 'distance') {
                     this.laptime_distance_steps = []
 
                     for (let i = 0; i < this.steps_count; i++) {
@@ -209,7 +205,7 @@ export default {
                         this.laptime_distance_steps.sort((a, b) => a.remainingDistance - b.remainingDistance)
                     }
                     // DURATION
-                } else if (this.laptime_type === 'duration') {
+                } else if (this.laptimeType === 'duration') {
                     this.laptime_duration_steps = []
                     for (let i = 0; i < this.steps_count; i++) {
                         let distance
