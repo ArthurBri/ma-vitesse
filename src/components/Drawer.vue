@@ -1,8 +1,8 @@
 <template>
     <transition name="slide-left">
         <div @click="handleClick($event.target)" class="drawer-backdrop z-40" role="dialog">
-            <div class="drawer rounded-b xl:rounded-lg w-full xl:w-1/5 lg:w-1/3 md:w-1/2" ref="drawer">
-                <header class="drawer-header text-xl text-white font-bold">
+            <div class="drawer w-full xl:w-1/5 lg:w-1/3 md:w-1/2" ref="drawer">
+                <header class="drawer-header text-2xl text-white font-bold">
                     <slot name="header" />
                     <button @click="close" aria-label="Close drawer" class="mv-btn-rounded" type="button">
                         <img alt="clear field button" class="h-2 clear-fields-button" src="../assets/icons/cancel.svg" />
@@ -34,21 +34,13 @@ export default {
 
 <style lang="scss" scoped>
 .drawer-backdrop {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    transition: none;
+    @apply fixed inset-0 flex justify-center items-center transition-none bg-white bg-opacity-40 backdrop-blur-sm;
 }
 
 .drawer {
-    @apply absolute bg-white md:bg-opacity-80 backdrop-blur overflow-x-auto flex flex-col z-40 top-0 right-0 md:mt-2 md:mr-4 shadow;
+    @apply absolute rounded-lg bg-white backdrop-blur overflow-x-auto flex flex-col z-40 lg:bottom-4 lg:right-4 shadow;
     transition: transform 200ms;
-    height: calc(100vh - 4rem);
+    height: calc(100vh - $footer-height);
 }
 
 @screen lg {
@@ -59,7 +51,7 @@ export default {
 }
 
 .drawer-header {
-    @apply bg-secondary bg-opacity-80 flex justify-between items-center outline-none p-3;
+    @apply bg-secondary bg-opacity-80 flex justify-between items-center outline-none h-16 pl-2;
     backdrop-filter: blur(1rem);
 }
 

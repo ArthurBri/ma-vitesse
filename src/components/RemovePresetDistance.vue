@@ -115,10 +115,6 @@ export default {
     }
 }
 
-.icon {
-    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
-}
-
 .icon:hover {
     transform: scale(1.1);
     cursor: pointer;

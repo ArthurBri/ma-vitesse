@@ -29,7 +29,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { toPrettyDuration } from '../utils/formatData'
+import { toPrettyDuration } from '@/utils/formatData'
 import CheckboxButton from '@/components/atoms/CheckboxButton.vue'
 
 export default {

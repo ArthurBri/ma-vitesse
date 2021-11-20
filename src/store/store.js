@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import i18n from './../i18n'
 import { version } from '../../package.json'
 
+import { collection, getDocs, orderBy, limit, query } from 'firebase/firestore/lite'
+
 Vue.use(Vuex)
 
 const getDefaultState = () => ({
@@ -46,7 +48,8 @@ const getDefaultState = () => ({
     currentUpdateAlert: version,
     oneFieldMode: false,
     calculatedField: '',
-    workoutId: null
+    workoutId: null,
+    publicWorkouts: []
 })
 
 export const store = new Vuex.Store({
@@ -156,6 +159,19 @@ export const store = new Vuex.Store({
         },
         setWorkoutId(state, id) {
             state.workoutId = id
+        },
+        setPublicWorkouts(state, workouts) {
+            state.publicWorkouts = workouts
+        }
+    },
+    actions: {
+        async loadWorkouts({ commit }, db) {
+            const workoutsCollection = collection(db, 'workouts')
+            const q = query(workoutsCollection, orderBy('creationDate', 'desc'), limit(5))
+            const workoutSnapshot = await getDocs(q)
+
+            const lastWorkouts = workoutSnapshot.docs.map((doc) => doc.data())
+            this.commit('setPublicWorkouts', lastWorkouts)
         }
     }
 })

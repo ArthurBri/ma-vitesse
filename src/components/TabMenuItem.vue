@@ -33,14 +33,10 @@ export default {
 
 <style lang="scss" scoped>
 .tab {
-    @apply pl-2 relative lg:rounded-lg bg-white lg:border-gray-200 lg:border cursor-pointer whitespace-nowrap;
+    @apply pl-2 relative cursor-pointer whitespace-nowrap text-white;
 
     &.active {
-        @apply bg-primary text-white;
+        @apply border-b-2 border-white;
     }
-}
-
-.icon-inactive {
-    filter: invert(28%) sepia(68%) saturate(797%) hue-rotate(176deg) brightness(100%) contrast(83%);
 }
 </style>

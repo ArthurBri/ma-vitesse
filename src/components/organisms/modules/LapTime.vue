@@ -29,23 +29,10 @@
                 </div>
                 <div
                     @click="switchLaptimeSort"
-                    class="
-                        lg:mr-8
-                        mt-6
-                        sm:mt-0
-                        md:mt-0
-                        px-2
-                        py-1
-                        border border-gray-200
-                        rounded-lg
-                        flex
-                        justify-center
-                        cursor-pointer
-                       
-                    "
+                    class="lg:mr-8 mt-6 sm:mt-0 md:mt-0 px-2 py-1 border border-gray-200 rounded-lg flex justify-center cursor-pointer"
                 >
-                    <img alt="Sort asc" class="h-6" src="../assets/icons/sort-asc.svg" v-if="laptimeSort === 'desc'" />
-                    <img alt="Sort desc" class="h-6" src="../assets/icons/sort-desc.svg" v-else />
+                    <img alt="Sort asc" class="h-6" src="@/assets/icons/sort-asc.svg" v-if="laptimeSort === 'desc'" />
+                    <img alt="Sort desc" class="h-6" src="@/assets/icons/sort-desc.svg" v-else />
                 </div>
             </div>
             <div class="w-full">

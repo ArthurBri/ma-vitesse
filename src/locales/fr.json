@@ -1,7 +1,6 @@
 {
     "global": {
         "app_name": "Vitess",
-        "app_subname": "Assistant d'entraînement pour",
         "app_meta_title": "Calcul de vitesse, durée, distance"
     },
     "common": {
@@ -22,10 +21,9 @@
         "milesPerHour": "Miles par heure",
         "minutesPerKm": "Minutes par kilomètre",
         "minutesPerMile": "Minutes par mile",
-        "live": "direct",
         "in": "en",
         "at": "à",
-        "shareYours": "Partager le vôtre",
+        "share": "Partager",
         "none": "Aucune"
     },
     "add_preset": {
@@ -117,11 +115,8 @@
         "btn_support": "Soutenir le projet",
         "initiated_by": "Proposé par"
     },
-    "all_ma": {
-        "title": "Toutes nos applications"
-    },
     "share_ma": {
-        "yourSuccesses": "Vos exploits"
+        "publicWorkouts": "Workouts around the 🌍"
     },
     "updates_alert": {
         "new_badge": "nouveau",

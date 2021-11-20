@@ -4,7 +4,7 @@
             <div class="footer-start flex flex-row">
                 <div class="logo cursor-pointer">
                     <img alt="logo" class="w-8 lg:w-12" src="../../assets/logo.svg" />
-                    <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl">
+                    <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl text-primary">
                         <span>{{ $t('global.app_name') }}</span>
                     </h1>
                 </div>
@@ -71,24 +71,21 @@
         </div>
         <about @close="closeModal('about')" v-show="showAboutModal" />
         <settings @close="closeModal('settings')" v-show="showSettingsModal" />
-        <all-m-a @close="closeModal('all-MA')" v-show="showAllMaModal" />
     </div>
 </template>
 
 <script>
 import About from '@/components/About.vue'
 import Settings from '@/components/Settings.vue'
-import AllMA from '@/components/AllMA.vue'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
     name: 'Footer',
-    components: { About, Settings, AllMA },
+    components: { About, Settings },
     data() {
         return {
             showAboutModal: false,
-            showSettingsModal: false,
-            showAllMaModal: false
+            showSettingsModal: false
         }
     },
     methods: {
@@ -99,9 +96,6 @@ export default {
                     break
                 case 'settings':
                     this.showSettingsModal = true
-                    break
-                case 'all-MA':
-                    this.showAllMaModal = true
                     break
             }
             document.body.style.position = 'fixed'
@@ -114,9 +108,6 @@ export default {
                     break
                 case 'settings':
                     this.showSettingsModal = false
-                    break
-                case 'all-MA':
-                    this.showAllMaModal = false
                     break
             }
             const scrollY = document.body.style.top
@@ -134,7 +125,7 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-    @apply bg-white bg-opacity-80 backdrop-blur-md flex items-center fixed bottom-0 justify-between w-full z-30 p-3 text-xl font-bold border-t border-gray-200;
+    @apply bg-white lg:bg-transparent lg:border-none lg:backdrop-blur-none bg-opacity-80 border-t border-gray-200 backdrop-blur-md flex items-center fixed bottom-0 justify-between w-full z-30 p-3 text-xl font-bold;
     max-height: $footer-height;
 }
 

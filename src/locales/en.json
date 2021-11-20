@@ -1,8 +1,7 @@
 {
     "global": {
         "app_name": "Vitess",
-        "app_subname": "Training assistant for",
-        "app_meta_title": "Smart calculation tool of speed, duration, distance"
+        "app_meta_title": "Speed, duration and distance calculation tool"
     },
     "common": {
         "duration": "Duration",
@@ -22,10 +21,9 @@
         "milesPerHour": "Miles per hour",
         "minutesPerKm": "Minutes per kilometer",
         "minutesPerMile": "Minutes per mile",
-        "live": "live",
         "in": "in",
         "at": "at",
-        "shareYours": "Share yours",
+        "share": "Share",
         "none": "None"
     },
     "add_preset": {
@@ -109,7 +107,7 @@
     },
     "about": {
         "title": "About",
-        "1st_section": "Vitess is a light, smart and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
+        "1st_section": "Vitess is a light, intuitive and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
         "2nd_section": "The app is 100% free and basic features will remain free forever. The pp is built with soberty, simplicity, and efficiency in mind. That culture is overlapping with a strong guideline of ethical a sustainable developement.",
         "dev_label": "Developer",
         "dev_contact_us": "Contact us",
@@ -118,11 +116,8 @@
         "btn_support": "Support the project",
         "initiated_by": "Initiated by"
     },
-    "all_ma": {
-        "title": "All our apps"
-    },
     "share_ma": {
-        "yourSuccesses": "Your successes"
+        "publicWorkouts": "Workouts around the 🌍"
     },
     "updates_alert": {
         "new_badge": "new",

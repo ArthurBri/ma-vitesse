@@ -1,9 +1,9 @@
 <template>
-    <div class="main-box flex-grow-0 p-3 lg:p-6 lg:m-4 sm:w-full overflow-x-auto">
+    <div class="main-box flex-grow-0 p-3 lg:p-6 sm:w-full overflow-x-auto">
         <div class="flex h-8 items-center content-center max-w-screen-sm" v-if="!calculatedField">
             <img alt="calaculator icon" class="w-6 stroke-current text-secondary" src="../assets/icons/timer.svg" />
-            <div class="pl-2 leading-none relative truncate">
-                <h2 class="font-semibold text-lg lg:text-xl text-secondary">
+            <div class="pl-2 leading-none relative">
+                <h2 class="font-semibold text-lg lg:text-2xl text-secondary">
                     {{ $t('calculator.description') }}
                 </h2>
                 <p class="text-xs">{{ $t('calculator.hint') }}</p>
@@ -24,9 +24,6 @@
                     </button>
                 </div>
             </div>
-            <div class="mr-2">
-                <share-social />
-            </div>
         </div>
         <div class="wrapper">
             <duration-field v-model="duration" :isCalculated="calculatedField === 'duration'" />
@@ -37,7 +34,6 @@
 </template>
 
 <script>
-import ShareSocial from '@/components/ShareSocial.vue'
 import DurationField from './atoms/DurationField.vue'
 import DistanceField from './atoms/DistanceField.vue'
 import SpeedField from './atoms/SpeedField.vue'
@@ -56,7 +52,6 @@ function doubleBinding(propName, mutationName) {
 export default {
     name: 'Calculator',
     components: {
-        ShareSocial,
         DurationField,
         DistanceField,
         SpeedField
@@ -153,18 +148,18 @@ export default {
 
 <style lang="scss">
 .main-box {
-    @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg lg:my-4;
+    @apply rounded-none mt-2 w-full sm:mb-2 md:rounded-lg md:m-2 lg:rounded-lg;
 }
 
 .wrapper {
-    @apply flex flex-wrap flex-row items-center justify-center my-6;
+    @apply flex flex-wrap flex-row items-center justify-center mt-6;
 }
 
 input {
-    @apply font-bold text-xl bg-transparent outline-none;
+    @apply font-bold text-xl text-primary;
 
     &::placeholder {
-        @apply font-light;
+        @apply text-white font-light bg-transparent;
     }
 }
 

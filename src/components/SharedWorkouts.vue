@@ -1,42 +1,14 @@
 <template>
     <div class="flex flex-col items-center">
-        <div class="flex flex-col" v-if="lastWorkouts.length">
-            <div class="flex justify-between items-center pb-4 pr-2">
-                <div class="flex items-center">
-                    <p class="font-bold pl-4">{{ $t('share_ma.yourSuccesses') }}</p>
-                    <p class="blink bg-red-700 text-white text-xs rounded-sm px-1 mx-2 self-center">
-                        {{ $t('common.live') | capitalize }}
-                    </p>
-                </div>
-                <button
-                    v-if="calculatedField && timeLimitOk"
-                    @click="shareWorkout"
-                    class="mv-btn bg-secondary text-white flex py-1 mr-4 gap-2"
-                >
-                    <span>{{ $t('common.shareYours') }}</span>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-share w-4 h-4 stroke-current text-white"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="6" cy="12" r="3" />
-                        <circle cx="18" cy="6" r="3" />
-                        <circle cx="18" cy="18" r="3" />
-                        <line x1="8.7" y1="10.7" x2="15.3" y2="7.3" />
-                        <line x1="8.7" y1="13.3" x2="15.3" y2="16.7" />
-                    </svg>
-                </button>
+        <div class="flex flex-col" v-if="publicWorkouts.length">
+            <div class="flex items-center pb-2">
+                <p class="font-bold pl-4 text-lg">{{ $t('share_ma.publicWorkouts') }}</p>
             </div>
 
-            <div class="flex items-center justify-center">
-                <table class="border-gray-200 text-sm w-full lg:w-64 rounded-lg">
-                    <tbody class="more-workouts z-10 rounded-lg">
-                        <tr v-for="(lastWorkout, index) in lastWorkouts" :key="index.value">
+            <div class="flex items-center justify-center rounded-lg overflow-hidden">
+                <table class="border-gray-200 text-sm w-full">
+                    <tbody class="more-workouts z-10">
+                        <tr v-for="(lastWorkout, index) in publicWorkouts" :key="index.value">
                             <td>
                                 <span :class="`flag-icon flag-icon-${lastWorkout.country} rounded-sm`" />
                             </td>
@@ -95,18 +67,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 import { toPrettyDuration, formatSpeed, toDecimals } from '../utils/formatData'
-import { nanoid } from 'nanoid'
-import { setDoc, doc, collection, getDocs, orderBy, limit, query } from 'firebase/firestore/lite'
-import { getUserCountry } from '../core/country'
 
 export default {
     name: 'SharedWorkouts',
     async mounted() {
         moment.locale(this.$i18n.locale)
-        this.loadWorkouts()
+        this.loadWorkouts(this.$db)
         if (localStorage.getItem('lastSharedWorkout')) {
             this.lastSharedWorkout = localStorage.getItem('lastSharedWorkout')
         }
@@ -116,46 +85,15 @@ export default {
     data() {
         return {
             showAllWorkouts: false,
-            lastWorkouts: [],
             lastSharedWorkout: '',
             timeLimitOk: true
         }
     },
     methods: {
-        showMoreWorkouts() {
-            if (this.lastWorkouts.length > 1) {
-                this.showAllWorkouts = !this.showAllWorkouts
-            }
-        },
-        async shareWorkout() {
-            const id = nanoid()
-            const country = await getUserCountry()
-
-            await setDoc(doc(this.$db, 'workouts', id), {
-                country,
-                distance: this.distance,
-                unit: this.unitMode,
-                duration: this.duration,
-                speed: this.speed,
-                calculatedField: this.calculatedField,
-                creationDate: new Date().toISOString(),
-                type: 'public'
-            })
-            localStorage.setItem('lastSharedWorkout', Date.now())
-            await this.loadWorkouts()
-
-            this.$store.commit('setWorkoutId', id)
-        },
-        async loadWorkouts() {
-            const workoutsCollection = collection(this.$db, 'workouts')
-            const q = query(workoutsCollection, orderBy('creationDate', 'desc'), limit(5))
-            const workoutSnapshot = await getDocs(q)
-
-            this.lastWorkouts = workoutSnapshot.docs.map((doc) => doc.data())
-        }
+        ...mapActions(['loadWorkouts'])
     },
     computed: {
-        ...mapState(['distance', 'speed', 'duration', 'oneFieldMode', 'calculatedField', 'speedFormat', 'unitMode']),
+        ...mapState(['distance', 'speed', 'duration', 'oneFieldMode', 'calculatedField', 'speedFormat', 'unitMode', 'publicWorkouts']),
         locale() {
             return this.$i18n.locale
         }
@@ -197,10 +135,6 @@ td {
 .more-workouts {
     @apply rounded-b-lg text-primary overflow-hidden bg-white bg-opacity-80;
     transition: all 400ms linear;
-}
-
-.blink {
-    animation: blinking 4000ms infinite;
 }
 
 @keyframes blinking {
@@ -249,7 +183,6 @@ td {
 }
 
 table {
-    @apply overflow-hidden;
-    width: 400px;
+    @apply overflow-auto;
 }
 </style>

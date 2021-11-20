@@ -18,7 +18,7 @@
 }
 
 .calculator-field {
-    @apply flex items-center justify-center text-lg text-primary bg-white p-3 border-gray-200 border shadow-sm rounded-l-xl rounded-tr-xl;
+    @apply flex items-center justify-center text-lg text-primary bg-white p-3 focus-within:ring-2 ring-primary ring-opacity-80 border shadow-sm rounded-l-xl rounded-tr-xl;
     transition: box-shadow 200ms ease-in;
 }
 
@@ -32,6 +32,10 @@
 
 .calculated {
     @apply bg-secondary text-white;
+
+    input {
+        opacity: 1;
+    }
 }
 
 .primary-icon {
@@ -60,27 +64,27 @@ select {
 table,
 th,
 td {
-    @apply border-gray-500 border-collapse;
+    @apply border-gray-500 border-collapse h-10;
 }
 
 th {
     @apply text-primary text-center border-b border-primary px-3 py-1;
-    background-color: rgba(white, 0.2);
 }
 
-table tr:first-child th:first-child {
+table tr:first-child,
+table th:first-child {
     @apply rounded-tl-lg;
 }
 
-table tr:first-child th:last-child {
+table tr:first-child,
+table th:last-child {
     @apply rounded-tr-lg;
 }
 
 tr {
     @apply border-b text-center;
 
-    &:hover :not(th) {
-        @apply cursor-default;
-        background-color: rgba(#edf2f7, 0.2);
+    &:hover td {
+        background-color: rgba($ma-secondary, 0.1);
     }
 }

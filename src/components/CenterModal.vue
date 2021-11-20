@@ -143,8 +143,4 @@ export default {
 .modal-fade-leave-active {
     transition: opacity 0.5s ease;
 }
-
-.icon {
-    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
-}
 </style>
