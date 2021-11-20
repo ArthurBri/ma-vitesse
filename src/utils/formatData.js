@@ -121,3 +121,7 @@ export function formatDuration(duration) {
 export function toRawDuration(hours, minutes, seconds) {
     return +hours + +minutes / 60 + +seconds / 3600
 }
+
+export function toDecimals(value, decimals) {
+    return value?.toFixed(decimals).replace(/(\.0+|0+)$/, '') || ''
+}

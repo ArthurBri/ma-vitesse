@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex flex-col items-center">
         <div class="flex flex-col" v-if="lastWorkouts.length">
-            <div class="flex justify-between items-center pb-2 pr-2">
+            <div class="flex justify-between items-center pb-4 pr-2">
                 <div class="flex items-center">
                     <p class="font-bold pl-4">{{ $t('share_ma.yourSuccesses') }}</p>
                     <p class="blink bg-red-700 text-white text-xs rounded-sm px-1 mx-2 self-center">
@@ -38,7 +38,7 @@
                     <tbody class="more-workouts z-10 rounded-lg">
                         <tr v-for="(lastWorkout, index) in lastWorkouts" :key="index.value">
                             <td>
-                                <span :class="`flag-icon flag-icon-${lastWorkout.country}`" />
+                                <span :class="`flag-icon flag-icon-${lastWorkout.country} rounded-sm`" />
                             </td>
                             <td class="noselect-nodrag">
                                 <span class="font-bold">{{ lastWorkout.distance | formatDistance }} {{ lastWorkout.unit }}</span>
@@ -53,37 +53,37 @@
                             </td>
                             <td class="align-middle">
                                 <img
-                                    class="h-4 text-center align-middle noselect-nodrag"
+                                    class="h-4 text-center align-middle"
                                     alt="Rocket icon"
                                     src="../assets/icons/rocket.svg"
                                     v-if="lastWorkout.speed > 140"
                                 />
                                 <img
-                                    class="h-4 text-center align-middle noselect-nodrag"
+                                    class="h-4 text-center align-middle"
                                     alt="Bike icon"
                                     src="../assets/icons/bike.svg"
                                     v-if="lastWorkout.speed > 20 && lastWorkout.speed <= 40"
                                 />
                                 <img
-                                    class="w-4 text-center align-middle noselect-nodrag"
+                                    class="w-4 text-center align-middle"
                                     alt="Car icon"
                                     src="../assets/icons/car.svg"
                                     v-if="lastWorkout.speed > 40 && lastWorkout.speed <= 140"
                                 />
                                 <img
-                                    class="w-4 text-center align-middle noselect-nodrag"
+                                    class="w-4 text-center align-middle"
                                     alt="Run icon"
                                     src="../assets/icons/run.svg"
                                     v-if="lastWorkout.speed > 7 && lastWorkout.speed <= 20"
                                 />
                                 <img
-                                    class="w-4 text-center align-middle noselect-nodrag"
+                                    class="w-4 text-center align-middle"
                                     alt="Walk icon"
                                     src="../assets/icons/walk.svg"
                                     v-if="lastWorkout.speed <= 7"
                                 />
                             </td>
-                            <td class="text-center noselect-nodrag whitespace-nowrap">
+                            <td class="text-center whitespace-nowrap">
                                 {{ lastWorkout.creationDate | moment }}
                             </td>
                         </tr>
@@ -97,7 +97,7 @@
 <script>
 import { mapState } from 'vuex'
 import moment from 'moment'
-import { toPrettyDuration, formatSpeed } from '../utils/formatData'
+import { toPrettyDuration, formatSpeed, toDecimals } from '../utils/formatData'
 import { nanoid } from 'nanoid'
 import { setDoc, doc, collection, getDocs, orderBy, limit, query } from 'firebase/firestore/lite'
 import { getUserCountry } from '../core/country'
@@ -143,6 +143,8 @@ export default {
             })
             localStorage.setItem('lastSharedWorkout', Date.now())
             await this.loadWorkouts()
+
+            this.$store.commit('setWorkoutId', id)
         },
         async loadWorkouts() {
             const workoutsCollection = collection(this.$db, 'workouts')
@@ -181,7 +183,7 @@ export default {
         },
         formatDistance(value) {
             if (!value) return ''
-            return value.toFixed(4).replace(/(\.0+|0+)$/, '')
+            return toDecimals(value, 2)
         }
     }
 }
@@ -244,5 +246,10 @@ td {
 .chevron.animated {
     @apply rotate-0 transform;
     animation: move-bottom 2000ms infinite;
+}
+
+table {
+    @apply overflow-hidden;
+    width: 400px;
 }
 </style>

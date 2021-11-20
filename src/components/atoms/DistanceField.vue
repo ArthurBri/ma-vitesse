@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="flex flex-col h-24 noselect-nodrag mt-2 ml-3 mr-3">
-            <div :class="isCalculated && 'calculated noselect-nodrag'" class="calculator-field distance">
+        <div class="flex flex-col h-24 mt-2 ml-3 mr-3">
+            <div :class="isCalculated && 'calculated'" class="calculator-field distance">
                 <label @click="focusMe('distance')" for="distance">{{ $t('calculator.distance') }}</label>
                 <div class="flex">
                     <input
@@ -52,6 +52,7 @@ import { mapState } from 'vuex'
 import AddPresetDistance from '@/components/AddPresetDistance.vue'
 import RemovePresetDistance from '@/components/RemovePresetDistance.vue'
 import fieldOperations from '@/mixins/fieldOperations'
+import { toDecimals } from '../../utils/formatData'
 
 export default {
     name: 'DistanceField',
@@ -78,7 +79,7 @@ export default {
         ...mapState(['unitMultipliers', 'distanceUnits', 'defaultDistances']),
         distanceAsString: {
             get() {
-                return this.value !== 0 ? this.value?.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
+                return toDecimals(this.value, 4)
             },
             set(val) {
                 this.$emit('input', parseFloat(val || 0))

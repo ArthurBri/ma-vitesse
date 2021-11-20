@@ -45,7 +45,8 @@ const getDefaultState = () => ({
     showUpdatesAlert: true,
     currentUpdateAlert: version,
     oneFieldMode: false,
-    calculatedField: ''
+    calculatedField: '',
+    workoutId: null
 })
 
 export const store = new Vuex.Store({
@@ -152,6 +153,9 @@ export const store = new Vuex.Store({
         resetApp(state) {
             localStorage.clear()
             Object.assign(state, getDefaultState())
+        },
+        setWorkoutId(state, id) {
+            state.workoutId = id
         }
     }
 })

@@ -7,7 +7,8 @@ import i18n from './i18n'
 import router from './router'
 
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore/lite'
+import { getFirestore, setDoc, doc, serverTimestamp } from 'firebase/firestore/lite'
+import { getAuth, signInAnonymously } from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDZtOkOz7gKl_3cLr6oDVHD5gwifH8NuIw',
@@ -29,6 +30,22 @@ new Vue({
     beforeCreate() {
         store.commit('initializeStore')
         const firebaseApp = initializeApp(firebaseConfig)
+
+        const auth = getAuth()
+
+        const db = getFirestore(firebaseApp)
+
+        signInAnonymously(auth).then(async function(auth) {
+            var userDoc = doc(db, "users", auth.user.uid);
+            await setDoc(userDoc, {
+                timestamp: serverTimestamp()
+            }).then(function() {
+                console.log("Written at " + new Date());
+            }).catch(function(error) {
+                console.error('ohoh', error.code);
+            })
+        })
+
         Vue.prototype.$db = getFirestore(firebaseApp)
     }
 }).$mount('#app')

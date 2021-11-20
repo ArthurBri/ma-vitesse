@@ -1,6 +1,6 @@
 {
     "global": {
-        "app_name": "MA Vitesse",
+        "app_name": "Vitess",
         "app_subname": "Training assistant for",
         "app_meta_title": "Smart calculation tool of speed, duration, distance"
     },
@@ -93,8 +93,8 @@
     },
     "suggest_feature": {
         "title": "Suggest a feature",
-        "description": "MA Vitesse is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
-        "suggest_label": "In MA Vitesse, I would like to......",
+        "description": "Vitess is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
+        "suggest_label": "In Vitess, I would like to......",
         "suggest_label_placeholder": "keep a history of my workouts.",
         "suggest_email": "An email address ? ",
         "suggest_email_placeholder": "irunfast@mail.com",
@@ -109,8 +109,8 @@
     },
     "about": {
         "title": "About",
-        "1st_section": "MA Vitesse is a light, smart and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
-        "2nd_section": "The app is 100% free and basic features will remain free forever. MA Vitesse is a part of Mean Apps, a library of tools with a culture of modernity, soberty, simplicity, and efficacity. That culture is overlapping with a strong guideline of ethical a sustainable developement.",
+        "1st_section": "Vitess is a light, smart and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
+        "2nd_section": "The app is 100% free and basic features will remain free forever. The pp is built with soberty, simplicity, and efficiency in mind. That culture is overlapping with a strong guideline of ethical a sustainable developement.",
         "dev_label": "Developer",
         "dev_contact_us": "Contact us",
         "dev_to_join_message": "to join the project.",

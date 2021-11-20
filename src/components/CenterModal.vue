@@ -5,7 +5,7 @@
                 <header class="modal-header text-xl font-bold">
                     <slot name="header" />
                     <span @click="close" class="pl-2 icon self-start m-1"
-                        ><img alt="delete a distance" class="icon-close w-4 noselect-nodrag" src="../assets/icons/cancel.svg"
+                        ><img alt="delete a distance" class="icon-close w-4" src="../assets/icons/cancel.svg"
                     /></span>
                 </header>
                 <section class="modal-body text-primary">
@@ -13,7 +13,7 @@
                 </section>
                 <footer class="modal-footer" v-if="footer === true">
                     <slot name="footer">
-                        <button @click="close" aria-label="Close modal" class="btn noselect-nodrag outline-none" type="button">
+                        <button @click="close" aria-label="Close modal" class="btn outline-none" type="button">
                             <slot>{{ $t('common.close') }}</slot>
                         </button>
                     </slot>
@@ -97,7 +97,7 @@ export default {
 }
 
 .modal-header {
-    color: $ma-primary;
+    @apply text-primary;
     justify-content: space-between;
     align-items: center;
 }
@@ -115,8 +115,7 @@ export default {
 }
 
 .btn {
-    color: white;
-    background: $ma-primary;
+    @apply text-white bg-primary;
     border: 1px solid #4aae9b;
     border-radius: 2px;
 }

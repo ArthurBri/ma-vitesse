@@ -1,11 +1,11 @@
 {
     "dir": "ltr",
     "lang": "fr",
-    "name": "MA Vitesse | Calcul intelligent de vitesse, durée, distance.",
+    "name": "Vitess | Calcul de vitesse, durée, distance.",
     "scope": "/",
     "display": "standalone",
     "start_url": "./",
-    "short_name": "MA Vitesse",
+    "short_name": "Vitess",
     "description": "",
     "orientation": "portrait",
     "icons": [

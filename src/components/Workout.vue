@@ -87,15 +87,15 @@ export default {
     },
     components: { CenterModal },
     async mounted() {
-
-        console.log(this.$route.params.id, this.$db)
         const docRef = doc(this.$db, "workouts", this.$route.params.id)
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
-            this.workout = docSnap.data()
-            this.workout.creationDate = moment(this.workout.creationDate.format).format('L')
-            this.workout.duration = toPrettyDuration(this.workout.duration, this.oneFieldMode)        
+            this.workout = {
+                ...docSnap.data(),
+                creationDate: moment(this.workout.creationDate.format).format('L'),
+                duration: toPrettyDuration(this.workout.duration, this.oneFieldMode)  
+            }      
         } else {
             this.workout = ''
         }

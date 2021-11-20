@@ -1,8 +1,8 @@
 {
     "global": {
-        "app_name": "MA Vitesse",
+        "app_name": "Vitess",
         "app_subname": "Assistant d'entraînement pour",
-        "app_meta_title": "Calcul intelligent de vitesse, durée, distance"
+        "app_meta_title": "Calcul de vitesse, durée, distance"
     },
     "common": {
         "duration": "Durée",
@@ -92,8 +92,8 @@
     },
     "suggest_feature": {
         "title": "Proposer une fonctionnalité",
-        "description": "MA Vitesse se construit grâce aux idées de ses utilisateurs. Proposez ci-dessous une fonctionnalité que vous souhaiteriez voir integrée à l'application. Si elle correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir.",
-        "suggest_label": "Dans MA Vitesse, je voudrais...",
+        "description": "Vitess se construit grâce aux idées de ses utilisateurs. Proposez ci-dessous une fonctionnalité que vous souhaiteriez voir integrée à l'application. Si elle correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir.",
+        "suggest_label": "Dans Vitess, je voudrais...",
         "suggest_label_placeholder": "garder un historique de mes courses.",
         "suggest_email": "Une adresse email ?",
         "suggest_email_placeholder": "jecoursvite@mail.com",
@@ -108,8 +108,8 @@
     },
     "about": {
         "title": "A propos",
-        "1st_section": "MA Vitesse est une application légère, intelligente et moderne de calculs pour activités sportives telles que la course à pied, le vélo, la randonnée. Elle a pour ambition de devenir une alternative légère aux cadors (Strava, Endomondo). Elle repose sur un principe de transparence : l'application ne collecte pas de données autre que pour sauvegarder l'historique du sportif ou de la sportive en tout anonymat et sans utilisation commerciale. L'application est en constante évolution de l'expérience utilisateur via un ajout régulier de fonctionnalités.",
-        "2nd_section": "L'application est 100% gratuite et ses fonctions basiques le seront pour toujours. Ma Vitesse fait partie du groupe d'aplications Mean Apps, une bibliothèque d'outils basée sur des principes de modernité, sobriété, simplicité et d'efficacité. Ces valeurs s'associent à un souhait profond de développement éthique et durable.",
+        "1st_section": "Vitess est une application légère, intuitive et moderne de calculs pour activités sportives telles que la course à pied, le vélo, la randonnée. Elle a pour ambition de devenir une alternative légère aux cadors (Strava, Endomondo). Elle repose sur un principe de transparence : l'application ne collecte pas de données autre que pour sauvegarder l'historique du sportif ou de la sportive en tout anonymat et sans utilisation commerciale. L'application est en constante évolution de l'expérience utilisateur via un ajout régulier de fonctionnalités.",
+        "2nd_section": "L'application est 100% gratuite et ses fonctions basiques le seront pour toujours. Vitess fait partie du groupe d'aplications Mean Apps, une bibliothèque d'outils basée sur des principes de modernité, sobriété, simplicité et d'efficacité. Ces valeurs s'associent à un souhait profond de développement éthique et durable.",
         "dev_label": "Développeur.se",
         "dev_contact_us": "Contactez-nous",
         "dev_to_join_message": "pour rejoindre le projet.",

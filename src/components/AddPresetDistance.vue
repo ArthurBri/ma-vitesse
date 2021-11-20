@@ -1,7 +1,7 @@
 <template>
     <center-modal :footer="false" @close="close" margin_top="30vh" v-show="isModalVisible">
         <template v-slot:header>
-            <h2 class="noselect-nodrag">{{ $t('add_preset.title') }}</h2>
+            <h2>{{ $t('add_preset.title') }}</h2>
         </template>
         <template class="flex justify-center content-center" v-slot:body>
             <div class="bg-primary p-2 rounded-l-lg rounded-t-lg flex justify-between">
@@ -34,7 +34,7 @@
                 <button
                     @click="addDistance"
                     aria-label="Add distance"
-                    class="btn noselect-nodrag outline-none focus:outline-none rounded-lg mt-2 pl-2 pr-2 pt-1 pb-1 border-primary border"
+                    class="btn outline-none focus:outline-none rounded-lg mt-2 pl-2 pr-2 pt-1 pb-1 border-primary border"
                     type="button"
                 >
                     Ajouter

@@ -3,7 +3,7 @@
         <div class="footer">
             <div class="footer-start flex flex-row">
                 <div class="logo cursor-pointer">
-                    <img alt="logo" class="w-8 lg:w-12 transform rotate-90" src="../../assets/logo.svg" />
+                    <img alt="logo" class="w-8 lg:w-12" src="../../assets/logo.svg" />
                     <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl">
                         <span>{{ $t('global.app_name') }}</span>
                     </h1>

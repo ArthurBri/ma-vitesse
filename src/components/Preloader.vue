@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div class="preloader flex flex-col text-white justify-center items-center">
-            <img alt="MV Logo" class="w-24" src="../assets/logo.svg" />
+            <img alt="Vitess Logo" class="w-32" src="../assets/logo.svg" />
             <div class="ml-2 lds-ellipsis">
                 <div></div>
                 <div></div>

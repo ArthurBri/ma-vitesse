@@ -1,8 +1,8 @@
 <template>
     <div class="tab" :class="isActive && 'active'" v-show="isVisible">
         <div class="flex h-8 mt-1 ml-1 mr-1 pb-1 leading-none font-light">
-            <img :class="!isActive && 'icon-inactive'" :src="icon" alt="Component icon" class="w-6 noselect-nodrag" />
-            <h2 class="noselect-nodrag self-center pl-2 font-semibold cursor-pointer">
+            <img :class="!isActive && 'icon-inactive'" :src="icon" alt="Component icon" class="w-6" />
+            <h2 class="self-center pl-2 font-semibold cursor-pointer">
                 {{ label }}
             </h2>
         </div>

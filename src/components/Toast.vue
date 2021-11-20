@@ -5,7 +5,7 @@
                 <span class="flex rounded-full bg-green-500 p-1 font-bold mr-3">
                     <span class="mv-icon mv-icon-correct white-icon m-1" style="font-size: 0.7rem" />
                 </span>
-                <span class="font-semibold mr-2 text-left flex-auto noselect-nodrag">You have already shared a workout for today.</span>
+                <span class="font-semibold mr-2 text-left flex-auto">You have already shared a workout for today.</span>
                 <span class="cursor-pointer mv-icon mv-icon-cancel primary-icon text-sm" />
             </div>
         </div>
@@ -14,7 +14,7 @@
                 <span class="flex rounded-full bg-red-500 p-1 font-bold mr-3">
                     <span class="mv-icon mv-icon-cancel m-1" style="font-size: 0.7rem" />
                 </span>
-                <span class="font-semibold mr-2 text-left flex-auto noselect-nodrag">Link copied in clipboard</span>
+                <span class="font-semibold mr-2 text-left flex-auto">Link copied in clipboard</span>
                 <span class="cursor-pointer mv-icon mv-icon-cancel primary-icon text-sm" />
             </div>
         </div>

@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col h-24 mt-2 ml-3 mr-3">
-        <div :class="isCalculated && 'calculated noselect-nodrag'" class="calculator-field speed self-stretch justify-between">
-            <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="speed" v-if="speedFormat === 'speed'">
+        <div :class="isCalculated && 'calculated'" class="calculator-field speed self-stretch justify-between">
+            <label @click="focusMe('speed')" class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">
                 {{ $t('calculator.speed') }}
             </label>
-            <label @click="focusMe('speed')" class="w-16 sm:w-8 noselect-nodrag" for="pace" v-if="speedFormat === 'pace'">
+            <label @click="focusMe('speed')" class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">
                 {{ $t('calculator.pace') }}
             </label>
             <div class="flex">
@@ -78,7 +78,7 @@
 import { mapState } from 'vuex'
 import fieldOperations from '@/mixins/fieldOperations'
 import { isValidSpeed, cleanSpeedInput, isValidPace } from '@/utils/validateData'
-import { paceToSpeed, speedToPace } from '@/utils/formatData'
+import { paceToSpeed, speedToPace, toDecimals } from '@/utils/formatData'
 
 export default {
     name: 'SpeedField',
@@ -101,7 +101,7 @@ export default {
         ...mapState(['unitMultipliers', 'unitMode', 'speedUnits', 'paceUnits']),
         speedAsString: {
             get() {
-                return this.value !== 0 ? this.value.toFixed(4).replace(/(\.0+|0+)$/, '') : ''
+                return toDecimals(this.value, 4)
             },
             set(val) {
                 this.$emit('input', parseFloat(val || 0))

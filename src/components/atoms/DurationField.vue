@@ -1,6 +1,6 @@
 <template>
-    <div class="flex flex-col h-24 noselect-nodrag mt-2 ml-3 mr-3">
-        <div :class="isCalculated && 'calculated noselect-nodrag'" class="calculator-field self-stretch justify-between">
+    <div class="flex flex-col h-24 mt-2 ml-3 mr-3">
+        <div :class="isCalculated && 'calculated'" class="calculator-field self-stretch justify-between">
             <label @click="focusMe('duration')" for="durationOneField">{{ $t('calculator.duration') }}</label>
             <div class="w-40">
                 <div v-if="oneFieldMode" class="one-field-mode flex justify-end">
@@ -14,7 +14,7 @@
                         v-model="durationOneField"
                         data-form-type="text"
                     />
-                    <span class="noselect-nodrag self-center">{{ durationDisplayUnit }}</span>
+                    <span class="self-center">{{ durationDisplayUnit }}</span>
                 </div>
                 <div v-else class="flex justify-end">
                     <input
@@ -30,7 +30,7 @@
                         inputmode="numeric"
                         v-model="hours"
                     />
-                    <span class="noselect-nodrag self-center">:</span>
+                    <span class="self-center">:</span>
                     <input
                         :disabled="isCalculated"
                         class="w-10 pl-1 pr-1 text-center"
@@ -44,7 +44,7 @@
                         inputmode="numeric"
                         v-model="minutes"
                     />
-                    <span class="noselect-nodrag self-center">:</span>
+                    <span class="self-center">:</span>
                     <input
                         :disabled="isCalculated"
                         class="w-10 pl-1 pr-1 text-center"

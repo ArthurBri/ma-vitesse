@@ -6,7 +6,7 @@
                 <div class="laptime-end flex content-center border border-gray-200 mr-0 lg:mr-8 py-1 px-1 rounded-lg">
                     <label aria-label="Switch between distance steps" for="distance-step" />
                     <select
-                        class="appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
+                        class="appearance-none bg-transparent outline-none cursor-pointer"
                         id="distance-step"
                         v-if="laptimeType === 'distance'"
                         v-model="selected_distance_step"
@@ -17,7 +17,7 @@
                     </select>
                     <label aria-label="Switch between duration steps" for="duration-steps" />
                     <select
-                        class="appearance-none noselect-nodrag bg-transparent outline-none cursor-pointer"
+                        class="appearance-none bg-transparent outline-none cursor-pointer"
                         id="duration-steps"
                         v-if="laptimeType === 'duration'"
                         v-model="selected_duration_step"
@@ -41,7 +41,7 @@
                         flex
                         justify-center
                         cursor-pointer
-                        noselect-nodrag
+                       
                     "
                 >
                     <img alt="Sort asc" class="h-6" src="../assets/icons/sort-asc.svg" v-if="laptimeSort === 'desc'" />

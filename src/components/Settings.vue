@@ -6,19 +6,20 @@
         <template v-slot:body>
             <div class="px-4 flex flex-col gap-4">
                 <div class="flex flex-col items-start">
-                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                    <h1 class="text-xl font-bold pb-2">
                         {{ $t('settings.language_section.title') }}
                     </h1>
                     <div class="flags-list flex">
                         <div
-                            class="flex flex-col items-center noselect-nodrag pr-2"
+                            class="flex flex-col items-center pr-2 mb-3 space-x-1"
                             v-for="language in availableLanguages"
                             :key="language.langCode"
                         >
                             <span
                                 :class="`flag-icon-${language.countryCode}`"
                                 @click="selectedLanguage = language.langCode"
-                                class="flag-icon text-3xl cursor-pointer noselect-nodrag px-1 pb-3"
+                                class="flag-icon text-3xl cursor-pointer rounded"
+                                :title="language.langCode"
                             />
                             <svg
                                 v-if="selectedLanguage === language.langCode"
@@ -40,13 +41,13 @@
                     </div>
                 </div>
                 <div class="flex flex-col items-start">
-                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                    <h1 class="text-xl font-bold pb-2">
                         {{ $t('settings.unit_section.title') }}
                     </h1>
                     <CheckboxButton :options="unitChoices" v-model="unitMode" />
                 </div>
                 <div class="flex flex-col items-start">
-                    <h1 class="text-xl font-bold pb-2 noselect-nodrag">
+                    <h1 class="text-xl font-bold pb-2">
                         {{ $t('settings.component_section.title') }}
                     </h1>
                     <div class="flex">
@@ -54,7 +55,7 @@
                             <input class="appearance-none" type="checkbox" v-model="showPredictions" />
                             <span class="slider round" />
                         </label>
-                        <div @click="showPredictions = !showPredictions" class="cursor-pointer ml-2 noselect-nodrag">
+                        <div @click="showPredictions = !showPredictions" class="cursor-pointer ml-2">
                             {{ $t('settings.component_section.show_predictions') }}
                         </div>
                     </div>
@@ -63,13 +64,13 @@
                             <input class="appearance-none" type="checkbox" v-model="showLapTime" />
                             <span class="slider round" />
                         </label>
-                        <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2 noselect-nodrag">
+                        <div @click="showLapTime = !showLapTime" class="cursor-pointer ml-2">
                             {{ $t('settings.component_section.show_laptime') }}
                         </div>
                     </div>
                 </div>
                 <div class="flex flex-col items-start">
-                    <h1 class="text-xl font-bold noselect-nodrag">
+                    <h1 class="text-xl font-bold">
                         {{ $t('settings.reset_section.title') }}
                     </h1>
                     <div class="pt-4 flex justify-center">
@@ -148,7 +149,7 @@ export default {
         selectedLanguage() {
             this.$i18n.locale = this.selectedLanguage
             localStorage.setItem('language', this.selectedLanguage)
-            document.title = `MA Vitesse | ${this.$i18n.t('global.app_meta_title')}`
+            document.title = `Vitess | ${this.$i18n.t('global.app_meta_title')}`
         }
     }
 }

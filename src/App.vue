@@ -7,7 +7,7 @@
                 <div class="flex xl:hidden mb-10">
                     <shared-workouts />
                 </div>
-                <div class="flex justify-center w-full">
+                <div class="flex w-full">
                     <transition name="fade">
                         <div class="tabs-menu" v-if="showTabMenu">
                             <div class="tabs">
@@ -32,11 +32,11 @@
                             </div>
                         </div>
                     </transition>
+                    <shared-workouts class="shared-workouts hidden xl:flex" />
                 </div>
             </div>
             <Footer />
             <router-view />
-            <shared-workouts class="fixed hidden xl:flex right-8 top-24" />
         </div>
     </div>
 </template>
@@ -77,7 +77,7 @@ export default {
         }, 200)
 
         this.$i18n.locale = localStorage.getItem('language') || this.$i18n.locale
-        document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title')
+        document.title = 'Vitess | ' + this.$i18n.t('global.app_meta_title')
 
         this.activeTab = localStorage.getItem('activeTab') || this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
     },
@@ -122,9 +122,14 @@ export default {
 <style lang="scss">
 @import './assets/scss/_variables';
 
+@font-face {
+    font-family: 'WorkSans';
+    src: url('./assets/fonts/WorkSans.ttf');
+}
+
 #app {
     @apply flex flex-col text-primary items-center self-stretch min-h-screen min-w-full bg-gray-100;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: 'WorkSans', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     z-index: 0;
@@ -155,5 +160,9 @@ p {
     @apply flex flex-col lg:w-2/3 xl:w-1/2 overflow-auto border-gray-200 border lg:rounded-lg bg-white p-6;
     min-height: 20rem;
     max-height: 50vh;
+}
+
+.shared-workouts {
+    width: 400px;
 }
 </style>

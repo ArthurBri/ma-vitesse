@@ -1,7 +1,7 @@
 <template>
     <div class="main-box flex-grow-0 p-3 lg:p-6 lg:m-4 sm:w-full overflow-x-auto">
         <div class="flex h-8 items-center content-center max-w-screen-sm" v-if="!calculatedField">
-            <img alt="calaculator icon" class="w-6 noselect-nodrag stroke-current text-secondary" src="../assets/icons/timer.svg" />
+            <img alt="calaculator icon" class="w-6 stroke-current text-secondary" src="../assets/icons/timer.svg" />
             <div class="pl-2 leading-none relative truncate">
                 <h2 class="font-semibold text-lg lg:text-xl text-secondary">
                     {{ $t('calculator.description') }}
@@ -11,7 +11,7 @@
         </div>
         <div class="flex justify-between items-center h-8 mb-2" v-else>
             <div class="flex">
-                <img alt="timer icon" class="w-8 noselect-nodrag" src="../assets/icons/timer.svg" />
+                <img alt="timer icon" class="w-8" src="../assets/icons/timer.svg" />
                 <div class="flex items-center pl-2 font-semibold mr-4 xl:text-xl relative">
                     <h2 class="flex gap-1" :class="$i18n.locale === 'fr' && 'flex-row-reverse'">
                         <div class="self-center font-semibold calculated-label">
@@ -172,7 +172,7 @@ select {
     @apply bg-transparent text-center appearance-none;
 
     > option {
-        color: $ma-primary;
+        @apply text-primary;
         text-align: center;
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div v-if="calculatedField">
         <div class="flex">
-            <div class="cursor-pointer" @click="copyToClipboard(workout_link)">
+            <div v-if="workoutId" class="cursor-pointer" @click="copyToClipboard(workoutLink)">
                 <span class="social-icon mv-icon mv-icon-link text-xl" />
             </div>
             <a
@@ -28,15 +28,13 @@ import { toPrettyDuration } from '@/utils/formatData'
 
 export default {
     name: 'Share',
-    data() {
-        return {
-            workout_link: 'https://ma-vitesse.app/w/'
-        }
-    },
     computed: {
-        ...mapState(['speed', 'duration', 'distance', 'calculatedField', 'oneFieldMode']),
+        ...mapState(['speed', 'duration', 'distance', 'calculatedField', 'oneFieldMode', 'workoutId']),
         human_duration() {
             return toPrettyDuration(this.duration)
+        },
+        workoutLink () {
+            return `https://ma-vitesse.app/w/` + this.workoutId
         }
     },
     methods: {
