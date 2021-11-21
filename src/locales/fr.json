@@ -1,133 +1,137 @@
 {
-  "global": {
-    "app_name": "MA Vitesse",
-    "app_subname": "Assistant d'entraînement pour",
-    "app_meta_title": "Calcul intelligent de vitesse, durée, distance"
-  },
-  "common": {
-    "duration": "Durée",
-    "duration_lc": "durée",
-    "speed": "Vitesse",
-    "speed_lc": "vitesse",
-    "pace": "Rythme",
-    "pace_lc": "rythme",
-    "distance": "Distance",
-    "distance_lc": "distance",
-    "close": "Fermer",
-    "marathon": "Marathon",
-    "half_marathon": "Semi-marathon",
-    "add": "Ajouter",
-    "delete": "Supprimer",
-    "label": "Libellé",
-    "kilometers": "Kilomètres",
-    "miles": "Miles",
-    "kilometersPerHour": "Kilomètres par heure",
-    "milesPerHour": "Miles par heure",
-    "minutesPerKm": "Minutes par kilomètre",
-    "minutesPerMile": "Minutes par mile",
-    "live": "direct",
-    "in": "en",
-    "at": "à",
-    "share": "Partager",
-    "none": "Aucune"
-  },
-  "add_preset": {
-    "title": "Ajouter une distance",
-    "label": "@:common.label",
-    "label_eg": "ex. Tour du lac",
-    "distance": "@:common.distance"
-  },
-  "delete_preset": {
-    "title": "Supprimer une distance",
-    "label": "@:common.label",
-    "distance": "@:common.distance"
-  },
-  "calculator": {
-    "description": "Calcul de vitesse, de durée, de distance",
-    "calculation_label": "Calcul de la ",
-    "duration": "@:common.duration",
-    "speed": "@:common.speed",
-    "pace": "@:common.pace",
-    "distance": "@:common.distance",
-    "my_distances": "Mes distances"
-  },
-  "predictions": {
-    "title": "Prédictions de course",
-    "label_no_calculation": "Effectuer un calcul pour voir les prédictions de course",
-    "label_no_distances": "Ajouter une distance via 'Mes distances' pour voir les prédictions de course",
-    "estimated_duration": "Durée estimée",
-    "riegel_desc": "Formule de Riegel (ingénieur), ratio de 6%",
-    "williams_desc": "Formule de Ian Williams (coureur), ratio de 15%",
-    "none_desc": "Sans formule, projections faites sans ajustement de vitesse"
-  },
-  "laptime": {
-    "title": "Temps de passage",
-    "label_no_calculation": "Effectuer un calcul pour voir les temps de passage",
-    "label_max_distance_exceeded": "Oups ! La distance est trop élevée pour faire un calcul.",
-    "distance": "@:common.distance",
-    "duration": "@:common.duration",
-    "traveled_distance": "Distance parcourue",
-    "elapsed_time": "Durée écoulée",
-    "remaining_distance": "Distance restante",
-    "remaining_duration": "Durée restante",
-    "lap_distance": "Distance segment",
-    "lap_duration": "Durée segment"
-  },
-  "settings": {
-    "title": "Réglages",
-    "language_section": {
-      "title": "Langue"
+    "global": {
+        "app_name": "Vitess",
+        "app_meta_title": "Calcul de vitesse, durée, distance"
     },
-    "unit_section": {
-      "title": "Unité"
+    "common": {
+        "duration": "Durée",
+        "speed": "Vitesse",
+        "pace": "Rythme",
+        "distance": "Distance",
+        "close": "Fermer",
+        "marathon": "Marathon",
+        "half_marathon": "Semi-marathon",
+        "10_km": "10km",
+        "add": "Ajouter",
+        "delete": "Supprimer",
+        "label": "Libellé",
+        "kilometers": "Kilomètres",
+        "miles": "Miles",
+        "kilometersPerHour": "Kilomètres par heure",
+        "milesPerHour": "Miles par heure",
+        "minutesPerKm": "Minutes par kilomètre",
+        "minutesPerMile": "Minutes par mile",
+        "in": "en",
+        "at": "à",
+        "share": "Partager",
+        "none": "Aucune"
     },
-    "component_section": {
-      "title": "Composants",
-      "show_predictions": "Prédictions",
-      "show_laptime": "Temps de passage"
+    "add_preset": {
+        "title": "Ajouter une distance",
+        "label": "@:common.label",
+        "label_eg": "ex. Tour du lac",
+        "distance": "@:common.distance"
     },
-    "reset_section": {
-      "title": "Réinitialiser",
-      "reset_button": "Réinitialiser l'application",
-      "reset_message_success": "L'application a été réinitialisée, rechargez l'application pour appliquer les modifications."
+    "delete_preset": {
+        "title": "Supprimer une distance",
+        "label": "@:common.label",
+        "distance": "@:common.distance"
+    },
+    "calculator": {
+        "description": "Calculateur",
+        "hint": "Compléter deux champs, le 3ème sera calculé.",
+        "calculation_label": "Calcul de la ",
+        "duration": "@:common.duration",
+        "speed": "@:common.speed",
+        "pace": "@:common.pace",
+        "distance": "@:common.distance",
+        "my_distances": "Mes distances"
+    },
+    "predictions": {
+        "title": "Prédictions de course",
+        "noCalculation": "Effectuer un calcul pour voir les prédictions de course",
+        "noDistances": "Ajouter une distance via 'Mes distances' pour voir les prédictions de course",
+        "estimatedDuration": "Durée estimée",
+        "riegel_desc": "Formule de Riegel (ingénieur), ratio de 6%",
+        "williams_desc": "Formule de Ian Williams (coureur), ratio de 15%",
+        "none_desc": "Sans formule, projections faites sans ajustement de vitesse"
+    },
+    "laptime": {
+        "title": "Temps de passage",
+        "noCalculation": "Effectuer un calcul pour voir les temps de passage",
+        "maxDistanceExceeded": "Oups ! La distance est trop élevée pour faire un calcul.",
+        "distance": "@:common.distance",
+        "duration": "@:common.duration",
+        "traveledDistance": "Distance parcourue",
+        "elapsedTime": "Durée écoulée",
+        "remainingDistance": "Distance restante",
+        "remainingDuration": "Durée restante",
+        "lapDistance": "Distance segment",
+        "lap_duration": "Durée segment"
+    },
+    "settings": {
+        "title": "Réglages",
+        "language_section": {
+            "title": "Langue"
+        },
+        "unit_section": {
+            "title": "Unité"
+        },
+        "component_section": {
+            "title": "Composants",
+            "show_predictions": "Prédictions",
+            "show_laptime": "Temps de passage"
+        },
+        "reset_section": {
+            "title": "Réinitialiser",
+            "reset_button": "Réinitialiser l'application",
+            "reset_message_success": "L'application a été réinitialisée, rechargez l'application pour appliquer les modifications."
+        }
+    },
+    "suggest_feature": {
+        "title": "Proposer une fonctionnalité",
+        "description": "Vitess se construit grâce aux idées de ses utilisateurs. Proposez ci-dessous une fonctionnalité que vous souhaiteriez voir integrée à l'application. Si elle correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir.",
+        "suggest_label": "Dans Vitess, je voudrais...",
+        "suggest_label_placeholder": "garder un historique de mes courses.",
+        "suggest_email": "Une adresse email ?",
+        "suggest_email_placeholder": "jecoursvite@mail.com",
+        "suggest_email_tip": "Pour vous tenir informé ou vous demander plus de précisions",
+        "btn_send": "Envoyer",
+        "btn_sent_ok": "Nous prenons note, merci !",
+        "btn_sent_ko": "Oups, il y a eu un souci ! Réessayez pour voir ?",
+        "suggest_limit_message": "Vous avez déjà envoyé une superbe idée aujourd'hui. Revenez demain !"
+    },
+    "share": {
+        "main_message": "Partagez votre performance !"
+    },
+    "about": {
+        "title": "A propos",
+        "1st_section": "Vitess est une application légère, intuitive et moderne de calculs pour activités sportives telles que la course à pied, le vélo, la randonnée. Elle a pour ambition de devenir une alternative légère aux cadors (Strava, Endomondo). Elle repose sur un principe de transparence : l'application ne collecte pas de données autre que pour sauvegarder l'historique du sportif ou de la sportive en tout anonymat et sans utilisation commerciale. L'application est en constante évolution de l'expérience utilisateur via un ajout régulier de fonctionnalités.",
+        "2nd_section": "L'application est 100% gratuite et ses fonctions basiques le seront pour toujours. Vitess fait partie du groupe d'aplications Mean Apps, une bibliothèque d'outils basée sur des principes de modernité, sobriété, simplicité et d'efficacité. Ces valeurs s'associent à un souhait profond de développement éthique et durable.",
+        "dev_label": "Développeur.se",
+        "dev_contact_us": "Contactez-nous",
+        "dev_to_join_message": "pour rejoindre le projet.",
+        "btn_feature": "Proposer une fonctionnalité",
+        "btn_support": "Soutenir le projet",
+        "initiated_by": "Proposé par"
+    },
+    "share_ma": {
+        "publicWorkouts": "Sorties partout dans le monde 🌍"
+    },
+    "updates_alert": {
+        "new_badge": "nouveau",
+        "message_l1": "Vous pouvez désormais partager vos courses via un lien.",
+        "message_l2": "Partagez vos exploits à votre entourage ou vos fans !"
+    },
+    "workout": {
+        "activity_resume": "Résumé d'activité",
+        "added_on": "Ajoutée le",
+        "in": "en",
+        "edit_this_workout": "Editer cette course",
+        "add_workout": "Ajouter une course",
+        "no_workout_1": "Oups, ce lien n'a pas l'air d'être associé à une course.",
+        "no_workout_2": "Aucun souci,",
+        "add_one": "ajoutez en une maintenant !",
+        "calculated_field": "Champ calculé"
     }
-  },
-  "suggest_feature": {
-    "title": "Proposer une fonctionnalité",
-    "description": "MA Vitesse se construit grâce aux idées de ses utilisateurs. Proposez ci-dessous une fonctionnalité que vous souhaiteriez voir integrée à l'application. Si elle correspond à notre vision de l'appli, nous l'intégrerons dans les semaines à venir.",
-    "suggest_label": "Dans MA Vitesse, je voudrais...",
-    "suggest_label_placeholder": "garder un historique de mes courses.",
-    "suggest_email": "Une adresse email ?",
-    "suggest_email_placeholder": "jecoursvite@mail.com",
-    "suggest_email_tip": "Pour vous tenir informé ou vous demander plus de précisions",
-    "btn_send": "Envoyer",
-    "btn_sent_ok": "Nous prenons note, merci !",
-    "btn_sent_ko": "Oups, il y a eu un souci ! Réessayez pour voir ?",
-    "suggest_limit_message": "Vous avez déjà envoyé une superbe idée aujourd'hui. Revenez demain !"
-  },
-  "share": {
-    "main_message": "Partagez votre performance !"
-  },
-  "about": {
-    "title": "A propos",
-    "1st_section": "MA Vitesse est une application légère, intelligente et moderne de calculs pour activités sportives telles que la course à pied, le vélo, la randonnée. Elle a pour ambition de devenir une alternative légère aux cadors (Strava, Endomondo). Elle repose sur un principe de transparence : l'application ne collecte pas de données autre que pour sauvegarder l'historique du sportif ou de la sportive en tout anonymat et sans utilisation commerciale. L'application est en constante évolution de l'expérience utilisateur via un ajout régulier de fonctionnalités.",
-    "2nd_section": "L'application est 100% gratuite et ses fonctions basiques le seront pour toujours. Ma Vitesse fait partie du groupe d'aplications Mean Apps, une bibliothèque d'outils basée sur des principes de modernité, sobriété, simplicité et d'efficacité. Ces valeurs s'associent à un souhait profond de développement éthique et durable.",
-    "dev_label": "Développeur.se",
-    "dev_contact_us": "Contactez-nous",
-    "dev_to_join_message": "pour rejoindre le projet.",
-    "btn_feature": "Proposer une fonctionnalité",
-    "btn_support": "Soutenir le projet",
-    "initiated_by": "Proposé par"
-  },
-  "all_ma": {
-    "title": "Toutes nos applications"
-  },
-  "share_ma": {
-    "last_workouts": "Dernières courses"
-  },
-  "updates_alert": {
-    "new_badge": "nouveau",
-    "message_l1": "Vous pouvez désormais partager vos courses au monde entier\n",
-    "message_l2": "Les 7 dernières sont affichées, plus d'options très bientôt !"
-  }
 }

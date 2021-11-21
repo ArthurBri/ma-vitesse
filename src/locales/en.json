@@ -1,134 +1,138 @@
 {
-  "global": {
-    "app_name": "MA Vitesse",
-    "app_subname": "Training assistant for",
-    "app_meta_title": "Smart calculation tool of speed, duration, distance"
-  },
-  "common": {
-    "duration": "Duration",
-    "duration_lc": "duration",
-    "speed": "Speed",
-    "speed_lc": "speed",
-    "pace": "Pace",
-    "pace_lc": "pace",
-    "distance": "Distance",
-    "distance_lc": "distance",
-    "close": "Close",
-    "marathon": "Marathon",
-    "half_marathon": "Half-marathon",
-    "add": "Add",
-    "delete": "Delete",
-    "label": "Label",
-    "kilometers": "Kilometers",
-    "miles": "Miles",
-    "kilometersPerHour": "Kilometers per hour",
-    "milesPerHour": "Miles per hour",
-    "minutesPerKm": "Minutes per kilometer",
-    "minutesPerMile": "Minutes per mile",
-    "live": "live",
-    "in": "in",
-    "at": "at",
-    "share": "Share",
-    "none": "None"
-  },
-  "add_preset": {
-    "title": "Add a distance",
-    "label": "@:common.label",
-    "label_eg": "eg. Lake tour",
-    "distance": "@:common.distance"
-  },
-  "delete_preset": {
-    "title": "Remove a distance",
-    "label": "@:common.label",
-    "distance": "@:common.distance"
-  },
-  "calculator": {
-    "description": "Speed, duration, distance calculation",
-    "calculation_label": "calculation",
-    "duration": "@:common.duration",
-    "speed": "@:common.speed",
-    "pace": "@:common.pace",
-    "distance": "@:common.distance",
-    "my_distances": "My distances"
-  },
-  "predictions": {
-    "title": "Workout predictions",
-    "label_no_calculation": "Do a calculation to see workouts predictions",
-    "label_no_distances": "Add a distance via 'My distances' to see workouts predictions",
-    "duration": "@:common.duration",
-    "estimated_duration": "Estimated duration",
-    "riegel_desc": "Riegel's formula (engineer), 6% ratio",
-    "williams_desc": "Ian Williams' formula (runner), 15% ratio",
-    "none_desc": "No formula is applied, projection with same speed"
-  },
-  "laptime": {
-    "title": "Laptime",
-    "label_no_calculation": "Do a calculation to see laptime",
-    "label_max_distance_exceeded": "Oops ! Distance is too high to show laptimes.",
-    "distance": "@:common.distance",
-    "duration": "@:common.duration",
-    "traveled_distance": "Traveled distance",
-    "elapsed_time": "Elapsed time",
-    "remaining_distance": "Remaining distance",
-    "remaining_duration": "Remaining duration",
-    "lap_distance": "Lap distance",
-    "lap_duration": "Lap duration"
-  },
-  "settings": {
-    "title": "Settings",
-    "language_section": {
-      "title": "Language"
+    "global": {
+        "app_name": "Vitess",
+        "app_meta_title": "Speed, duration and distance calculation tool"
     },
-    "unit_section": {
-      "title": "Unit"
+    "common": {
+        "duration": "Duration",
+        "speed": "Speed",
+        "pace": "Pace",
+        "distance": "Distance",
+        "close": "Close",
+        "marathon": "Marathon",
+        "half_marathon": "Half-marathon",
+        "10_km": "10km",
+        "add": "Add",
+        "delete": "Delete",
+        "label": "Label",
+        "kilometers": "Kilometers",
+        "miles": "Miles",
+        "kilometersPerHour": "Kilometers per hour",
+        "milesPerHour": "Miles per hour",
+        "minutesPerKm": "Minutes per kilometer",
+        "minutesPerMile": "Minutes per mile",
+        "in": "in",
+        "at": "at",
+        "share": "Share",
+        "none": "None"
     },
-    "component_section": {
-      "title": "Components",
-      "show_predictions": "Predictions",
-      "show_laptime": "Laptime"
+    "add_preset": {
+        "title": "Add a distance",
+        "label": "@:common.label",
+        "label_eg": "eg. Lake tour",
+        "distance": "@:common.distance"
     },
-    "reset_section": {
-      "title": "Restore default",
-      "reset_button": "Application reset",
-      "reset_message_success": "Application was successfully reset, reload it to apply changes."
+    "delete_preset": {
+        "title": "Remove a distance",
+        "label": "@:common.label",
+        "distance": "@:common.distance"
+    },
+    "calculator": {
+        "description": "Speed, duration, distance calculation",
+        "hint": "Fill 2 fields, the 3rd will be calculated.",
+        "calculation_label": "calculation",
+        "duration": "@:common.duration",
+        "speed": "@:common.speed",
+        "pace": "@:common.pace",
+        "distance": "@:common.distance",
+        "my_distances": "My distances"
+    },
+    "predictions": {
+        "title": "Workout predictions",
+        "noCalculation": "Do a calculation to see workouts predictions",
+        "noDistances": "Add a distance via 'My distances' to see workouts predictions",
+        "duration": "@:common.duration",
+        "estimatedDuration": "Estimated duration",
+        "riegel_desc": "Riegel's formula (engineer), 6% ratio",
+        "williams_desc": "Ian Williams' formula (runner), 15% ratio",
+        "none_desc": "No formula is applied, projection with same speed"
+    },
+    "laptime": {
+        "title": "Laptime",
+        "noCalculation": "Do a calculation to see laptime",
+        "maxDistanceExceeded": "Oops ! Distance is too high to show laptimes.",
+        "distance": "@:common.distance",
+        "duration": "@:common.duration",
+        "traveledDistance": "Traveled distance",
+        "elapsedTime": "Elapsed time",
+        "remainingDistance": "Remaining distance",
+        "remainingDuration": "Remaining duration",
+        "lapDistance": "Lap distance",
+        "lap_duration": "Lap duration"
+    },
+    "settings": {
+        "title": "Settings",
+        "language_section": {
+            "title": "Language"
+        },
+        "unit_section": {
+            "title": "Unit"
+        },
+        "component_section": {
+            "title": "Components",
+            "show_predictions": "Predictions",
+            "show_laptime": "Laptime"
+        },
+        "reset_section": {
+            "title": "Restore default",
+            "reset_button": "Application reset",
+            "reset_message_success": "Application was successfully reset, reload it to apply changes."
+        }
+    },
+    "suggest_feature": {
+        "title": "Suggest a feature",
+        "description": "Vitess is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
+        "suggest_label": "In Vitess, I would like to...",
+        "suggest_label_placeholder": "keep a history of my workouts.",
+        "suggest_email": "An email address ? ",
+        "suggest_email_placeholder": "irunfast@mail.com",
+        "suggest_email_tip": "To keep you in touch or ask you for details.",
+        "btn_send": "Send",
+        "btn_sent_ok": "We take it in note. Thank you !",
+        "btn_sent_ko": "Oops, a problem occurred. Can you try again ?",
+        "suggest_limit_message": "You already sent an amazing idea today. Come back tomorrow !"
+    },
+    "share": {
+        "main_message": "Share your performance !"
+    },
+    "about": {
+        "title": "About",
+        "1st_section": "Vitess is a light, intuitive and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
+        "2nd_section": "The app is 100% free and basic features will remain free forever. The pp is built with soberty, simplicity, and efficiency in mind. That culture is overlapping with a strong guideline of ethical a sustainable developement.",
+        "dev_label": "Developer",
+        "dev_contact_us": "Contact us",
+        "dev_to_join_message": "to join the project.",
+        "btn_feature": "Suggest a feature",
+        "btn_support": "Support the project",
+        "initiated_by": "Initiated by"
+    },
+    "share_ma": {
+        "publicWorkouts": "Workouts around the 🌍"
+    },
+    "updates_alert": {
+        "new_badge": "new",
+        "message_l1": "You can now share your workouts with a link.",
+        "message_l2": "Share your performances to your relatives or your fans !"
+    },
+    "workout": {
+        "activity_resume": "Activity Resume",
+        "added_on": "Added on",
+        "in": "in",
+        "edit_this_workout": "Edit this workout",
+        "add_workout": "Add a workout",
+        "no_workout_1": "Oops, this link doesn't seem to match with a workout.",
+        "no_workout_2": "Not a problem,",
+        "add_one": "add one now !",
+        "calculated_field": "Calculated field"
     }
-  },
-  "suggest_feature": {
-    "title": "Suggest a feature",
-    "description": "MA Vitesse is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
-    "suggest_label": "In MA Vitesse, I would like to......",
-    "suggest_label_placeholder": "keep a history of my workouts.",
-    "suggest_email": "An email address ? ",
-    "suggest_email_placeholder": "irunfast@mail.com",
-    "suggest_email_tip": "To keep you in touch or ask you for details.",
-    "btn_send": "Send",
-    "btn_sent_ok": "We take it in note. Thank you !",
-    "btn_sent_ko": "Oops, a problem occurred. Can you try again ?",
-    "suggest_limit_message": "You already sent an amazing idea today. Come back tomorrow !"
-  },
-  "share": {
-    "main_message": "Share your performance !"
-  },
-  "about": {
-    "title": "About",
-    "1st_section": "MA Vitesse is a light, smart and modern application for calculation of workouts like running, cycling or hiking. The aim of the app is to be a alternative to giants like Strava or Endomondo. The approach is based on transparency : your data is not going to be used commercially, only to save your history and totaly anonymous. It is constantly growing and user experience is improved with new features added frequently.",
-    "2nd_section": "The app is 100% free and basic features will remain free forever. MA Vitesse is a part of Mean Apps, a library of tools with a culture of modernity, soberty, simplicity, and efficacity. That culture is overlapping with a strong guideline of ethical a sustainable developement.",
-    "dev_label": "Developer",
-    "dev_contact_us": "Contact us",
-    "dev_to_join_message": "to join the project.",
-    "btn_feature": "Suggest a feature",
-    "btn_support": "Support the project",
-    "initiated_by": "Initiated by"
-  },
-  "all_ma": {
-    "title": "All our apps"
-  },
-  "share_ma": {
-    "last_workouts": "Last workouts"
-  },
-  "updates_alert": {
-    "new_badge": "new",
-    "message_l1": "You can now share your workouts to the whole world !",
-    "message_l2": "7 lasts are shown, more options soon."
-  }
 }

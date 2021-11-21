@@ -1,244 +1,131 @@
 <template>
-    <div>
-        <preloader v-if="showPreloader"/>
-        <div :class="[isSafari ? 'bg-safari' : '']" class="bg-gray-800 background"></div>
-        <div id="app" v-if="!showPreloader">
-            <Header/>
-            <h1 class="app-description">
-                <span>{{ $t('global.app_subname') }}</span>
-                <img alt="Run icon" class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon"
-                     src="./assets/icons/run.svg"/>
-                <img alt="Bike icon" class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon"
-                     src="./assets/icons/bike.svg"/>
-                <img alt="Hiking icon" class="h-8 lg:h-6 md:h-5 sm:h-4 xs:h-4 ml-2 white-icon"
-                     src="./assets/icons/hiking.svg"/>
-            </h1>
-            <div class="body pt-8 xs:pt-2 sm:pt-3 md:pt-4 lg:pt-4 overflow-hidden">
-                <Calculator class="mt-12"/>
-                <div class="w-full flex xs:flex-col sm:flex-col md:flex-col justify-center">
-                    <transition name="fade">
-                        <div class="tabs-menu w-3/4 sm:w-full xs:w-full mt-5 xs:mt-0" v-if="showTabMenu">
-                            <div class="tabs flex flex-col xs:flex-row md:flex-row xs:overflow-x-auto overflow-x-auto xl:h-24">
-                                <TabMenuItem :active="tabActive === 'laptime'" :hidden="!showLapTime"
-                                             @click.native="setTabActive('laptime')"
-                                             :label="$t('laptime.title')" component="laptime"/>
-                                <TabMenuItem :active="tabActive === 'predictions'" :hidden="!showPredictions"
-                                             @click.native="setTabActive('predictions')"
-                                             :label="$t('predictions.title')" component="predictions"/>
-                            </div>
-                            <div class="tabs-content xs:ml-0 xs:mr-0 sm:mr-0 sm:ml-0 xs:w-full sm:w-full
-                                lg:rounded-b-lg md:rounded-b-lg rounded-r-lg sm:rounded-r-none xs:rounded-none w-full justify-center"
-                                 v-if="showTabMenu">
-                                <div class="p-6">
-                                    <LapTime v-show="showLapTime && tabActive === 'laptime'"></LapTime>
-                                    <Prediction v-show="showPredictions && tabActive === 'predictions'"/>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- FIN TABS -->
-                    </transition>
-                </div>
+    <div class="app">
+        <preloader v-if="showPreloader" />
+        <div class="main-wrapper">
+            <div class="main-pane w-full">
+                <Calculator />
+                <section>
+                    <share-buttons />
+                </section>
+                <section>
+                    <shared-workouts />
+                </section>
             </div>
-            <Footer/>
+            <div class="modules-pane lg:block" :class="showModules ? 'block' : 'hidden'">
+                <modules :modalVisible="showModules" @close="showModules = !showModules" />
+            </div>
         </div>
+        <router-view />
+        <Footer />
+        <button
+            v-if="!showModules"
+            class="lg:hidden vi-btn fixed bg-primary text-white stroke-current top-2 right-2 py-2"
+            @click="toggleModules"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-apps h-6 w-6"
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <rect x="4" y="4" width="6" height="6" rx="1" />
+                <rect x="4" y="14" width="6" height="6" rx="1" />
+                <rect x="14" y="14" width="6" height="6" rx="1" />
+                <line x1="14" y1="7" x2="20" y2="7" />
+                <line x1="17" y1="4" x2="17" y2="10" />
+            </svg>
+        </button>
     </div>
 </template>
 
 <script>
-    import Header from '@/components/Header'
-    import Calculator from '@/components/Calculator'
-    import Prediction from '@/components/Prediction'
-    import LapTime from '@/components/LapTime'
-    import Settings from '@/components/Settings'
-    import Preloader from '@/components/Preloader'
-    import TabMenuItem from '@/components/TabMenuItem'
-    import ShareSocial from '@/components/ShareSocial'
+import Footer from '@/components/organisms/Footer.vue'
+import Calculator from '@/components/Calculator.vue'
+import Modules from '@/components/organisms/Modules.vue'
+import Settings from '@/components/Settings.vue'
+import Preloader from '@/components/Preloader.vue'
+import ShareButtons from '@/components/ShareButtons.vue'
+import SharedWorkouts from '@/components/SharedWorkouts.vue'
 
-    export default {
-        name: 'app',
-        components: {Prediction, Calculator, LapTime, Settings, Header, Preloader, TabMenuItem, ShareSocial},
-        data() {
-            return {
-                showPreloader: true,
-                tabActive: '',
-                isSafari: false
-            }
-        },
-        mounted() {
-            this.isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+export default {
+    name: 'Vitess',
+    components: {
+        Calculator,
+        Modules,
+        Settings,
+        Footer,
+        Preloader,
+        ShareButtons,
+        SharedWorkouts
+    },
+    data() {
+        return {
+            showPreloader: true,
+            showModules: false
+        }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.showPreloader = false
+        }, 200)
 
-            // Récupération de la langue de l'app
-            this.$i18n.locale = localStorage.getItem('lang') ? localStorage.getItem('lang') : this.$i18n.locale;
-            document.title = 'MA Vitesse | ' + this.$i18n.t('global.app_meta_title');
-            setTimeout(() => {
-                this.showPreloader = false;
-            }, 300);
-
-            // Définition de l'onglet / tab actif
-            if (localStorage.getItem('activeTab')) {
-                this.tabActive = localStorage.getItem('activeTab')
+        this.$i18n.locale = localStorage.getItem('language') || this.$i18n.locale
+        document.title = 'Vitess | ' + this.$i18n.t('global.app_meta_title')
+    },
+    methods: {
+        toggleModules() {
+            this.showModules = !this.showModules
+            if (this.showModules) {
+                document.body.style.overflow = 'hidden'
             } else {
-                this.tabActive = this.showLapTime ? 'laptime' : this.showPredictions ? 'predictions' : ''
-            }
-        },
-        computed: {
-            showPredictions: {
-                get() {
-                    return this.$store.state.showPredictions
-                }, set(newVal) {
-                    this.$store.commit('showPredictions', newVal)
-                }
-            },
-            showLapTime: {
-                get() {
-                    return this.$store.state.showLapTime
-                }, set(newVal) {
-                    this.$store.commit('showLapTime', newVal)
-                }
-            },
-            showTabMenu() {
-                return this.showPredictions || this.showLapTime
-            }
-        },
-        watch: {
-            showPredictions() {
-                this.tabActive = this.showPredictions ? 'predictions' : 'laptime'
-            },
-            showLapTime() {
-                this.tabActive = this.showLapTime ? 'laptime' : 'predictions'
-            }
-        },
-        methods: {
-            setTabActive(tabToActivate) {
-                this.tabActive = tabToActivate;
-                localStorage.setItem('activeTab', tabToActivate)
+                document.body.style.overflow = 'auto'
             }
         }
     }
+}
 </script>
 
-<style lang="scss">
-    #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        color: $ma-primary;
-        z-index: 0;
-        position: relative;
-        @apply flex flex-col items-center self-stretch min-h-screen min-w-full ;
+<style lang="scss" scoped>
+@font-face {
+    font-family: 'WorkSans';
+    src: url('./assets/fonts/WorkSans.ttf');
+}
 
-    }
+html {
+    @apply bg-gray-100;
+}
 
-    .background {
-        background: url('assets/wallpp.webp');
-        background-size: cover;
-        z-index: -999;
-        position: fixed;
-        width: 100vw;
-        top: 0;
-        height: 100vh;
-    }
-
-    .bg-safari {
-        background: url('assets/wallpp.jpg');
-    }
-
-    .body {
-        @apply flex flex-grow flex-wrap ml-0 mb-8 justify-center overflow-auto w-4/6 items-start content-start ;
-    }
-
-    .app-description {
-        @apply text-white flex items-center text-center text-3xl mx-5;
-    }
-
-    @screen xs {
-        .body {
-            @apply w-full mb-0;
-        }
-
-        .app-description {
-            @apply mt-16 text-base;
-        }
-
-    }
-
-    @screen sm {
-        .body {
-            @apply w-full;
-        }
-
-        .tabs-content {
-            @apply rounded-r-none;
-        }
-
-        .app-description {
-            @apply mt-20 text-lg;
-        }
-    }
+.main-wrapper {
+    @apply flex relative z-0 text-primary self-stretch w-screen bg-gray-100 lg:pb-0 min-h-screen;
+    font-family: 'WorkSans', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-bottom: $footer-height;
 
     @screen md {
-        .tabs-menu {
-            @apply flex-col;
-        }
-
-        .app-description {
-            @apply mt-20 text-xl;
-        }
+        padding-bottom: 0;
     }
+}
 
-    @screen lg {
-        .body {
-            @apply w-5/6;
-        }
+.main-pane {
+    @apply flex flex-col justify-center items-center;
+}
 
-        .app-description {
-            @apply text-2xl mt-20;
-        }
-    }
+section {
+    @apply flex items-center py-4;
+}
 
-    @screen xl {
-        .app-description {
-            @apply text-3xl mt-24;
-        }
-    }
+.shared-workouts {
+    width: 400px;
+}
 
-    h2, h1, p {
-        margin: 0;
-    }
-
-    .tab {
-        cursor: pointer;
-
-        > span {
-            cursor: pointer;
-        }
-    }
-
-    .tabs-content {
-        @apply flex flex-col text-white;
-        @apply rounded-b-lg shadow-xl;
-        background-color: rgba($ma-primary, 0.8);
-        backdrop-filter: blur(2px);
-        z-index: 0;
-    }
-
-    .tabs-menu {
-        @apply flex;
-        z-index: 0;
-
-    }
-
-    @screen xs {
-        .tabs-menu {
-            @apply flex-col;
-        }
-
-        .tabs-content {
-            @apply rounded-none rounded-r-none;
-        }
-    }
-
-    .white-icon {
-        filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
-    }
+.modules-pane {
+    @apply w-screen lg:w-1/3 fixed left-0 top-0 lg:relative lg:block h-screen overflow-auto lg:rounded-tl-3xl;
+}
 </style>

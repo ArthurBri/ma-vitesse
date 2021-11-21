@@ -15,7 +15,7 @@
 }
 
 .flag-icon:before {
-  content: "\00a0";
+    content: '\00a0';
 }
 
 .flag-icon-ad {
@@ -1043,5 +1043,10 @@ flag-icon-io {
 }
 
 .flag-icon-xk {
+<<<<<<< HEAD
+    background-image: url('../icons/flags/xk.svg');
+}
+=======
   background-image: url('../icons/flags/xk.svg');
 }
+>>>>>>> 43bbfe5761969aa49da4af6cc3fbd6176b01c81b

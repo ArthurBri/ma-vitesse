@@ -1,32 +1,92 @@
-.mv-btn {
-  @apply text-primary border rounded-lg px-2 py-1 shadow cursor-pointer;
-  transition: all 100ms ease;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none;
-  -webkit-user-drag: none;
-
-  &:hover {
-    @apply shadow-lg;
-  }
+h2,
+h1,
+p {
+    margin: 0;
 }
 
-.mv-btn-inverted {
-  @apply text-white border rounded-lg px-2 py-1 shadow cursor-pointer shadow;
-  box-shadow: 0 1px 3px 0 rgba(white, 0.5);
+.vi-btn {
+    @apply text-primary rounded-lg px-2 py-1 border-gray-200 border cursor-pointer flex items-center justify-center hover:shadow bg-white;
+    transition: box-shadow 100ms ease-in;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    -webkit-user-drag: none;
+}
 
+.vi-btn-rounded {
+    @apply border-gray-200 border rounded-full bg-white ml-1 p-1;
+}
 
-  transition: all 100ms ease;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none;
-  -webkit-user-drag: none;
+.calculator-field {
+    @apply flex items-center justify-center text-lg text-primary bg-white p-3 focus-within:ring-2 ring-primary ring-opacity-80 border shadow-sm rounded-l-xl rounded-tr-xl;
+    transition: box-shadow 200ms ease-in;
+}
 
-  &:hover {
-    box-shadow: 0 5px 15px -3px rgba(white, 0.5);
-  }
+.box-option {
+    @apply px-2 self-center items-center rounded-md flex cursor-pointer bg-white;
+
+    &.active {
+        @apply bg-white text-primary;
+    }
+}
+
+.calculated {
+    @apply bg-secondary text-white;
+
+    input {
+        opacity: 1;
+    }
+}
+
+.primary-icon {
+    filter: invert(37%) sepia(71%) saturate(469%) hue-rotate(170deg) brightness(83%) contrast(98%);
+}
+
+.white-icon {
+    filter: invert(99%) sepia(0%) saturate(1983%) hue-rotate(172deg) brightness(114%) contrast(101%);
+}
+
+select {
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    font-size: 1em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+
+    > option {
+        color: $ma-primary;
+        text-align: center;
+    }
+}
+
+table,
+th,
+td {
+    @apply border-gray-500 border-collapse h-10;
+}
+
+th {
+    @apply text-primary text-center border-b border-primary px-3 py-1;
+}
+
+table tr:first-child,
+table th:first-child {
+    @apply rounded-tl-lg;
+}
+
+table tr:first-child,
+table th:last-child {
+    @apply rounded-tr-lg;
+}
+
+tr {
+    @apply border-b text-center;
+
+    &:hover td {
+        background-color: rgba($ma-secondary, 0.1);
+    }
 }
