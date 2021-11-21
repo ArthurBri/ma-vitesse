@@ -54,7 +54,6 @@ export default {
             return toPrettyDuration(this.duration)
         },
         workoutLink() {
-            console.log(window.location)
             return window.location.host + '/w/' + this.workoutId
         }
     },

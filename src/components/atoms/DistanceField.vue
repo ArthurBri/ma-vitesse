@@ -53,6 +53,7 @@ import AddPresetDistance from '@/components/AddPresetDistance.vue'
 import RemovePresetDistance from '@/components/RemovePresetDistance.vue'
 import fieldOperations from '@/mixins/fieldOperations'
 import { toDecimals } from '../../utils/formatData'
+import { cleanDistanceInput, isValidDistance } from '../../utils/validateData'
 
 export default {
     name: 'DistanceField',
@@ -108,7 +109,11 @@ export default {
         }
     },
     watch: {
-        distanceAsString() {
+        distanceAsString(newVal, oldVal) {
+            this.distanceAsString = cleanDistanceInput(newVal)
+            if (!isValidDistance(this.distanceAsString)) {
+                this.distanceAsString = cleanDistanceInput(oldVal)
+            }
             const distanceInPresetsIndex = this.defaultDistances.findIndex((defaultDist) => defaultDist.distance === this.value)
             this.presetDistances = distanceInPresetsIndex > -1 ? this.defaultDistances[distanceInPresetsIndex].label : ''
         },
