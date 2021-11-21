@@ -8,15 +8,16 @@ import router from './router'
 
 import { initializeApp } from 'firebase/app'
 import { getFirestore, setDoc, doc, serverTimestamp } from 'firebase/firestore/lite'
-import { getAuth, signInAnonymously } from "firebase/auth"
+import { getAuth, signInAnonymously } from 'firebase/auth'
 
+console.log(import.meta.env)
 const firebaseConfig = {
-    apiKey: 'AIzaSyDZtOkOz7gKl_3cLr6oDVHD5gwifH8NuIw',
-    authDomain: 'ma-vitesse.firebaseapp.com',
-    projectId: 'ma-vitesse',
-    storageBucket: 'ma-vitesse.appspot.com',
-    messagingSenderId: '410838905826',
-    appId: '1:410838905826:web:7d2e0a9eb8052e90b13fbb'
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID
 }
 
 Vue.config.productionTip = false
@@ -35,14 +36,10 @@ new Vue({
 
         const db = getFirestore(firebaseApp)
 
-        signInAnonymously(auth).then(async function(auth) {
-            var userDoc = doc(db, "users", auth.user.uid);
+        signInAnonymously(auth).then(async function (auth) {
+            var userDoc = doc(db, 'users', auth.user.uid)
             await setDoc(userDoc, {
                 timestamp: serverTimestamp()
-            }).then(function() {
-                console.log("Written at " + new Date());
-            }).catch(function(error) {
-                console.error('ohoh', error.code);
             })
         })
 

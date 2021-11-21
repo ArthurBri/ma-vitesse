@@ -79,8 +79,6 @@ export default {
         if (localStorage.getItem('lastSharedWorkout')) {
             this.lastSharedWorkout = localStorage.getItem('lastSharedWorkout')
         }
-
-        // TODO : handle rate limit
     },
     data() {
         return {

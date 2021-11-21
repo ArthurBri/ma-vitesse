@@ -92,7 +92,7 @@
     "suggest_feature": {
         "title": "Suggest a feature",
         "description": "Vitess is building thanks to its users ideas. Here you can suggest a feature that you want to see in this app. If it match with our vision, it will be integrated soon !",
-        "suggest_label": "In Vitess, I would like to......",
+        "suggest_label": "In Vitess, I would like to...",
         "suggest_label_placeholder": "keep a history of my workouts.",
         "suggest_email": "An email address ? ",
         "suggest_email_placeholder": "irunfast@mail.com",
