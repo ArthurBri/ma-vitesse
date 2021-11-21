@@ -10,7 +10,6 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, setDoc, doc, serverTimestamp } from 'firebase/firestore/lite'
 import { getAuth, signInAnonymously } from 'firebase/auth'
 
-console.log(import.meta.env)
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -33,11 +32,10 @@ new Vue({
         const firebaseApp = initializeApp(firebaseConfig)
 
         const auth = getAuth()
-
         const db = getFirestore(firebaseApp)
 
         signInAnonymously(auth).then(async function (auth) {
-            var userDoc = doc(db, 'users', auth.user.uid)
+            const userDoc = doc(db, 'users', auth.user.uid)
             await setDoc(userDoc, {
                 timestamp: serverTimestamp()
             })
