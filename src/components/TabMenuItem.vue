@@ -33,7 +33,7 @@ export default {
 
 <style lang="scss" scoped>
 .tab {
-    @apply pl-2 relative cursor-pointer whitespace-nowrap text-white;
+    @apply pl-2 relative cursor-pointer whitespace-nowrap text-white flex-shrink-0;
 
     &.active {
         @apply border-b-2 border-white;

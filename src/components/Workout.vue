@@ -54,7 +54,7 @@
                 >
             </div>
             <div class="flex justify-center my-4">
-                <div @click="useWorkout" class="mv-btn">
+                <div @click="useWorkout" class="vi-btn">
                     <div class="flex items-center" v-if="workout">
                         <img class="h-4 mr-2 px-1 primary-icon" src="../assets/icons/edit.svg" />
                         <span>{{ $t('workout.edit_this_workout') }}</span>
@@ -74,8 +74,7 @@ import CenterModal from '@/components/CenterModal.vue'
 import { toPrettyDuration } from '@/utils/formatData'
 import { mapState } from 'vuex'
 import moment from 'moment'
-import { doc, getDoc } from "firebase/firestore/lite"
-
+import { doc, getDoc } from 'firebase/firestore/lite'
 
 export default {
     name: 'Workout',
@@ -87,15 +86,15 @@ export default {
     },
     components: { CenterModal },
     async mounted() {
-        const docRef = doc(this.$db, "workouts", this.$route.params.id)
+        const docRef = doc(this.$db, 'workouts', this.$route.params.id)
         const docSnap = await getDoc(docRef)
 
         if (docSnap.exists()) {
             this.workout = {
                 ...docSnap.data(),
                 creationDate: moment(this.workout.creationDate.format).format('L'),
-                duration: toPrettyDuration(this.workout.duration, this.oneFieldMode)  
-            }      
+                duration: toPrettyDuration(this.workout.duration, this.oneFieldMode)
+            }
         } else {
             this.workout = ''
         }

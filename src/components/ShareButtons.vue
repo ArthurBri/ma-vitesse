@@ -1,6 +1,6 @@
 <template>
     <div v-if="calculatedField" class="flex items-center gap-x-2">
-        <button v-if="calculatedField" @click="shareWorkout" class="mv-btn bg-secondary text-white flex py-1 mr-4 gap-2">
+        <button v-if="calculatedField" @click="shareWorkout" class="vi-btn bg-secondary text-white flex py-1 mr-4 gap-2">
             <span>{{ $t('common.share') }}</span>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@
             </svg>
         </button>
         <a v-if="workoutId" class="cursor-pointer" @click="copyToClipboard(workoutLink)">
-            <img class="social-icon mv-icon mv-icon-link text-xl h-6" src="../assets/icons/link.svg" />
+            <img class="social-icon vi-icon vi-icon-link text-xl h-6" src="../assets/icons/link.svg" />
         </a>
         <a
             :href="`https://twitter.com/intent/tweet?text=J\'ai couru ${distance}km en ${human_duration}, à une vitesse de ${speed}km/h ! - via https://vitess.app`"
@@ -47,7 +47,7 @@ import { setDoc, doc } from 'firebase/firestore/lite'
 import { getUserCountry } from '../core/country'
 
 export default {
-    name: 'Share',
+    name: 'ShareButtons',
     computed: {
         ...mapState(['speed', 'duration', 'distance', 'unitMode', 'calculatedField', 'oneFieldMode', 'workoutId']),
         human_duration() {

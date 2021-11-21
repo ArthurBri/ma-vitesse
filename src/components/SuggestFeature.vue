@@ -27,7 +27,7 @@
                 />
             </div>
             <div class="mt-4 flex justify-center">
-                <button @click="submitForm" class="mv-btn" v-if="!maxSuggestRate">
+                <button @click="submitForm" class="vi-btn" v-if="!maxSuggestRate">
                     {{ buttonLabel }}
                 </button>
                 <p class="mt-2 text-center" v-else>

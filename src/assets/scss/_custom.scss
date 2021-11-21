@@ -1,4 +1,10 @@
-.mv-btn {
+h2,
+h1,
+p {
+    margin: 0;
+}
+
+.vi-btn {
     @apply text-primary rounded-lg px-2 py-1 border-gray-200 border cursor-pointer flex items-center justify-center hover:shadow bg-white;
     transition: box-shadow 100ms ease-in;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -9,12 +15,8 @@
     -webkit-user-drag: none;
 }
 
-.mv-btn-rounded {
+.vi-btn-rounded {
     @apply border-gray-200 border rounded-full bg-white ml-1 p-1;
-}
-
-.mv-btn-inverted {
-    @apply text-white rounded-lg px-2 py-1 cursor-pointer select-none;
 }
 
 .calculator-field {

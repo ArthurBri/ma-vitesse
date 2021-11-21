@@ -4,7 +4,7 @@
             <div class="drawer w-full xl:w-1/5 lg:w-1/3 md:w-1/2" ref="drawer">
                 <header class="drawer-header text-2xl text-white font-bold">
                     <slot name="header" />
-                    <button @click="close" aria-label="Close drawer" class="mv-btn-rounded" type="button">
+                    <button @click="close" aria-label="Close drawer" class="vi-btn-rounded" type="button">
                         <img alt="clear field button" class="h-2 clear-fields-button" src="../assets/icons/cancel.svg" />
                     </button>
                 </header>

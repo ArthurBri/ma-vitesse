@@ -74,7 +74,7 @@
                         {{ $t('settings.reset_section.title') }}
                     </h1>
                     <div class="pt-4 flex justify-center">
-                        <button @click="resetApp" class="mv-btn">
+                        <button @click="resetApp" class="vi-btn">
                             {{ $t('settings.reset_section.reset_button') }}
                         </button>
                     </div>

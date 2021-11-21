@@ -4,7 +4,7 @@
             <div class="footer-start flex flex-row">
                 <div class="logo cursor-pointer">
                     <img alt="logo" class="w-8 lg:w-12" src="../../assets/logo.svg" />
-                    <h1 class="flex flex-col text-center sm:text-xl sm:ml-1 md:text-lg lg:text-xl text-primary">
+                    <h1 class="flex flex-col text-center sm:text-xl ml-1 md:text-lg lg:text-xl text-primary">
                         <span>{{ $t('global.app_name') }}</span>
                     </h1>
                 </div>
@@ -12,26 +12,28 @@
             <div class="footer-middle">
                 <div class="text-center lg:px-4 rounded-lg">
                     <div
-                        class="hidden xl:flex items-center text-indigo-100 leading-tight rounded-full"
+                        class="hidden xl:flex items-center font-light text-sm leading-tight rounded-full"
                         role="alert"
                         v-if="showUpdatesAlert"
                     >
-                        <span class="flex rounded-full bg-indigo-700 uppercase px-2 py-1 text-xs font-bold mr-2">{{
+                        <span class="flex rounded-full bg-secondary text-white uppercase px-2 py-1 text-xs font-light mr-2">{{
                             $t('updates_alert.new_badge')
                         }}</span>
-                        <div class="flex flex-col mr-4">
-                            <span class="font-semibold text-left flex-auto">{{ $t('updates_alert.message_l1') }}</span>
-                            <span class="text-left flex-auto">{{ $t('updates_alert.message_l2') }}</span>
+                        <div class="flex flex-col mr-4 text-left">
+                            <span class="font-semibold">{{ $t('updates_alert.message_l1') }}</span>
+                            <span class="">{{ $t('updates_alert.message_l2') }}</span>
                         </div>
-                        <img @click="hideUpdatesAlert" alt="Cancel icon" class="h-3 cursor-pointer" src="../../assets/icons/cancel.svg" />
+                        <button @click="hideUpdatesAlert" class="vi-btn-rounded">
+                            <img alt="clear field button" class="h-2 clear-fields-button" src="../../assets/icons/cancel.svg" />
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="footer-end flex flex-row justify-end gap-2">
-                <div @click="showModal('settings')" class="mv-btn bg-white">
+                <div @click="toggleModal('settings')" class="vi-btn bg-white">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-settings w-8 h-8 stroke-current text-mv-primary"
+                        class="icon icon-tabler icon-tabler-settings w-8 h-8 stroke-current text-vi-primary"
                         width="44"
                         height="44"
                         viewBox="0 0 24 24"
@@ -48,10 +50,10 @@
                         <circle cx="12" cy="12" r="3" />
                     </svg>
                 </div>
-                <div @click="showModal('about')" class="mv-btn bg-white">
+                <div @click="toggleModal('about')" class="vi-btn bg-white">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="icon icon-tabler icon-tabler-info-circle w-8 h-8 stroke-current text-mv-primary"
+                        class="icon icon-tabler icon-tabler-info-circle w-8 h-8 stroke-current text-vi-primary"
                         width="44"
                         height="44"
                         viewBox="0 0 24 24"
@@ -69,8 +71,8 @@
                 </div>
             </div>
         </div>
-        <about @close="closeModal('about')" v-show="showAboutModal" />
-        <settings @close="closeModal('settings')" v-show="showSettingsModal" />
+        <about @close="toggleModal('about')" v-show="showAboutModal" />
+        <settings @close="toggleModal('settings')" v-show="showSettingsModal" />
     </div>
 </template>
 
@@ -89,31 +91,15 @@ export default {
         }
     },
     methods: {
-        showModal(name) {
+        toggleModal(name) {
             switch (name) {
                 case 'about':
-                    this.showAboutModal = true
+                    this.showAboutModal = !this.showAboutModal
                     break
                 case 'settings':
-                    this.showSettingsModal = true
+                    this.showSettingsModal = !this.showSettingsModal
                     break
             }
-            document.body.style.position = 'fixed'
-            document.body.style.top = `-${window.scrollY}px`
-        },
-        closeModal(name) {
-            switch (name) {
-                case 'about':
-                    this.showAboutModal = false
-                    break
-                case 'settings':
-                    this.showSettingsModal = false
-                    break
-            }
-            const scrollY = document.body.style.top
-            document.body.style.position = ''
-            document.body.style.top = ''
-            window.scrollTo(0, parseInt(scrollY || '0') * -1)
         },
         ...mapMutations(['hideUpdatesAlert'])
     },

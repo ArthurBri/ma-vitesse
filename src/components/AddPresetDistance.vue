@@ -3,7 +3,7 @@
         <template v-slot:header>
             <h2>{{ $t('add_preset.title') }}</h2>
         </template>
-        <template class="flex justify-center content-center" v-slot:body>
+        <template v-slot:body>
             <div class="bg-primary p-2 rounded-l-lg rounded-t-lg flex justify-between">
                 <label class="pr-2 text-white" for="distanceLabel">{{ $t('add_preset.label') }}</label>
                 <input

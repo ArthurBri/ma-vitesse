@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col h-24 mt-2 ml-3 mr-3">
         <div :class="isCalculated && 'calculated'" class="calculator-field speed self-stretch justify-between">
-            <label @click="focusMe('speed')" class="w-16 sm:w-8" for="speed" v-if="speedFormat === 'speed'">
+            <label @click="focusMe('speed')" class="w-16" for="speed" v-if="speedFormat === 'speed'">
                 {{ $t('calculator.speed') }}
             </label>
-            <label @click="focusMe('speed')" class="w-16 sm:w-8" for="pace" v-if="speedFormat === 'pace'">
+            <label @click="focusMe('speed')" class="w-16" for="pace" v-if="speedFormat === 'pace'">
                 {{ $t('calculator.pace') }}
             </label>
             <div class="flex">
@@ -134,6 +134,9 @@ export default {
                     this.speedAsString = String(paceToSpeed(this.pace || 0))
                 }
             })
+        },
+        focusMe(field) {
+            this.oneFieldMode && field !== 'speed' && this.$refs.speed.focus()
         }
     },
     watch: {

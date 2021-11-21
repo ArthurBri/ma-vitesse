@@ -1,7 +1,7 @@
 <template>
     <transition name="modal-fade">
         <div class="modal-backdrop" role="dialog">
-            <div :style="{ marginTop: margin_top }" class="modal sm:w-full" ref="modal">
+            <div :style="{ marginTop }" class="modal sm:w-full" ref="modal">
                 <header class="modal-header text-xl font-bold">
                     <slot name="header" />
                     <span @click="close" class="pl-2 icon self-start m-1"
@@ -13,7 +13,7 @@
                 </section>
                 <footer class="modal-footer" v-if="footer === true">
                     <slot name="footer">
-                        <button @click="close" aria-label="Close modal" class="btn outline-none" type="button">
+                        <button @click="close" aria-label="Close modal" class="vi-btn outline-none" type="button">
                             <slot>{{ $t('common.close') }}</slot>
                         </button>
                     </slot>
@@ -35,7 +35,7 @@ export default {
         footer: {
             default: true
         },
-        margin_top: {
+        marginTop: {
             default: '10vh'
         }
     }
@@ -108,16 +108,11 @@ export default {
 }
 
 .modal-body {
+    @apply flex flex-col;
     position: relative;
     padding: 20px 10px;
     overflow-x: auto;
     max-height: 400px;
-}
-
-.btn {
-    @apply text-white bg-primary;
-    border: 1px solid #4aae9b;
-    border-radius: 2px;
 }
 
 .slide-up-enter-active {

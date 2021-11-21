@@ -1,5 +1,5 @@
 <template>
-    <div class="main-box flex-grow-0 p-3 lg:p-6 sm:w-full overflow-x-auto">
+    <div class="main-box flex-grow-0 p-3 lg:p-6 sm:w-full">
         <div class="flex h-8 items-center content-center max-w-screen-sm" v-if="!calculatedField">
             <img alt="calaculator icon" class="w-6 stroke-current text-secondary" src="../assets/icons/timer.svg" />
             <div class="pl-2 leading-none relative">
@@ -19,7 +19,7 @@
                         </div>
                         <div>{{ $t('calculator.calculation_label') }}</div>
                     </h2>
-                    <button @click="clearFields" class="mv-btn-rounded">
+                    <button @click="clearFields" class="vi-btn-rounded">
                         <img alt="clear field button" class="h-2 clear-fields-button" src="../assets/icons/cancel.svg" />
                     </button>
                 </div>
@@ -156,7 +156,7 @@ export default {
 }
 
 input {
-    @apply font-bold text-xl text-primary;
+    @apply font-bold text-xl text-primary outline-none;
 
     &::placeholder {
         @apply text-white font-light bg-transparent;

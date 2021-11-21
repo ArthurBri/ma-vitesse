@@ -18,10 +18,10 @@
                 </p>
                 <div class="flex flex-col items-center justify-center mt-10">
                     <div class="mb-6">
-                        <button @click="isModalSuggestFeature = true" class="mv-btn">{{ $t('about.btn_feature') }}</button>
+                        <button @click="isModalSuggestFeature = true" class="vi-btn">{{ $t('about.btn_feature') }}</button>
                     </div>
                     <a class="mt-2" href="https://www.patreon.com/bePatron?u=27939606" rel="noreferrer" target="_blank">
-                        <button class="mv-btn">{{ $t('about.btn_support') }}</button>
+                        <button class="vi-btn">{{ $t('about.btn_support') }}</button>
                     </a>
                 </div>
                 <p class="ml-5 mr-5 mt-5 text-base text-center"></p>
