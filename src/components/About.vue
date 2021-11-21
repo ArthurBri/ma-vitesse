@@ -18,7 +18,7 @@
                 </p>
                 <div class="flex flex-col items-center justify-center mt-10">
                     <div class="mb-6">
-                        <button @click="isModalSuggestFeature = true" class="vi-btn">{{ $t('about.btn_feature') }}</button>
+                        <button @click="isModalFeatureSuggestion = true" class="vi-btn">{{ $t('about.btn_feature') }}</button>
                     </div>
                     <a class="mt-2" href="https://www.patreon.com/bePatron?u=27939606" rel="noreferrer" target="_blank">
                         <button class="vi-btn">{{ $t('about.btn_support') }}</button>
@@ -35,13 +35,13 @@
                 </p>
             </template>
         </drawer>
-        <suggest-feature @close="closeModalSuggestFeature" v-show="isModalSuggestFeature" />
+        <feature-suggestion @close="closeModalFeatureSuggestion" v-show="isModalFeatureSuggestion" />
     </div>
 </template>
 
 <script>
+import FeatureSuggestion from '@/components/FeatureSuggestion.vue'
 import Drawer from '@/components/Drawer.vue'
-import SuggestFeature from '@/components/SuggestFeature.vue'
 import { version } from '../../package.json'
 
 export default {
@@ -49,10 +49,10 @@ export default {
     data() {
         return {
             version: version,
-            isModalSuggestFeature: false
+            isModalFeatureSuggestion: false
         }
     },
-    components: { SuggestFeature, Drawer },
+    components: { FeatureSuggestion, Drawer },
     methods: {
         closeModal() {
             this.isModalAbout = false
@@ -60,8 +60,8 @@ export default {
         close() {
             this.$emit('close')
         },
-        closeModalSuggestFeature() {
-            this.isModalSuggestFeature = false
+        closeModalFeatureSuggestion() {
+            this.isModalFeatureSuggestion = false
         }
     }
 }

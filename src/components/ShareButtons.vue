@@ -86,7 +86,6 @@ export default {
             await this.loadWorkouts(this.$db)
 
             this.$store.commit('setWorkoutId', id)
-            console.log('workout id', this.workoutId)
         }
     }
 }

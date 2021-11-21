@@ -11,7 +11,7 @@
                     <shared-workouts />
                 </section>
             </div>
-            <div class="modules-pane z-10">
+            <div class="modules-pane">
                 <modules :modalVisible="showModules" @close="showModules = !showModules" />
             </div>
         </div>
